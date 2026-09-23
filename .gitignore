@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Design explorations kept locally, not part of the live site
+versions/
+preview-v1.html
+assets/hero-abstract*.jpg
+assets/hero-form.jpg
+assets/hero-form-sm.jpg
+assets/hero-linen*.jpg
+assets/hero-reeded*.jpg
+assets/hero-window*.jpg
+assets/mini-site-light.jpg

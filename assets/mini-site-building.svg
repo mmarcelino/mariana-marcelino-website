@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="lit" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbfaf8"/>
+      <stop offset="1" stop-color="#ecebe8"/>
+    </linearGradient>
+    <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfcfcd"/>
+      <stop offset="1" stop-color="#bdbdbb"/>
+    </linearGradient>
+  </defs>
+
+  <!-- sky -->
+  <rect width="600" height="500" fill="#d6cbec"/>
+
+  <!-- upper, sunlit face -->
+  <polygon points="170,238 420,150 600,236 600,300 250,334" fill="url(#lit)"/>
+  <!-- left edge sliver -->
+  <polygon points="170,238 250,334 90,380" fill="#f7f6f3"/>
+  <!-- lower, shaded face -->
+  <polygon points="90,380 250,334 600,300 600,500 90,500" fill="url(#shade)"/>
+
+
+  <!-- crisp edges -->
+  <polyline points="90,380 250,334 600,300" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity=".9"/>
+</svg>
