@@ -23,8 +23,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1790177980">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=1790242347">
 </head>
 <body>
 
@@ -34,7 +34,10 @@
       <a href="#top" class="logo-container" aria-label="Mariana Marcelino">
         <span class="logo">MARIANA MARCELINO</span>
       </a>
-      <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="nav-cta">Marcar chamada</a>
+      <div class="nav-right">
+        <a href="blog/" class="nav-link-plain">Blog</a>
+        <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="nav-cta">Marcar chamada</a>
+      </div>
     </nav>
   </header>
 
@@ -55,14 +58,15 @@
           <div class="fl-site">
             <div class="fl-bar"><i></i><i></i><i></i><span>almastudio.pt</span></div>
             <div class="fl-page">
-              <div class="fl-nav"><b>ALMA</b><span>Projetos</span><span>Estúdio</span><span>Contacto</span></div>
+              <div class="fl-nav"><b>ALMA STUDIO</b><span>Projetos</span><span>Estúdio</span><span>Contacto</span></div>
               <div class="fl-body">
                 <div class="fl-copy">
-                  <span class="fl-title">Estúdio de arquitectura</span>
                   <div class="fl-form">
-                    <label class="fl-field"><span>Email</span><b class="js-fl-email"></b></label>
-                    <label class="fl-field -msg"><span>Mensagem</span><b class="js-fl-msg"></b></label>
-                    <span class="fl-btn">Enviar pedido →</span>
+                    <div class="fl-fields">
+                      <label class="fl-field"><span>Email</span><b class="js-fl-email"></b></label>
+                      <label class="fl-field -msg"><span>Mensagem</span><b class="js-fl-msg"></b></label>
+                    </div>
+                    <span class="fl-btn">Enviar pedido</span>
                   </div>
                 </div>
                 <div class="fl-img"></div>
@@ -86,11 +90,11 @@
           <!-- Dashboard -->
           <div class="fl-dash">
             <div class="fl-dash-head">
-              <span class="fl-dash-id">
+              <div class="fl-dash-top">
                 <span class="fl-dash-title">Novos contactos</span>
-                <span class="fl-dash-sub">Setembro</span>
-              </span>
-              <span class="fl-count"><b class="js-fl-count">18</b><span class="fl-today"><i></i>+<b class="js-fl-today">0</b> hoje</span></span>
+                <span class="fl-count"><b class="js-fl-count">18</b><span class="fl-today"><i></i>+<b class="js-fl-today">0</b> hoje</span></span>
+              </div>
+              <span class="fl-dash-sub">Setembro</span>
             </div>
             <ul class="js-fl-list fl-list"></ul>
           </div>
@@ -105,123 +109,99 @@
       </div>
     </section>
 
-    <!-- Impacto -->
-    <section id="impact" class="section -bg-off-white -min-full-vh grid-col grid-col-t-med -border-bottom">
-      <div class="grid">
-        <h2 class="h1 col-8">O seu site pode fazer muito mais pelo seu negócio</h2>
-      </div>
-      <div class="grid text-row">
-        <div class="col-4 h4">Impacto</div>
-        <div class="col-4 h3 text-block">
-          <p>O seu site é muitas vezes o primeiro contacto com o seu negócio. E se estiver desatualizado pode estar a afastar clientes, provavelmente sem se aperceber. Quando um visitante encontra um site lento, confuso ou com um design ultrapassado, a decisão é simples: procurar uma alternativa.</p>
+    <!-- Impacto + Sobre mim: one heading, one flowing text column, the photo as a real presence on the right -->
+    <section id="impact" class="impact-about -bg-off-white -border-bottom">
+      <div class="impact-about-grid grid-col">
+        <figure class="about-photo">
+          <img src="assets/mariana.webp" alt="Mariana Marcelino" class="fade-on-load" width="1024" height="1536" loading="lazy">
+        </figure>
+        <h2 class="impact-title">O seu site pode fazer muito mais pelo seu negócio</h2>
+        <div id="about" class="impact-about-copy">
+          <p>Um cliente pode nem chegar a encontrar o seu site: motores de busca e ferramentas de IA como o ChatGPT "leem" os sites e, se estes não estiverem preparados para isso, ficam invisíveis a quem procura o que oferece. E quando alguém chega mesmo até lá, se o site demora a carregar, é confuso ou parece desatualizado, a resposta é imediata: fecha-se o separador e procura-se outra opção. Porque já conhece o seu negócio por dentro, é fácil não reparar em nenhum destes problemas.</p>
+          <p>Sou a Mariana. Combino engenharia de software com estratégia digital para transformar sites que apenas existem em sites que trabalham por si a captar mais clientes — dando-lhe mais tempo para se dedicar a outras áreas do seu negócio.</p>
+          <p>Se sente que o seu site já não acompanha a evolução da sua empresa, é provavelmente altura de o repensar. Foi para isso que pensei cada um dos planos abaixo.</p>
+          <a href="https://www.linkedin.com/in/marianamarcelino-frontend-engineer/" target="_blank" rel="noopener" class="about-link">LinkedIn</a>
         </div>
-        <div class="col-4 h3 text-block">
-          <p class="-italic">E é exatamente aqui que um site bem pensado faz a diferença.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sobre -->
-    <section id="about" class="split -bg-off-white -border-bottom">
-      <figure class="split-media">
-        <img src="assets/mariana.webp" alt="Mariana Marcelino" class="fade-on-load -cover" width="1024" height="1536" loading="lazy">
-      </figure>
-      <div class="split-text grid-col">
-        <div class="stack-gap">
-          <p class="h5 -grey">Software Engineer &amp; Digital Strategist</p>
-          <h2 class="h1">Olá, sou a Mariana!</h2>
-        </div>
-        <div class="h3 text-block">
-          <p>Combino engenharia de software com estratégia digital para criar websites impactantes que trabalham ativamente para o seu negócio. Estruturas pensadas para transmitir confiança, reforçar credibilidade e criar oportunidades de crescimento — dando-lhe mais tempo e tranquilidade para se dedicar ao que mais valoriza.</p>
-          <p>Se sente que o seu site já não acompanha a evolução da sua empresa, talvez esteja na altura de repensá-lo. E é para responder a este desafio que cada um dos planos abaixo é pensado.</p>
-        </div>
-        <p class="p"><a href="https://www.linkedin.com/in/marianamarcelino-frontend-engineer/" target="_blank" rel="noopener" class="-underline">LinkedIn</a></p>
       </div>
     </section>
 
     <!-- Soluções -->
-    <section id="solutions" class="section -bg-off-white grid-col-t-med">
-      <div class="grid grid-col section-intro">
-        <div class="col-4 h4">Soluções</div>
-        <div class="col-6 stack-gap">
-          <h2 class="h1">Do diagnóstico à transformação</h2>
-          <p class="p">Nem todos os negócios estão no mesmo momento. Quer esteja pronto para transformar o seu site ou apenas a explorar o que é possível, encontra aqui o caminho certo.</p>
-        </div>
+    <section id="solutions" class="section tiers-section -bg-off-white">
+      <div class="tiers-head grid-col">
+        <h2 class="tiers-intro">Nem todos os negócios estão no mesmo momento. Quer esteja pronto para transformar o seu site ou apenas a explorar o que é possível, encontra aqui o caminho certo.</h2>
       </div>
 
-      <ul class="programs">
+      <div class="tiers grid-col">
         <!-- Plano 1 -->
-        <li id="free" class="program -border-top">
-          <div class="grid grid-col">
-            <p class="h5 -grey col-2 col-6-xs">Gratuito</p>
-            <p class="p col-2 col-6-xs">Veja o potencial antes de investir</p>
-            <div class="col-6 stack-gap">
-              <h3 class="h2"><span class="-uppercase">Redesign da homepage</span></h3>
-              <ul class="wysiwyg features">
-                <li>Redesign da homepage para revelar o potencial de transformação</li>
-                <li>Auditoria com pontos claros de otimização</li>
-                <li>Proposta personalizada enviada por email</li>
-              </ul>
-              <form class="js-form form-free" novalidate>
+        <article id="free" class="tier">
+          <h3 class="tier-name">Redesign da homepage</h3>
+          <p class="tier-desc">Veja o potencial antes de investir</p>
+          <p class="tier-price">Gratuito</p>
+          <div class="tier-cta">
+            <form class="js-form form-free" novalidate>
                 <input type="email" name="Email" class="input" placeholder="Insira o seu email" required autocomplete="email">
                 <input type="text" name="URL" class="input" placeholder="Insira o link para o seu site" required autocomplete="url">
                 <button type="submit" class="button">Obter redesign gratuito</button>
                 <p class="js-form-message message p" role="status"></p>
               </form>
-            </div>
-            <div class="col-2 program-cta"></div>
           </div>
-        </li>
+          <div class="tier-inc">
+            <p class="tier-label">Inclui</p>
+            <ul class="tier-list">
+              <li>Redesign da homepage para revelar o potencial de transformação</li>
+              <li>Auditoria com pontos claros de otimização</li>
+              <li>Proposta personalizada enviada por email</li>
+            </ul>
+          </div>
+        </article>
 
         <!-- Plano 2 -->
-        <li class="program -border-top">
-          <div class="grid grid-col">
-            <p class="h5 -grey col-2 col-6-xs">750€</p>
-            <p class="p col-2 col-6-xs">Reforce a confiança de quem visita</p>
-            <div class="col-6 stack-gap">
-              <h3 class="h2"><span class="-uppercase">Redesign Visual</span></h3>
-              <ul class="wysiwyg features">
-                <li>Novo design, mantendo estrutura e conteúdo atuais</li>
-                <li>Melhor hierarquia visual e legibilidade</li>
-                <li>Otimização para mobile</li>
-                <li>Publicação do novo site</li>
-                <li>Relatório com oportunidades de evolução</li>
-              </ul>
-            </div>
-            <div class="col-2 program-cta">
-              <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="button">Explorar redesign</a>
-            </div>
+        <article class="tier">
+          <h3 class="tier-name">Redesign Visual</h3>
+          <p class="tier-desc">Reforce a confiança de quem visita</p>
+          <p class="tier-price">750€</p>
+          <div class="tier-cta">
+            <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="button">Explorar redesign</a>
           </div>
-        </li>
+          <div class="tier-inc">
+            <p class="tier-label">Inclui</p>
+            <ul class="tier-list">
+              <li>Novo design, mantendo estrutura e conteúdo atuais</li>
+              <li>Melhor hierarquia visual e legibilidade</li>
+              <li>Otimização para mobile</li>
+              <li>Publicação do novo site</li>
+              <li>Relatório com oportunidades de evolução</li>
+            </ul>
+          </div>
+        </article>
 
         <!-- Plano 3 -->
-        <li class="program -border-top">
-          <div class="grid grid-col">
-            <p class="h5 -grey col-2 col-6-xs">A partir de 1 800€</p>
-            <p class="p col-2 col-6-xs">Transforme visitas em clientes</p>
-            <div class="col-6 stack-gap">
-              <h3 class="h2"><span class="-uppercase">Motor de Contactos</span></h3>
-              <ul class="wysiwyg features">
-                <li>Novo design e estrutura à medida, pensados para cada negócio</li>
-                <li>Integração de novos conteúdos fornecidos pelo cliente</li>
-                <li>Percurso do utilizador otimizado para aumentar contactos</li>
-                <li>Otimização para resultados no Google, ChatGPT e outras ferramentas de IA</li>
-                <li>Otimização para mobile</li>
-                <li>Botões e chamadas à ação que incentivam o contacto</li>
-                <li>Formulários e ofertas para captação de contactos</li>
-                <li>Integração com ferramentas intuitivas de gestão de contactos</li>
-                <li>Integração com WhatsApp e chatbot</li>
-                <li>Sistemas de agendamento e marcação</li>
-                <li>Painel de métricas para acompanhamento de resultados</li>
-                <li>Publicação do novo site</li>
-              </ul>
-            </div>
-            <div class="col-2 program-cta">
-              <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="button">Explorar crescimento</a>
-            </div>
+        <article class="tier">
+          <h3 class="tier-name">Motor de Contactos</h3>
+          <p class="tier-desc">Transforme visitas em clientes</p>
+          <p class="tier-price">A partir de 1 800€</p>
+          <div class="tier-cta">
+            <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="button">Explorar crescimento</a>
           </div>
-        </li>
-      </ul>
+          <div class="tier-inc">
+            <p class="tier-label">Inclui</p>
+            <ul class="tier-list">
+              <li>Novo design e estrutura à medida, pensados para cada negócio</li>
+              <li>Integração de novos conteúdos fornecidos pelo cliente</li>
+              <li>Percurso do utilizador otimizado para aumentar contactos</li>
+              <li>Otimização para resultados no Google, ChatGPT e outras ferramentas de IA</li>
+              <li>Otimização para mobile</li>
+              <li>Botões e chamadas à ação que incentivam o contacto</li>
+              <li>Formulários e ofertas para captação de contactos</li>
+              <li>Integração com ferramentas intuitivas de gestão de contactos</li>
+              <li>Integração com WhatsApp e chatbot</li>
+              <li>Sistemas de agendamento e marcação</li>
+              <li>Painel de métricas para acompanhamento de resultados</li>
+              <li>Publicação do novo site</li>
+            </ul>
+          </div>
+        </article>
+      </div>
     </section>
 
     <!-- Isto é para si se… -->
@@ -331,6 +311,6 @@
     </div>
   </footer>
 
-  <script src="main.js?v=1790175098"></script>
+  <script src="main.js?v=1790241872"></script>
 </body>
 </html>

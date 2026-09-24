@@ -47,16 +47,28 @@
       { i: "MF", c: 4, name: "Marta Freitas", src: "Remodelação de apartamento", time: "Seg" },
       { i: "JS", c: 5, name: "João Santos", src: "Projeto de moradia", time: "Dom" }
     ];
-    var FORM_LEAD = { i: "AR", c: 0, name: "Ana Ribeiro", email: "ana.ribeiro@gmail.com", msg: "Remodelação de cozinha", time: "09:31" };
-    var CHAT_LEAD = {
-      i: "PM", c: 2, name: "Pedro Martins", src: "Via chat · Orçamento para moradia", time: "09:48",
-      // Two messages only, so the eye moves on to the dashboard quickly
-      chat: [
-        ["me", "Olá! Queria um orçamento para uma moradia. pedro@martins.pt"],
-        ["bot", "Obrigado, Pedro! Respondemos ainda hoje."]
-      ]
-    };
-    var LEADS = [FORM_LEAD, CHAT_LEAD];
+    // Leads alternate form → chat and keep rotating, so the story never stops
+    var FORM_LEADS = [
+      { i: "AR", c: 0, name: "Ana Ribeiro", email: "ana.ribeiro@gmail.com", msg: "Olá! Gostava de saber mais sobre remodelação de cozinha. Tenho um espaço pequeno, que soluções fazem sentido?" },
+      { i: "SC", c: 1, name: "Sofia Costa", email: "sofia.costa@sapo.pt", msg: "Bom dia, estou a pensar ampliar a moradia dos meus pais. Podemos agendar uma visita para avaliar o projeto?" },
+      { i: "IA", c: 4, name: "Inês Alves", email: "ines.alves@gmail.com", msg: "Olá, vou abrir uma loja nova no centro e preciso de ajuda com o projeto de interiores. Podem ajudar?" }
+    ];
+    var CHAT_LEADS = [
+      { i: "PM", c: 2, name: "Pedro Martins", src: "Via chat · Orçamento para moradia",
+        chat: [["me", "Olá! Queria um orçamento para uma moradia. pedro@martins.pt"], ["bot", "Obrigado, Pedro! Respondemos ainda hoje."]] },
+      { i: "TR", c: 5, name: "Tiago Reis", src: "Via chat · Remodelação de escritório",
+        chat: [["me", "Bom dia! Remodelam escritórios? tiago@reis.pt"], ["bot", "Sim! Obrigado, Tiago. Falamos já hoje."]] },
+      { i: "BG", c: 3, name: "Beatriz Gomes", src: "Via chat · Casa de férias",
+        chat: [["me", "Olá! Tenho uma casa de férias para projetar. beatriz.g@gmail.com"], ["bot", "Que bom, Beatriz! Respondemos ainda hoje."]] }
+    ];
+    var LEADS = [FORM_LEADS[0], CHAT_LEADS[0]];
+    var clock = 9 * 60 + 31; // lead times keep moving forward through the day
+    function stamp(l) {
+      l.time = String(Math.floor(clock / 60)).padStart(2, "0") + ":" + String(clock % 60).padStart(2, "0");
+      clock += 7 + Math.floor(Math.random() * 12);
+      if (clock > 18 * 60) clock = 9 * 60 + 5;
+      return l;
+    }
     var timers = [];
     var at = function (ms, fn) { timers.push(setTimeout(fn, ms)); };
     var mobile = function () { return window.innerWidth < 560; };
@@ -111,27 +123,27 @@
       for (var c = 1; c <= text.length; c++) {
         (function (c) { at(t0 + c * speed, function () { fields[key].textContent = text.slice(0, c); }); })(c);
       }
-      var end = t0 + text.length * speed + 150;
+      var end = t0 + text.length * speed + 100;
       at(end, function () { fields[key].parentNode.classList.remove("is-active"); });
       return end;
     }
     // One request: type email and message, send, streak runs down, pill appears, lands
     function lead(l, n, t0) {
       at(t0, clearForm);
-      var t = type("email", l.email, t0 + 100, 40);
-      t = type("msg", l.msg, t + 100, 38);
-      at(t + 250, function () { flow.classList.add("is-press"); });
-      at(t + 430, function () { flow.classList.remove("is-press"); });
-      return send(l, n, t + 430, clearForm);
+      var t = type("email", l.email, t0 + 60, 24);
+      t = type("msg", l.msg, t + 60, 9);
+      at(t + 150, function () { flow.classList.add("is-press"); });
+      at(t + 300, function () { flow.classList.remove("is-press"); });
+      return send(l, n, t + 300, clearForm);
     }
     // Streak runs down, pill appears, the lead lands (~2s)
     function send(l, n, t, after) {
       at(t, function () { flow.classList.remove("is-send"); flow.offsetWidth; flow.classList.add("is-send"); });
-      at(t + 420, function () { flow.classList.add("is-glow"); });
-      at(t + 1120, function () { land(l, n); });
-      at(t + 1270, after);
-      at(t + 1970, function () { flow.classList.remove("is-glow"); });
-      return t + 1970;
+      at(t + 300, function () { flow.classList.add("is-glow"); });
+      at(t + 800, function () { land(l, n); });
+      at(t + 900, after);
+      at(t + 1400, function () { flow.classList.remove("is-glow"); });
+      return t + 1400;
     }
     function bubble(who, text) {
       var li = document.createElement("li");
@@ -152,33 +164,45 @@
     // One chat: open the widget, bot and visitor talk, the lead lands, the widget closes
     function chatLead(l, n, t0) {
       at(t0, function () { flow.classList.add("is-launch-press"); });
-      at(t0 + 180, function () { flow.classList.remove("is-launch-press"); flow.classList.add("is-chat"); });
-      var t = t0 + 800;
+      at(t0 + 150, function () { flow.classList.remove("is-launch-press"); flow.classList.add("is-chat"); });
+      var t = t0 + 550;
       l.chat.forEach(function (m) {
         if (m[0] === "bot") {
           var dots;
           at(t, function () { dots = typingDots(); });
-          t += 500;
+          t += 380;
           at(t, function () { dots.remove(); bubble("bot", m[1]); });
-          t += 600;
+          t += 450;
         } else {
           at(t, function () { bubble("me", m[1]); });
-          t += 700;
+          t += 550;
         }
       });
       return send(l, n, t, function () {}) + 400;
     }
+    var round = 0, arrived = 0;
     function cycle() {
       timers.forEach(clearTimeout); timers = [];
       reset();
-      var t = 900;
-      t = lead(FORM_LEAD, 1, t) + 900;
-      t = chatLead(CHAT_LEAD, 2, t);
+      round = 0; arrived = 0; clock = 9 * 60 + 31;
+      step(400);
+    }
+    // One round = a form lead then a chat lead; the next round starts straight after
+    function step(t) {
+      var f = stamp(Object.assign({}, FORM_LEADS[round % FORM_LEADS.length]));
+      var c = stamp(Object.assign({}, CHAT_LEADS[round % CHAT_LEADS.length]));
+      t = lead(f, ++arrived, t) + 500;
+      t = chatLead(c, ++arrived, t);
       at(t, function () { flow.classList.remove("is-chat"); });
-      at(t + 800, function () { chatLog.innerHTML = ""; });
-      // Restart softly: fade the dashboard's contents out, reset them unseen, fade back in
-      at(t + 3500, function () { flow.classList.add("is-restart"); });
-      at(t + 4100, function () { cycle(); flow.classList.remove("is-restart"); });
+      at(t + 500, function () { chatLog.innerHTML = ""; });
+      round++;
+      // After a few rounds, reset the counters softly so the numbers stay believable
+      if (round % 4 === 0) {
+        at(t + 900, function () { flow.classList.add("is-restart"); });
+        at(t + 1500, function () { cycle(); flow.classList.remove("is-restart"); });
+      } else {
+        at(t + 700, function () { step(0); });
+      }
     }
     function showFinal() {
       timers.forEach(clearTimeout); timers = [];
