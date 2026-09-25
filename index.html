@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1790242347">
+  <link rel="stylesheet" href="styles.css?v=1790244013">
 </head>
 <body>
 
@@ -91,10 +91,9 @@
           <div class="fl-dash">
             <div class="fl-dash-head">
               <div class="fl-dash-top">
-                <span class="fl-dash-title">Novos contactos</span>
-                <span class="fl-count"><b class="js-fl-count">18</b><span class="fl-today"><i></i>+<b class="js-fl-today">0</b> hoje</span></span>
+                <span class="fl-dash-title"><svg class="fl-mail-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4.5h12v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-7Z"/><path d="M2.3 4.8 8 9l5.7-4.2"/></svg>Caixa de entrada</span>
+                <span class="fl-unread"><b class="js-fl-today">0</b> por ler</span>
               </div>
-              <span class="fl-dash-sub">Setembro</span>
             </div>
             <ul class="js-fl-list fl-list"></ul>
           </div>
@@ -109,18 +108,26 @@
       </div>
     </section>
 
-    <!-- Impacto + Sobre mim: one heading, one flowing text column, the photo as a real presence on the right -->
-    <section id="impact" class="impact-about -bg-off-white -border-bottom">
-      <div class="impact-about-grid grid-col">
-        <figure class="about-photo">
-          <img src="assets/mariana.webp" alt="Mariana Marcelino" class="fade-on-load" width="1024" height="1536" loading="lazy">
-        </figure>
+    <!-- Impacto: the problem, said big -->
+    <section id="impact" class="impact -bg-off-white">
+      <div class="impact-block grid-col">
         <h2 class="impact-title">O seu site pode fazer muito mais pelo seu negócio</h2>
-        <div id="about" class="impact-about-copy">
-          <p>Um cliente pode nem chegar a encontrar o seu site: motores de busca e ferramentas de IA como o ChatGPT "leem" os sites e, se estes não estiverem preparados para isso, ficam invisíveis a quem procura o que oferece. E quando alguém chega mesmo até lá, se o site demora a carregar, é confuso ou parece desatualizado, a resposta é imediata: fecha-se o separador e procura-se outra opção. Porque já conhece o seu negócio por dentro, é fácil não reparar em nenhum destes problemas.</p>
-          <p>Sou a Mariana. Combino engenharia de software com estratégia digital para transformar sites que apenas existem em sites que trabalham por si a captar mais clientes — dando-lhe mais tempo para se dedicar a outras áreas do seu negócio.</p>
-          <p>Se sente que o seu site já não acompanha a evolução da sua empresa, é provavelmente altura de o repensar. Foi para isso que pensei cada um dos planos abaixo.</p>
-          <a href="https://www.linkedin.com/in/marianamarcelino-frontend-engineer/" target="_blank" rel="noopener" class="about-link">LinkedIn</a>
+        <p class="impact-text">Um cliente pode nem chegar a encontrar o seu site: motores de busca e ferramentas de IA como o ChatGPT "leem" os sites e, se estes não estiverem preparados para isso, ficam invisíveis a quem procura o que oferece. E quando alguém chega mesmo até lá, se o site demora a carregar, é confuso ou parece desatualizado, a resposta é imediata: fecha-se o separador e procura-se outra opção. Porque já conhece o seu negócio por dentro, é fácil não reparar em nenhum destes problemas.</p>
+      </div>
+    </section>
+
+    <!-- Sobre mim: the answer, kept narrow and personal -->
+    <section id="about" class="about -bg-off-white -border-bottom">
+      <div class="narrow-container">
+        <div class="about-grid">
+          <figure class="about-photo">
+            <img src="assets/mariana.webp" alt="Mariana Marcelino" class="fade-on-load" width="1024" height="1536" loading="lazy">
+          </figure>
+          <div class="about-copy">
+            <p>Sou a Mariana. Combino engenharia de software com estratégia digital para transformar sites que apenas existem em sites que trabalham por si a captar mais clientes — dando-lhe mais tempo para se dedicar a outras áreas do seu negócio.</p>
+            <p>Se sente que o seu site já não acompanha a evolução da sua empresa, é provavelmente altura de o repensar. Foi para isso que pensei cada um dos planos abaixo.</p>
+            <a href="https://www.linkedin.com/in/marianamarcelino-frontend-engineer/" target="_blank" rel="noopener" class="about-link">LinkedIn</a>
+          </div>
         </div>
       </div>
     </section>
@@ -243,21 +250,23 @@
     </section>
 
     <!-- Testemunhos -->
-    <section class="section -bg-off-white -min-full-vh grid-col grid-col-t-med">
-      <div class="grid">
-        <div class="col-4 h4">Testemunhos</div>
-        <figure class="col-8 testimonial">
-          <blockquote class="h2 text-block">
-            <p>“A Mariana assumiu um projeto end-to-end para a Softingal e geriu tanto o cliente como todo o processo de forma excecional. Transformou a presença digital do nosso cliente numa experiência moderna e intuitiva, ao mesmo tempo que geriu requisitos, feedback e prioridades em constante mudança com enorme facilidade. Recomendo vivamente a Mariana para qualquer projeto que exija competência técnica, autonomia em gestão de projeto e excelente capacidade de comunicação.”</p>
-          </blockquote>
-          <figcaption class="reviewer">
-            <img src="assets/andreia-vieira.jpg" alt="Andreia Vieira" class="fade-on-load" width="400" height="400" loading="lazy">
-            <span class="stack">
-              <span class="h4">Andreia Vieira</span>
-              <span class="p -grey">CEO @ Softingal</span>
-            </span>
-          </figcaption>
-        </figure>
+    <section class="section -bg-off-white -min-full-vh grid-col-t-med">
+      <div class="narrow-container">
+        <div class="grid">
+          <div class="col-4 h4">Testemunhos</div>
+          <figure class="col-6 testimonial">
+            <blockquote class="h2 text-block">
+              <p>“A Mariana assumiu um projeto end-to-end para a Softingal e geriu tanto o cliente como todo o processo de forma excecional. Transformou a presença digital do nosso cliente numa experiência moderna e intuitiva, ao mesmo tempo que geriu requisitos, feedback e prioridades em constante mudança com enorme facilidade. Recomendo vivamente a Mariana para qualquer projeto que exija competência técnica, autonomia em gestão de projeto e excelente capacidade de comunicação.”</p>
+            </blockquote>
+            <figcaption class="reviewer">
+              <img src="assets/andreia-vieira.jpg" alt="Andreia Vieira" class="fade-on-load" width="400" height="400" loading="lazy">
+              <span class="stack">
+                <span class="h4">Andreia Vieira</span>
+                <span class="p -grey">CEO @ Softingal</span>
+              </span>
+            </figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 
@@ -311,6 +320,6 @@
     </div>
   </footer>
 
-  <script src="main.js?v=1790241872"></script>
+  <script src="main.js?v=1790242808"></script>
 </body>
 </html>

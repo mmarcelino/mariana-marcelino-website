@@ -39,13 +39,14 @@
     };
     var list = visual.querySelector(".js-fl-list");
     var chatLog = visual.querySelector(".js-fl-chat-log");
-    var countEl = visual.querySelector(".js-fl-count");
+    var unreadEl = visual.querySelector(".fl-unread");
     var todayEl = visual.querySelector(".js-fl-today");
-    var BASE = 18;
+    // Already-read mail sitting at the bottom of the inbox
     var OLD = [
       { i: "RL", c: 3, name: "Rita Lopes", src: "Pedido de orçamento", time: "Ontem" },
       { i: "MF", c: 4, name: "Marta Freitas", src: "Remodelação de apartamento", time: "Seg" },
-      { i: "JS", c: 5, name: "João Santos", src: "Projeto de moradia", time: "Dom" }
+      { i: "JS", c: 5, name: "João Santos", src: "Projeto de moradia", time: "Dom" },
+      { i: "CD", c: 0, name: "Carlos Dias", src: "Visita ao showroom", time: "Dom" }
     ];
     // Leads alternate form → chat and keep rotating, so the story never stops
     var FORM_LEADS = [
@@ -72,11 +73,11 @@
     var timers = [];
     var at = function (ms, fn) { timers.push(setTimeout(fn, ms)); };
     var mobile = function () { return window.innerWidth < 560; };
-    var maxRows = function () { return mobile() ? 2 : 3; };
+    var maxRows = function () { return mobile() ? 3 : 4; };
 
-    function row(l, fresh) {
+    function row(l, unread) {
       var li = document.createElement("li");
-      li.className = "fl-row" + (fresh ? " is-fresh" : "");
+      li.className = "fl-row" + (unread ? " is-fresh -unread" : "");
       li.innerHTML = '<div class="fl-row-in"><div class="fl-card"><span class="fl-av"></span><span class="fl-name"></span><span class="fl-time"></span><span class="fl-src"></span></div></div>';
       li.querySelector(".fl-av").textContent = l.i;
       li.querySelector(".fl-av").dataset.c = l.c;
@@ -92,27 +93,25 @@
       li.offsetHeight;
       li.classList.remove("is-new");
       setTimeout(function () { li.classList.remove("is-fresh"); }, 1600);
-      countEl.textContent = BASE + n;
       todayEl.textContent = n;
-      countEl.classList.remove("is-bump"); countEl.offsetWidth; countEl.classList.add("is-bump");
+      unreadEl.classList.remove("is-bump"); unreadEl.offsetWidth; unreadEl.classList.add("is-bump");
       var rows = list.querySelectorAll(".fl-row:not(.is-out)");
       for (var k = maxRows(); k < rows.length; k++) {
         (function (old) { old.classList.add("is-out"); setTimeout(function () { old.remove(); }, 750); })(rows[k]);
       }
     }
-    // The dashboard keeps one fixed height for the whole loop
+    // The inbox keeps one fixed height for the whole loop
     function lockHeight() { if (!list.style.height) list.style.height = list.offsetHeight + "px"; }
-    function fill(items) {
+    function fill(items, unread) {
       list.innerHTML = "";
-      items.slice(0, maxRows()).forEach(function (l) { list.appendChild(row(l)); });
+      items.slice(0, maxRows()).forEach(function (l) { list.appendChild(row(l, unread)); });
     }
     function clearForm() {
       Object.keys(fields).forEach(function (k) { fields[k].textContent = ""; fields[k].parentNode.classList.remove("is-active"); });
     }
     function reset() {
-      fill(OLD);
+      fill(OLD, false); // already read
       lockHeight();
-      countEl.textContent = BASE;
       todayEl.textContent = "0";
       clearForm();
       flow.classList.remove("is-press", "is-send", "is-glow", "is-chat", "is-launch-press");
@@ -207,8 +206,7 @@
     function showFinal() {
       timers.forEach(clearTimeout); timers = [];
       reset();
-      fill(LEADS.slice().reverse());
-      countEl.textContent = BASE + LEADS.length;
+      fill(LEADS.slice().reverse(), true);
       todayEl.textContent = LEADS.length;
     }
 
