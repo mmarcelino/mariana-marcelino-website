@@ -173,7 +173,6 @@ a { color: inherit; text-decoration: none; }
   transition: opacity .3s ease;
 }
 @media (hover: hover) { .nav-link-plain:hover { opacity: .5; } }
-@media (min-width: 860px) { .header .nav-link-plain { color: var(--off-white); } }
 
 /* Main nav call to action: plain bold text link */
 .nav-cta {
@@ -359,6 +358,7 @@ a { color: inherit; text-decoration: none; }
 @media (min-width: 860px) {
   .header { color: var(--black); }
   .header .nav-cta { color: var(--off-white); }
+  .header .nav-link-plain { color: var(--off-white); }
 }
 
 @media (min-width: 860px) {
