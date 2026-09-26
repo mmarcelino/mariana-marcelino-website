@@ -280,4 +280,43 @@
       });
     });
   });
+
+  // Testimonials: logos double as tabs; prev/next arrows and logo clicks
+  // navigate manually (no auto-rotation).
+  var testimonialLogos = document.querySelector(".js-testimonial-logos");
+  var testimonialSlides = document.querySelector(".js-testimonial-slides");
+  if (testimonialLogos && testimonialSlides) {
+    var logos = Array.prototype.slice.call(testimonialLogos.querySelectorAll(".testimonial-logo"));
+    var slides = Array.prototype.slice.call(testimonialSlides.querySelectorAll(".testimonial-slide"));
+    var current = 0;
+
+    function show(index) {
+      current = index;
+      logos.forEach(function (logo, i) {
+        var active = i === index;
+        logo.classList.toggle("is-active", active);
+        logo.setAttribute("aria-selected", active ? "true" : "false");
+      });
+      slides.forEach(function (slide, i) {
+        slide.classList.toggle("is-active", i === index);
+      });
+    }
+
+    function prev() { show((current - 1 + slides.length) % slides.length); }
+    function next() { show((current + 1) % slides.length); }
+
+    logos.forEach(function (logo, i) {
+      logo.addEventListener("click", function () { show(i); });
+    });
+
+    // Each slide carries its own prev/next pair (so the arrows sit right
+    // after that slide's own content); only the active slide's pair is
+    // reachable since inactive slides have pointer-events: none.
+    document.querySelectorAll(".js-testimonial-prev").forEach(function (btn) {
+      btn.addEventListener("click", prev);
+    });
+    document.querySelectorAll(".js-testimonial-next").forEach(function (btn) {
+      btn.addEventListener("click", next);
+    });
+  }
 })();

@@ -179,27 +179,33 @@
     <!-- Sobre mim: the answer, kept narrow and personal -->
     <section id="about" class="about">
       <p class="about-kicker kicker">Sobre</p>
-      <div class="about-copy">
+      <div class="narrow-container">
         <h2 class="about-title">Entre o código e o negócio</h2>
-        <p>Sou a Mariana, e acredito que um site deve fazer muito mais do que representar um negócio.</p>
-        <p>Tenho anos de experiência em engenharia de software e produtos digitais. Desde 2018, sou também formadora, a ajudar outras pessoas a aprender a construir para a web.</p>
-        <p>Essa combinação deu-me uma visão pouco comum do processo: vejo os sites tanto do lado de quem os constrói como do lado de quem os utiliza. É essa perspetiva que aplico para transformar sites desatualizados em ferramentas mais credíveis, fáceis de encontrar e pensadas para gerar oportunidades de negócio.</p>
-        <p>Não entrego apenas um novo design. Entrego um site pensado para trabalhar por si.</p>
-        <a href="https://www.linkedin.com/in/marianamarcelino-frontend-engineer/" target="_blank" rel="noopener" class="about-link">LinkedIn</a>
-      </div>
-      <div class="about-visual">
-        <img src="assets/mariana-about.webp" alt="Mariana Marcelino" class="fade-on-load" width="960" height="1128" loading="lazy">
+        <div class="about-grid">
+          <figure class="about-photo">
+            <img src="assets/mariana-about.webp" alt="Mariana Marcelino" class="fade-on-load" width="960" height="1128" loading="lazy">
+          </figure>
+          <div class="about-copy">
+            <p>Sou a Mariana, e acredito que um site deve fazer muito mais do que representar um negócio.</p>
+            <p>Tenho anos de experiência em engenharia de software e produtos digitais. Desde 2018, sou também formadora, a ajudar outras pessoas a aprender a construir para a web.</p>
+            <p>Essa combinação deu-me uma visão pouco comum do processo: vejo os sites tanto do lado de quem os constrói como do lado de quem os utiliza. É essa perspetiva que aplico para transformar sites desatualizados em ferramentas mais credíveis, fáceis de encontrar e pensadas para gerar oportunidades de negócio.</p>
+            <p>Não entrego apenas um novo design. Entrego um site pensado para trabalhar por si.</p>
+            <a href="https://www.linkedin.com/in/marianamarcelino-frontend-engineer/" target="_blank" rel="noopener" class="about-link">LinkedIn</a>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- Soluções -->
     <section id="solutions" class="section tiers-section -bg-off-white">
-      <div class="tiers-head grid-col">
-        <p class="kicker">Soluções</p>
-        <h2 class="tiers-intro">Nem todos os negócios estão no mesmo momento. Quer esteja pronto para transformar o seu site ou apenas a explorar o que é possível, encontra aqui o caminho certo.</h2>
+      <p class="tiers-kicker kicker">Soluções</p>
+      <div class="narrow-container">
+      <div class="tiers-head">
+        <h2 class="tiers-intro">Nem todos os negócios estão no mesmo momento.</h2>
+        <p class="tiers-sub">Quer esteja pronto para transformar o seu site ou apenas a explorar o que é possível, encontra aqui o caminho certo.</p>
       </div>
 
-      <div class="tiers grid-col">
+      <div class="tiers">
         <!-- Plano 1 -->
         <article id="free" class="tier">
           <h3 class="tier-name">Redesign da homepage</h3>
@@ -254,42 +260,88 @@
           <div class="tier-inc">
             <p class="tier-label">Inclui</p>
             <ul class="tier-list">
-              <li>Novo design e estrutura à medida, pensados para cada negócio</li>
+              <li>Novo design e estrutura à medida</li>
               <li>Integração de novos conteúdos fornecidos pelo cliente</li>
-              <li>Percurso do utilizador otimizado para aumentar contactos</li>
               <li>Otimização para resultados no Google, ChatGPT e outras ferramentas de IA</li>
-              <li>Otimização para mobile</li>
+              <li>Sistemas de agendamento e marcação automatizados</li>
+              <li>Percurso do utilizador otimizado para aumentar contactos</li>
               <li>Botões e chamadas à ação que incentivam o contacto</li>
               <li>Formulários e ofertas para captação de contactos</li>
               <li>Integração com ferramentas intuitivas de gestão de contactos</li>
               <li>Integração com WhatsApp e chatbot</li>
-              <li>Sistemas de agendamento e marcação</li>
               <li>Painel de métricas para acompanhamento de resultados</li>
+              <li>Otimização para mobile</li>
               <li>Publicação do novo site</li>
             </ul>
           </div>
         </article>
       </div>
+      </div>
     </section>
 
 
     <!-- Testemunhos -->
-    <section class="section -bg-off-white -min-full-vh grid-col-t-med">
+    <section class="testimonial-section">
+      <p class="testimonial-kicker kicker">Testemunhos</p>
       <div class="narrow-container">
-        <div class="grid testimonial-block">
-          <p class="col-4 kicker section-kicker">Testemunhos</p>
-          <figure class="col-6 testimonial">
-            <blockquote class="h2 text-block">
-              <p>“A Mariana assumiu um projeto end-to-end para a Softingal e geriu tanto o cliente como todo o processo de forma excecional. Transformou a presença digital do nosso cliente numa experiência moderna e intuitiva, ao mesmo tempo que geriu requisitos, feedback e prioridades em constante mudança com enorme facilidade. Recomendo vivamente a Mariana para qualquer projeto que exija competência técnica, autonomia em gestão de projeto e excelente capacidade de comunicação.”</p>
+        <!-- Real client logos. The logo matching the testimonial on screen
+             is highlighted. -->
+        <div class="testimonial-logos js-testimonial-logos" role="tablist" aria-label="Escolher testemunho">
+          <button type="button" class="testimonial-logo is-active" role="tab" aria-selected="true" data-slide="0">
+            <img src="assets/logo-softingal.png" alt="Softingal" class="testimonial-logo-img testimonial-logo-img--softingal">
+          </button>
+          <button type="button" class="testimonial-logo" role="tab" aria-selected="false" data-slide="1">
+            <img src="assets/logo-oporto.png" alt="Oporto Paper Conservation" class="testimonial-logo-img testimonial-logo-img--oporto">
+          </button>
+          <button type="button" class="testimonial-logo" role="tab" aria-selected="false" data-slide="2">
+            <img src="assets/logo-alviere.png" alt="Alviere" class="testimonial-logo-img testimonial-logo-img--alviere">
+          </button>
+        </div>
+        <div class="testimonial-top">
+          <span class="testimonial-mark" aria-hidden="true">&ldquo;</span>
+          <div class="js-testimonial-slides testimonial-slides">
+            <blockquote class="testimonial-slide is-active" data-slide="0">
+              <div class="testimonial-quote">
+                <p>A Mariana assumiu um projeto end-to-end para a Softingal e geriu tanto o cliente como todo o processo de forma excecional. Transformou a presença digital do nosso cliente numa experiência moderna e intuitiva, ao mesmo tempo que geriu requisitos, feedback e prioridades em constante mudança com enorme facilidade.</p>
+                <p>Recomendo vivamente a Mariana para qualquer projeto que exija competência técnica, autonomia em gestão de projeto e excelente capacidade de comunicação.</p>
+              </div>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Andreia Vieira</span>
+                <span class="testimonial-role">CEO @ Softingal</span>
+              </footer>
             </blockquote>
-            <figcaption class="reviewer">
-              <img src="assets/andreia-vieira.jpg" alt="Andreia Vieira" class="fade-on-load" width="400" height="400" loading="lazy">
-              <span class="stack">
-                <span class="h4">Andreia Vieira</span>
-                <span class="p -grey">CEO @ Softingal</span>
-              </span>
-            </figcaption>
-          </figure>
+            <blockquote class="testimonial-slide" data-slide="1">
+              <div class="testimonial-quote">
+                <p>Recomendaram-me a Mariana para fazer o redesign do meu site e o resultado superou as minhas expectativas. Todo o processo foi um exemplo de rigor, clareza e verdadeira colaboração. O que mais se destacou foi a sua capacidade de equilibrar forma e funcionalidade de forma exemplar.</p>
+                <p>A Mariana não se limitou a criar algo visualmente apelativo: criou também uma experiência digital perfeitamente alinhada com a minha identidade profissional. A comunicação ao longo de todo o projeto foi também excecional.</p>
+              </div>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Valeria Duplat</span>
+                <span class="testimonial-role">Founder @ Oporto Paper Conservation</span>
+              </footer>
+            </blockquote>
+            <blockquote class="testimonial-slide" data-slide="2">
+              <div class="testimonial-quote">
+                <p>A Mariana teve sempre uma atitude extraordinariamente positiva, trabalhou de forma excelente com a equipa de Marketing e cumpriu sempre os prazos. O resultado do seu trabalho foi perfeito e foi evidente o cuidado que pôs em tudo o que fez.</p>
+                <p>Também esteve sempre disponível para explorar áreas que lhe eram menos familiares e encontrar soluções para problemas complexos de integração. Recomendo vivamente a Mariana para qualquer função de Desenvolvimento Web.</p>
+              </div>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Douglas Lemon</span>
+                <span class="testimonial-role">Head of Brand &amp; Creative @ Alviere</span>
+              </footer>
+            </blockquote>
+          </div>
+        </div>
+        <div class="testimonial-nav">
+          <span class="testimonial-mark testimonial-nav-spacer" aria-hidden="true">&ldquo;</span>
+          <div class="testimonial-nav-buttons">
+            <button type="button" class="testimonial-nav-btn js-testimonial-prev" aria-label="Testemunho anterior">
+              <svg viewBox="0 0 56 12" aria-hidden="true"><path d="M56 6H2M8 1 2 6l6 5"/></svg>
+            </button>
+            <button type="button" class="testimonial-nav-btn js-testimonial-next" aria-label="Testemunho seguinte">
+              <svg viewBox="0 0 56 12" aria-hidden="true"><path d="M0 6h54M48 1l6 5-6 5"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </section>

@@ -277,6 +277,8 @@ a { color: inherit; text-decoration: none; }
   color: var(--black);
 }
 .more-link svg {
+  position: relative;
+  top: 2px;
   width: 56px;
   height: 12px;
   fill: none;
@@ -790,7 +792,7 @@ a { color: inherit; text-decoration: none; }
   .impact-block { padding-top: 96px; }
   .impact-kicker {
     position: absolute;
-    top: 100px;
+    top: 107px;
     left: var(--gap);
     padding-top: 0;
     margin-bottom: 0;
@@ -895,92 +897,122 @@ a { color: inherit; text-decoration: none; }
   .card:nth-child(6) { padding: 32px 0 0 24px; }
 }
 
-/* Sobre mim: three columns from 1200px — kicker, then the text (filling the
-   space between), then the photo flush against the right edge, full height.
-   Below that, they stack: kicker, text, photo. */
+/* Sobre mim: dark surface, but the same kicker + narrow-container rhythm
+   as Serviços/Soluções — kicker breaks into the side margin from 1200px,
+   big title, then a contained portrait beside the text (not a full-height
+   panel), so the section reads as part of the same family. */
 .about {
   position: relative;
-  background-color: #6dc9bc;
-  display: flex;
-  flex-direction: column;
+  background-color: #000;
+  color: var(--off-white);
 }
-.about-kicker { padding: 64px var(--gap) 0; }
-.about-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 1.1em;
-  font-size: 16px;
-  line-height: 1.5;
-  padding: 24px var(--gap) 64px;
+.about-kicker {
+  padding-top: 64px;
+  padding-left: var(--gap);
+  margin-bottom: 16px;
+}
+@media (min-width: 860px) {
+  .about-kicker { padding-top: 96px; margin-bottom: 20px; }
+}
+@media (min-width: 1200px) {
+  .about-title { padding-top: 96px; }
+  .about-kicker {
+    position: absolute;
+    top: 107px;
+    left: var(--gap);
+    padding-top: 0;
+    margin-bottom: 0;
+  }
 }
 .about-title {
+  max-width: 16em;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(26px, 3vw, 42px);
-  line-height: 1.15;
+  font-size: clamp(30px, 3.6vw, 52px);
+  line-height: 1.1;
   letter-spacing: -.02em;
   text-wrap: balance;
-  margin-bottom: 8px;
+  margin-bottom: 96px;
 }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  padding-bottom: 64px;
+}
+.about-copy { display: flex; flex-direction: column; gap: 1.1em; font-size: 18px; line-height: 1.5; }
 .about-link { display: inline-block; margin-top: -2px; text-decoration: underline; text-underline-offset: 3px; }
 @media (hover: hover) { .about-link:hover { text-decoration: none; } }
-.about-visual {
+.about-photo {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  height: 60vh;
-  height: 60svh;
-  min-height: 420px;
-  flex: 0 0 auto;
-}
-.about-visual img {
   width: 100%;
-  height: 100%;
+  max-width: 260px;
+}
+.about-photo img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
   object-position: center 15%;
   display: block;
-  filter: grayscale(1) contrast(1.05);
 }
-/* The mask: a flat colour wash over the desaturated photo, in the same
-   teal as the section background, so the photo reads as part of it. */
-.about-visual::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: #6dc9bc;
-  mix-blend-mode: color;
-}
-@media (min-width: 1200px) {
-  .about { flex-direction: row; align-items: stretch; }
-  .about-kicker { flex: 0 0 auto; width: 200px; padding: 96px 0 96px var(--gap); }
-  .about-copy { flex: 1 1 auto; max-width: 44em; padding: 96px 48px; }
-  /* A fixed height, not a stretch to match the text column — a shorter
-     panel instead of one driven by however long the copy happens to be.
-     Fixed height (not aspect-ratio) keeps the width locked to 100% of the
-     flex column, so it always stays flush against the right edge. On wide
-     viewports .about-copy stops growing at its max-width, which would
-     otherwise leave unclaimed flex space between it and the photo — the
-     auto margin absorbs exactly that, keeping the photo pinned to the end. */
-  .about-visual { flex: 0 0 38%; align-self: center; height: 640px; min-height: 0; max-height: none; margin-left: auto; }
+@media (min-width: 860px) {
+  .about-grid {
+    grid-template-columns: 240px 1fr;
+    column-gap: 56px;
+    align-items: start;
+    padding-bottom: 96px;
+  }
+  .about-photo { max-width: none; }
 }
 
 .-cover { object-fit: cover; }
 
 /* ---------- Pricing tiers (Mono Space "Founding Membership" layout) ---------- */
-.tiers-section { padding-top: 64px; padding-bottom: 0; }
-@media (min-width: 860px) { .tiers-section { padding-top: 96px; } }
-.tiers-head { display: flex; flex-direction: column; gap: 20px; padding-top: 0; padding-bottom: 72px; }
-@media (min-width: 1200px) { .tiers-head { padding-bottom: 120px; } }
+.tiers-section { position: relative; padding-bottom: 64px; }
+@media (min-width: 860px) { .tiers-section { padding-bottom: 96px; } }
+.tiers-kicker {
+  padding-top: 64px;
+  padding-left: var(--gap);
+  margin-bottom: 16px;
+}
+@media (min-width: 860px) {
+  .tiers-kicker { padding-top: 96px; margin-bottom: 20px; }
+}
+@media (min-width: 1200px) {
+  .tiers-intro { padding-top: 96px; }
+  .tiers-kicker {
+    position: absolute;
+    top: 107px;
+    left: var(--gap);
+    padding-top: 0;
+    margin-bottom: 0;
+  }
+}
+.tiers-head { padding-bottom: 96px; }
 .tiers-intro {
-  max-width: 24em;
+  max-width: 16em;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 22px;
-  line-height: 1.3;
-  letter-spacing: -.01em;
+  font-size: clamp(30px, 3.6vw, 52px);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+  margin-bottom: 20px;
+}
+@media (min-width: 860px) { .tiers-intro { margin-bottom: 26px; } }
+.tiers-sub {
+  max-width: 34em;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--black);
   text-wrap: pretty;
 }
-@media (min-width: 860px) { .tiers-intro { font-size: 27px; } }
+@media (min-width: 860px) { .tiers-sub { font-size: clamp(17px, 1.3vw, 20px); } }
 
 .tiers { display: grid; grid-template-columns: 1fr; padding-top: 0; padding-bottom: 0; }
 /* Mobile: stacked cards, dividers run edge to edge */
@@ -994,11 +1026,11 @@ a { color: inherit; text-decoration: none; }
 }
 .tier:first-child { border-top: 0; padding-top: 0; }
 @media (min-width: 860px) {
-  /* Shared rows across the three cards (subgrid), so the button row lines up */
+  /* Shared rows across the three cards (subgrid), so the price, button
+     and "Inclui" rows all line up horizontally across the three plans. */
   .tiers { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(5, auto); }
   .tier { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 0; align-content: start; }
-  /* Vertical dividers run to the bottom of the section */
-  .tier { margin: 0; padding: 0 32px 96px; border-top: 0; border-left: 1px solid var(--grey); }
+  .tier { margin: 0; padding: 0 32px 32px; border-top: 0; border-left: 1px solid var(--grey); }
   .tier:first-child { padding-left: 0; border-left: 0; }
   .tier:last-child { padding-right: 0; }
 }
@@ -1119,12 +1151,149 @@ a { color: inherit; text-decoration: none; }
 .message.is-error { color: var(--error) !important; }
 
 /* ---------- Testimonial ---------- */
-.testimonial-block { padding-bottom: 64px; }
-@media (min-width: 860px) { .testimonial-block { padding-bottom: 96px; } }
-.testimonial { display: flex; flex-direction: column; gap: var(--gap-double); }
-.reviewer { display: flex; align-items: flex-end; gap: var(--gap); }
-.reviewer img { width: 96px; height: 120px; object-fit: cover; }
-@media (min-width: 1200px) { .reviewer img { width: 128px; height: 160px; } }
+.testimonial-section {
+  position: relative;
+  overflow: hidden;
+  background-color: #fa435b;
+  color: var(--black);
+  padding-bottom: 64px;
+}
+@media (min-width: 860px) {
+  .testimonial-section { padding-bottom: 96px; }
+}
+.testimonial-kicker {
+  padding-top: 64px;
+  padding-left: var(--gap);
+  margin-bottom: 16px;
+}
+@media (min-width: 860px) {
+  .testimonial-kicker { padding-top: 96px; margin-bottom: 20px; }
+}
+@media (min-width: 1200px) {
+  .testimonial-section > .narrow-container { padding-top: 96px; }
+  .testimonial-kicker {
+    position: absolute;
+    top: 98px;
+    left: var(--gap);
+    padding-top: 0;
+    margin-bottom: 0;
+  }
+}
+/* Client logos, doubling as tabs — the one matching the testimonial on
+   screen is full-strength black, the rest sit dimmed. */
+.testimonial-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 56px;
+  min-height: 35px;
+  margin-bottom: 88px;
+}
+.testimonial-logo {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  opacity: .28;
+  transition: opacity .3s ease;
+}
+@media (hover: hover) { .testimonial-logo:hover { opacity: .6; } }
+.testimonial-logo.is-active { opacity: 1; }
+.testimonial-logo-img {
+  display: block;
+  height: 16px;
+  width: auto;
+  filter: brightness(0);
+}
+.testimonial-logo-img--oporto {
+  height: 35px;
+}
+.testimonial-logo-img--softingal {
+  height: 35px;
+}
+.testimonial-logo-img--alviere {
+  height: 30px;
+}
+
+.testimonial-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.testimonial-mark {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 80px;
+  line-height: 1;
+  color: var(--black);
+  margin-top: -13px;
+  flex: 0 0 auto;
+}
+.testimonial-slides { flex: 1 1 auto; min-width: 0; display: grid; }
+.testimonial-slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+.testimonial-slide.is-active { opacity: 1; visibility: visible; pointer-events: auto; }
+.testimonial-quote {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  max-width: 30em;
+  text-wrap: pretty;
+}
+.testimonial-quote p { margin: 0; }
+.testimonial-quote p + p { margin-top: .5em; }
+.testimonial-author { display: flex; flex-direction: column; margin-top: 48px; }
+.testimonial-name { font-family: var(--font-sans); font-weight: 600; font-size: 16px; }
+.testimonial-role { font-size: 14px; opacity: .7; margin-top: 2px; }
+
+/* Prev/next controls — same hairline-arrow style as the hero's "Saber mais".
+   Sits once, after .testimonial-top (sized to the longest quote), so its
+   position never shifts when switching between testimonials of different
+   lengths. A hidden quote-mark spacer keeps it left-aligned with the quote
+   text (which sits after the mark + gap in .testimonial-top). */
+.testimonial-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+.testimonial-nav-spacer { visibility: hidden; }
+.testimonial-nav-buttons {
+  display: flex;
+  gap: 24px;
+}
+.testimonial-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: 0;
+  padding: 8px 0;
+  margin: -8px 0;
+  cursor: pointer;
+  color: var(--black);
+}
+.testimonial-nav-btn svg {
+  width: 44px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  overflow: visible;
+  transition: transform .5s var(--ease);
+}
+@media (hover: hover) {
+  .js-testimonial-prev:hover svg { transform: translateX(-8px); }
+  .js-testimonial-next:hover svg { transform: translateX(8px); }
+}
 
 /* ---------- Footer ---------- */
 .footer {
@@ -1152,4 +1321,5 @@ img.fade-on-load.loaded { opacity: 1; }
   html { scroll-behavior: auto; }
   .js-animate, img.fade-on-load, .overlay-links a { opacity: 1; transform: none; transition: none; }
   .hero-photo img, .hero-visual::before, .flow, .flow * { transition: none !important; animation: none !important; }
+  .testimonial-slide { transition: none !important; }
 }
