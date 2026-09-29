@@ -1,15 +1,76 @@
 (function () {
-  // Where the free-redesign form is sent. Paste a Formspree / Basin / Getform
-  // endpoint here (e.g. "https://formspree.io/f/xxxxxx"). While it's empty,
-  // the form opens the visitor's email app addressed to FALLBACK_EMAIL.
-  var FORM_ENDPOINT = "";
-  var FALLBACK_EMAIL = "info@mariana-marcelino.com";
+  // Free-redesign requests are relayed to CONTACT_EMAIL by FormSubmit. The very
+  // first submission triggers a one-off activation email that must be confirmed.
+  var CONTACT_EMAIL = "info@mariana-marcelino.com";
+  var FORM_ENDPOINT = "https://formsubmit.co/ajax/" + CONTACT_EMAIL;
+  var EN = /^en/i.test(document.documentElement.lang);
 
   // Image fade-on-load
   document.querySelectorAll("img.fade-on-load").forEach(function (img) {
     if (img.complete && img.naturalWidth) img.classList.add("loaded");
     else img.addEventListener("load", function () { img.classList.add("loaded"); });
   });
+
+  // Fixed header: each side turns off-white while it sits over a dark area
+  var header = document.querySelector(".header");
+  if (header) {
+    var navParts = [header.querySelector(".logo-container"), header.querySelector(".lang-switch"), header.querySelector(".nav-link-plain"), header.querySelector(".nav-cta-fixed")].filter(Boolean);
+    var darkAreas = document.querySelectorAll('[data-nav="dark"]');
+    var hideAreas = document.querySelectorAll("[data-nav-hide]");
+    var navTicking = false;
+    var over = function (areas, x, y) {
+      for (var i = 0; i < areas.length; i++) {
+        var a = areas[i].getBoundingClientRect();
+        if (x >= a.left && x <= a.right && y >= a.top && y <= a.bottom) return true;
+      }
+      return false;
+    };
+    var promoStrip = document.querySelector(".promo-strip");
+    var updateNav = function () {
+      navTicking = false;
+      // The strip slides away over the contact section and footer, like the nav
+      if (promoStrip) {
+        // Inline strip (homepage): flag when it has reached the top and stuck there
+        if (document.documentElement.classList.contains("strip-inline")) {
+          document.documentElement.classList.toggle("strip-stuck", window.scrollY > 0 && promoStrip.getBoundingClientRect().top <= 1);
+        }
+        // Fixed probe point: the strip's own rect moves once it slides away
+        promoStrip.classList.toggle("is-away", over(hideAreas, window.innerWidth / 2, promoStrip.offsetHeight / 2));
+      }
+      navParts.forEach(function (part) {
+        var r = part.getBoundingClientRect();
+        var x = r.left + r.width / 2;
+        var y = r.top + r.height / 2;
+        part.classList.toggle("nav-on-dark", over(darkAreas, x, y));
+        part.classList.toggle("nav-hidden", over(hideAreas, x, y));
+      });
+    };
+    var requestNav = function () {
+      if (!navTicking) { navTicking = true; requestAnimationFrame(updateNav); }
+    };
+    window.addEventListener("scroll", requestNav, { passive: true });
+    window.addEventListener("resize", requestNav);
+    window.addEventListener("load", updateNav);
+    updateNav();
+  }
+
+  // Article table of contents: highlight the section being read
+  var tocLinks = document.querySelectorAll(".article-toc a");
+  if (tocLinks.length && "IntersectionObserver" in window) {
+    var byId = {};
+    tocLinks.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+    var tocIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        tocLinks.forEach(function (a) { a.classList.remove("is-active"); });
+        byId[entry.target.id].classList.add("is-active");
+      });
+    }, { rootMargin: "0px 0px -70% 0px" });
+    Object.keys(byId).forEach(function (id) {
+      var h = document.getElementById(id);
+      if (h) tocIo.observe(h);
+    });
+  }
 
   // Scroll reveal
   if ("IntersectionObserver" in window) {
@@ -42,19 +103,35 @@
     var unreadEl = visual.querySelector(".fl-unread");
     var todayEl = visual.querySelector(".js-fl-today");
     // Already-read mail sitting at the bottom of the inbox
-    var OLD = [
+    var OLD = EN ? [
+      { i: "RL", c: 3, name: "Rachel Lewis", src: "Quote request", time: "Yesterday" },
+      { i: "MF", c: 4, name: "Mark Fisher", src: "Flat renovation", time: "Mon" },
+      { i: "JS", c: 5, name: "James Scott", src: "New home project", time: "Sun" },
+      { i: "CD", c: 0, name: "Claire Davis", src: "Showroom visit", time: "Sun" }
+    ] : [
       { i: "RL", c: 3, name: "Rita Lopes", src: "Pedido de orçamento", time: "Ontem" },
       { i: "MF", c: 4, name: "Marta Freitas", src: "Remodelação de apartamento", time: "Seg" },
       { i: "JS", c: 5, name: "João Santos", src: "Projeto de moradia", time: "Dom" },
       { i: "CD", c: 0, name: "Carlos Dias", src: "Visita ao showroom", time: "Dom" }
     ];
     // Leads alternate form → chat and keep rotating, so the story never stops
-    var FORM_LEADS = [
+    var FORM_LEADS = EN ? [
+      { i: "AR", c: 0, name: "Anna Reed", email: "anna.reed@gmail.com", msg: "Hi! I'd like to know more about kitchen renovations. My space is small, what solutions would work?" },
+      { i: "SC", c: 1, name: "Sophie Carter", email: "sophie.carter@outlook.com", msg: "Good morning, I'm thinking of extending my parents' house. Could we book a visit to assess the project?" },
+      { i: "IA", c: 4, name: "Isla Allen", email: "isla.allen@gmail.com", msg: "Hello, I'm opening a new shop in the city centre and need help with the interior design. Can you help?" }
+    ] : [
       { i: "AR", c: 0, name: "Ana Ribeiro", email: "ana.ribeiro@gmail.com", msg: "Olá! Gostava de saber mais sobre remodelação de cozinha. Tenho um espaço pequeno, que soluções fazem sentido?" },
       { i: "SC", c: 1, name: "Sofia Costa", email: "sofia.costa@sapo.pt", msg: "Bom dia, estou a pensar ampliar a moradia dos meus pais. Podemos agendar uma visita para avaliar o projeto?" },
       { i: "IA", c: 4, name: "Inês Alves", email: "ines.alves@gmail.com", msg: "Olá, vou abrir uma loja nova no centro e preciso de ajuda com o projeto de interiores. Podem ajudar?" }
     ];
-    var CHAT_LEADS = [
+    var CHAT_LEADS = EN ? [
+      { i: "PM", c: 2, name: "Peter Mills", src: "Via chat · Quote for a house",
+        chat: [["me", "Hi! I'd like a quote for a house. peter@mills.co"], ["bot", "Thanks, Peter! We'll reply today."]] },
+      { i: "TR", c: 5, name: "Tom Reynolds", src: "Via chat · Office renovation",
+        chat: [["me", "Morning! Do you renovate offices? tom@reynolds.co"], ["bot", "We do! Thanks, Tom. Talk soon."]] },
+      { i: "BG", c: 3, name: "Beth Green", src: "Via chat · Holiday home",
+        chat: [["me", "Hi! I have a holiday home to design. beth.g@gmail.com"], ["bot", "Lovely, Beth! We'll reply today."]] }
+    ] : [
       { i: "PM", c: 2, name: "Pedro Martins", src: "Via chat · Orçamento para moradia",
         chat: [["me", "Olá! Queria um orçamento para uma moradia. pedro@martins.pt"], ["bot", "Obrigado, Pedro! Respondemos ainda hoje."]] },
       { i: "TR", c: 5, name: "Tiago Reis", src: "Via chat · Remodelação de escritório",
@@ -240,6 +317,140 @@
     });
   }
 
+  // Popups: any [data-open-modal="id"] opens <dialog id="id" class="js-modal">
+  document.querySelectorAll(".js-modal").forEach(function (modal) {
+    if (typeof modal.showModal !== "function") return;
+    var opener = null;
+    var closeModal = function () { modal.close(); };
+    document.querySelectorAll('[data-open-modal="' + modal.id + '"]').forEach(function (trigger) {
+      trigger.addEventListener("click", function (e) {
+        e.preventDefault();
+        opener = trigger;
+        modal.showModal();
+        document.body.classList.add("has-modal");
+        var first = modal.querySelector("input:not([hidden])");
+        if (first && first.offsetParent) first.focus();
+      });
+    });
+    modal.querySelectorAll(".js-close-modal").forEach(function (btn) { btn.addEventListener("click", closeModal); });
+    modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+    modal.addEventListener("close", function () {
+      document.body.classList.remove("has-modal");
+      if (opener) opener.focus();
+    });
+  });
+
+  // Lead-magnet strip: closing hides it until the top of the page (hero, or
+  // the page head on blog/legal pages) leaves the viewport and comes back
+  var promoClose = document.querySelector(".js-promo-close");
+  var stripAnchor = document.querySelector(".hero, .blog-head");
+  if (promoClose) {
+    var rootEl = document.documentElement;
+    var anchorLeft = false;
+    var anchorVisible = true;
+    promoClose.addEventListener("click", function () {
+      rootEl.classList.add("strip-closed");
+      // If the hero is already off screen, coming back to it is enough to reopen
+      anchorLeft = !anchorVisible;
+      if (typeof requestNav === "function") requestNav();
+    });
+    if (stripAnchor && "IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        var visible = entries[0].isIntersecting;
+        anchorVisible = visible;
+        if (!visible) anchorLeft = true;
+        else if (anchorLeft && rootEl.classList.contains("strip-closed")) {
+          rootEl.classList.remove("strip-closed");
+          anchorLeft = false;
+          if (typeof requestNav === "function") requestNav();
+        }
+      }).observe(stripAnchor);
+    }
+  }
+
+  // Contact form ("Prefere escrever?")
+  document.querySelectorAll(".js-contact-form").forEach(function (form) {
+    var msg = form.querySelector(".js-form-message");
+    var show = function (text, ok) {
+      msg.textContent = text;
+      msg.classList.toggle("is-success", ok);
+      msg.classList.toggle("is-error", !ok);
+    };
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var name = form.elements.Nome.value.trim();
+      var email = form.elements.Email.value.trim();
+      var text = form.elements.Mensagem.value.trim();
+      if (!/^\S+@\S+\.\S+$/.test(email) || !text) {
+        show(EN ? "Please enter your email and a message." : "Por favor, preencha o email e a mensagem.", false);
+        return;
+      }
+      var button = form.querySelector("button[type=submit]");
+      button.disabled = true;
+      var data = new FormData();
+      data.append("Nome", name || "—");
+      data.append("Email", email);
+      data.append("Mensagem", text);
+      data.append("Origem", "Formulário de contacto");
+      data.append("Idioma", EN ? "EN" : "PT");
+      data.append("_subject", "Nova mensagem do site — " + (name || email));
+      data.append("_replyto", email);
+      data.append("_template", "table");
+      data.append("_captcha", "false");
+      fetch(FORM_ENDPOINT, { method: "POST", headers: { Accept: "application/json" }, body: data })
+        .then(function (res) {
+          if (!res.ok) throw new Error(res.status);
+          return res.json();
+        })
+        .then(function (d) {
+          if (String(d.success) === "false" && !/activat/i.test(d.message || "")) throw new Error(d.message);
+          form.reset();
+          show(EN ? "Thanks for your message! I'll get back to you soon." : "Obrigada pela mensagem! Respondo em breve.", true);
+        })
+        .catch(function () {
+          show((EN ? "Something went wrong. Please try again or write to " : "Ocorreu um erro. Tente novamente ou escreva para ") + CONTACT_EMAIL + ".", false);
+        })
+        .finally(function () { button.disabled = false; });
+    });
+  });
+
+  // Lead-magnet form: send the lead, then reveal the download. The guide is
+  // handed over even if the relay fails, so the visitor never leaves empty-handed.
+  document.querySelectorAll(".js-guide-form").forEach(function (form) {
+    var msg = form.querySelector(".js-form-message");
+    var success = form.parentNode.querySelector(".js-guide-success");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = form.elements.Email.value.trim();
+      var url = form.elements.URL.value.trim();
+      if (!/^\S+@\S+\.\S+$/.test(email) || !url) {
+        msg.textContent = EN ? "Please enter your email and your website link." : "Por favor, preencha o email e o link do site.";
+        msg.classList.add("is-error");
+        return;
+      }
+      var button = form.querySelector("button[type=submit]");
+      button.disabled = true;
+      var data = new FormData();
+      data.append("Email", email);
+      data.append("URL", url);
+      data.append("Origem", "Guia 8 sinais (faixa)");
+      data.append("Idioma", EN ? "EN" : "PT");
+      data.append("_subject", "Novo download do guia — " + url);
+      data.append("_replyto", email);
+      data.append("_template", "table");
+      data.append("_captcha", "false");
+      var reveal = function () {
+        form.hidden = true;
+        success.hidden = false;
+        var dl = success.querySelector("a");
+        if (dl) dl.focus();
+      };
+      fetch(FORM_ENDPOINT, { method: "POST", headers: { Accept: "application/json" }, body: data })
+        .then(reveal, reveal)
+        .finally(function () { button.disabled = false; });
+    });
+  });
+
   // Free redesign form
   document.querySelectorAll(".js-form").forEach(function (form) {
     var msg = form.querySelector(".js-form-message");
@@ -253,28 +464,35 @@
       var email = form.elements.Email.value.trim();
       var url = form.elements.URL.value.trim();
       if (!/^\S+@\S+\.\S+$/.test(email) || !url) {
-        show("Por favor, preencha o email e o link do site.", false);
-        return;
-      }
-      if (!FORM_ENDPOINT) {
-        var body = "Email: " + email + "\nSite: " + url;
-        window.location.href = "mailto:" + FALLBACK_EMAIL +
-          "?subject=" + encodeURIComponent("Redesign gratuito") +
-          "&body=" + encodeURIComponent(body);
+        show(EN ? "Please enter your email and your website link." : "Por favor, preencha o email e o link do site.", false);
         return;
       }
       var button = form.querySelector("button[type=submit]");
       button.disabled = true;
+      // FormData keeps this a "simple" CORS request (no preflight)
+      var data = new FormData();
+      data.append("Email", email);
+      data.append("URL", url);
+      data.append("Origem", form.closest(".js-free-modal") ? "Pop-up (Contacto)" : "Card gratuito (Soluções)");
+      data.append("Idioma", EN ? "EN" : "PT");
+      data.append("_subject", "Novo pedido de redesign gratuito — " + url);
+      data.append("_replyto", email);
+      data.append("_template", "table");
+      data.append("_captcha", "false");
       fetch(FORM_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ Email: email, URL: url })
+        headers: { Accept: "application/json" },
+        body: data
       }).then(function (res) {
         if (!res.ok) throw new Error(res.status);
+        return res.json();
+      }).then(function (data) {
+        // FormSubmit answers 200 with success "false" on real failures; before activation it says so in `message`
+        if (String(data.success) === "false" && !/activat/i.test(data.message || "")) throw new Error(data.message);
         form.reset();
-        show("Obrigada! Receberá a proposta por email.", true);
+        show(EN ? "Thank you! You'll receive the proposal by email." : "Obrigada! Receberá a proposta por email.", true);
       }).catch(function () {
-        show("Ocorreu um erro. Tente novamente ou escreva para " + FALLBACK_EMAIL + ".", false);
+        show((EN ? "Something went wrong. Please try again or write to " : "Ocorreu um erro. Tente novamente ou escreva para ") + CONTACT_EMAIL + ".", false);
       }).finally(function () {
         button.disabled = false;
       });

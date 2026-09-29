@@ -1,11 +1,13 @@
 <!doctype html>
-<html lang="pt-PT">
+<html lang="pt-PT" class="strip-inline">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Mariana Marcelino | Estratégia Web que faz Negócios Crescer</title>
   <meta name="description" content="Transformo sites para atrair mais visitas, gerar mais contactos e apoiar a próxima fase do seu negócio.">
   <link rel="canonical" href="https://www.mariana-marcelino.com/">
+  <link rel="alternate" hreflang="pt-PT" href="https://www.mariana-marcelino.com/">
+  <link rel="alternate" hreflang="en" href="https://www.mariana-marcelino.com/en/">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.mariana-marcelino.com/">
@@ -17,16 +19,19 @@
   <meta name="twitter:description" content="Transformo sites para atrair mais visitas, gerar mais contactos e apoiar a próxima fase do seu negócio.">
   <meta name="twitter:image" content="assets/og-image.png">
 
-  <link rel="icon" href="assets/favicon-light.png" media="(prefers-color-scheme: light)">
-  <link rel="icon" href="assets/favicon-dark.png" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="assets/favicon-16.png" type="image/png" sizes="16x16">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1790244013">
+  <link rel="stylesheet" href="styles.css?v=1790695790">
 </head>
 <body>
+
 
   <!-- Header -->
   <header class="header">
@@ -35,8 +40,14 @@
         <span class="logo">MARIANA MARCELINO</span>
       </a>
       <div class="nav-right">
+        <div class="lang-switch" aria-label="Idioma">
+          <span class="lang-current" aria-current="true">PT</span>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <a href="en/" hreflang="en" lang="en" class="lang-link">EN</a>
+        </div>
         <a href="blog/" class="nav-link-plain">Blog</a>
-        <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="nav-cta">Marcar chamada</a>
+        <span class="nav-cta nav-cta-spacer" aria-hidden="true">Marcar chamada</span>
+        <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="nav-cta nav-cta-fixed">Marcar chamada</a>
       </div>
     </nav>
   </header>
@@ -45,8 +56,17 @@
 
     <!-- Hero -->
     <section class="hero -bg-off-white">
+      <p class="kicker hero-kicker"><span>Design</span><span>Automação</span><span>IA</span></p>
+      <div class="narrow-container hero-head">
+        <h1 class="hero-title">Sites que fazem negócios crescer</h1>
+        <p class="hero-statement">O seu site não devia apenas estar online — devia trabalhar por si. Transformo sites para atrair mais visitas, gerar mais contactos e apoiar a próxima fase do seu negócio.</p>
+        <div class="hero-actions">
+          <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="button hero-button">Marcar chamada</a>
+          <a href="#solutions" class="button hero-button -secondary">Ver soluções</a>
+        </div>
+      </div>
       <!-- Abstract photo with a frosted-glass card: enquiries arriving on a client's site -->
-      <div class="js-hero-visual hero-visual" aria-hidden="true">
+      <div class="js-hero-visual hero-visual" aria-hidden="true" data-nav="dark">
         <picture class="hero-photo">
           <source media="(max-width: 859px)" srcset="assets/hero-form-color-sm.jpg?v=1790176834">
           <img src="assets/hero-form-color.jpg?v=1790176834" alt="" width="1800" height="2300" fetchpriority="high">
@@ -99,17 +119,11 @@
           </div>
         </div>
       </div>
-      <div class="hero-content grid-col">
-        <div class="hero-text">
-          <h1 class="hero-title">Sites que fazem negócios crescer</h1>
-          <p class="hero-statement">O seu site não devia apenas existir — devia trabalhar por si. Transformo sites para atrair mais visitas, gerar mais contactos e apoiar a próxima fase do seu negócio.</p>
-          <a href="#solutions" class="more-link">Saber mais<svg viewBox="0 0 56 12" aria-hidden="true"><path d="M0 6h54M48 1l6 5-6 5"/></svg></a>
-        </div>
-      </div>
     </section>
 
     <!-- Dores: the problem, said big, then made concrete -->
     <section class="pains -bg-off-white -border-bottom">
+      <p class="kicker pains-kicker">O problema</p>
       <div class="narrow-container">
         <h2 class="pains-statement">O mundo mudou<br>— a maioria dos sites não</h2>
         <p class="pains-sub">Um site desatualizado torna mais difícil encontrar a empresa, transmitir confiança e transformar visitas em contactos. Os seus clientes também evoluíram: a forma como pesquisam mudou e as expectativas aumentaram.</p>
@@ -130,6 +144,12 @@
         </ul>
       </div>
     </section>
+
+    <!-- Lead magnet strip: sits after "O mundo mudou", then sticks to the top -->
+    <div class="promo-strip" role="region" aria-label="Guia gratuito">
+      <button type="button" class="promo-link" data-open-modal="guide-modal"><span class="promo-kicker">Gratuito</span><span class="promo-text">8 sinais de que o seu site está a afastar clientes</span><span class="promo-go">Receber guia →</span></button>
+      <button type="button" class="promo-close js-promo-close" aria-label="Fechar"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg></button>
+    </div>
 
     <!-- Impacto: the problem, said big -->
     <section id="impact" class="impact -bg-off-white">
@@ -177,19 +197,19 @@
     </section>
 
     <!-- Sobre mim: the answer, kept narrow and personal -->
-    <section id="about" class="about">
+    <section id="about" class="about" data-nav="dark">
       <p class="about-kicker kicker">Sobre</p>
       <div class="narrow-container">
-        <h2 class="about-title">Entre o código e o negócio</h2>
+        <h2 class="about-title">Entre o código e os resultados</h2>
         <div class="about-grid">
           <figure class="about-photo">
-            <img src="assets/mariana-about-pink-test.webp" alt="Mariana Marcelino" class="fade-on-load" width="960" height="1128" loading="lazy">
+            <img src="assets/mariana-about-lilac.webp" alt="Mariana Marcelino" class="fade-on-load" width="960" height="1128" loading="lazy">
           </figure>
           <div class="about-copy">
-            <p>Sou a Mariana, e acredito que um site deve fazer muito mais do que representar um negócio.</p>
-            <p>Tenho anos de experiência em engenharia de software e produtos digitais. Desde 2018, sou também formadora, a ajudar outras pessoas a aprender a construir para a web.</p>
-            <p>Essa combinação deu-me uma visão pouco comum do processo: vejo os sites tanto do lado de quem os constrói como do lado de quem os utiliza. É essa perspetiva que aplico para transformar sites desatualizados em ferramentas mais credíveis, fáceis de encontrar e pensadas para gerar oportunidades de negócio.</p>
-            <p>Não entrego apenas um novo design. Entrego um site pensado para trabalhar por si.</p>
+            <p>Sou a Mariana. Redesenho e reconstruo sites para que o seu negócio pareça o que realmente é: moderno e credível. Para que seja encontrado por quem o procura. E para que cada visitante tenha um caminho claro até se tornar cliente.</p>
+            <p>Comecei por trabalhar Marketing, a perceber o que leva alguém a confiar numa marca e a dar o passo seguinte. Desde 2018 que trabalho em Desenvolvimento de Software, a construir produtos digitais para empresas de várias áreas e dimensões. E tenho o meu próprio negócio — por isso sei o que funciona, porque o aplico todos os dias.</p>
+            <p>Esta combinação faz com que pense como quem vende, construa como quem programa e decida como quem gere um negócio.</p>
+            <p>Sem os custos de uma agência e com uma abordagem mais próxima e ágil. E com foco no que realmente interessa: fazer o site trabalhar pelo negócio.</p>
             <a href="https://www.linkedin.com/in/marianamarcelino-frontend-engineer/" target="_blank" rel="noopener" class="about-link">LinkedIn</a>
           </div>
         </div>
@@ -201,8 +221,9 @@
       <p class="tiers-kicker kicker">Soluções</p>
       <div class="narrow-container">
       <div class="tiers-head">
-        <h2 class="tiers-intro">Nem todos os negócios estão no mesmo momento.</h2>
+        <h2 class="tiers-intro">Nem todos os negócios estão no mesmo momento</h2>
         <p class="tiers-sub">Quer esteja pronto para transformar o seu site ou apenas a explorar o que é possível, encontra aqui o caminho certo.</p>
+      </div>
       </div>
 
       <div class="tiers">
@@ -276,7 +297,6 @@
           </div>
         </article>
       </div>
-      </div>
     </section>
 
 
@@ -347,56 +367,127 @@
     </section>
 
     <!-- CTA -->
-    <section id="cta" class="panel -bg-black -fg-off-white">
-      <div class="plane-container grid-col-l grid-col-r -center">
-        <div class="plane-content -text-center">
-          <p class="kicker cta-kicker">Contacto</p>
-          <h2 class="h1 stack -uppercase">Comecemos com uma conversa</h2>
-          <p class="p cta-sub">Identificamos oportunidades de melhoria no seu site e falamos sobre o caminho que faz sentido. Sem qualquer custo nem compromisso.</p>
-          <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="button">Marcar chamada</a>
-          <p class="p cta-alt">
-            <span class="-grey">Ainda não tem a certeza?</span><br>
-            <a href="#free" class="-underline">Receba por email uma proposta gratuita</a>
-          </p>
+    <section id="cta" class="cta-section" data-nav-hide>
+      <p class="kicker cta-kicker">Contacto</p>
+      <div class="narrow-container">
+        <h2 class="cta-title">Comecemos com uma conversa</h2>
+        <p class="cta-sub">Identificamos oportunidades de melhoria no seu site e falamos sobre o caminho que faz sentido. Sem qualquer custo nem compromisso.</p>
+
+        <div class="cta-main">
+          <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="button cta-button">Marcar chamada</a>
         </div>
+
+        <div class="cta-write">
+          <p class="cta-write-label">Prefere escrever?</p>
+          <form class="js-contact-form cta-form" aria-label="Formulário de contacto" novalidate>
+            <input type="text" name="Nome" class="input" placeholder="Nome" autocomplete="name">
+            <input type="email" name="Email" class="input" placeholder="Email" required autocomplete="email">
+            <textarea name="Mensagem" class="input cta-textarea" rows="4" placeholder="Em que posso ajudar?" required></textarea>
+            <div class="cta-form-foot">
+              <button type="submit" class="button">Enviar mensagem</button>
+              <p class="js-form-message message" role="status"></p>
+            </div>
+          </form>
+        </div>
+
+        <p class="cta-alt">
+          <span class="cta-alt-label">Ainda não tem a certeza?</span>
+          <a href="#free" class="cta-alt-link" data-open-modal="free-modal">Receba por email uma proposta gratuita</a>
+        </p>
       </div>
     </section>
   </main>
 
   <!-- Footer -->
-  <footer class="footer -bg-black -fg-off-white grid-col">
-    <div class="grid footer-row">
-      <div class="col-3 col-6-s stack-gap-half">
-        <h4 class="h4">Links úteis</h4>
-        <p class="p stack">
-          <a href="#top" class="link">Home</a>
-          <a href="#impact" class="link">Impacto</a>
-          <a href="#solutions" class="link">Soluções</a>
-          <a href="#cta" class="link">Contacto</a>
-        </p>
+  <footer class="footer -bg-black -fg-off-white" data-nav="dark" data-nav-hide>
+    <div class="footer-top footer-row">
+      <div class="footer-brand">
+        <a href="#top" class="logo footer-logo">MARIANA MARCELINO</a>
+        <a href="mailto:info@mariana-marcelino.com" class="footer-email">info@mariana-marcelino.com</a>
       </div>
-      <div class="col-3 col-6-s stack-gap-half">
-        <h4 class="h4">Informações Legais</h4>
-        <p class="p stack">
-          <a href="https://www.mariana-marcelino.com/politica-de-privacidade" class="link">Política de Privacidade</a>
-          <a href="https://www.mariana-marcelino.com/politica-de-cookies" class="link">Política de Cookies</a>
-          <a href="https://www.mariana-marcelino.com/termos-e-condicoes" class="link">Termos e Condições</a>
-        </p>
-      </div>
-      <div class="col-4 col-6-s push-2 stack-gap-half">
-        <h4 class="h4">Contactos</h4>
-        <p class="p stack">
-          <a href="mailto:info@mariana-marcelino.com" class="link">info@mariana-marcelino.com</a>
-          <a href="https://www.linkedin.com/in/marianamarcelino-frontend-engineer/" target="_blank" rel="noopener" class="link">LinkedIn</a>
-          <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="link">Marcar Chamada</a>
-        </p>
-      </div>
+      <nav class="footer-links" aria-label="Rodapé">
+        <div class="lang-switch" aria-label="Idioma">
+          <span class="lang-current" aria-current="true">PT</span>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <a href="en/" hreflang="en" lang="en" class="lang-link">EN</a>
+        </div>
+        <a href="blog/" class="nav-link-plain">Blog</a>
+        <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="nav-cta">Marcar chamada</a>
+      </nav>
+    </div>
+    <div class="footer-guide">
+      <p class="footer-guide-text"><span class="footer-guide-kicker">Gratuito</span>8 sinais de que o seu site está a afastar clientes</p>
+      <button type="button" class="button footer-guide-btn" data-open-modal="guide-modal">Receber guia</button>
     </div>
     <div class="footer-bottom">
-      <p class="h6 -grey">© 2026 Mariana Marcelino. Todos os direitos reservados.</p>
+      <p>© 2026 Mariana Marcelino</p>
+      <div class="footer-legal">
+        <a href="politica-de-privacidade/" class="link">Privacidade</a>
+        <a href="politica-de-cookies/" class="link">Cookies</a>
+        <a href="termos-e-condicoes/" class="link">Termos e Condições</a>
+      </div>
     </div>
   </footer>
 
-  <script src="main.js?v=1790242808"></script>
+  <!-- Free-redesign popup (opened from the Contacto section) -->
+  <dialog class="modal js-modal js-free-modal" id="free-modal" aria-labelledby="free-modal-title">
+    <div class="modal-head">
+      <p class="kicker">Redesign gratuito</p>
+      <button type="button" class="modal-close js-close-modal" aria-label="Fechar"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <h2 id="free-modal-title" class="modal-title">Veja o potencial do seu site antes de investir</h2>
+      <p class="modal-sub">Vou analisar o seu site e mostrar-lhe, na prática, como pode ficar.</p>
+      <div class="modal-inc">
+        <p class="modal-inc-label">O que recebe</p>
+        <ol class="modal-list">
+          <li>Redesign da sua homepage</li>
+          <li>Auditoria com pontos claros de melhoria</li>
+          <li>Proposta personalizada, enviada por email</li>
+        </ol>
+      </div>
+    </div>
+    <form class="js-form form-free modal-form" aria-label="Pedido de redesign gratuito" novalidate>
+      <input type="text" name="URL" class="input" placeholder="Insira o link para o seu site" required autocomplete="url">
+      <input type="email" name="Email" class="input" placeholder="Insira o seu email" required autocomplete="email">
+      <button type="submit" class="button">Obter redesign gratuito</button>
+      <p class="js-form-message message" role="status"></p>
+      <p class="modal-note">Sem qualquer custo nem compromisso. Os seus dados servem apenas para responder a este pedido. <a href="politica-de-privacidade/">Política de Privacidade</a></p>
+    </form>
+  </dialog>
+
+  <!-- Lead magnet popup -->
+  <dialog class="modal js-modal" id="guide-modal" aria-labelledby="guide-modal-title">
+    <div class="modal-head">
+      <p class="kicker">Guia gratuito</p>
+      <button type="button" class="modal-close js-close-modal" aria-label="Fechar"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <h2 id="guide-modal-title" class="modal-title">8 sinais de que o seu site está a afastar clientes</h2>
+      <p class="modal-sub">Um guia prático, com um teste rápido para cada sinal. Em poucos minutos percebe o que pode estar a custar-lhe contactos.</p>
+      <div class="modal-inc">
+        <p class="modal-inc-label">O que vai encontrar</p>
+        <ol class="modal-list">
+          <li>Os 8 sinais mais comuns, explicados sem jargão</li>
+          <li>O que fazer e um teste rápido para cada um</li>
+          <li>Uma grelha para decidir o próximo passo</li>
+        </ol>
+      </div>
+    </div>
+    <form class="js-guide-form form-free modal-form" aria-label="Pedido do guia gratuito" novalidate>
+      <input type="text" name="URL" class="input" placeholder="Insira o link para o seu site" required autocomplete="url">
+      <input type="email" name="Email" class="input" placeholder="Insira o seu email" required autocomplete="email">
+      <button type="submit" class="button">Receber o guia</button>
+      <p class="js-form-message message" role="status"></p>
+      <p class="modal-note">Sem qualquer custo. Os seus dados servem apenas para este pedido. <a href="politica-de-privacidade/">Política de Privacidade</a></p>
+    </form>
+    <div class="modal-success js-guide-success" hidden>
+      <p class="modal-success-title">O seu guia está pronto</p>
+      <p>Obrigada! Já o pode descarregar.</p>
+      <a class="button" href="assets/guia-8-sinais.pdf" download>Descarregar o guia</a>
+    </div>
+  </dialog>
+
+  <script src="main.js?v=1790695790"></script>
 </body>
 </html>

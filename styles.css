@@ -8,6 +8,7 @@
 :root {
   --off-white: #eeeeea;
   --black: #000;
+  --soft-black: #171715;
   --white: #fff;
   --grey: #a3a3a3;
   --success: #008e6d;
@@ -20,7 +21,20 @@
   --gap-half: 12px;
   --gap-double: 48px;
   --ease: cubic-bezier(.57, 0, .13, 1);
+  --strip-size: 36px;
+  --strip-h: 36px;
+  --nav-extra: 0px;
 }
+@media (min-width: 860px) { :root { --strip-size: 40px; --strip-h: 40px; } }
+html.strip-closed { --strip-h: 0px; }
+/* Registered so the strip, the nav and the page slide together when it opens/closes */
+@property --strip-h { syntax: "<length>"; inherits: true; initial-value: 0px; }
+@property --nav-extra { syntax: "<length>"; inherits: true; initial-value: 0px; }
+html { transition: --strip-h .45s var(--ease), --nav-extra .45s var(--ease); }
+/* Homepage: the strip sits after "O mundo mudou" and sticks to the top once it
+   gets there; only then do the fixed logo and CTA step down to make room. */
+html.strip-inline { --strip-h: 0px; scroll-padding-top: var(--strip-size); }
+html.strip-inline.strip-stuck:not(.strip-closed) { --nav-extra: var(--strip-size); }
 
 @media (min-width: 1200px) {
   :root { --gap-half: 16px; }
@@ -38,6 +52,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: rgba(67, 67, 67, .1);
   scroll-behavior: smooth;
+  scroll-padding-top: var(--strip-h);
   color: var(--black);
   background: var(--off-white);
 }
@@ -47,6 +62,7 @@ body {
   font-weight: 400;
   overflow-x: hidden;
   width: 100%;
+  padding-top: var(--strip-h);
   background: var(--off-white);
 }
 
@@ -87,7 +103,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ---------- Colour themes ---------- */
-.-bg-black { background-color: var(--black); }
+.-bg-black { background-color: var(--soft-black); }
 .-bg-off-white { background-color: var(--off-white); }
 .-fg-off-white { color: var(--off-white); }
 .-fg-off-white a { color: var(--off-white); }
@@ -137,11 +153,58 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ---------- Header ---------- */
+/* Only "Marcar chamada" stays on screen: it's fixed, and an invisible copy
+   holds its place in the nav. main.js flips each part to off-white while it
+   sits over a [data-nav="dark"] area. */
 .header {
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: var(--strip-h); left: 0; right: 0;
   z-index: 20;
-  color: var(--off-white);
+  color: var(--black);
+}
+.header .logo-container, .header .nav-right, .header .nav-cta-fixed { transition: color .3s ease, opacity .3s ease; }
+.header .nav-on-dark { color: var(--off-white); }
+/* The contact section and footer carry their own CTAs: the fixed nav steps aside */
+.header .nav-hidden { opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility 0s .3s, color .3s ease; }
+.header .lang-switch, .header .nav-link-plain { transition: color .3s ease, opacity .3s ease; }
+.nav-cta-spacer { visibility: hidden; }
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: .02em;
+  transition: color .3s ease;
+}
+.lang-sep { opacity: .3; }
+.lang-link { opacity: .45; transition: opacity .3s ease; }
+@media (hover: hover) { .lang-link:hover { opacity: 1; } }
+.nav-cta-fixed {
+  position: fixed;
+  top: calc(var(--strip-h) + var(--nav-extra) + var(--gap));
+  right: var(--gap);
+  z-index: 21;
+  height: 14px;
+}
+@media (min-width: 860px) { .nav-cta-fixed { height: 17px; } }
+.header .logo-container {
+  position: fixed;
+  top: calc(var(--strip-h) + var(--nav-extra) + var(--gap));
+  left: var(--gap);
+  z-index: 21;
+  align-items: center;
+  height: 14px;
+}
+@media (min-width: 860px) { .header .logo-container { height: 17px; } }
+.header .nav-right { margin-left: auto; }
+.header .navigation { min-height: calc(14px + var(--gap) * 2); }
+@media (min-width: 860px) { .header .navigation { min-height: calc(17px + var(--gap) * 2); } }
+@media (min-width: 1200px) {
+  .header .navigation { padding-left: calc(var(--gap) * 2); padding-right: calc(var(--gap) * 2); }
+  .nav-cta-fixed { right: calc(var(--gap) * 2); }
+  .header .logo-container { left: calc(var(--gap) * 2); }
 }
 
 .navigation {
@@ -218,50 +281,72 @@ a { color: inherit; text-decoration: none; }
 .plane-content.-text-center { align-items: center; }
 @media (min-width: 1200px) { .plane-content.-text-center { max-width: 50%; } }
 
-/* ---------- Hero: two halves — text + field / animated wireframe ---------- */
+/* ---------- Hero: message first (same above-the-fold as the blog), then
+   the animated website → inbox band, inset like the blog's featured image ---------- */
 .hero {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  min-height: 100svh;
-  overflow: hidden;
+  padding-top: 72px;
+  padding-bottom: 64px;
+  border-bottom: 1px solid var(--grey);
 }
-.hero-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: var(--gap-double);
-  width: 100%;
-  flex: 1 0 auto;
+@media (min-width: 860px) { .hero { padding-top: 96px; padding-bottom: 96px; } }
+.hero-kicker {
+  padding-top: 48px;
+  padding-left: var(--gap);
+  margin-bottom: 16px;
 }
-.hero-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--gap);
+@media (min-width: 860px) { .hero-kicker { padding-top: 64px; margin-bottom: 20px; } }
+.hero-kicker span + span::before { content: "·"; margin: 0 .45em; }
+
+@media (min-width: 1200px) {
+  .hero-kicker { position: absolute; top: 171px; left: var(--gap); padding-top: 0; margin-bottom: 0; }
+  .hero .hero-head { padding-top: 64px; }
+}
+/* The one-line kicker only fits the side margin from 1280px; below that it sits above the title */
+@media (min-width: 1200px) and (max-width: 1279px) {
+  .hero-kicker { position: static; padding-top: 64px; padding-left: 20%; margin-bottom: 20px; }
+  .hero .hero-head { padding-top: 0; }
 }
 .hero-title {
   max-width: 11em;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(36px, 4.4vw, 68px);
-  line-height: 1.02;
-  letter-spacing: -.03em;
+  font-size: clamp(40px, 5.4vw, 86px);
+  line-height: 1;
+  letter-spacing: -.035em;
   text-wrap: balance;
 }
 .hero-statement {
-  max-width: 25em;
+  max-width: 32em;
+  margin-top: 24px;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 17px;
-  line-height: 1.4;
-  color: #4a4a47;
+  font-size: 18px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, .62);
   text-wrap: pretty;
 }
-@media (min-width: 860px) { .hero-statement { font-size: clamp(18px, 1.45vw, 22px); } }
+@media (min-width: 860px) { .hero-statement { margin-top: 32px; font-size: clamp(17px, 1.3vw, 20px); } }
+/* One button language, hierarchy through fill: primary solid, secondary outline */
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 40px;
+}
+.hero-actions .hero-button {
+  padding: 14px 28px;
+  background: var(--black);
+  color: var(--off-white);
+  border-color: var(--black);
+  transition: background-color .3s ease, color .3s ease, opacity .3s ease;
+}
+.hero-actions .hero-button.-secondary { background: transparent; color: var(--black); }
+@media (hover: hover) {
+  .hero-actions .hero-button:hover { opacity: .75; }
+  .hero-actions .hero-button.-secondary:hover { opacity: 1; background: var(--black); color: var(--off-white); }
+}
 
 /* "MORE ⟶" style link: spaced capitals + long hairline arrow */
 .more-link {
@@ -288,12 +373,6 @@ a { color: inherit; text-decoration: none; }
 }
 @media (hover: hover) { .more-link:hover svg { transform: translateX(10px); } }
 
-/* Thin rule across the full width at the bottom of the hero */
-.hero { border-bottom: 1px solid var(--grey); }
-@media (max-width: 859px) {
-  .hero { min-height: 0; }
-  .hero-content { justify-content: flex-start; padding-top: 40px; padding-bottom: 56px; }
-}
 .hero-form {
   display: flex;
   flex-direction: column;
@@ -316,10 +395,8 @@ a { color: inherit; text-decoration: none; }
 /* Visual panel: abstract photo with the website → dashboard flow */
 .hero-visual {
   position: relative;
-  height: 60vh;
-  height: 60svh;
-  min-height: 480px;
-  flex: 0 0 auto;
+  margin: 56px var(--gap) 0;
+  height: 620px;
   overflow: hidden;
   background: #2a2a29;
   isolation: isolate;
@@ -328,7 +405,7 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 72px var(--gap) var(--gap);
+  padding: var(--gap);
 }
 .hero-photo, .hero-photo img {
   position: absolute;
@@ -353,33 +430,12 @@ a { color: inherit; text-decoration: none; }
     linear-gradient(180deg, rgba(0, 0, 0, .25), rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, .3));
 }
 
-/* Header: black on the off-white half, off-white on the photo */
-.header { color: var(--off-white); }
-@media (min-width: 860px) {
-  .header { color: var(--black); }
-  .header .nav-cta { color: var(--off-white); }
-  .header .nav-link-plain { color: var(--off-white); }
-}
 
 @media (min-width: 860px) {
-  .hero { flex-direction: row; }
-  .hero-content {
-    width: 50%;
-    flex: 0 0 50%;
-    justify-content: space-between;
-  }
-  .hero-text { margin: auto 0; padding-top: 96px; }
-  .hero-visual {
-    position: absolute;
-    top: 0; right: 0; bottom: 0;
-    width: 50%;
-    height: auto;
-    min-height: 0;
-    padding: 80px var(--gap-double) var(--gap);
-  }
+  .hero-visual { margin-top: 80px; height: clamp(720px, 58vw, 860px); padding: 48px; }
 }
 @media (min-width: 1200px) {
-  .hero-text { padding-right: var(--gap); }
+  .hero-visual { margin-left: calc(var(--gap) * 2); margin-right: calc(var(--gap) * 2); }
 }
 
 /* Faint light behind the glass so it has something to catch */
@@ -688,8 +744,135 @@ a { color: inherit; text-decoration: none; }
   .fl-card { grid-template-columns: 26px 1fr auto; }
 }
 
-.cta-sub { max-width: 32em; }
-.cta-alt { margin-top: var(--gap); }
+/* Wide screens: website on the left, inbox on the right, the lead travels across */
+@media (min-width: 1200px) {
+  .hero-visual { height: auto; padding: 64px 48px; }
+  .flow { max-width: 1180px; }
+  .fl-site { padding: 12px; }
+  .fl-page { padding: 20px 22px 22px; }
+  .fl-body { padding-top: 20px; }
+  .fl-img { min-height: 250px; }
+  .fl-field.-msg { height: 96px; }
+  .fl-dash { padding: 20px; gap: 16px; }
+  .fl-card { padding: 18px 14px; margin-bottom: 8px; }
+  .flow {
+    max-width: 1120px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 128px minmax(0, 1fr);
+    align-items: stretch;
+  }
+  .fl-link { height: 100%; }
+  .fl-line {
+    top: 50%; bottom: auto; left: 0; right: 0;
+    width: auto; height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, .75) 50%, rgba(255, 255, 255, .35));
+  }
+  .fl-streak {
+    top: 50%; left: -40px;
+    width: 40px; height: 2px;
+    margin: -1px 0 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fff);
+  }
+  .is-send .fl-streak { animation-name: hv-streak-x; }
+}
+@keyframes hv-streak-x {
+  0%   { left: -40px; opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* Contacto: same kicker + narrow-container rhythm as the other sections,
+   closing on the two ways in, split by hairlines like the pricing tiers. */
+/* Lilac (same as the strip and the mini-site image): sets the closing pitch apart from the dark footer */
+.cta-section { position: relative; background-color: #d6cbec; color: var(--black); }
+.cta-kicker {
+  padding-top: 64px;
+  padding-left: var(--gap);
+  margin-bottom: 16px;
+}
+@media (min-width: 860px) {
+  .cta-kicker { padding-top: 96px; margin-bottom: 20px; }
+}
+@media (min-width: 1200px) {
+  .cta-title { padding-top: 96px; }
+  .cta-kicker {
+    position: absolute;
+    top: 107px;
+    left: var(--gap);
+    padding-top: 0;
+    margin-bottom: 0;
+  }
+}
+.cta-title {
+  max-width: 16em;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(34px, 4.2vw, 64px);
+  line-height: 1.04;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+  margin-bottom: 20px;
+}
+.cta-sub {
+  max-width: 34em;
+  font-size: 18px;
+  line-height: 1.45;
+  color: rgba(0, 0, 0, .62);
+  text-wrap: pretty;
+}
+.cta-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  margin-top: 40px;
+}
+.cta-main .cta-button { padding: 16px 32px; font-size: clamp(16px, 1.2vw, 20px); }
+/* "Prefere escrever?": a quiet, secondary way in under the call button */
+.cta-write { max-width: 640px; margin-top: 56px; }
+.cta-write-label { margin-bottom: 14px; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(0, 0, 0, .55); }
+.cta-form { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.cta-form .input {
+  padding: 13px 18px;
+  font-size: 15px;
+  border-color: transparent;
+  background: rgba(255, 255, 255, .5);
+  transition: border-color .2s ease, background .2s ease;
+}
+.cta-form .input::placeholder { color: rgba(0, 0, 0, .45); }
+.cta-form .input:focus { border-color: rgba(0, 0, 0, .4); background: rgba(255, 255, 255, .7); box-shadow: none; }
+.cta-form .cta-textarea { border-radius: 20px; resize: vertical; min-height: 116px; line-height: 1.45; }
+.cta-form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 8px; }
+.cta-form-foot .message { font-size: 14px; }
+.cta-form .button {
+  background: transparent;
+  color: var(--black);
+  border-color: var(--black);
+  transition: background-color .3s ease, color .3s ease;
+}
+@media (hover: hover) { .cta-form .button:hover { opacity: 1; background: var(--black); color: #d6cbec; } }
+@media (min-width: 560px) {
+  .cta-form { grid-template-columns: 1fr 1fr; }
+  .cta-form .cta-textarea, .cta-form-foot { grid-column: 1 / -1; }
+}
+@media (min-width: 860px) { .cta-write { margin-top: 64px; } }
+.cta-alt {
+  margin-top: 64px;
+  padding: 24px 0 64px;
+  border-top: 1px solid rgba(0, 0, 0, .18);
+  font-size: clamp(14px, 1vw, 16px);
+  line-height: 1.5;
+}
+.cta-alt-label { color: rgba(0, 0, 0, .55); margin-right: 4px; }
+.cta-alt-link { text-decoration: underline; text-underline-offset: 3px; }
+@media (hover: hover) { .cta-alt-link:hover { text-decoration: none; } }
+@media (min-width: 860px) {
+  .cta-sub { font-size: clamp(17px, 1.3vw, 20px); }
+  .cta-title { margin-bottom: 26px; }
+  .cta-main { margin-top: 48px; }
+  .cta-alt { margin-top: 72px; padding-bottom: 96px; }
+}
 
 /* ---------- Sections ---------- */
 .section { position: relative; }
@@ -708,15 +891,20 @@ a { color: inherit; text-decoration: none; }
    by the concrete, numbered list of symptoms it names — same numbered-row
    language as the pricing tiers and "isto é para si" section. No kicker:
    the statement itself is the section's opening line. */
-.pains { background-color: #9589d3; border-bottom: 0; }
+.pains { position: relative; border-bottom: 1px solid var(--grey); }
+.pains-kicker { padding-top: 64px; padding-left: var(--gap); margin-bottom: 16px; }
+@media (min-width: 860px) { .pains-kicker { padding-top: 96px; margin-bottom: 20px; } }
+@media (min-width: 1200px) {
+  .pains-kicker { position: absolute; top: 107px; left: var(--gap); padding-top: 0; margin-bottom: 0; }
+}
 .pains-statement {
   max-width: 16em;
-  padding-top: 64px;
+  padding-top: 0;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(30px, 3.6vw, 52px);
-  line-height: 1.1;
-  letter-spacing: -.02em;
+  font-size: clamp(34px, 4.2vw, 64px);
+  line-height: 1.04;
+  letter-spacing: -.03em;
   text-wrap: balance;
 }
 /* Same type and the same gap after the big statement as .impact-sub, so the
@@ -728,7 +916,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 400;
   font-size: 18px;
   line-height: 1.45;
-  color: var(--black);
+  color: rgba(0, 0, 0, .62);
   text-wrap: pretty;
 }
 /* "Reconhece-se?" and each pain share their type with the Serviços cards
@@ -736,25 +924,36 @@ a { color: inherit; text-decoration: none; }
 .pains-lead {
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: clamp(17px, 1.2vw, 20px);
-  line-height: 1.3;
-  margin-top: 40px;
-  margin-bottom: 16px;
+  font-size: 12px;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  margin-top: 56px;
+  margin-bottom: 8px;
 }
-.pains-list { padding-bottom: 64px; }
+.pains-list { padding-bottom: 64px; counter-reset: pain; }
 .pains-row {
-  padding: 18px 0;
-  border-top: 1px solid var(--black);
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: baseline;
+  padding: 20px 0;
+  border-top: 1px solid var(--grey);
+  counter-increment: pain;
 }
-.pains-list li:first-child { border-top: 0; padding-top: 14px; }
-.pains-text { font-size: clamp(14px, 1vw, 16px); line-height: 1.5; color: var(--black); text-wrap: pretty; }
+.pains-row::before {
+  content: counter(pain, decimal-leading-zero);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--grey);
+}
+.pains-list li:last-child { border-bottom: 1px solid var(--grey); }
+.pains-text { font-size: clamp(18px, 1.55vw, 24px); line-height: 1.35; letter-spacing: -.01em; color: var(--black); text-wrap: pretty; }
 @media (min-width: 860px) {
-  .pains-statement { padding-top: 96px; }
   .pains-sub { margin-top: 26px; font-size: clamp(17px, 1.3vw, 20px); }
-  .pains-lead { margin-top: 48px; margin-bottom: 20px; }
-  .pains-list { padding-bottom: 96px; }
-  .pains-row { padding: 22px 0; }
+  .pains-lead { margin-top: 72px; margin-bottom: 12px; }
+  .pains-list { padding-bottom: 128px; }
+  .pains-row { grid-template-columns: 64px 1fr; padding: 26px 0; }
 }
+@media (min-width: 1200px) { .pains-statement { padding-top: 96px; } }
 
 /* Impacto: the problem, said big — sits inside .narrow-container (60% width, centred, from 1200px) */
 .impact {
@@ -796,16 +995,15 @@ a { color: inherit; text-decoration: none; }
     left: var(--gap);
     padding-top: 0;
     margin-bottom: 0;
-    padding-left: 0;
   }
 }
 .impact-title {
   max-width: 16em;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(30px, 3.6vw, 52px);
-  line-height: 1.1;
-  letter-spacing: -.02em;
+  font-size: clamp(34px, 4.2vw, 64px);
+  line-height: 1.04;
+  letter-spacing: -.03em;
   text-wrap: balance;
 }
 .impact-sub {
@@ -815,7 +1013,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 400;
   font-size: 18px;
   line-height: 1.45;
-  color: var(--black);
+  color: rgba(0, 0, 0, .62);
   text-wrap: pretty;
 }
 @media (min-width: 860px) {
@@ -837,8 +1035,8 @@ a { color: inherit; text-decoration: none; }
 }
 .card:first-child { padding-top: 0; }
 .card:not(:first-child) { border-top: 1px solid var(--grey); }
-.card-title { font-family: var(--font-sans); font-weight: 600; font-size: clamp(17px, 1.2vw, 20px); line-height: 1.3; }
-.card-desc { font-size: clamp(14px, 1vw, 16px); line-height: 1.5; color: #4a4a47; }
+.card-title { font-family: var(--font-sans); font-weight: 500; font-size: clamp(18px, 1.4vw, 22px); line-height: 1.25; letter-spacing: -.01em; }
+.card-desc { font-size: clamp(14px, 1vw, 16px); line-height: 1.55; color: rgba(0, 0, 0, .62); }
 
 /* Vertical dividers: two absolutely-positioned hairlines, sized to the
    grid's own content height (not the section's trailing padding), so they
@@ -903,7 +1101,7 @@ a { color: inherit; text-decoration: none; }
    panel), so the section reads as part of the same family. */
 .about {
   position: relative;
-  background-color: #000;
+  background-color: var(--soft-black);
   color: var(--off-white);
 }
 .about-kicker {
@@ -928,9 +1126,9 @@ a { color: inherit; text-decoration: none; }
   max-width: 16em;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(30px, 3.6vw, 52px);
-  line-height: 1.1;
-  letter-spacing: -.02em;
+  font-size: clamp(34px, 4.2vw, 64px);
+  line-height: 1.04;
+  letter-spacing: -.03em;
   text-wrap: balance;
   margin-bottom: 96px;
 }
@@ -996,9 +1194,9 @@ a { color: inherit; text-decoration: none; }
   max-width: 16em;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(30px, 3.6vw, 52px);
-  line-height: 1.1;
-  letter-spacing: -.02em;
+  font-size: clamp(34px, 4.2vw, 64px);
+  line-height: 1.04;
+  letter-spacing: -.03em;
   text-wrap: balance;
   margin-bottom: 20px;
 }
@@ -1009,12 +1207,17 @@ a { color: inherit; text-decoration: none; }
   font-weight: 400;
   font-size: 18px;
   line-height: 1.45;
-  color: var(--black);
+  color: rgba(0, 0, 0, .62);
   text-wrap: pretty;
 }
 @media (min-width: 860px) { .tiers-sub { font-size: clamp(17px, 1.3vw, 20px); } }
 
-.tiers { display: grid; grid-template-columns: 1fr; padding-top: 0; padding-bottom: 0; }
+.tiers { display: grid; grid-template-columns: 1fr; margin: 0 var(--gap); }
+@media (min-width: 1200px) {
+  /* Match the kicker's breakout inset (left/right: var(--gap) plus its own
+     padding-left) so the cards line up with "Soluções" above them. */
+  .tiers { margin: 0 calc(var(--gap) * 2); }
+}
 /* Mobile: stacked cards, dividers run edge to edge */
 .tier {
   position: relative;
@@ -1059,8 +1262,8 @@ a { color: inherit; text-decoration: none; }
 }
 @media (min-width: 860px) {
   .tier-cta::before { left: -32px; right: -32px; }
-  .tier:first-child .tier-cta::before { left: calc(-1 * var(--gap)); }
-  .tier:last-child .tier-cta::before { right: calc(-1 * var(--gap)); }
+  .tier:first-child .tier-cta::before { left: 0; }
+  .tier:last-child .tier-cta::before { right: 0; }
 }
 .tier-cta .form-free { margin-top: 0; max-width: none; width: 100%; }
 /* Quieter inputs inside the tier cards */
@@ -1118,6 +1321,18 @@ a { color: inherit; text-decoration: none; }
 .-fg-off-white .button { background: var(--off-white); color: var(--black); }
 @media (hover: hover) { .button:hover { opacity: .5; } }
 
+/* Outline buttons: border only at rest, filled on hover */
+.tier-cta .button, .cta-main .button {
+  background: transparent;
+  color: currentColor;
+  border-color: currentColor;
+  transition: background-color .3s ease, color .3s ease;
+}
+@media (hover: hover) {
+  .tier-cta .button:hover { opacity: 1; background: var(--black); color: var(--off-white); border-color: var(--black); }
+  .cta-main .button:hover { opacity: 1; background: var(--black); color: #d6cbec; border-color: var(--black); }
+}
+
 .input {
   display: block;
   width: 100%;
@@ -1154,7 +1369,7 @@ a { color: inherit; text-decoration: none; }
 .testimonial-section {
   position: relative;
   overflow: hidden;
-  background-color: #fa435b;
+  border-top: 1px solid var(--grey);
   color: var(--black);
   padding-bottom: 64px;
 }
@@ -1227,7 +1442,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 400;
   font-size: 80px;
   line-height: 1;
-  color: var(--black);
+  color: var(--grey);
   margin-top: -13px;
   flex: 0 0 auto;
 }
@@ -1243,9 +1458,9 @@ a { color: inherit; text-decoration: none; }
 .testimonial-quote {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: 32px;
-  line-height: 1.15;
-  letter-spacing: -.01em;
+  font-size: clamp(24px, 2.3vw, 34px);
+  line-height: 1.22;
+  letter-spacing: -.02em;
   max-width: 30em;
   text-wrap: pretty;
 }
@@ -1253,7 +1468,7 @@ a { color: inherit; text-decoration: none; }
 .testimonial-quote p + p { margin-top: .5em; }
 .testimonial-author { display: flex; flex-direction: column; margin-top: 48px; }
 .testimonial-name { font-family: var(--font-sans); font-weight: 600; font-size: 16px; }
-.testimonial-role { font-size: 14px; opacity: .7; margin-top: 2px; }
+.testimonial-role { font-size: 14px; color: rgba(0, 0, 0, .55); margin-top: 2px; }
 
 /* Prev/next controls — same hairline-arrow style as the hero's "Saber mais".
    Sits once, after .testimonial-top (sized to the longest quote), so its
@@ -1296,17 +1511,75 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ---------- Footer ---------- */
-.footer {
+/* Same 48px desktop inset as the section kickers, so the footer hangs off
+   the same vertical line as the rest of the page. */
+.footer { padding: 0 var(--gap); }
+@media (min-width: 1200px) { .footer { padding: 0 calc(var(--gap) * 2); } }
+.footer-top {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-double);
-  border-top: 1px solid var(--grey);
+  gap: 40px;
+  padding: 56px 0;
 }
-.footer .grid { row-gap: var(--gap-double); }
-.footer-bottom { padding-top: var(--gap-double); }
-@media (min-width: 1200px) {
-  .footer .grid { row-gap: var(--gap); }
-  .footer-bottom { padding-top: 96px; }
+.footer-brand { display: flex; flex-direction: column; align-items: flex-start; }
+.footer-logo { font-size: 17px; line-height: 1; }
+.footer-email {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: rgba(238, 238, 234, .6) !important;
+  transition: color .3s ease;
+}
+@media (hover: hover) { .footer-email:hover { color: var(--off-white) !important; } }
+/* Same items, order and styles as the top nav */
+.footer-links { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; min-height: 17px; }
+/* The guide offer, back in view here since the strip steps aside over the footer */
+.footer-guide {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 32px 0;
+  border-top: 1px solid rgba(238, 238, 234, .2);
+}
+.footer-guide-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  font-size: clamp(17px, 1.4vw, 21px);
+  line-height: 1.3;
+  letter-spacing: -.01em;
+}
+.footer-guide-kicker { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #d6cbec; }
+.footer .footer-guide-btn {
+  flex: 0 0 auto;
+  background: transparent;
+  color: var(--off-white);
+  border-color: rgba(238, 238, 234, .6);
+  transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+}
+@media (hover: hover) { .footer .footer-guide-btn:hover { opacity: 1; background: #d6cbec; border-color: #d6cbec; color: var(--black); } }
+@media (min-width: 860px) {
+  .footer-guide { flex-direction: row; align-items: center; justify-content: space-between; padding: 36px 0; }
+}
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 0;
+  border-top: 1px solid rgba(238, 238, 234, .2);
+  font-size: 12px;
+  color: rgba(238, 238, 234, .5);
+}
+.footer-bottom a { color: inherit; }
+.footer-legal { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+@media (min-width: 860px) {
+  .footer-top { flex-direction: row; justify-content: space-between; align-items: flex-start; padding: 80px 0; }
+  .footer-logo { font-size: 20px; line-height: 1; }
+  .footer-links { min-height: 20px; }
+  .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; }
 }
 
 /* ---------- Image fade (Mono Space fade-on-load) ---------- */
@@ -1323,3 +1596,177 @@ img.fade-on-load.loaded { opacity: 1; }
   .hero-photo img, .hero-visual::before, .flow, .flow * { transition: none !important; animation: none !important; }
   .testimonial-slide { transition: none !important; }
 }
+
+/* ---------- Free-redesign popup ----------
+   Square panel, hairline-separated like the pricing cards: head / pitch +
+   "what you get" rows / form on a slightly deeper tint. */
+.modal {
+  width: min(600px, calc(100% - 32px));
+  max-width: none;
+  max-height: calc(100% - 32px);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--off-white);
+  color: var(--black);
+  box-shadow: 0 40px 120px rgba(0, 0, 0, .35);
+  overflow: auto;
+}
+.modal::backdrop {
+  background: rgba(23, 23, 21, .55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.modal[open] { animation: modal-in .45s var(--ease); }
+.modal[open]::backdrop { animation: modal-fade .35s ease; }
+@keyframes modal-in { from { opacity: 0; transform: translateY(16px) scale(.98); } }
+@keyframes modal-fade { from { opacity: 0; } }
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 12px 12px 28px;
+  border-bottom: 1px solid rgba(0, 0, 0, .14);
+}
+.modal-close {
+  display: grid; place-items: center;
+  width: 36px; height: 36px;
+  border: 0; border-radius: 50%;
+  background: transparent;
+  color: var(--black);
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.modal-close:hover { background: rgba(0, 0, 0, .06); }
+.modal-close svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+
+.modal-body { padding: 32px 28px; }
+.modal-title {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(28px, 3.2vw, 38px);
+  line-height: 1.05;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+}
+.modal-sub { margin-top: 14px; font-size: 16px; line-height: 1.5; color: rgba(0, 0, 0, .62); text-wrap: pretty; }
+.modal-inc { margin-top: 28px; }
+.modal-inc-label { margin-bottom: 4px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: rgba(0, 0, 0, .5); }
+.modal-list { list-style: none; counter-reset: inc; }
+.modal-list li {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, .14);
+  font-size: 15px;
+  line-height: 1.4;
+  counter-increment: inc;
+}
+.modal-list li::before {
+  content: counter(inc, decimal-leading-zero);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--grey);
+}
+
+.modal-form {
+  max-width: none;
+  margin-top: 0;
+  padding: 28px;
+  gap: 8px;
+  align-items: stretch;
+  border-top: 1px solid rgba(0, 0, 0, .14);
+  background: rgba(0, 0, 0, .035);
+}
+@media (min-width: 1200px) { .modal-form { max-width: none; } }
+.modal-form .input {
+  padding: 13px 18px;
+  font-size: 15px;
+  border-color: rgba(0, 0, 0, .12);
+  background: var(--off-white);
+  transition: border-color .2s ease;
+}
+.modal-form .input::placeholder { color: rgba(0, 0, 0, .4); }
+.modal-form .input:focus { border-color: rgba(0, 0, 0, .45); box-shadow: none; }
+.modal-form .button { margin-top: 8px; padding: 14px 28px; }
+@media (hover: hover) { .modal-form .button:hover { opacity: .75; } }
+.modal-form .message { font-size: 14px; }
+.modal-note { margin-top: 6px; font-size: 12px; line-height: 1.5; color: rgba(0, 0, 0, .5); }
+.modal-note a { text-decoration: underline; text-underline-offset: 2px; }
+@media (min-width: 560px) {
+  .modal-head { padding-left: 40px; padding-right: 20px; }
+  .modal-body { padding: 40px 40px 36px; }
+  .modal-form { padding: 32px 40px 36px; }
+}
+body.has-modal { overflow: hidden; }
+
+/* ---------- Lead-magnet strip (fixed above the nav) ---------- */
+.promo-strip {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 30;
+  height: var(--strip-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 48px;
+  background: #d6cbec;
+  color: var(--black);
+}
+.promo-strip { overflow: hidden; box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1); transition: transform .45s var(--ease); }
+/* Slides up (no layout change) over the contact section and footer */
+.promo-strip.is-away { transform: translateY(-100%); }
+html.strip-closed .promo-strip { visibility: hidden; transition: visibility 0s .45s; }
+html.strip-inline .promo-strip { position: sticky; height: var(--strip-size); }
+html.strip-inline.strip-closed .promo-strip { transform: translateY(-100%); transition: transform .45s var(--ease), visibility 0s .45s; }
+.promo-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.promo-kicker { flex: 0 0 auto; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.promo-text { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.promo-go { flex: 0 0 auto; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+@media (hover: hover) { .promo-link:hover .promo-go { text-decoration: none; } }
+.promo-close {
+  position: absolute;
+  right: 8px; top: 50%;
+  transform: translateY(-50%);
+  display: grid; place-items: center;
+  width: 28px; height: 28px;
+  border: 0; border-radius: 50%;
+  background: transparent;
+  color: var(--black);
+  cursor: pointer;
+}
+.promo-close:hover { background: rgba(0, 0, 0, .08); }
+.promo-close svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+@media (max-width: 559px) {
+  .promo-strip { padding: 0 40px 0 16px; justify-content: flex-start; }
+  .promo-kicker { display: none; }
+  .promo-link { font-size: 12.5px; gap: 8px; }
+}
+@media (min-width: 1200px) { .promo-close { right: calc(var(--gap) * 2 - 8px); } }
+
+/* Guide popup: success state swaps the form for the download */
+.modal-success { padding: 32px 28px 36px; border-top: 1px solid rgba(0, 0, 0, .14); background: rgba(0, 0, 0, .035); }
+.modal-success[hidden] { display: none; }
+.modal-success-title { font-size: 20px; line-height: 1.2; letter-spacing: -.015em; }
+.modal-success p + p { margin-top: 6px; font-size: 15px; line-height: 1.5; color: rgba(0, 0, 0, .62); }
+.modal-success .button { display: block; margin-top: 20px; padding: 14px 28px; }
+@media (hover: hover) { .modal-success .button:hover { opacity: .75; } }
+@media (min-width: 560px) { .modal-success { padding: 36px 40px 40px; } }
+.modal-form[hidden] { display: none; }

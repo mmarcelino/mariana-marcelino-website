@@ -1,0 +1,1085 @@
+"""Builds the blog: /blog/index.html, one folder per article, plus
+/sitemap.xml, /robots.txt and /llms.txt. Edit posts.py-style data below and
+run:  python3 blog/_build.py
+"""
+import html, json, os, re, time, unicodedata
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SITE = "https://www.mariana-marcelino.com"
+CALENDLY = "https://calendly.com/marianacmarcelino/30min"
+LINKEDIN = "https://www.linkedin.com/in/marianamarcelino-frontend-engineer/"
+VERSION = str(int(time.time()))
+MONTHS = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho",
+          "agosto", "setembro", "outubro", "novembro", "dezembro"]
+
+AUTHOR_BIO = ("Redesenho e reconstruo sites para pequenos negócios, com foco em serem "
+              "encontrados no Google e em ferramentas de IA e em transformarem visitas em "
+              "contactos. Trabalho em desenvolvimento de software desde 2018.")
+
+# --------------------------------------------------------------------------
+# Posts (newest first)
+# --------------------------------------------------------------------------
+POSTS = [
+{
+"slug": "como-aparecer-no-chatgpt",
+"title": "Como fazer o seu negócio aparecer nas respostas do ChatGPT",
+"description": "Cada vez mais clientes pedem recomendações a ferramentas de IA. Saiba o que leva o ChatGPT, o Perplexity e o Google a citar um negócio e como preparar o seu site.",
+"dek": "Cada vez mais pessoas pedem recomendações a uma ferramenta de IA em vez de percorrerem uma página de resultados. Eis o que faz um negócio ser citado nessas respostas e como preparar o seu site.",
+"category": "IA e pesquisa",
+"date": "2026-09-29",
+"cover": "ia-chatgpt",
+"cover_alt": "Ilustração: uma resposta luminosa ao centro, com órbitas e três fontes citadas em destaque",
+"takeaways": [
+  "As ferramentas de IA recomendam negócios que conseguem ler, perceber e confirmar noutras fontes.",
+  "O seu site tem de estar acessível aos robôs de pesquisa e dizer claramente o que faz, para quem e onde.",
+  "Respostas diretas a perguntas reais, como numa secção de perguntas frequentes, são o formato mais fácil de citar.",
+  "Avaliações, menções noutros sites e um Perfil da Empresa no Google completo reforçam a confiança.",
+],
+"body": """
+<h2>A pesquisa mudou de forma</h2>
+<p>Durante anos, aparecer online significava subir posições no Google. Hoje, muitos clientes fazem a pergunta completa a uma ferramenta de IA, algo como <em>“que estúdio de interiores em Braga trabalha bem apartamentos pequenos?”</em>, e recebem uma resposta curta com meia dúzia de nomes.</p>
+<p>Se o seu negócio não está entre esses nomes, para aquele cliente simplesmente não existe. O SEO tradicional continua a contar, até porque estas ferramentas se apoiam em índices de pesquisa, mas o objetivo muda: já não basta ficar bem posicionado, é preciso ser <strong>citado</strong>.</p>
+
+<h2>Como é que a IA escolhe quem recomendar</h2>
+<p>Não existe uma fórmula pública, mas há um padrão claro. As ferramentas tendem a recomendar negócios que cumprem três condições:</p>
+<ol>
+  <li><strong>Conseguem aceder ao conteúdo</strong>: o site não bloqueia os robôs que recolhem informação.</li>
+  <li><strong>Percebem o que o negócio faz</strong>: a informação é explícita, estruturada e sem ambiguidades.</li>
+  <li><strong>Encontram confirmação noutros sítios</strong>: avaliações, diretórios, imprensa e dados consistentes.</li>
+</ol>
+<p>Os cinco passos seguintes trabalham exatamente estas três condições.</p>
+
+<h2>1. Garanta que os robôs conseguem ler o seu site</h2>
+<p>Parece óbvio, mas é o erro mais comum. Há sites que bloqueiam, sem o saber, os robôs de pesquisa através do ficheiro <code>robots.txt</code>, de um plugin de segurança ou de uma definição do alojamento.</p>
+<ul>
+  <li>Confirme que o <code>robots.txt</code> não bloqueia o Googlebot, o Bingbot nem os robôs das ferramentas de IA, como o OAI-SearchBot (pesquisa do ChatGPT) e o PerplexityBot.</li>
+  <li>Registe o site no Google Search Console e no Bing Webmaster Tools e envie o seu sitemap. Várias ferramentas de IA apoiam-se em índices de pesquisa existentes, e o do Bing é um deles.</li>
+  <li>Garanta que o texto importante está em texto, e não apenas dentro de imagens, vídeos ou PDFs.</li>
+</ul>
+
+<h2>2. Diga claramente o que faz, para quem e onde</h2>
+<p>Slogans bonitos mas vagos são difíceis de interpretar, tanto para pessoas como para máquinas. A primeira frase da sua homepage deve responder a três perguntas: o que faz, para quem e onde.</p>
+<div class="compare">
+  <p class="-bad"><b>Vago</b>Soluções à medida para transformar o seu espaço.</p>
+  <p class="-good"><b>Claro</b>Estúdio de arquitetura de interiores em Braga, especializado na remodelação de apartamentos e pequenos espaços comerciais.</p>
+</div>
+<p>Dê também a cada serviço a sua própria página, com um título que o nomeie tal como os clientes o procuram.</p>
+
+<h2>3. Responda às perguntas que os seus clientes fazem</h2>
+<p>As ferramentas de IA existem para responder a perguntas. Quanto mais o seu site responder diretamente às perguntas reais dos seus clientes, mais fácil é ser usado como fonte.</p>
+<ul>
+  <li>Quanto custa, em média, o seu serviço?</li>
+  <li>Quanto tempo demora?</li>
+  <li>Em que zonas trabalha?</li>
+  <li>Como funciona o processo, do primeiro contacto ao fim?</li>
+</ul>
+<p>Escreva a resposta logo na primeira frase e desenvolva a seguir. Uma secção de perguntas frequentes em cada página de serviço é uma excelente forma de o fazer.</p>
+<div class="callout"><b>Dica</b>Para descobrir as perguntas certas, releia os emails e as mensagens de WhatsApp dos últimos meses. As perguntas que se repetem são as que deve responder no site.</div>
+
+<h2>4. Use dados estruturados</h2>
+<p>Os dados estruturados (<em>schema.org</em>) são pequenos blocos de código invisíveis para os visitantes, que descrevem o seu negócio de forma inequívoca: nome, morada, horário, serviços, zona de atuação e avaliações.</p>
+<p>Os mais úteis para um pequeno negócio são <code>LocalBusiness</code> (ou o tipo mais específico do seu setor), <code>Service</code> e <code>FAQPage</code>. Não mudam o aspeto do site, mas eliminam dúvidas sobre quem é e o que faz.</p>
+
+<h2>5. Construa confiança fora do seu site</h2>
+<p>Uma ferramenta de IA não recomenda um negócio só porque o próprio site diz que é o melhor. Procura confirmação noutros sítios:</p>
+<ul>
+  <li>Um Perfil da Empresa no Google completo, com fotografias reais e informação atualizada.</li>
+  <li>Avaliações recentes e detalhadas, que mencionem o serviço e a localidade.</li>
+  <li>Nome, morada e telefone iguais em todos os diretórios e redes sociais.</li>
+  <li>Menções em imprensa local, associações do setor e sites de parceiros.</li>
+</ul>
+
+<h2>E o ficheiro llms.txt?</h2>
+<p>O <code>llms.txt</code> é uma proposta recente: um ficheiro de texto simples, na raiz do site, que resume o negócio e aponta para as páginas mais importantes, a pensar nos modelos de linguagem. Ainda não é um padrão, nem garante nada, mas é rápido de criar. Vale a pena tê-lo, desde que os cinco pontos anteriores estejam resolvidos primeiro.</p>
+
+<h2>Por onde começar</h2>
+<ol>
+  <li>Pergunte ao ChatGPT e ao Perplexity o que os seus clientes perguntariam e registe quem aparece.</li>
+  <li>Verifique o <code>robots.txt</code> e registe o site no Search Console e no Bing Webmaster Tools.</li>
+  <li>Reescreva a primeira frase da homepage para dizer o que faz, para quem e onde.</li>
+  <li>Acrescente perguntas frequentes às páginas de serviço.</li>
+  <li>Complete o Perfil da Empresa no Google e peça avaliações aos últimos clientes.</li>
+</ol>
+""",
+"faq": [
+  ("É preciso pagar para aparecer nas respostas do ChatGPT?",
+   "Não. As recomendações orgânicas não se compram: dependem da informação que as ferramentas encontram e conseguem confirmar sobre o seu negócio."),
+  ("SEO e otimização para IA são coisas diferentes?",
+   "Partilham a mesma base: um site acessível, rápido e com conteúdo claro. A otimização para IA dá mais peso a respostas diretas, a dados estruturados e à confirmação da sua reputação noutras fontes."),
+  ("Quanto tempo demora a ver resultados?",
+   "As correções técnicas, como desbloquear robôs ou enviar o sitemap, produzem efeito em semanas. A reputação fora do site, com avaliações e menções, constrói-se ao longo de meses."),
+  ("Como sei se o meu negócio já aparece?",
+   "Faça às ferramentas as perguntas que os seus clientes fariam, com várias formulações, e registe os resultados. Nas estatísticas do site, veja também se recebe visitas vindas de chatgpt.com ou perplexity.ai."),
+],
+},
+{
+"slug": "sinais-que-o-site-esta-a-afastar-clientes",
+"title": "8 sinais de que o seu site está a afastar clientes",
+"description": "Um site desatualizado custa-lhe contactos todos os dias, mesmo sem dar por isso. Os oito sinais mais comuns e o que fazer com cada um deles.",
+"dek": "Um site raramente avaria de forma visível. Vai simplesmente deixando de funcionar e os contactos diminuem sem que se perceba porquê. Estes são os oito sinais a que deve estar atento.",
+"category": "Redesign",
+"date": "2026-09-22",
+"cover": "sinais-site",
+"cover_alt": "Ilustração: oito páginas de um site que se afastam e desvanecem da esquerda para a direita",
+"takeaways": [
+  "Os visitantes decidem em poucos segundos se ficam ou se saem.",
+  "Problemas em mobile, lentidão e mensagens vagas são os que mais afastam clientes.",
+  "Nem todos os sinais pedem um site novo: alguns resolvem-se com ajustes pontuais.",
+  "Se identificar quatro ou mais sinais, um redesign é normalmente o caminho mais eficaz.",
+],
+"body": """
+<h2>1. No telemóvel, é difícil de usar</h2>
+<p>Para a maioria dos negócios, grande parte das visitas chega por telemóvel. Se é preciso fazer zoom para ler, se os botões são pequenos demais ou se o menu não funciona bem, o visitante desiste.</p>
+<p><strong>O que fazer:</strong> abra o seu site no telemóvel e tente fazer o que um cliente faria: perceber o que oferece e entrar em contacto. Se não conseguir em menos de um minuto, há trabalho a fazer.</p>
+
+<h2>2. Demora a carregar</h2>
+<p>Cada segundo de espera aumenta a probabilidade de o visitante voltar para trás. Imagens pesadas, demasiados plugins e alojamento lento são as causas mais frequentes.</p>
+<p><strong>O que fazer:</strong> teste o site no PageSpeed Insights, da Google. Comprimir imagens e retirar o que não é usado costuma trazer melhorias imediatas.</p>
+
+<h2>3. Não se percebe o que faz em cinco segundos</h2>
+<p>Se a primeira coisa que o visitante vê é um slogan genérico ou uma imagem sem contexto, obriga-o a procurar. A maioria não procura: sai.</p>
+<p><strong>O que fazer:</strong> garanta que o topo da homepage diz, numa frase, o que faz, para quem e qual é o próximo passo.</p>
+
+<h2>4. Não há um próximo passo claro</h2>
+<p>Um visitante interessado precisa de saber o que fazer a seguir: pedir um orçamento, marcar uma chamada, reservar. Quando há cinco opções ao mesmo nível, ou nenhuma, a decisão fica adiada.</p>
+<p><strong>O que fazer:</strong> escolha uma ação principal por página e torne-a evidente, com um botão visível sem ser preciso fazer scroll.</p>
+
+<h2>5. O design parece de outra época</h2>
+<p>Um rodapé com “© 2019”, fotografias genéricas de bancos de imagem ou um estilo claramente datado transmitem que o negócio parou no tempo, mesmo que não seja verdade.</p>
+<p><strong>O que fazer:</strong> use fotografias reais da sua equipa, do seu espaço e do seu trabalho, e atualize datas, conteúdos e referências antigas.</p>
+
+<h2>6. Contactar dá trabalho</h2>
+<p>Formulários com dez campos, um email escondido no rodapé ou a obrigação de ligar em horário de expediente são obstáculos desnecessários.</p>
+<p><strong>O que fazer:</strong> reduza o formulário ao essencial e ofereça alternativas, como WhatsApp, marcação online ou chat, para quem prefere outro canal.</p>
+
+<h2>7. Não o encontram no Google nem nas ferramentas de IA</h2>
+<p>Um site bonito que ninguém encontra não gera contactos. Pesquise pelo seu serviço e pela sua localidade: se o seu negócio não aparece, os seus concorrentes estão a ficar com esses clientes.</p>
+<p><strong>O que fazer:</strong> reveja títulos, descrições e conteúdos de cada página e complete o seu Perfil da Empresa no Google. Neste artigo explicamos <a href="../como-aparecer-no-chatgpt/">como aparecer também nas respostas do ChatGPT</a>.</p>
+
+<h2>8. Não consegue atualizá-lo sozinho</h2>
+<p>Se mudar um preço ou acrescentar um projeto implica pedir ajuda e esperar dias, o site acaba por ficar desatualizado. E um site desatualizado transmite desleixo.</p>
+<p><strong>O que fazer:</strong> garanta que tem acesso e autonomia para editar os conteúdos do dia a dia.</p>
+
+<h2>Redesign ou ajustes?</h2>
+<p>Se identificou um ou dois sinais, provavelmente bastam ajustes pontuais. Se identificou quatro ou mais, ou se a estrutura do site já não reflete o que o seu negócio faz hoje, um redesign tende a ser mais eficaz e mais económico do que remendos sucessivos.</p>
+<p>Se quiser uma opinião concreta, posso <a href="../../#free">redesenhar a homepage do seu site gratuitamente</a> para que veja o potencial antes de decidir.</p>
+""",
+"faq": [
+  ("De quanto em quanto tempo devo renovar o meu site?",
+   "Não há uma regra fixa. Reveja o site uma vez por ano e considere um redesign quando o seu negócio mudou, ou quando identifica vários dos sinais deste artigo."),
+  ("Um redesign pode fazer-me perder posições no Google?",
+   "Pode, se os endereços das páginas mudarem sem redirecionamentos ou se se perder conteúdo. Com redirecionamentos 301 bem planeados e o conteúdo importante preservado, o risco é mínimo."),
+  ("Posso manter os conteúdos atuais num redesign?",
+   "Sim. Um redesign visual pode manter a estrutura e os textos existentes e melhorar apenas o design, a legibilidade e a experiência em mobile."),
+],
+},
+{
+"slug": "seo-local-para-pequenos-negocios",
+"title": "SEO local: como ser encontrado por clientes na sua zona",
+"description": "Guia prático para pequenos negócios aparecerem no Google Maps e nas pesquisas locais: Perfil da Empresa, avaliações, páginas por localidade e dados estruturados.",
+"dek": "Quem pesquisa “perto de mim” ou junta uma cidade à pesquisa costuma estar pronto para contratar. Este guia mostra como fazer com que o seu negócio seja a resposta.",
+"category": "SEO",
+"date": "2026-09-15",
+"cover": "seo-local",
+"cover_alt": "Ilustração: mapa topográfico com um local assinalado a verde-água",
+"takeaways": [
+  "As pesquisas com intenção local vêm, muitas vezes, de pessoas prontas a contratar.",
+  "O Perfil da Empresa no Google é o ponto de partida, e é gratuito.",
+  "Nome, morada e telefone têm de ser iguais em todo o lado.",
+  "Avaliações recentes e detalhadas fazem diferença na escolha do cliente.",
+],
+"body": """
+<h2>O que é o SEO local</h2>
+<p>O SEO local é o conjunto de práticas que ajudam um negócio a aparecer quando alguém procura um serviço numa zona específica, seja no mapa do Google, nos resultados de pesquisa ou nas respostas das ferramentas de IA.</p>
+<p>Para negócios que servem clientes numa região, como clínicas, estúdios, restaurantes, construtoras ou consultórios, é muitas vezes a forma mais rentável de conseguir novos contactos.</p>
+
+<h2>1. Crie e complete o Perfil da Empresa no Google</h2>
+<p>O Perfil da Empresa no Google (antigo Google My Business) é o que aparece no mapa e no painel lateral dos resultados. É gratuito e é, provavelmente, a ação com maior impacto neste guia.</p>
+<ul>
+  <li>Escolha a categoria principal com cuidado: deve descrever o que faz, não o que gostaria de fazer.</li>
+  <li>Acrescente categorias secundárias, serviços, horário e zona de atuação.</li>
+  <li>Publique fotografias reais do espaço, da equipa e do trabalho, e atualize-as regularmente.</li>
+  <li>Garanta que o link para o site aponta para a página certa.</li>
+</ul>
+
+<h2>2. Mantenha nome, morada e telefone consistentes</h2>
+<p>O Google e as ferramentas de IA cruzam informação de várias fontes. Se o nome, a morada ou o telefone aparecem de formas diferentes no site, no perfil, nas redes sociais e nos diretórios, a confiança nesses dados diminui.</p>
+<p>Escolha uma versão exata e use-a em todo o lado, até na forma de escrever a rua.</p>
+
+<h2>3. Peça avaliações e responda a todas</h2>
+<p>As avaliações influenciam o posicionamento e, sobretudo, a decisão do cliente. As mais valiosas são recentes, detalhadas e mencionam o serviço e a localidade.</p>
+<ul>
+  <li>Peça a avaliação logo após um trabalho bem-sucedido, enquanto a experiência está fresca.</li>
+  <li>Envie um link direto, para que deixar a avaliação demore segundos.</li>
+  <li>Responda a todas, incluindo às negativas, com calma e profissionalismo.</li>
+</ul>
+<div class="callout"><b>Dica</b>Sugira ao cliente que conte que serviço contratou e onde. Uma avaliação como “remodelaram a nossa cozinha em Matosinhos em três semanas” vale muito mais do que “excelente serviço”.</div>
+
+<h2>4. Dê a cada serviço e localidade a sua página</h2>
+<p>Se trabalha em várias cidades ou oferece vários serviços, crie páginas dedicadas. Mas evite o erro comum de duplicar a mesma página e trocar apenas o nome da cidade: isso é visto como conteúdo de baixa qualidade.</p>
+<p>Cada página deve ter conteúdo genuíno, como projetos realizados naquela zona, particularidades locais e testemunhos de clientes dali.</p>
+
+<h2>5. Mostre ao Google onde está</h2>
+<ul>
+  <li>Inclua a morada e o contacto no rodapé de todas as páginas.</li>
+  <li>Tenha uma página de contacto com mapa e indicações.</li>
+  <li>Acrescente dados estruturados <code>LocalBusiness</code> com nome, morada, horário, zona de atuação e contactos.</li>
+</ul>
+
+<h2>6. Um site rápido e pensado para o telemóvel</h2>
+<p>Muitas pesquisas locais acontecem no telemóvel, muitas vezes na rua ou a caminho. O site tem de abrir depressa e permitir ligar, pedir indicações ou enviar mensagem com um toque.</p>
+
+<h2>Como medir resultados</h2>
+<p>No Perfil da Empresa pode acompanhar chamadas, pedidos de indicações e cliques para o site. No Google Search Console, veja que pesquisas com nomes de localidades trazem visitas. São estes números, e não apenas a posição no mapa, que mostram se o SEO local está a gerar negócio.</p>
+""",
+"faq": [
+  ("Preciso de ter uma morada física para aparecer no Google Maps?",
+   "Não. Se atende os clientes nas instalações deles, pode ocultar a morada no Perfil da Empresa e definir, em alternativa, a zona onde presta serviço."),
+  ("Posso criar perfis para várias localidades?",
+   "Apenas se tiver instalações reais nessas localidades, com atendimento. Criar perfis em moradas onde não está presente viola as regras do Google e pode levar à suspensão."),
+  ("Quanto tempo demora a aparecer no mapa?",
+   "A verificação do perfil costuma levar alguns dias. A melhoria de posições é gradual e depende da concorrência na sua zona, da relevância do perfil e das avaliações."),
+],
+},
+{
+"slug": "site-com-visitas-mas-sem-contactos",
+"title": "Tem visitas mas não recebe contactos? 7 correções para o seu site",
+"description": "Se as pessoas visitam o seu site mas não entram em contacto, o problema raramente é o tráfego. Sete mudanças práticas para transformar visitas em pedidos.",
+"dek": "Trazer visitas é a parte cara. Perdê-las por falta de clareza ou de confiança é a parte evitável. Sete correções que transformam visitas em pedidos de contacto.",
+"category": "Conversão",
+"date": "2026-09-08",
+"cover": "visitas-contactos",
+"cover_alt": "Ilustração: muitos pontos a convergir para uma passagem estreita, por onde só alguns atravessam",
+"takeaways": [
+  "O problema raramente é falta de visitas: é falta de clareza e de confiança.",
+  "Cada página deve ter um objetivo e um próximo passo evidente.",
+  "Menos campos, mais canais de contacto e provas reais aumentam os pedidos.",
+  "Sem medição, está a tomar decisões às cegas.",
+],
+"body": """
+<h2>1. Um título que diz o que faz, e para quem</h2>
+<p>O visitante tem de perceber, em segundos, se está no sítio certo. O título principal deve nomear o serviço e o tipo de cliente, e não apenas uma promessa genérica.</p>
+<div class="compare">
+  <p class="-bad"><b>Antes</b>Qualidade e confiança desde 2005.</p>
+  <p class="-good"><b>Depois</b>Contabilidade para restaurantes e cafés no Porto, com acompanhamento mensal e resposta em 24 horas.</p>
+</div>
+
+<h2>2. Um único próximo passo por página</h2>
+<p>Quando tudo é importante, nada é. Escolha a ação principal de cada página, seja pedir um orçamento, marcar uma chamada ou reservar, e dê-lhe destaque: um botão visível logo no topo e repetido ao longo da página.</p>
+<p>As ações secundárias podem existir, mas com menos peso visual.</p>
+
+<h2>3. Formulários curtos</h2>
+<p>Cada campo a mais é uma razão a mais para desistir. Peça apenas o que precisa para responder: normalmente, nome, email e uma mensagem. O resto pode perguntar depois.</p>
+
+<h2>4. Mais do que uma forma de contactar</h2>
+<p>Há quem prefira escrever, quem prefira falar e quem queira marcar diretamente. Oferecer alternativas aumenta a probabilidade de o visitante dar o passo:</p>
+<ul>
+  <li>WhatsApp, para uma pergunta rápida.</li>
+  <li>Marcação online, para quem já está decidido.</li>
+  <li>Um chat que responde às perguntas mais comuns e passa a conversa a uma pessoa quando é preciso.</li>
+</ul>
+
+<h2>5. Mostre provas reais</h2>
+<p>Antes de contactar, o visitante quer saber se pode confiar em si. Testemunhos com nome e contexto, logótipos de clientes, fotografias de projetos reais e números concretos do seu trabalho valem mais do que qualquer adjetivo.</p>
+<div class="callout"><b>Dica</b>Coloque um testemunho perto do botão de contacto. É nesse momento que a dúvida “será que vale a pena?” pesa mais.</div>
+
+<h2>6. Responda às objeções antes de aparecerem</h2>
+<p>Preço, prazos, zona de atuação, como funciona o processo: se estas dúvidas ficam por responder, muitos visitantes preferem não perguntar e vão ver a concorrência.</p>
+<p>Um intervalo de preços (“a partir de…”), uma explicação simples do processo e uma secção de perguntas frequentes eliminam grande parte da hesitação.</p>
+
+<h2>7. Meça o que acontece</h2>
+<p>Sem dados, as melhorias são palpites. Configure uma ferramenta de estatísticas, como o Google Analytics ou uma alternativa focada na privacidade, e registe as ações importantes: cliques em botões de contacto, envios de formulário, cliques no WhatsApp e marcações.</p>
+<p>Depois, veja onde as pessoas saem e comece por aí.</p>
+
+<h2>Por onde começar</h2>
+<p>Não precisa de mudar tudo de uma vez. Identifique as três páginas com mais visitas e aplique-lhes estas sete correções. É aí que qualquer melhoria tem mais impacto.</p>
+""",
+"faq": [
+  ("Qual é uma boa taxa de conversão para um site?",
+   "Varia muito com o setor, o tipo de serviço e a origem das visitas, por isso as médias gerais são pouco úteis. Mais importante do que comparar com outros é medir a sua taxa e fazê-la subir ao longo do tempo."),
+  ("Devo mostrar preços no site?",
+   "Na maioria dos casos, sim, pelo menos um intervalo ou um valor de partida. Filtra contactos sem orçamento, reduz a hesitação de quem está interessado e transmite transparência."),
+  ("Um chatbot vale a pena num site pequeno?",
+   "Vale se responder bem às perguntas mais frequentes e passar a conversa a uma pessoa quando é preciso. Não deve substituir o contacto humano, mas pode captar pedidos fora do horário de expediente."),
+],
+},
+{
+"slug": "quanto-custa-um-site-profissional",
+"title": "Quanto custa um site profissional? O que influencia o preço",
+"description": "De construtores de sites a agências: o que determina o preço de um site profissional, o que deve estar incluído e como comparar propostas sem surpresas.",
+"dek": "Duas propostas para “o mesmo site” podem ter valores muito diferentes. Este guia explica o que faz variar o preço, o que deve estar incluído e como comparar de forma justa.",
+"category": "Investimento",
+"date": "2026-09-01",
+"cover": "custo-site",
+"cover_alt": "Ilustração: gráfico de barras crescente, com as últimas barras em lilás",
+"takeaways": [
+  "O preço depende sobretudo do âmbito: páginas, conteúdos, funcionalidades e integrações.",
+  "Compare o que está incluído em cada proposta, e não apenas o valor final.",
+  "Os custos recorrentes, como domínio, alojamento e manutenção, também contam.",
+  "Um site deve ser avaliado pelo que gera, e não apenas pelo que custa.",
+],
+"body": """
+<h2>As três formas mais comuns de ter um site</h2>
+<h3>Construtores de sites</h3>
+<p>Plataformas como o Wix ou o Squarespace permitem criar um site sozinho a partir de modelos. O custo direto é baixo, mas o investimento real é o seu tempo, e o resultado depende muito da sua experiência em design, escrita e SEO.</p>
+<h3>Profissional independente</h3>
+<p>Um profissional trata do design e do desenvolvimento, com contacto direto e sem as camadas de uma estrutura maior. É muitas vezes o melhor equilíbrio entre qualidade, proximidade e custo para pequenos negócios.</p>
+<h3>Agência</h3>
+<p>Uma agência junta várias pessoas (gestão de projeto, design, desenvolvimento, conteúdos), o que faz sentido para projetos grandes ou complexos. Essa estrutura reflete-se no preço.</p>
+
+<h2>O que faz o preço subir ou descer</h2>
+<ul>
+  <li><strong>Número de páginas</strong> e de modelos de página diferentes.</li>
+  <li><strong>Design à medida ou modelo adaptado</strong>: um design pensado para o seu negócio exige mais trabalho do que ajustar um modelo existente.</li>
+  <li><strong>Conteúdos</strong>: quem escreve os textos e quem trata das fotografias.</li>
+  <li><strong>Funcionalidades e integrações</strong>: marcações, formulários avançados, WhatsApp, chatbot, ferramentas de gestão de contactos, loja online.</li>
+  <li><strong>Idiomas</strong>: cada idioma adicional é, na prática, mais uma versão do site.</li>
+  <li><strong>SEO e migração</strong>: preservar posições ao substituir um site existente exige planeamento.</li>
+</ul>
+
+<h2>O que deve estar incluído numa proposta</h2>
+<p>Ao comparar propostas, confirme se cada uma inclui:</p>
+<ul>
+  <li>Design adaptado a telemóvel, tablet e computador.</li>
+  <li>O número de páginas e de rondas de revisão.</li>
+  <li>Quem é responsável pelos conteúdos.</li>
+  <li>SEO base: títulos, descrições, redirecionamentos e dados estruturados.</li>
+  <li>Configuração de estatísticas.</li>
+  <li>Publicação do site e formação para o poder editar.</li>
+  <li>A propriedade do domínio e do site em seu nome.</li>
+  <li>O apoio depois do lançamento: o que está incluído e durante quanto tempo.</li>
+</ul>
+
+<h2>Custos recorrentes a não esquecer</h2>
+<p>Além do valor inicial, um site tem custos anuais: o domínio, o alojamento, eventuais licenças ou plugins e, se optar por isso, um serviço de manutenção. Peça que estes valores fiquem claros desde o início.</p>
+
+<h2>Como organizo os meus preços</h2>
+<p>Para dar uma referência concreta, estas são as três formas de trabalhar comigo:</p>
+<ul>
+  <li><strong>Redesign da Homepage, gratuito</strong>: redesenho a homepage do seu site e envio uma auditoria com pontos de melhoria, para ver o potencial antes de investir.</li>
+  <li><strong>Redesign Visual, 750€</strong>: novo design mantendo a estrutura e os conteúdos atuais, otimizado para mobile e publicado.</li>
+  <li><strong>Motor de Contactos, a partir de 1 800€</strong>: novo design e estrutura à medida, otimização para Google e ferramentas de IA, marcações, WhatsApp, chatbot e painel de métricas.</li>
+</ul>
+<p>Pode ver o detalhe de cada opção na <a href="../../#solutions">página de soluções</a>.</p>
+
+<h2>Custo ou investimento?</h2>
+<p>A melhor forma de avaliar um site é compará-lo com o que pode gerar. Se um cliente novo vale, em média, 500€ para o seu negócio, um site de 1 800€ paga-se com quatro clientes. A partir daí, cada contacto que o site traz é retorno.</p>
+<p>Faça esta conta com os números do seu negócio: ajuda a decidir quanto faz sentido investir e o que deve pedir ao site em troca.</p>
+""",
+"faq": [
+  ("Porque é que há propostas tão diferentes para o mesmo site?",
+   "Porque raramente descrevem o mesmo trabalho. Diferenças no número de páginas, no design à medida, nos conteúdos, nas integrações e no apoio depois do lançamento explicam a maior parte da variação."),
+  ("O site fica em meu nome?",
+   "Deve ficar. Confirme que o domínio está registado em seu nome e que recebe todos os acessos no fim do projeto."),
+  ("Preciso de pagar manutenção?",
+   "Depende da plataforma e das integrações. Sites com muitos plugins exigem atualizações regulares de segurança; sites mais simples precisam de pouca manutenção técnica, mas beneficiam de conteúdos atualizados."),
+],
+},
+]
+
+# --------------------------------------------------------------------------
+# Helpers
+# --------------------------------------------------------------------------
+def esc(s):
+    return html.escape(s, quote=True)
+
+def slugify(text):
+    t = unicodedata.normalize("NFKD", re.sub(r"<[^>]+>", "", text)).encode("ascii", "ignore").decode()
+    t = re.sub(r"[^a-zA-Z0-9]+", "-", t).strip("-").lower()
+    return re.sub(r"^\d+-", "", t) or "secao"
+
+def pt_date(iso):
+    y, m, d = iso.split("-")
+    return f"{int(d)} de {MONTHS[int(m) - 1]} de {y}"
+
+def reading_minutes(post):
+    text = re.sub(r"<[^>]+>", " ", post["body"]) + " ".join(a for q, a in post["faq"]) + " ".join(post["takeaways"])
+    return max(1, round(len(text.split()) / 200))
+
+def add_heading_ids(body):
+    toc, used = [], set()
+    def repl(m):
+        text = m.group(1)
+        sid = slugify(text)
+        while sid in used:
+            sid += "-2"
+        used.add(sid)
+        toc.append((sid, re.sub(r"<[^>]+>", "", text)))
+        return f'<h2 id="{sid}">{text}</h2>'
+    return re.sub(r"<h2>(.*?)</h2>", repl, body), toc
+
+def header(prefix, current="blog"):
+    return f"""  <!-- Lead magnet strip -->
+  <div class="promo-strip" role="region" aria-label="Guia gratuito">
+    <button type="button" class="promo-link" data-open-modal="guide-modal"><span class="promo-kicker">Gratuito</span><span class="promo-text">8 sinais de que o seu site está a afastar clientes</span><span class="promo-go">Receber guia →</span></button>
+    <button type="button" class="promo-close js-promo-close" aria-label="Fechar"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg></button>
+  </div>
+
+  <header class="header">
+    <nav class="navigation grid-col-t grid-col-b grid-col-l grid-col-r h4">
+      <a href="{prefix}" class="logo-container" aria-label="Mariana Marcelino — página inicial">
+        <span class="logo">MARIANA MARCELINO</span>
+      </a>
+      <div class="nav-right">
+        <a href="{prefix}blog/" class="nav-link-plain"{' aria-current="page"' if current == "blog" else ""}>Blog</a>
+        <span class="nav-cta nav-cta-spacer" aria-hidden="true">Marcar chamada</span>
+        <a href="{CALENDLY}" target="_blank" rel="noopener" class="nav-cta nav-cta-fixed">Marcar chamada</a>
+      </div>
+    </nav>
+  </header>"""
+
+def guide_modal(prefix):
+    return f"""  <!-- Lead magnet popup -->
+  <dialog class="modal js-modal" id="guide-modal" aria-labelledby="guide-modal-title">
+    <div class="modal-head">
+      <p class="kicker">Guia gratuito</p>
+      <button type="button" class="modal-close js-close-modal" aria-label="Fechar"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <h2 id="guide-modal-title" class="modal-title">8 sinais de que o seu site está a afastar clientes</h2>
+      <p class="modal-sub">Um guia prático, com um teste rápido para cada sinal. Em poucos minutos percebe o que pode estar a custar-lhe contactos.</p>
+      <div class="modal-inc">
+        <p class="modal-inc-label">O que vai encontrar</p>
+        <ol class="modal-list">
+          <li>Os 8 sinais mais comuns, explicados sem jargão</li>
+          <li>O que fazer e um teste rápido para cada um</li>
+          <li>Uma grelha para decidir o próximo passo</li>
+        </ol>
+      </div>
+    </div>
+    <form class="js-guide-form form-free modal-form" aria-label="Pedido do guia gratuito" novalidate>
+      <input type="text" name="URL" class="input" placeholder="Insira o link para o seu site" required autocomplete="url">
+      <input type="email" name="Email" class="input" placeholder="Insira o seu email" required autocomplete="email">
+      <button type="submit" class="button">Receber o guia</button>
+      <p class="js-form-message message" role="status"></p>
+      <p class="modal-note">Sem qualquer custo. Os seus dados servem apenas para este pedido. <a href="{prefix}politica-de-privacidade/">Política de Privacidade</a></p>
+    </form>
+    <div class="modal-success js-guide-success" hidden>
+      <p class="modal-success-title">O seu guia está pronto</p>
+      <p>Obrigada! Já o pode descarregar.</p>
+      <a class="button" href="{prefix}assets/guia-8-sinais.pdf" download>Descarregar o guia</a>
+    </div>
+  </dialog>
+
+"""
+
+def cta(prefix):
+    return f"""    <section class="cta-section" data-nav-hide>
+      <p class="kicker cta-kicker">Contacto</p>
+      <div class="narrow-container">
+        <h2 class="cta-title">Comecemos com uma conversa</h2>
+        <p class="cta-sub">Identificamos oportunidades de melhoria no seu site e falamos sobre o caminho que faz sentido. Sem qualquer custo nem compromisso.</p>
+        <div class="cta-main">
+          <a href="{CALENDLY}" target="_blank" rel="noopener" class="button cta-button">Marcar chamada</a>
+        </div>
+
+        <div class="cta-write">
+          <p class="cta-write-label">Prefere escrever?</p>
+          <form class="js-contact-form cta-form" aria-label="Formulário de contacto" novalidate>
+            <input type="text" name="Nome" class="input" placeholder="Nome" autocomplete="name">
+            <input type="email" name="Email" class="input" placeholder="Email" required autocomplete="email">
+            <textarea name="Mensagem" class="input cta-textarea" rows="4" placeholder="Em que posso ajudar?" required></textarea>
+            <div class="cta-form-foot">
+              <button type="submit" class="button">Enviar mensagem</button>
+              <p class="js-form-message message" role="status"></p>
+            </div>
+          </form>
+        </div>
+
+        <p class="cta-alt">
+          <span class="cta-alt-label">Ainda não tem a certeza?</span>
+          <a href="{prefix}#free" class="cta-alt-link">Receba por email uma proposta gratuita</a>
+        </p>
+      </div>
+    </section>"""
+
+def footer(prefix):
+    return f"""  <footer class="footer -bg-black -fg-off-white" data-nav="dark" data-nav-hide>
+    <div class="footer-top footer-row">
+      <div class="footer-brand">
+        <a href="{prefix}" class="logo footer-logo">MARIANA MARCELINO</a>
+        <a href="mailto:info@mariana-marcelino.com" class="footer-email">info@mariana-marcelino.com</a>
+      </div>
+      <nav class="footer-links" aria-label="Rodapé">
+        <div class="lang-switch" aria-label="Idioma">
+          <span class="lang-current" aria-current="true">PT</span>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <a href="{prefix}en/" hreflang="en" lang="en" class="lang-link">EN</a>
+        </div>
+        <a href="{prefix}blog/" class="nav-link-plain">Blog</a>
+        <a href="{CALENDLY}" target="_blank" rel="noopener" class="nav-cta">Marcar chamada</a>
+      </nav>
+    </div>
+    <div class="footer-guide">
+      <p class="footer-guide-text"><span class="footer-guide-kicker">Gratuito</span>8 sinais de que o seu site está a afastar clientes</p>
+      <button type="button" class="button footer-guide-btn" data-open-modal="guide-modal">Receber guia</button>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Mariana Marcelino</p>
+      <div class="footer-legal">
+        <a href="{prefix}politica-de-privacidade/" class="link">Privacidade</a>
+        <a href="{prefix}politica-de-cookies/" class="link">Cookies</a>
+        <a href="{prefix}termos-e-condicoes/" class="link">Termos e Condições</a>
+      </div>
+    </div>
+  </footer>"""
+
+def head(title, description, canonical, image, prefix, og_type, jsonld):
+    ld = "\n".join(f'  <script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in jsonld)
+    return f"""<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <title>{esc(title)}</title>
+  <meta name="description" content="{esc(description)}">
+  <meta name="author" content="Mariana Marcelino">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="{canonical}">
+  <link rel="alternate" type="text/plain" title="llms.txt" href="{SITE}/llms.txt">
+
+  <meta property="og:type" content="{og_type}">
+  <meta property="og:locale" content="pt_PT">
+  <meta property="og:site_name" content="Mariana Marcelino">
+  <meta property="og:url" content="{canonical}">
+  <meta property="og:title" content="{esc(title)}">
+  <meta property="og:description" content="{esc(description)}">
+  <meta property="og:image" content="{image}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{esc(title)}">
+  <meta name="twitter:description" content="{esc(description)}">
+  <meta name="twitter:image" content="{image}">
+
+  <link rel="icon" href="{prefix}favicon.ico" sizes="any">
+  <link rel="icon" href="{prefix}assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="{prefix}assets/favicon-16.png" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" href="{prefix}assets/apple-touch-icon.png">
+  <link rel="manifest" href="{prefix}site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{prefix}styles.css?v={VERSION}">
+  <link rel="stylesheet" href="{prefix}blog/blog.css?v={VERSION}">
+{ld}
+</head>"""
+
+PERSON = {
+    "@type": "Person",
+    "@id": f"{SITE}/#mariana",
+    "name": "Mariana Marcelino",
+    "url": f"{SITE}/",
+    "image": f"{SITE}/assets/mariana-about.webp",
+    "jobTitle": "Web designer e developer",
+    "sameAs": [LINKEDIN],
+}
+PUBLISHER = {
+    "@type": "Organization",
+    "@id": f"{SITE}/#business",
+    "name": "Mariana Marcelino",
+    "url": f"{SITE}/",
+    "logo": {"@type": "ImageObject", "url": f"{SITE}/assets/apple-touch-icon.png"},
+}
+
+def card(post, prefix, feature=False):
+    url = f"{prefix}blog/{post['slug']}/"
+    meta = f"""<p class="post-meta"><span class="post-cat">{esc(post['category'])}</span><time datetime="{post['date']}">{pt_date(post['date'])}</time><span>{reading_minutes(post)} min</span></p>"""
+    img = f"""<img src="{prefix}assets/blog/{post['cover']}{'' if feature else '-sm'}.jpg?v={VERSION}" alt="{esc(post['cover_alt'])}" width="{1400 if feature else 800}" height="{875 if feature else 500}" loading="{'eager' if feature else 'lazy'}" class="fade-on-load">"""
+    if feature:
+        return f"""      <article class="post-card post-feature">
+        <a href="{url}" class="post-media" tabindex="-1" aria-hidden="true">{img}</a>
+        <div class="post-feature-text">
+          {meta}
+          <h2 class="post-title"><a href="{url}">{esc(post['title'])}</a></h2>
+          <p class="post-excerpt">{esc(post['description'])}</p>
+          <a href="{url}" class="more-link">Ler artigo<svg viewBox="0 0 56 12" aria-hidden="true"><path d="M0 6h54M48 1l6 5-6 5"/></svg></a>
+        </div>
+      </article>"""
+    return f"""        <article class="post-card">
+          <a href="{url}" class="post-media" tabindex="-1" aria-hidden="true">{img}</a>
+          {meta}
+          <h3 class="post-title"><a href="{url}">{esc(post['title'])}</a></h3>
+          <p class="post-excerpt">{esc(post['description'])}</p>
+        </article>"""
+
+# --------------------------------------------------------------------------
+# Blog index
+# --------------------------------------------------------------------------
+def build_index():
+    prefix = "../"
+    canonical = f"{SITE}/blog/"
+    jsonld = [{
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "@id": canonical,
+        "name": "Blog — Mariana Marcelino",
+        "description": "Artigos práticos sobre design de sites, SEO, inteligência artificial e conversão para pequenos negócios.",
+        "url": canonical,
+        "inLanguage": "pt-PT",
+        "author": PERSON,
+        "publisher": PUBLISHER,
+        "blogPost": [{
+            "@type": "BlogPosting",
+            "headline": p["title"],
+            "url": f"{SITE}/blog/{p['slug']}/",
+            "datePublished": p["date"],
+            "image": f"{SITE}/assets/blog/{p['cover']}-og.jpg",
+        } for p in POSTS],
+    }]
+    grid = "\n".join(card(p, prefix) for p in POSTS[1:])
+    page = f"""{head("Blog | Mariana Marcelino — Sites, SEO e IA para pequenos negócios",
+            "Artigos práticos sobre design de sites, SEO, inteligência artificial e conversão, escritos para quem gere um negócio.",
+            canonical, f"{SITE}/assets/blog/{POSTS[0]['cover']}-og.jpg", prefix, "website", jsonld)}
+<body>
+
+{header(prefix)}
+
+  <main class="blog-main">
+    <section class="blog-head">
+      <p class="kicker blog-kicker">Blog</p>
+      <div class="narrow-container">
+        <h1 class="blog-title">Ideias para ter um site que gera clientes</h1>
+        <p class="blog-intro">Artigos práticos sobre design, SEO, inteligência artificial e conversão, escritos para quem gere um negócio e não para quem programa.</p>
+      </div>
+    </section>
+
+    <div class="post-list">
+{card(POSTS[0], prefix, feature=True)}
+
+      <div class="post-grid">
+{grid}
+      </div>
+    </div>
+
+{cta(prefix)}
+  </main>
+
+{footer(prefix)}
+
+{guide_modal(prefix)}  <script src="{prefix}main.js?v={VERSION}"></script>
+</body>
+</html>
+"""
+    open(os.path.join(ROOT, "blog", "index.html"), "w", encoding="utf-8").write(page)
+
+# --------------------------------------------------------------------------
+# Articles
+# --------------------------------------------------------------------------
+def build_post(i, post):
+    prefix = "../../"
+    canonical = f"{SITE}/blog/{post['slug']}/"
+    image = f"{SITE}/assets/blog/{post['cover']}-og.jpg"
+    body, toc = add_heading_ids(post["body"])
+    minutes = reading_minutes(post)
+
+    takeaways = "\n".join(f"              <li>{esc(t)}</li>" for t in post["takeaways"])
+    faq_html = "\n".join(f"""            <details>
+              <summary>{esc(q)}</summary>
+              <p>{esc(a)}</p>
+            </details>""" for q, a in post["faq"])
+    toc_html = "\n".join(f'              <li><a href="#{sid}">{esc(t)}</a></li>' for sid, t in toc)
+    toc_html += '\n              <li><a href="#perguntas-frequentes">Perguntas frequentes</a></li>'
+
+    others = [p for p in POSTS if p["slug"] != post["slug"]]
+    related = [others[(i) % len(others)], others[(i + 1) % len(others)]]
+    related_html = "\n".join(card(p, prefix) for p in related)
+
+    jsonld = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "@id": f"{canonical}#article",
+            "mainEntityOfPage": canonical,
+            "headline": post["title"],
+            "description": post["description"],
+            "abstract": " ".join(post["takeaways"]),
+            "image": [image, f"{SITE}/assets/blog/{post['cover']}.jpg"],
+            "datePublished": post["date"],
+            "dateModified": post["date"],
+            "inLanguage": "pt-PT",
+            "articleSection": post["category"],
+            "wordCount": len(re.sub(r"<[^>]+>", " ", post["body"]).split()),
+            "timeRequired": f"PT{minutes}M",
+            "author": PERSON,
+            "publisher": PUBLISHER,
+            "isPartOf": {"@type": "Blog", "@id": f"{SITE}/blog/"},
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [{
+                "@type": "Question",
+                "name": q,
+                "acceptedAnswer": {"@type": "Answer", "text": a},
+            } for q, a in post["faq"]],
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Início", "item": f"{SITE}/"},
+                {"@type": "ListItem", "position": 2, "name": "Blog", "item": f"{SITE}/blog/"},
+                {"@type": "ListItem", "position": 3, "name": post["title"], "item": canonical},
+            ],
+        },
+    ]
+
+    page = f"""{head(f"{post['title']} | Mariana Marcelino", post["description"], canonical, image, prefix, "article", jsonld)}
+<body>
+
+{header(prefix)}
+
+  <main class="blog-main">
+    <article>
+      <header class="blog-head article-head">
+        <p class="kicker blog-kicker"><a href="{prefix}blog/">← Blog</a></p>
+        <div class="narrow-container">
+          <p class="post-meta"><span class="post-cat">{esc(post['category'])}</span><time datetime="{post['date']}">{pt_date(post['date'])}</time><span>{minutes} min de leitura</span></p>
+          <h1 class="article-title">{esc(post['title'])}</h1>
+          <p class="article-dek">{esc(post['dek'])}</p>
+          <div class="article-byline">
+            <img src="{prefix}assets/mariana-about.webp" alt="" width="40" height="40">
+            <p>Mariana Marcelino<span>Web design, SEO e conversão</span></p>
+          </div>
+          <figure class="article-cover">
+            <img src="{prefix}assets/blog/{post['cover']}.jpg?v={VERSION}" alt="{esc(post['cover_alt'])}" width="1400" height="875" fetchpriority="high">
+          </figure>
+        </div>
+      </header>
+
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="Neste artigo">
+          <div class="article-toc-inner">
+            <p class="kicker">Neste artigo</p>
+            <ol>
+{toc_html}
+            </ol>
+          </div>
+        </aside>
+
+        <div class="narrow-container article-body">
+          <div class="prose">
+            <section class="takeaways" aria-label="Em resumo">
+              <p class="kicker">Em resumo</p>
+              <ul>
+{takeaways}
+              </ul>
+            </section>
+{body.strip()}
+
+            <section class="faq">
+              <h2 id="perguntas-frequentes">Perguntas frequentes</h2>
+{faq_html}
+            </section>
+
+            <aside class="author-box">
+              <img src="{prefix}assets/mariana-about.webp" alt="Mariana Marcelino" width="64" height="64" loading="lazy">
+              <div>
+                <p class="author-name">Mariana Marcelino</p>
+                <p>{esc(AUTHOR_BIO)} <a href="{LINKEDIN}" target="_blank" rel="noopener">LinkedIn</a></p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <section class="post-list related" aria-label="Continuar a ler">
+      <p class="kicker">Continuar a ler</p>
+      <div class="post-grid">
+{related_html}
+      </div>
+    </section>
+
+{cta(prefix)}
+  </main>
+
+{footer(prefix)}
+
+{guide_modal(prefix)}  <script src="{prefix}main.js?v={VERSION}"></script>
+</body>
+</html>
+"""
+    d = os.path.join(ROOT, "blog", post["slug"])
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(page)
+
+# --------------------------------------------------------------------------
+# Legal pages (served at /politica-de-privacidade/, /politica-de-cookies/,
+# /termos-e-condicoes/)
+# --------------------------------------------------------------------------
+LEGAL_UPDATED = "2026-09-29"
+
+LEGAL = [
+{
+"slug": "politica-de-privacidade",
+"title": "Política de Privacidade",
+"description": "Como são recolhidos, usados e protegidos os seus dados pessoais no site de Mariana Marcelino.",
+"body": """
+<p>Esta política explica que dados pessoais recolho através deste site, para que os uso, com quem os partilho e que direitos tem sobre eles, nos termos do Regulamento Geral sobre a Proteção de Dados (RGPD).</p>
+
+<h2>Responsável pelo tratamento</h2>
+<p>Mariana Marcelino é a responsável pelo tratamento dos dados recolhidos neste site. Para qualquer questão sobre privacidade, escreva para <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a>.</p>
+
+<h2>Que dados recolho</h2>
+<ul>
+  <li><strong>Pedido de redesign gratuito:</strong> o endereço de email e o link do seu site, que indica nos formulários da homepage.</li>
+  <li><strong>Pedido do guia gratuito:</strong> o endereço de email e o link do seu site, que indica para descarregar o guia “8 sinais de que o seu site está a afastar clientes”.</li>
+  <li><strong>Formulário de contacto e email:</strong> o seu nome (opcional), o endereço de email e a informação que decidir partilhar na mensagem.</li>
+  <li><strong>Marcação de chamadas:</strong> quando marca uma chamada, é redirecionado para o Calendly, onde indica o seu nome, email e outras informações que o formulário pedir.</li>
+  <li><strong>Dados técnicos:</strong> como em qualquer site, o seu browser transmite automaticamente o endereço IP e informação técnica ao servidor de alojamento e aos serviços que carregam recursos na página, como as fontes.</li>
+</ul>
+<p>Não recolho categorias especiais de dados e este site não se destina a menores de 16 anos.</p>
+
+<h2>Para que uso os seus dados</h2>
+<ul>
+  <li>Responder ao seu pedido, preparar o redesign gratuito e a proposta que solicitou e disponibilizar o guia gratuito. Fundamento: diligências pré-contratuais a seu pedido (artigo 6.º, n.º 1, alínea b) do RGPD).</li>
+  <li>Prestar os serviços contratados e cumprir obrigações legais, como a faturação. Fundamento: execução de contrato e cumprimento de obrigação legal.</li>
+  <li>Garantir o funcionamento e a segurança do site. Fundamento: interesse legítimo.</li>
+</ul>
+<p>Não uso os seus dados para publicidade nem os vendo a terceiros.</p>
+
+<h2>Com quem partilho os seus dados</h2>
+<p>Para que o site funcione, recorro a prestadores de serviços que tratam dados em meu nome ou que são contactados pelo seu browser:</p>
+<ul>
+  <li><strong>FormSubmit</strong> (formsubmit.co): recebe os dados dos formulários do site (redesign gratuito, guia gratuito e contacto: nome, email, link do site, mensagem e idioma da página) e reencaminha-os para o meu email. Não é necessário criar conta nem são usados para outros fins.</li>
+  <li><strong>Calendly</strong> (calendly.com): gere a marcação de chamadas. Os dados que introduz na página de marcação são tratados pelo Calendly, de acordo com a respetiva política de privacidade.</li>
+  <li><strong>Google Fonts</strong> (Google): fornece o tipo de letra do site. Ao carregar a página, o seu browser liga-se aos servidores da Google, que recebem o seu endereço IP.</li>
+  <li><strong>Fornecedor de email e alojamento do site</strong>: guardam as mensagens que recebo e servem as páginas do site.</li>
+</ul>
+<p>Alguns destes prestadores podem tratar dados fora do Espaço Económico Europeu, nomeadamente nos Estados Unidos. Nesses casos, as transferências são feitas com as garantias previstas no RGPD, como as cláusulas contratuais-tipo aprovadas pela Comissão Europeia ou o Quadro de Privacidade de Dados UE-EUA.</p>
+
+<h2>Durante quanto tempo guardo os dados</h2>
+<ul>
+  <li>Pedidos de redesign gratuito e contactos que não resultem em trabalho: até 12 meses após o último contacto.</li>
+  <li>Dados de clientes: durante a relação contratual e, depois disso, pelo prazo exigido por lei, por exemplo para efeitos fiscais.</li>
+</ul>
+
+<h2>Os seus direitos</h2>
+<p>Pode, a qualquer momento, pedir o acesso aos seus dados, a sua retificação ou apagamento, a limitação ou oposição ao tratamento e a portabilidade dos dados. Basta escrever para <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a>. Respondo no prazo máximo de um mês.</p>
+<p>Tem também o direito de apresentar reclamação à autoridade de controlo, a Comissão Nacional de Proteção de Dados (<a href="https://www.cnpd.pt" target="_blank" rel="noopener">www.cnpd.pt</a>).</p>
+
+<h2>Cookies</h2>
+<p>Este site não usa cookies próprios. Pode ler os detalhes na <a href="../politica-de-cookies/">Política de Cookies</a>.</p>
+
+<h2>Alterações a esta política</h2>
+<p>Esta política pode ser atualizada, por exemplo, quando acrescentar novos serviços ao site. A data da última atualização está sempre indicada no topo desta página.</p>
+""",
+},
+{
+"slug": "politica-de-cookies",
+"title": "Política de Cookies",
+"description": "Que cookies e tecnologias semelhantes são usados no site de Mariana Marcelino.",
+"body": """
+<h2>O que são cookies</h2>
+<p>Cookies são pequenos ficheiros de texto que um site guarda no seu dispositivo quando o visita. Servem, por exemplo, para lembrar preferências ou medir a utilização de um site.</p>
+
+<h2>Cookies usados neste site</h2>
+<p>Este site <strong>não usa cookies próprios</strong>, nem ferramentas de estatística, de publicidade ou de acompanhamento. Por isso, não lhe pedimos consentimento para cookies.</p>
+
+<h2>Serviços de terceiros</h2>
+<ul>
+  <li><strong>Google Fonts:</strong> o tipo de letra do site é carregado a partir dos servidores da Google. Este serviço não define cookies, mas recebe o seu endereço IP quando a página é carregada.</li>
+  <li><strong>Calendly:</strong> ao clicar em “Marcar chamada”, é encaminhado para o site do Calendly, que pode usar cookies próprios de acordo com a respetiva política.</li>
+  <li><strong>LinkedIn:</strong> os links para o LinkedIn abrem o site do LinkedIn, sujeito à política de cookies desse serviço.</li>
+  <li><strong>FormSubmit:</strong> quando envia um formulário, os dados são transmitidos ao FormSubmit para serem reencaminhados por email. Este envio não define cookies neste site.</li>
+</ul>
+
+<h2>Como gerir cookies</h2>
+<p>Pode ver, bloquear e apagar cookies nas definições do seu browser. Consulte a ajuda do browser que utiliza (Chrome, Safari, Firefox ou Edge) para saber como.</p>
+
+<h2>Alterações</h2>
+<p>Se no futuro este site passar a usar cookies, por exemplo para estatísticas, esta política será atualizada e será pedido o seu consentimento antes de os ativar, sempre que a lei o exija.</p>
+""",
+},
+{
+"slug": "termos-e-condicoes",
+"title": "Termos e Condições",
+"description": "Condições de utilização do site e dos serviços de Mariana Marcelino.",
+"body": """
+<p>Ao utilizar este site, aceita os termos e condições descritos nesta página. Se não concordar com eles, não deve utilizar o site.</p>
+
+<h2>Identificação</h2>
+<p>Este site é gerido por Mariana Marcelino, que presta serviços de design e desenvolvimento de sites. Contacto: <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a>.</p>
+
+<h2>Informação e preços</h2>
+<p>A informação publicada neste site, incluindo descrições de serviços e preços, tem caráter indicativo. O âmbito, o preço e os prazos de cada projeto são definidos numa proposta escrita, enviada antes do início do trabalho. Só essa proposta, depois de aceite, vincula as partes.</p>
+
+<h2>Redesign gratuito</h2>
+<ul>
+  <li>O pedido de redesign gratuito não implica qualquer custo nem compromisso de contratação.</li>
+  <li>O redesign e a auditoria são uma demonstração do potencial do seu site. Os direitos de utilização do design só são transmitidos mediante a contratação de um serviço.</li>
+  <li>Posso recusar pedidos que não se enquadrem nos serviços que presto.</li>
+</ul>
+
+<h2>Propriedade intelectual</h2>
+<p>Os textos, imagens, ilustrações, código e restantes conteúdos deste site pertencem a Mariana Marcelino ou são usados com autorização, e estão protegidos por direitos de autor. Não podem ser copiados, reproduzidos ou utilizados para fins comerciais sem autorização prévia por escrito. Os logótipos de clientes pertencem aos respetivos titulares.</p>
+
+<h2>Utilização do site</h2>
+<p>Compromete-se a utilizar o site de forma lícita e a não enviar, através dos formulários, conteúdos falsos, ofensivos ou que violem direitos de terceiros.</p>
+
+<h2>Ligações externas</h2>
+<p>Este site contém ligações para sites de terceiros, como o Calendly e o LinkedIn. Não sou responsável pelo conteúdo nem pelas práticas de privacidade desses sites.</p>
+
+<h2>Responsabilidade</h2>
+<p>Procuro manter a informação deste site correta e atualizada, mas não garanto que esteja isenta de erros ou que o site esteja sempre disponível. Na medida permitida por lei, não sou responsável por danos resultantes da utilização do site ou da impossibilidade de o utilizar.</p>
+
+<h2>Proteção de dados</h2>
+<p>O tratamento dos seus dados pessoais está descrito na <a href="../politica-de-privacidade/">Política de Privacidade</a>.</p>
+
+<h2>Lei aplicável e litígios</h2>
+<p>Estes termos regem-se pela lei portuguesa. Em caso de litígio de consumo, pode recorrer a uma entidade de resolução alternativa de litígios de consumo. Mais informações no Portal do Consumidor (<a href="https://www.consumidor.gov.pt" target="_blank" rel="noopener">www.consumidor.gov.pt</a>). Pode também usar o <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener">Livro de Reclamações Eletrónico</a>.</p>
+
+<h2>Alterações</h2>
+<p>Estes termos podem ser atualizados a qualquer momento. A data da última atualização está sempre indicada no topo desta página.</p>
+""",
+},
+]
+
+
+def build_legal():
+    prefix = "../"
+    for page in LEGAL:
+        canonical = f"{SITE}/{page['slug']}/"
+        body, _ = add_heading_ids(page["body"])
+        jsonld = [{
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": page["title"],
+            "url": canonical,
+            "inLanguage": "pt-PT",
+            "dateModified": LEGAL_UPDATED,
+            "publisher": PUBLISHER,
+        }]
+        html_page = f"""{head(f"{page['title']} | Mariana Marcelino", page["description"], canonical, f"{SITE}/assets/og-image.png", prefix, "website", jsonld)}
+<body>
+
+{header(prefix, current=None)}
+
+  <main class="blog-main">
+    <article>
+      <header class="blog-head article-head">
+        <p class="kicker blog-kicker">Legal</p>
+        <div class="narrow-container">
+          <h1 class="article-title">{esc(page['title'])}</h1>
+          <p class="post-meta legal-updated">Última atualização: <time datetime="{LEGAL_UPDATED}">{pt_date(LEGAL_UPDATED)}</time></p>
+        </div>
+      </header>
+      <div class="narrow-container article-body">
+        <div class="prose">
+{body.strip()}
+        </div>
+      </div>
+    </article>
+  </main>
+
+{footer(prefix)}
+
+{guide_modal(prefix)}  <script src="{prefix}main.js?v={VERSION}"></script>
+</body>
+</html>
+"""
+        d = os.path.join(ROOT, page["slug"])
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(html_page)
+
+
+# --------------------------------------------------------------------------
+# 404 (served for any missing URL, so every path is root-absolute)
+# --------------------------------------------------------------------------
+def build_404():
+    prefix = "/"
+    links = [
+        ("/", "Voltar à página inicial", ""),
+        ("/blog/", "Ler o blog", ""),
+        ("#", "Descobrir os outros 7 sinais", ' data-open-modal="guide-modal"'),
+        (CALENDLY, "Marcar uma chamada", ' target="_blank" rel="noopener"'),
+    ]
+    rows = "\n".join(
+        f'          <li><a href="{href}"{attrs}><span class="nf-label">{esc(label)}</span><span class="nf-arrow" aria-hidden="true">→</span></a></li>'
+        for href, label, attrs in links)
+    page = f"""{head("Página não encontrada | Mariana Marcelino", "A página que procura não existe ou mudou de sítio.", f"{SITE}/404", f"{SITE}/assets/og-image.png", prefix, "website", []).replace('<meta name="robots" content="index,follow,max-image-preview:large">', '<meta name="robots" content="noindex">')}
+<body>
+
+{header(prefix, current=None)}
+
+  <main class="blog-main nf-main">
+    <section class="blog-head nf-head">
+      <p class="kicker blog-kicker">Página não encontrada</p>
+      <div class="narrow-container">
+        <h1 class="blog-title">Ups, esta página não existe!</h1>
+        <p class="blog-intro">Um link partido é um dos 8 sinais de que um site está a afastar clientes. Este, felizmente, tem saída.</p>
+        <ol class="nf-links">
+{rows}
+        </ol>
+        <p class="nf-en" lang="en">Page not found. <a href="/en/">Go to the English homepage →</a></p>
+      </div>
+    </section>
+  </main>
+
+{guide_modal(prefix)}  <script src="{prefix}main.js?v={VERSION}"></script>
+</body>
+</html>
+"""
+    open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8").write(page)
+
+
+# --------------------------------------------------------------------------
+# Sitemap, robots, llms.txt
+# --------------------------------------------------------------------------
+def build_seo_files():
+    latest = max(p["date"] for p in POSTS)
+    urls = [(f"{SITE}/", latest), (f"{SITE}/en/", latest), (f"{SITE}/blog/", latest)]
+    urls += [(f"{SITE}/blog/{p['slug']}/", p["date"]) for p in POSTS]
+    urls += [(f"{SITE}/{l['slug']}/", LEGAL_UPDATED) for l in LEGAL]
+    sm = ['<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    sm += [f"  <url><loc>{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls]
+    sm.append("</urlset>")
+    open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(sm) + "\n")
+
+    open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8").write(
+        "User-agent: *\nAllow: /\n\n"
+        f"Sitemap: {SITE}/sitemap.xml\n")
+
+    posts = "\n".join(f"- [{p['title']}]({SITE}/blog/{p['slug']}/): {p['description']}" for p in POSTS)
+    llms = f"""# Mariana Marcelino
+
+> Web designer e developer em Portugal. Redesenha e reconstrói sites de pequenos negócios para que tenham uma imagem moderna e credível, sejam encontrados no Google e em ferramentas de IA (ChatGPT, Perplexity) e transformem visitas em contactos.
+
+Trabalha diretamente com o cliente, sem estrutura de agência. Formação em marketing, em desenvolvimento de software desde 2018 e com negócio próprio.
+
+## Serviços e preços
+
+- Redesign da Homepage (gratuito): redesign da homepage, auditoria com pontos de otimização e proposta personalizada por email.
+- Redesign Visual (750€): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
+- Motor de Contactos (a partir de 1 800€): design e estrutura à medida, otimização para Google e ferramentas de IA, marcações automáticas, WhatsApp e chatbot, formulários de captação, integração com gestão de contactos e painel de métricas.
+
+## Páginas principais
+
+- [Página inicial]({SITE}/): serviços, soluções, testemunhos e contacto (português).
+- [Homepage in English]({SITE}/en/)
+- [Blog]({SITE}/blog/)
+- [Marcar chamada]({CALENDLY}): chamada gratuita de 30 minutos.
+
+## Artigos
+
+{posts}
+
+## Contacto
+
+- Email: info@mariana-marcelino.com
+- LinkedIn: {LINKEDIN}
+"""
+    open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8").write(llms)
+
+if __name__ == "__main__":
+    build_index()
+    for i, p in enumerate(POSTS):
+        build_post(i, p)
+    build_legal()
+    build_404()
+    build_seo_files()
+    print("built", len(POSTS), "posts")

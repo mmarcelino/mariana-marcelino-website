@@ -1,0 +1,31 @@
+# Mariana Marcelino
+
+> Web designer e developer em Portugal. Redesenha e reconstrói sites de pequenos negócios para que tenham uma imagem moderna e credível, sejam encontrados no Google e em ferramentas de IA (ChatGPT, Perplexity) e transformem visitas em contactos.
+
+Trabalha diretamente com o cliente, sem estrutura de agência. Formação em marketing, em desenvolvimento de software desde 2018 e com negócio próprio.
+
+## Serviços e preços
+
+- Redesign da Homepage (gratuito): redesign da homepage, auditoria com pontos de otimização e proposta personalizada por email.
+- Redesign Visual (750€): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
+- Motor de Contactos (a partir de 1 800€): design e estrutura à medida, otimização para Google e ferramentas de IA, marcações automáticas, WhatsApp e chatbot, formulários de captação, integração com gestão de contactos e painel de métricas.
+
+## Páginas principais
+
+- [Página inicial](https://www.mariana-marcelino.com/): serviços, soluções, testemunhos e contacto (português).
+- [Homepage in English](https://www.mariana-marcelino.com/en/)
+- [Blog](https://www.mariana-marcelino.com/blog/)
+- [Marcar chamada](https://calendly.com/marianacmarcelino/30min): chamada gratuita de 30 minutos.
+
+## Artigos
+
+- [Como fazer o seu negócio aparecer nas respostas do ChatGPT](https://www.mariana-marcelino.com/blog/como-aparecer-no-chatgpt/): Cada vez mais clientes pedem recomendações a ferramentas de IA. Saiba o que leva o ChatGPT, o Perplexity e o Google a citar um negócio e como preparar o seu site.
+- [8 sinais de que o seu site está a afastar clientes](https://www.mariana-marcelino.com/blog/sinais-que-o-site-esta-a-afastar-clientes/): Um site desatualizado custa-lhe contactos todos os dias, mesmo sem dar por isso. Os oito sinais mais comuns e o que fazer com cada um deles.
+- [SEO local: como ser encontrado por clientes na sua zona](https://www.mariana-marcelino.com/blog/seo-local-para-pequenos-negocios/): Guia prático para pequenos negócios aparecerem no Google Maps e nas pesquisas locais: Perfil da Empresa, avaliações, páginas por localidade e dados estruturados.
+- [Tem visitas mas não recebe contactos? 7 correções para o seu site](https://www.mariana-marcelino.com/blog/site-com-visitas-mas-sem-contactos/): Se as pessoas visitam o seu site mas não entram em contacto, o problema raramente é o tráfego. Sete mudanças práticas para transformar visitas em pedidos.
+- [Quanto custa um site profissional? O que influencia o preço](https://www.mariana-marcelino.com/blog/quanto-custa-um-site-profissional/): De construtores de sites a agências: o que determina o preço de um site profissional, o que deve estar incluído e como comparar propostas sem surpresas.
+
+## Contacto
+
+- Email: info@mariana-marcelino.com
+- LinkedIn: https://www.linkedin.com/in/marianamarcelino-frontend-engineer/
