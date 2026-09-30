@@ -2248,7 +2248,9 @@ body.has-calendly { overflow: hidden; }
 .modal-form .input[hidden] { display: none; }
 
 /* Guide ready: one green line, and its end is the download link */
-.js-guide-success .modal-success-title { color: #0b7a4e; }
+.js-guide-success { display: flex; flex-direction: column; justify-content: center; }
+.js-guide-success[hidden] { display: none; }
+.js-guide-success .modal-success-title { color: var(--black); }
 .guide-dl { color: inherit; white-space: nowrap; }
 .guide-dl .ul { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 .guide-dl .arrow { display: inline-block; transition: transform .35s var(--ease); }

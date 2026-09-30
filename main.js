@@ -731,6 +731,7 @@
   // at the bottom instead of re-centring on the screen.
   var smoothSwap = function (opts) {
     var box = opts.box, leaving = opts.leaving, change = opts.change, arriving = opts.arriving, focusEl = opts.focus;
+    var inPlace = !!opts.inPlace;
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var dlg = box.closest("dialog") || (box.tagName === "DIALOG" ? box : null);
     if (dlg && !dlg.style.marginTop) {
@@ -747,6 +748,15 @@
       return;
     }
     leaving.forEach(function (el) { el.classList.add("swap-out"); });
+    if (inPlace) {
+      // Cross-fade: the new content takes the old one's place and size
+      setTimeout(function () {
+        change();
+        requestAnimationFrame(function () { arriving.forEach(function (el) { el.classList.add("is-in"); }); });
+        setTimeout(done, 700);
+      }, 450);
+      return;
+    }
     setTimeout(function () {
       var h0 = box.offsetHeight;
       change();
@@ -909,10 +919,13 @@
       data.append("Idioma", EN ? "EN" : "PT");
       var payload = { type: "guide", email: email, url: url, noSite: hasNoSite };
       var reveal = function () {
+        var formHeight = form.offsetHeight;
         smoothSwap({
           box: form.closest("dialog") || form.parentNode,
+          inPlace: true,
           leaving: Array.prototype.slice.call(form.children),
-          change: function () { form.hidden = true; success.hidden = false; },
+          // The note fills the exact space the form had, centred, so the popup doesn't resize
+          change: function () { success.style.minHeight = formHeight + "px"; form.hidden = true; success.hidden = false; },
           arriving: Array.prototype.slice.call(success.children),
           focus: success.querySelector("a")
         });
@@ -921,6 +934,7 @@
           form.reset();
           form.hidden = false;
           success.hidden = true;
+          success.style.minHeight = "";
           Array.prototype.forEach.call(form.children, function (el) { el.classList.remove("swap-out"); });
           Array.prototype.forEach.call(success.children, function (el) { el.classList.remove("swap-in", "is-in"); });
         }, { once: true });
