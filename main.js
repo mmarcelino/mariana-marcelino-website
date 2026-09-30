@@ -725,36 +725,89 @@
 
   // Sent: the toggle and form fade out, the block eases to the height of a
   // short thank-you note, which then fades in where the form was
-  var thankYou = function (form) {
-    var wrap = form.closest(".cta-write") || form;
+  // Smooth content swap (form → thank-you): what leaves fades out, the block
+  // then eases to its new height while what arrives fades in over it.
+  // Inside a popup the popup is pinned in place, so it only grows or shrinks
+  // at the bottom instead of re-centring on the screen.
+  var smoothSwap = function (opts) {
+    var box = opts.box, leaving = opts.leaving, change = opts.change, arriving = opts.arriving, focusEl = opts.focus;
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var dlg = box.closest("dialog") || (box.tagName === "DIALOG" ? box : null);
+    if (dlg && !dlg.style.marginTop) {
+      dlg.style.marginTop = dlg.getBoundingClientRect().top + "px";
+      dlg.style.marginBottom = "auto";
+      dlg.addEventListener("close", function () { dlg.style.marginTop = ""; dlg.style.marginBottom = ""; }, { once: true });
+    }
+    arriving.forEach(function (el) { el.classList.add("swap-in"); });
+    var done = function () { if (focusEl) focusEl.focus({ preventScroll: true }); };
+    if (reduce) {
+      change();
+      arriving.forEach(function (el) { el.classList.add("is-in"); });
+      done();
+      return;
+    }
+    leaving.forEach(function (el) { el.classList.add("swap-out"); });
+    setTimeout(function () {
+      var h0 = box.offsetHeight;
+      change();
+      var h1 = box.offsetHeight;
+      box.style.overflow = "hidden";
+      box.style.height = h0 + "px";
+      box.offsetHeight;
+      box.style.transition = "height .9s cubic-bezier(.45, 0, .15, 1)";
+      box.style.height = h1 + "px";
+      setTimeout(function () { arriving.forEach(function (el) { el.classList.add("is-in"); }); }, 300);
+      setTimeout(function () {
+        box.style.height = "";
+        box.style.overflow = "";
+        box.style.transition = "";
+        done();
+      }, 950);
+    }, 500);
+  };
+
+  // Contact form / free redesign popup: the form gives way to a short note.
+  // Returns a function that puts the original content back.
+  var thankYou = function (wrap, title, sub, again) {
+    var original = Array.prototype.slice.call(wrap.children);
     var note = document.createElement("div");
     note.className = "cta-thanks";
     note.setAttribute("role", "status");
     note.setAttribute("tabindex", "-1");
-    note.innerHTML = EN
-      ? '<p class="cta-thanks-title">Thank you for your message!</p><p class="cta-thanks-sub">I\'ll be in touch soon.</p>'
-      : '<p class="cta-thanks-title">Obrigada pela mensagem!</p><p class="cta-thanks-sub">Entrarei em contacto brevemente.</p>';
-    var swap = function () {
-      var h0 = wrap.offsetHeight;
-      wrap.innerHTML = "";
-      wrap.appendChild(note);
-      if (reduce) { note.classList.add("is-in"); note.focus({ preventScroll: true }); return; }
-      var h1 = wrap.offsetHeight;
-      wrap.style.overflow = "hidden";
-      wrap.style.height = h0 + "px";
-      wrap.offsetHeight;
-      wrap.style.height = h1 + "px";
-      setTimeout(function () {
-        wrap.style.height = "";
-        wrap.style.overflow = "";
-        note.classList.add("is-in");
-        note.focus({ preventScroll: true });
-      }, 550);
+    var t = document.createElement("p"); t.className = "cta-thanks-title"; t.textContent = title;
+    var d = document.createElement("p"); d.className = "cta-thanks-sub"; d.textContent = sub;
+    note.appendChild(t); note.appendChild(d);
+    var clean = function () {
+      original.forEach(function (el) { el.classList.remove("swap-out", "swap-in", "is-in"); });
     };
-    if (reduce) { swap(); return; }
-    wrap.classList.add("is-leaving");
-    setTimeout(swap, 380);
+    var restore = function (animate) {
+      if (!note.parentNode) return;
+      if (!animate) { wrap.innerHTML = ""; original.forEach(function (el) { wrap.appendChild(el); }); clean(); return; }
+      smoothSwap({
+        box: wrap,
+        leaving: [note],
+        change: function () { wrap.innerHTML = ""; clean(); original.forEach(function (el) { wrap.appendChild(el); }); },
+        arriving: original,
+        focus: wrap.querySelector("input, textarea")
+      });
+    };
+    if (again) {
+      var link = document.createElement("button");
+      link.type = "button";
+      link.className = "cta-thanks-again";
+      link.innerHTML = '<span class="ul"></span> <span class="arrow" aria-hidden="true">→</span>';
+      link.querySelector(".ul").textContent = again;
+      link.addEventListener("click", function () { if (again.onRestore) again.onRestore(); restore(true); });
+      note.appendChild(link);
+    }
+    smoothSwap({
+      box: wrap,
+      leaving: original,
+      change: function () { wrap.innerHTML = ""; wrap.appendChild(note); },
+      arriving: [note],
+      focus: note
+    });
+    return restore;
   };
 
   document.querySelectorAll(".js-contact-form").forEach(function (form) {
@@ -775,7 +828,7 @@
       }
       var button = form.querySelector("button[type=submit]");
       button.disabled = true;
-      var data = formData("Nova mensagem do site — " + (name || email), email);
+      var data = formData("Formulário: nova mensagem", email);
       data.append("Nome", name || "—");
       data.append("Email", email);
       data.append("Mensagem", text);
@@ -784,7 +837,18 @@
       submit(form, { type: "contact", name: name, email: email, message: text }, data)
         .then(function () {
           form.reset();
-          thankYou(form);
+          msg.textContent = "";
+          msg.classList.remove("is-success", "is-error");
+          var againLabel = new String(EN ? "Send another message" : "Enviar outra mensagem");
+          againLabel.onRestore = function () {
+            form.hidden = false;
+            var toggle = document.querySelector('.js-write-toggle[aria-controls="' + form.id + '"]');
+            if (toggle) toggle.setAttribute("aria-expanded", "true");
+          };
+          thankYou(form.closest(".cta-write") || form,
+            EN ? "Thank you for your message!" : "Obrigada pela mensagem!",
+            EN ? "I'll be in touch soon." : "Entrarei em contacto brevemente.",
+            againLabel);
         })
         .catch(function () {
           mailFallback(msg, (EN ? "Message from the website" : "Mensagem do site") + (name ? " — " + name : ""), text + "\n\n" + (name || "") + "\n" + email);
@@ -809,17 +873,28 @@
       }
       var button = form.querySelector("button[type=submit]");
       button.disabled = true;
-      var data = formData("Novo download do guia — " + url, email);
+      var data = formData("Guia: novo download", email);
       data.append("Email", email);
       data.append("URL", url);
       data.append("Origem", "Guia 8 sinais");
       data.append("Idioma", EN ? "EN" : "PT");
       var payload = { type: "guide", email: email, url: url };
       var reveal = function () {
-        form.hidden = true;
-        success.hidden = false;
-        var dl = success.querySelector("a");
-        if (dl) dl.focus();
+        smoothSwap({
+          box: form.closest("dialog") || form.parentNode,
+          leaving: Array.prototype.slice.call(form.children),
+          change: function () { form.hidden = true; success.hidden = false; },
+          arriving: Array.prototype.slice.call(success.children),
+          focus: success.querySelector("a")
+        });
+        var guideDlg = form.closest("dialog");
+        if (guideDlg) guideDlg.addEventListener("close", function () {
+          form.reset();
+          form.hidden = false;
+          success.hidden = true;
+          Array.prototype.forEach.call(form.children, function (el) { el.classList.remove("swap-out"); });
+          Array.prototype.forEach.call(success.children, function (el) { el.classList.remove("swap-in", "is-in"); });
+        }, { once: true });
       };
       submit(form, payload, data)
         .then(reveal, reveal)
@@ -845,14 +920,20 @@
       }
       var button = form.querySelector("button[type=submit]");
       button.disabled = true;
-      var data = formData("Novo pedido de redesign gratuito — " + url, email);
+      var data = formData("Redesign: novo pedido", email);
       data.append("Email", email);
       data.append("URL", url);
       data.append("Origem", "Plano gratuito (pop-up)");
       data.append("Idioma", EN ? "EN" : "PT");
       submit(form, { type: "redesign", email: email, url: url }, data).then(function () {
         form.reset();
-        show(EN ? "Thank you! You'll receive the proposal by email." : "Obrigada! Receberá a proposta por email.", true);
+        msg.textContent = "";
+        msg.classList.remove("is-success", "is-error");
+        var restoreFree = thankYou(form,
+          EN ? "Thank you!" : "Obrigada!",
+          EN ? "You'll soon receive a personalised redesign proposal in your inbox." : "Em breve receberá uma proposta personalizada de redesign no seu email.");
+        var freeDlg = form.closest("dialog");
+        if (freeDlg) freeDlg.addEventListener("close", function () { restoreFree(false); }, { once: true });
       }).catch(function () {
         mailFallback(msg, EN ? "Free homepage redesign request" : "Pedido de redesign gratuito", (EN ? "Website: " : "Site: ") + url + "\n" + (EN ? "Email: " : "Email: ") + email);
       }).finally(function () {
