@@ -130,6 +130,91 @@
     if (lenis) { if (open) lenis.stop(); else if (!document.body.classList.contains("has-modal")) lenis.start(); }
   }).observe(document.body, { childList: true });
 
+  // Chat (Tidio), click-to-load: a light button of our own sits in the corner
+  // and nothing from Tidio loads until someone asks for the chat. After a first
+  // use, Tidio loads straight away on later visits so the conversation continues.
+  var TIDIO_SRC = "https://code.tidio.co/tyjm6whhzfmzav3a7kbew664dnakstc2.js";
+  var chatUsed = false;
+  try { chatUsed = localStorage.getItem("chat-used") === "1"; } catch (err) {}
+  var tidioRequested = false;
+  var loadTidio = function (openIt) {
+    if (openIt) {
+      var openNow = function () { if (window.tidioChatApi) { window.tidioChatApi.show(); window.tidioChatApi.open(); } };
+      if (window.tidioChatApi) { openNow(); return; }
+      // Tidio needs a moment after "ready" before it can open its window
+      // (asked twice, as the first call can land before the widget is fully set up)
+      document.addEventListener("tidioChat-ready", function () {
+        var opened = false;
+        var tryOpen = function () { if (!opened) openNow(); };
+        if (window.tidioChatApi && window.tidioChatApi.on) window.tidioChatApi.on("open", function () { opened = true; });
+        setTimeout(tryOpen, 900);
+        setTimeout(tryOpen, 2200);
+      }, { once: true });
+    }
+    if (tidioRequested) return;
+    tidioRequested = true;
+    var t = document.createElement("script");
+    t.src = TIDIO_SRC;
+    t.async = true;
+    document.body.appendChild(t);
+  };
+  var launcher = document.createElement("button");
+  launcher.type = "button";
+  launcher.className = "chat-launcher";
+  launcher.setAttribute("aria-label", EN ? "Open chat" : "Abrir chat");
+  launcher.innerHTML = '<span class="chat-launcher-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v8.5a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 3.5V17H5a1.5 1.5 0 0 1-1.5-1.5V7A1.5 1.5 0 0 1 5 5.5Z"/></svg></span>';
+  launcher.addEventListener("click", function () {
+    launcher.classList.add("is-loading");
+    try { localStorage.setItem("chat-used", "1"); } catch (err) {}
+    loadTidio(true);
+  });
+  // Once Tidio is there, its own button takes over
+  document.addEventListener("tidioChat-ready", function () { launcher.classList.add("is-gone"); });
+  if (chatUsed) {
+    launcher.classList.add("is-gone");
+    var later = function () { setTimeout(function () { loadTidio(false); }, 1500); };
+    if (document.readyState === "complete") later(); else window.addEventListener("load", later);
+  }
+  document.body.appendChild(launcher);
+  // Keep the button out of the way while it would sit on top of the hero
+  // animation; it appears once the animation has scrolled past
+  var heroVisual = document.querySelector(".hero-visual");
+  var darkZones = document.querySelectorAll('[data-nav="dark"]');
+  var chatTick = false;
+  // Tidio's own button (once loaded) steps aside too, but only while its
+  // chat window is closed
+  var chatOpen = false, tidioHidden = false;
+  var placeLauncher = function () {
+    chatTick = false;
+    var l = launcher.getBoundingClientRect();
+    var cy = l.top + l.height / 2;
+    // Over a black section: a light outline keeps the black button visible
+    var onDark = false;
+    for (var z = 0; z < darkZones.length; z++) {
+      var d = darkZones[z].getBoundingClientRect();
+      if (cy > d.top && cy < d.bottom) { onDark = true; break; }
+    }
+    launcher.classList.toggle("on-dark", onDark);
+    if (!heroVisual) return;
+    var v = heroVisual.getBoundingClientRect();
+    var overlaps = v.bottom > l.top - 24 && v.top < l.bottom + 24;
+    launcher.classList.toggle("is-hidden", overlaps);
+    var api = window.tidioChatApi;
+    if (api && !chatOpen && overlaps !== tidioHidden) {
+      tidioHidden = overlaps;
+      if (overlaps) api.hide(); else api.show();
+    }
+  };
+  document.addEventListener("tidioChat-ready", function () {
+    if (!window.tidioChatApi || !window.tidioChatApi.on) return;
+    window.tidioChatApi.on("open", function () { chatOpen = true; tidioHidden = false; });
+    window.tidioChatApi.on("close", function () { chatOpen = false; placeLauncher(); });
+    placeLauncher();
+  });
+  window.addEventListener("scroll", function () { if (!chatTick) { chatTick = true; requestAnimationFrame(placeLauncher); } }, { passive: true });
+  window.addEventListener("resize", placeLauncher);
+  placeLauncher();
+
   // Buttons: on hover the label rolls up and a copy rolls in from below
   document.querySelectorAll(".button").forEach(function (btn) {
     var label = btn.textContent.trim();
@@ -561,16 +646,25 @@
       speed = speed * 0.6 + v * 0.4;
       lastY = window.scrollY; lastT = now;
     }, { passive: true });
+    // The first view keeps its choreographed delays (title, then subtitle,
+    // then content). Further down, things start as soon as they come into
+    // view: only elements arriving together are staggered, a beat apart,
+    // so content never waits for its turn while you scroll.
+    var firstBatch = true;
     var revealIo = new IntersectionObserver(function (entries) {
       var fast = speed > 1.2;
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
+      var arriving = entries.filter(function (e) { return e.isIntersecting; })
+        .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left; });
+      arriving.forEach(function (entry, k) {
+        var el = entry.target;
         // Flicking fast, or already scrolled past it: show it right away
-        if (fast || entry.boundingClientRect.top < 0) entry.target.classList.add("reveal-fast");
-        entry.target.classList.add("is-in");
-        revealIo.unobserve(entry.target);
+        if (fast || entry.boundingClientRect.top < 0) el.classList.add("reveal-fast");
+        else if (!firstBatch) el.style.setProperty("--reveal-delay", Math.min(k, 5) * 70 + "ms");
+        el.classList.add("is-in");
+        revealIo.unobserve(el);
       });
-    }, { rootMargin: "0px 0px -6% 0px" });
+      if (arriving.length) firstBatch = false;
+    }, { rootMargin: "0px 0px -2% 0px" });
     // Big titles get their own entrance: each word rises out of a mask
     var TITLES = ".hero-title, .pains-statement, .impact-title, .about-title, .tiers-intro, .faq-title, .cta-title, .blog-title, .filters-title";
     var splitWords = function (el) {

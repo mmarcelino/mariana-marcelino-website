@@ -2040,8 +2040,8 @@ html.nav-away .header::before { opacity: 0; }
    item: the kicker, title and subtitle first, then the section's content. */
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity .9s var(--ease), transform 1s var(--ease);
+  transform: translateY(18px);
+  transition: opacity .7s var(--ease), transform .8s var(--ease);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .reveal.is-in { opacity: 1; transform: none; }
@@ -2059,7 +2059,7 @@ html.nav-away .header::before { opacity: 0; }
 .title-reveal .tw-in {
   display: inline-block;
   transform: translateY(110%);
-  transition: transform 1.05s cubic-bezier(.2, .8, .2, 1);
+  transition: transform .9s cubic-bezier(.2, .8, .2, 1);
   transition-delay: calc(var(--reveal-delay, 0ms) + var(--w, 0) * 55ms);
 }
 .title-reveal.is-in .tw-in { transform: none; }
@@ -2276,3 +2276,51 @@ body.has-calendly { overflow: hidden; }
 /* The guide strip can't be closed: no room kept for a close button */
 .promo-strip { padding-left: 24px; padding-right: 24px; }
 @media (max-width: 559px) { .promo-strip { padding: 0 var(--gap); } }
+
+/* ---------- Chat launcher (loads Tidio on click) ---------- */
+.chat-launcher {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--black);
+  color: var(--off-white);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+  cursor: pointer;
+  transition: background-color .3s ease, color .3s ease, opacity .4s ease, transform .4s var(--ease);
+}
+.chat-launcher-icon { display: grid; place-items: center; width: 22px; height: 22px; }
+.chat-launcher-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; }
+@media (hover: hover) { .chat-launcher:hover { background: #d6cbec; color: var(--black); } }
+.chat-launcher:active { transform: scale(.96); }
+/* Loading: the icon becomes a small spinner until the chat opens */
+.chat-launcher.is-loading .chat-launcher-icon svg { display: none; }
+.chat-launcher.is-loading .chat-launcher-icon::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: chat-spin .8s linear infinite;
+}
+@keyframes chat-spin { to { transform: rotate(360deg); } }
+.chat-launcher.is-gone { opacity: 0; transform: translateY(8px); pointer-events: none; visibility: hidden; transition: opacity .3s ease, transform .3s ease, visibility 0s .3s; }
+/* Mobile: just the round icon */
+@media (max-width: 559px) { .chat-launcher { right: 16px; bottom: 16px; } }
+body.has-modal .chat-launcher { opacity: 0; pointer-events: none; }
+.chat-launcher.is-hidden { opacity: 0; transform: translateY(12px); pointer-events: none; }
+/* Over a black section the button gets a light outline */
+.chat-launcher { box-shadow: 0 10px 30px rgba(0, 0, 0, .18), inset 0 0 0 1px transparent; }
+.chat-launcher.on-dark { box-shadow: 0 10px 30px rgba(0, 0, 0, .18), inset 0 0 0 1px rgba(238, 238, 234, .35); }
