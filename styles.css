@@ -2204,3 +2204,15 @@ body.has-calendly { overflow: hidden; }
 }
 .skip-link:focus { transform: none; }
 .message a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+/* Contact form sent: the form fades out and a short note takes its place */
+.cta-write { transition: height .55s cubic-bezier(.22, 1, .36, 1); }
+.cta-write > * { transition: opacity .35s ease, transform .35s ease; }
+.cta-write.is-leaving > * { opacity: 0; transform: translateY(-6px); }
+.cta-thanks { opacity: 0; transform: translateY(8px); transition: opacity .6s ease, transform .7s cubic-bezier(.22, 1, .36, 1); outline: none; }
+.cta-thanks.is-in { opacity: 1; transform: none; }
+.cta-thanks-title { font-size: clamp(20px, 1.7vw, 26px); line-height: 1.2; letter-spacing: -.015em; color: #0a5e45; }
+.cta-thanks-sub { margin-top: 6px; font-size: var(--fs-body); color: #0a5e45; } /* deep green: readable (AA) on the lilac panel */
+
+/* Honeypot field for bots: kept out of sight and out of the tab order */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }

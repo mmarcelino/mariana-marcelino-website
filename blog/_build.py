@@ -546,6 +546,7 @@ def guide_modal(prefix, lang="pt"):
       </div>
     </div>
     <form class="js-guide-form form-free modal-form" aria-label="{u['g_label']}" novalidate>
+      <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <input type="text" name="URL" class="input" placeholder="{u['g_url']}" required autocomplete="url">
       <input type="email" name="Email" class="input" placeholder="{u['g_email']}" required autocomplete="email">
       <button type="submit" class="button">{u['g_btn']}</button>
@@ -574,6 +575,7 @@ def cta(prefix, lang="pt"):
         <div class="cta-write">
           <button type="button" class="cta-write-toggle js-write-toggle" aria-expanded="false" aria-controls="cta-form"><span class="cta-write-text">{u['cta_write']}</span><span class="cta-write-arrow" aria-hidden="true">→</span></button>
           <form id="cta-form" class="js-contact-form cta-form" hidden aria-label="{u['cta_aria']}" novalidate>
+      <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
             <label class="cta-field"><span>{u['f_name']}</span><input type="text" name="Nome" autocomplete="name"></label>
             <label class="cta-field"><span>Email</span><input type="email" name="Email" required autocomplete="email"></label>
             <label class="cta-field -full"><span>{u['f_msg']}</span><textarea name="Mensagem" rows="3" required></textarea></label>
@@ -1003,7 +1005,8 @@ LEGAL = [
 <h2>Com quem partilho os seus dados</h2>
 <p>Para que o site funcione, recorro a prestadores de serviços que tratam dados em meu nome ou que são contactados pelo seu browser:</p>
 <ul>
-  <li><strong>Web3Forms</strong> (web3forms.com): recebe os dados dos formulários do site (redesign gratuito, guia gratuito e contacto: nome, email, link do site, mensagem e idioma da página) e reencaminha-os para o meu email. Os dados não são usados para outros fins.</li>
+  <li><strong>Resend</strong> (resend.com): envia os emails gerados pelos formulários do site (redesign gratuito, guia gratuito e contacto: nome, email, link do site, mensagem e idioma da página), ou seja, a notificação que recebo e a confirmação que lhe é enviada. Os dados não são usados para outros fins.</li>
+  <li><strong>Web3Forms</strong> (web3forms.com): serviço alternativo que entrega os formulários por email caso o anterior não esteja disponível. Os dados não são usados para outros fins.</li>
   <li><strong>Calendly</strong> (calendly.com): gere a marcação de chamadas. O calendário só é carregado quando clica em “Marcar chamada”; nesse momento, o seu browser liga-se aos servidores do Calendly, que recebem o seu endereço IP e podem definir cookies. Os dados que introduz no calendário são tratados pelo Calendly, de acordo com a respetiva política de privacidade.</li>
   <li><strong>Fornecedor de email e alojamento do site</strong>: guardam as mensagens que recebo e servem as páginas do site.</li>
 </ul>

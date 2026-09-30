@@ -33,3 +33,18 @@ The CSP allows the two small inline scripts in every page's `<head>` by their
 sha256 hash. If either script changes, recompute its hash and update
 `vercel.json`, otherwise that script is blocked (the page still works, just
 without the entrance animations / page-transition fade).
+
+## Forms and emails
+
+`api/contact.js` is a Vercel function that receives the three forms
+(contact, free redesign, guide). It emails the enquiry to
+info@mariana-marcelino.com and sends the visitor a branded confirmation in
+the language of the page (PT or EN), through Resend.
+
+Set in Vercel → Settings → Environment Variables:
+- `RESEND_API_KEY` (required)
+- `MAIL_FROM` (optional, default `Mariana Marcelino <info@mariana-marcelino.com>`)
+- `MAIL_TO` (optional, default `info@mariana-marcelino.com`)
+
+While `RESEND_API_KEY` isn't set, the function answers 503 and the site
+sends the forms through Web3Forms instead (no confirmation email).
