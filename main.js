@@ -1,15 +1,216 @@
 (function () {
-  // Where the free-redesign form is sent. Paste a Formspree / Basin / Getform
-  // endpoint here (e.g. "https://formspree.io/f/xxxxxx"). While it's empty,
-  // the form opens the visitor's email app addressed to FALLBACK_EMAIL.
-  var FORM_ENDPOINT = "";
-  var FALLBACK_EMAIL = "info@mariana-marcelino.com";
+  // Free-redesign requests are relayed to CONTACT_EMAIL by FormSubmit. The very
+  // first submission triggers a one-off activation email that must be confirmed.
+  var CONTACT_EMAIL = "info@mariana-marcelino.com";
+  var FORM_ENDPOINT = "https://formsubmit.co/ajax/" + CONTACT_EMAIL;
+  var EN = /^en/i.test(document.documentElement.lang);
+  var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Smooth scrolling (Lenis, self-hosted). Wheel/trackpad only: touch keeps the
+  // native feel. Popups and the mobile menu scroll natively and pause it.
+  var lenis = null;
+  if (window.Lenis && !REDUCED) {
+    lenis = new Lenis({
+      lerp: 0.07,
+      wheelMultiplier: 0.9,
+      autoRaf: true,
+      // In-page links glide with a fixed duration and a soft ease in/out
+      anchors: {
+        duration: 1.5,
+        easing: function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+      },
+      prevent: function (node) { return node.closest && node.closest("dialog, .mobile-menu, [data-lenis-prevent]"); }
+    });
+    new MutationObserver(function () {
+      if (document.body.classList.contains("has-modal")) lenis.stop(); else lenis.start();
+    }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+  }
+
+  // Page transitions between internal pages: fade out, then navigate
+  if (!REDUCED) {
+    document.addEventListener("click", function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest("a[href]");
+      if (!a || a.target === "_blank" || a.hasAttribute("download")) return;
+      var url = new URL(a.href, location.href);
+      if (url.origin !== location.origin || !/^https?:$/.test(url.protocol)) return;
+      // Same page (anchor links) is handled by the smooth scroll
+      if (url.pathname === location.pathname && url.search === location.search) return;
+      e.preventDefault();
+      try { sessionStorage.setItem("pt", "1"); } catch (err) {}
+      document.documentElement.classList.add("pt-out");
+      setTimeout(function () { location.href = url.href; }, 430);
+    });
+    // Coming back through the browser history: show the page again
+    window.addEventListener("pageshow", function (e) {
+      if (e.persisted) document.documentElement.classList.remove("pt-out");
+    });
+    // Warm up the next page while the pointer rests on a link
+    var warmed = {};
+    document.addEventListener("pointerover", function (e) {
+      var a = e.target.closest && e.target.closest("a[href]");
+      if (!a) return;
+      var url = new URL(a.href, location.href);
+      if (url.origin !== location.origin || url.pathname === location.pathname || warmed[url.pathname]) return;
+      warmed[url.pathname] = true;
+      var l = document.createElement("link");
+      l.rel = "prefetch"; l.href = url.pathname;
+      document.head.appendChild(l);
+    });
+  }
+
+  // Booking: every "Marcar chamada" link opens Calendly in a popup over
+  // the page instead of a new tab. Calendly's files load on the first click
+  // only; if they fail, the link simply opens in a new tab as before.
+  var calendlyLoading = null;
+  var loadCalendly = function () {
+    if (calendlyLoading) return calendlyLoading;
+    calendlyLoading = new Promise(function (resolve, reject) {
+      var css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = "https://assets.calendly.com/assets/external/widget.css";
+      document.head.appendChild(css);
+      var js = document.createElement("script");
+      js.src = "https://assets.calendly.com/assets/external/widget.js";
+      js.async = true;
+      js.onload = function () { window.Calendly ? resolve() : reject(); };
+      js.onerror = reject;
+      document.head.appendChild(js);
+    });
+    return calendlyLoading;
+  };
+  document.addEventListener("click", function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest && e.target.closest('a[href*="calendly.com/"]');
+    if (!a) return;
+    e.preventDefault();
+    var url = a.href;
+    // The mobile menu closes first so the calendar opens on a clean page
+    var menuClose = document.querySelector(".js-mobile-menu:not([hidden]) .js-menu-close");
+    if (menuClose) menuClose.click();
+    loadCalendly().then(function () {
+      window.Calendly.initPopupWidget({ url: url });
+    }).catch(function () { window.open(url, "_blank", "noopener"); });
+  });
+  // While the calendar is open, the page behind stays still
+  new MutationObserver(function () {
+    var open = !!document.querySelector(".calendly-overlay");
+    document.body.classList.toggle("has-calendly", open);
+    if (lenis) { if (open) lenis.stop(); else if (!document.body.classList.contains("has-modal")) lenis.start(); }
+  }).observe(document.body, { childList: true });
+
+  // Buttons: on hover the label rolls up and a copy rolls in from below
+  document.querySelectorAll(".button").forEach(function (btn) {
+    var label = btn.textContent.trim();
+    if (!label || btn.children.length) return;
+    btn.textContent = "";
+    var roll = document.createElement("span");
+    roll.className = "btn-roll";
+    var a = document.createElement("span");
+    var b = document.createElement("span");
+    a.textContent = b.textContent = label;
+    b.setAttribute("aria-hidden", "true");
+    roll.appendChild(a); roll.appendChild(b);
+    btn.appendChild(roll);
+  });
 
   // Image fade-on-load
   document.querySelectorAll("img.fade-on-load").forEach(function (img) {
     if (img.complete && img.naturalWidth) img.classList.add("loaded");
     else img.addEventListener("load", function () { img.classList.add("loaded"); });
   });
+
+  // Fixed header: each side turns off-white while it sits over a dark area
+  var header = document.querySelector(".header");
+  if (header) {
+    var navParts = [header.querySelector(".logo-container"), header.querySelector(".lang-switch"), header.querySelector(".nav-link-plain"), header.querySelector(".nav-cta-fixed"), header.querySelector(".nav-burger")].filter(Boolean);
+    var darkAreas = document.querySelectorAll('[data-nav="dark"]');
+    var hideAreas = document.querySelectorAll("[data-nav-hide]");
+    // The guide strip steps aside over the contact section and the footer
+    var stripHideAreas = document.querySelectorAll("[data-nav-hide]");
+    var navTicking = false;
+    var over = function (areas, x, y) {
+      for (var i = 0; i < areas.length; i++) {
+        var a = areas[i].getBoundingClientRect();
+        if (x >= a.left && x <= a.right && y >= a.top && y <= a.bottom) return true;
+      }
+      return false;
+    };
+    var promoStrip = document.querySelector(".promo-strip");
+    var curtain = document.querySelector(".hero-curtain");
+    var curtainNav = document.querySelectorAll(".header .lang-switch");
+    if (curtain) document.documentElement.classList.add("has-curtain");
+    var curtainStart = 0;
+    var measureCurtain = function () { if (curtain) curtainStart = curtain.getBoundingClientRect().top + window.scrollY; };
+    measureCurtain();
+    window.addEventListener("resize", measureCurtain);
+    var updateNav = function () {
+      navTicking = false;
+      document.documentElement.classList.toggle("is-scrolled", window.scrollY > 4);
+      // The strip slides away over the footer
+      if (promoStrip) {
+        // Inline strip (homepage): flag when it has reached the top and stuck there
+        if (document.documentElement.classList.contains("strip-inline")) {
+          document.documentElement.classList.toggle("strip-stuck", window.scrollY > 0 && promoStrip.getBoundingClientRect().top <= 1);
+        }
+        // Fixed probe point: the strip's own rect moves once it slides away
+        promoStrip.classList.toggle("is-away", over(stripHideAreas, window.innerWidth / 2, promoStrip.offsetHeight / 2));
+      }
+      navParts.forEach(function (part) {
+        var r = part.getBoundingClientRect();
+        var x = r.left + r.width / 2;
+        var y = r.top + r.height / 2;
+        part.classList.toggle("nav-on-dark", over(darkAreas, x, y));
+        part.classList.toggle("nav-hidden", over(hideAreas, x, y));
+      });
+      // Homepage curtain: the language switch gets covered by the rising
+      // curtain (clipped from the bottom) instead of fading out
+      if (curtain) {
+        var ct = curtain.getBoundingClientRect().top;
+        curtainNav.forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          var cut = Math.max(0, Math.min(r.height + 2, r.bottom - ct));
+          el.style.clipPath = cut > 0 ? "inset(-2px -2px " + cut + "px -2px)" : "";
+          el.style.visibility = cut >= r.height ? "hidden" : "";
+        });
+        // Widen the panel to full width as it travels up to the top
+        var cp = Math.min(1, Math.max(0, window.scrollY / ((curtainStart || 1) * 0.5)));
+        curtain.style.setProperty("--cp", cp.toFixed(3));
+        var bandBottom = navParts[0] ? navParts[0].getBoundingClientRect().bottom + 40 : 0;
+        document.documentElement.classList.toggle("hero-pinned", ct > bandBottom);
+      }
+      // The scroll backdrop goes away with the nav over the contact area
+      var logoPart = navParts[0];
+      if (logoPart) {
+        document.documentElement.classList.toggle("nav-away", logoPart.classList.contains("nav-hidden"));
+      }
+    };
+    var requestNav = function () {
+      if (!navTicking) { navTicking = true; requestAnimationFrame(updateNav); }
+    };
+    window.addEventListener("scroll", requestNav, { passive: true });
+    window.addEventListener("resize", requestNav);
+    window.addEventListener("load", updateNav);
+    updateNav();
+  }
+
+  // Article table of contents: highlight the section being read
+  var tocLinks = document.querySelectorAll(".article-toc a");
+  if (tocLinks.length && "IntersectionObserver" in window) {
+    var byId = {};
+    tocLinks.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+    var tocIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        tocLinks.forEach(function (a) { a.classList.remove("is-active"); });
+        byId[entry.target.id].classList.add("is-active");
+      });
+    }, { rootMargin: "0px 0px -70% 0px" });
+    Object.keys(byId).forEach(function (id) {
+      var h = document.getElementById(id);
+      if (h) tocIo.observe(h);
+    });
+  }
 
   // Scroll reveal
   if ("IntersectionObserver" in window) {
@@ -42,19 +243,35 @@
     var unreadEl = visual.querySelector(".fl-unread");
     var todayEl = visual.querySelector(".js-fl-today");
     // Already-read mail sitting at the bottom of the inbox
-    var OLD = [
+    var OLD = EN ? [
+      { i: "RL", c: 3, name: "Rachel Lewis", src: "Quote request", time: "Yesterday" },
+      { i: "MF", c: 4, name: "Mark Fisher", src: "Flat renovation", time: "Mon" },
+      { i: "JS", c: 5, name: "James Scott", src: "New home project", time: "Sun" },
+      { i: "CD", c: 0, name: "Claire Davis", src: "Showroom visit", time: "Sun" }
+    ] : [
       { i: "RL", c: 3, name: "Rita Lopes", src: "Pedido de orçamento", time: "Ontem" },
       { i: "MF", c: 4, name: "Marta Freitas", src: "Remodelação de apartamento", time: "Seg" },
       { i: "JS", c: 5, name: "João Santos", src: "Projeto de moradia", time: "Dom" },
       { i: "CD", c: 0, name: "Carlos Dias", src: "Visita ao showroom", time: "Dom" }
     ];
     // Leads alternate form → chat and keep rotating, so the story never stops
-    var FORM_LEADS = [
+    var FORM_LEADS = EN ? [
+      { i: "AR", c: 0, name: "Anna Reed", email: "anna.reed@gmail.com", msg: "Hi! I'd like to know more about kitchen renovations. My space is small, what solutions would work?" },
+      { i: "SC", c: 1, name: "Sophie Carter", email: "sophie.carter@outlook.com", msg: "Good morning, I'm thinking of extending my parents' house. Could we book a visit to assess the project?" },
+      { i: "IA", c: 4, name: "Isla Allen", email: "isla.allen@gmail.com", msg: "Hello, I'm opening a new shop in the city centre and need help with the interior design. Can you help?" }
+    ] : [
       { i: "AR", c: 0, name: "Ana Ribeiro", email: "ana.ribeiro@gmail.com", msg: "Olá! Gostava de saber mais sobre remodelação de cozinha. Tenho um espaço pequeno, que soluções fazem sentido?" },
       { i: "SC", c: 1, name: "Sofia Costa", email: "sofia.costa@sapo.pt", msg: "Bom dia, estou a pensar ampliar a moradia dos meus pais. Podemos agendar uma visita para avaliar o projeto?" },
       { i: "IA", c: 4, name: "Inês Alves", email: "ines.alves@gmail.com", msg: "Olá, vou abrir uma loja nova no centro e preciso de ajuda com o projeto de interiores. Podem ajudar?" }
     ];
-    var CHAT_LEADS = [
+    var CHAT_LEADS = EN ? [
+      { i: "PM", c: 2, name: "Peter Mills", src: "Via chat · Quote for a house",
+        chat: [["me", "Hi! I'd like a quote for a house. peter@mills.co"], ["bot", "Thanks, Peter! We'll reply today."]] },
+      { i: "TR", c: 5, name: "Tom Reynolds", src: "Via chat · Office renovation",
+        chat: [["me", "Morning! Do you renovate offices? tom@reynolds.co"], ["bot", "We do! Thanks, Tom. Talk soon."]] },
+      { i: "BG", c: 3, name: "Beth Green", src: "Via chat · Holiday home",
+        chat: [["me", "Hi! I have a holiday home to design. beth.g@gmail.com"], ["bot", "Lovely, Beth! We'll reply today."]] }
+    ] : [
       { i: "PM", c: 2, name: "Pedro Martins", src: "Via chat · Orçamento para moradia",
         chat: [["me", "Olá! Queria um orçamento para uma moradia. pedro@martins.pt"], ["bot", "Obrigado, Pedro! Respondemos ainda hoje."]] },
       { i: "TR", c: 5, name: "Tiago Reis", src: "Via chat · Remodelação de escritório",
@@ -71,7 +288,9 @@
       return l;
     }
     var timers = [];
-    var at = function (ms, fn) { timers.push(setTimeout(fn, ms)); };
+    // PACE < 1 plays the whole story faster (the streak CSS is tuned to match)
+    var PACE = 0.72;
+    var at = function (ms, fn) { timers.push(setTimeout(fn, ms * PACE)); };
     var mobile = function () { return window.innerWidth < 560; };
     var maxRows = function () { return mobile() ? 3 : 4; };
 
@@ -216,10 +435,16 @@
       showFinal();
     } else {
       reset();
-      var running = false;
+      var running = false, started = false;
       new IntersectionObserver(function (entries) {
         var visible = entries[0].isIntersecting;
-        if (visible && !running) { running = true; cycle(); }
+        if (visible && !running) {
+          running = true;
+          // First time: wait until the panel has faded in, so nobody misses the start
+          var wait = started ? 0 : (parseInt(getComputedStyle(visual).getPropertyValue("--reveal-delay"), 10) || 0) + 300;
+          started = true;
+          timers.push(setTimeout(cycle, wait));
+        }
         if (!visible && running) { running = false; showFinal(); }
       }).observe(visual);
     }
@@ -240,6 +465,301 @@
     });
   }
 
+  // Popups: any [data-open-modal="id"] opens <dialog id="id" class="js-modal">
+  document.querySelectorAll(".js-modal").forEach(function (modal) {
+    if (typeof modal.showModal !== "function") return;
+    var opener = null;
+    var closeModal = function () { modal.close(); };
+    document.querySelectorAll('[data-open-modal="' + modal.id + '"]').forEach(function (trigger) {
+      trigger.addEventListener("click", function (e) {
+        e.preventDefault();
+        opener = trigger;
+        modal.showModal();
+        document.body.classList.add("has-modal");
+        var first = modal.querySelector("input:not([hidden])");
+        if (first && first.offsetParent) first.focus();
+      });
+    });
+    modal.querySelectorAll(".js-close-modal").forEach(function (btn) { btn.addEventListener("click", closeModal); });
+    modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+    modal.addEventListener("close", function () {
+      document.body.classList.remove("has-modal");
+      if (opener) opener.focus();
+    });
+  });
+
+  // Lead-magnet strip: closing hides it until the top of the page (hero, or
+  // the page head on blog/legal pages) leaves the viewport and comes back
+  var promoClose = document.querySelector(".js-promo-close");
+  var stripAnchor = document.querySelector(".hero, .blog-head");
+  if (promoClose) {
+    var rootEl = document.documentElement;
+    var anchorLeft = false;
+    var anchorVisible = true;
+    promoClose.addEventListener("click", function () {
+      rootEl.classList.add("strip-closed");
+      // If the hero is already off screen, coming back to it is enough to reopen
+      anchorLeft = !anchorVisible;
+      if (typeof requestNav === "function") requestNav();
+    });
+    if (stripAnchor && "IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        var visible = entries[0].isIntersecting;
+        anchorVisible = visible;
+        if (!visible) anchorLeft = true;
+        else if (anchorLeft && rootEl.classList.contains("strip-closed")) {
+          rootEl.classList.remove("strip-closed");
+          anchorLeft = false;
+          if (typeof requestNav === "function") requestNav();
+        }
+      }).observe(stripAnchor);
+    }
+  }
+
+  // Section entrances: in each section the kicker, title and subtitle come
+  // in first, one after the other, then the content follows in sequence
+  if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var HEAD = ".kicker, .hero-title, .hero-statement, .pains-statement, .pains-sub, .impact-title, .impact-sub, .about-title, .tiers-intro, .tiers-sub, .faq-title, .cta-title, .cta-sub, .blog-title, .blog-intro, .filters-title";
+    var BODY = ".hero-actions, .hero-visual, .pains-lead, .pains-row, .card, .about-grid > *, .tier, .faq-item, .testimonial-logos, .testimonial-top, .cta-main, .cta-write, .filters-search, .filters-chips, .post-card";
+    // Scroll speed (px/ms): when flicking through the page, things appear at
+    // once instead of waiting for their staggered turn
+    var lastY = window.scrollY, lastT = performance.now(), speed = 0;
+    window.addEventListener("scroll", function () {
+      var now = performance.now();
+      var v = Math.abs(window.scrollY - lastY) / Math.max(1, now - lastT);
+      speed = speed * 0.6 + v * 0.4;
+      lastY = window.scrollY; lastT = now;
+    }, { passive: true });
+    var revealIo = new IntersectionObserver(function (entries) {
+      var fast = speed > 1.2;
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        // Flicking fast, or already scrolled past it: show it right away
+        if (fast || entry.boundingClientRect.top < 0) entry.target.classList.add("reveal-fast");
+        entry.target.classList.add("is-in");
+        revealIo.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -6% 0px" });
+    // Big titles get their own entrance: each word rises out of a mask
+    var TITLES = ".hero-title, .pains-statement, .impact-title, .about-title, .tiers-intro, .faq-title, .cta-title, .blog-title, .filters-title";
+    var splitWords = function (el) {
+      var n = 0;
+      Array.prototype.slice.call(el.childNodes).forEach(function (node) {
+        if (node.nodeType !== 3) return;
+        var frag = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach(function (part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          var outer = document.createElement("span");
+          var inner = document.createElement("span");
+          outer.className = "tw";
+          inner.className = "tw-in";
+          inner.style.setProperty("--w", n++);
+          inner.textContent = part;
+          outer.appendChild(inner);
+          frag.appendChild(outer);
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+    };
+    var prep = function (el, delay) {
+      if (el.classList.contains("js-animate") || el.classList.contains("reveal") || el.classList.contains("title-reveal")) return;
+      if (el.matches(TITLES)) {
+        splitWords(el);
+        el.classList.add("title-reveal");
+      } else {
+        el.classList.add("reveal");
+      }
+      el.style.setProperty("--reveal-delay", delay + "ms");
+      revealIo.observe(el);
+    };
+    document.querySelectorAll("main > section, main > .blog-head, main .blog-filters, main .post-list").forEach(function (section) {
+      var heads = section.querySelectorAll(HEAD);
+      var t = 0;
+      heads.forEach(function (el) {
+        prep(el, t);
+        // The subtitle follows once most of the title's words are on their way up
+        t += el.classList.contains("title-reveal") ? 220 + el.querySelectorAll(".tw").length * 35 : 90;
+      });
+      var start = t + 40;
+      // Grid rules draw themselves in just before the cards arrive
+      section.querySelectorAll(".cards").forEach(function (el) {
+        el.style.setProperty("--reveal-delay", Math.max(0, start - 150) + "ms");
+        revealIo.observe(el);
+      });
+      section.querySelectorAll(BODY).forEach(function (el, i) { prep(el, start + Math.min(i, 6) * 70); });
+    });
+    // Settle the hidden starting state now, so elements already on screen at
+    // load still animate in instead of appearing at once
+    void document.body.offsetHeight;
+  }
+
+  // Mobile menu
+  var mobileMenu = document.querySelector(".js-mobile-menu");
+  var menuOpen = document.querySelector(".js-menu-open");
+  if (mobileMenu && menuOpen) {
+    var setPageInert = function (on) {
+      Array.prototype.forEach.call(document.body.children, function (el) {
+        if (el !== mobileMenu && el.tagName !== "SCRIPT" && el.tagName !== "DIALOG") el.inert = on;
+      });
+    };
+    var closeMenu = function (restoreFocus) {
+      setPageInert(false);
+      mobileMenu.classList.remove("is-open");
+      menuOpen.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("has-modal");
+      setTimeout(function () { mobileMenu.hidden = true; }, 300);
+      if (restoreFocus) menuOpen.focus();
+    };
+    menuOpen.addEventListener("click", function () {
+      mobileMenu.hidden = false;
+      setPageInert(true);
+      requestAnimationFrame(function () { mobileMenu.classList.add("is-open"); });
+      menuOpen.setAttribute("aria-expanded", "true");
+      document.body.classList.add("has-modal");
+      mobileMenu.querySelector(".js-menu-close").focus();
+    });
+    mobileMenu.querySelector(".js-menu-close").addEventListener("click", function () { closeMenu(true); });
+    mobileMenu.querySelectorAll(".js-menu-link").forEach(function (a) {
+      a.addEventListener("click", function () { closeMenu(false); });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !mobileMenu.hidden) closeMenu(true);
+    });
+  }
+
+  // Blog: filter by topic chip + free-text search
+  var postList = document.querySelector(".js-post-list");
+  if (postList) {
+    var chips = Array.prototype.slice.call(postList.querySelectorAll(".js-chip"));
+    var postCards = Array.prototype.slice.call(postList.querySelectorAll(".js-post"));
+    var searchBox = postList.querySelector(".js-post-search");
+    var empty = postList.querySelector(".js-posts-empty");
+    var activeCat = "all";
+    var norm = function (s) { return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim(); };
+    var applyFilter = function () {
+      var q = norm(searchBox ? searchBox.value : "");
+      var shown = 0;
+      postCards.forEach(function (card) {
+        var ok = (activeCat === "all" || card.dataset.cat === activeCat) && (!q || card.dataset.text.indexOf(q) !== -1);
+        card.hidden = !ok;
+        if (ok) shown++;
+      });
+      if (empty) empty.hidden = shown > 0;
+    };
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        // Clicking the active topic again goes back to "all"
+        activeCat = (chip.dataset.filter === activeCat && activeCat !== "all") ? "all" : chip.dataset.filter;
+        chips.forEach(function (c) {
+          var on = c.dataset.filter === activeCat;
+          c.classList.toggle("is-active", on);
+          c.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        applyFilter();
+      });
+    });
+    if (searchBox) searchBox.addEventListener("input", applyFilter);
+  }
+
+  // "Se preferir, envie uma mensagem →" reveals the contact form in place
+  document.querySelectorAll(".js-write-toggle").forEach(function (toggle) {
+    var target = document.getElementById(toggle.getAttribute("aria-controls"));
+    if (!target) return;
+    toggle.addEventListener("click", function () {
+      var open = target.hidden;
+      target.hidden = !open;
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) {
+        var first = target.querySelector("input, textarea");
+        if (first) first.focus({ preventScroll: true });
+      }
+    });
+  });
+
+  // Contact form ("Prefere escrever?")
+  document.querySelectorAll(".js-contact-form").forEach(function (form) {
+    var msg = form.querySelector(".js-form-message");
+    var show = function (text, ok) {
+      msg.textContent = text;
+      msg.classList.toggle("is-success", ok);
+      msg.classList.toggle("is-error", !ok);
+    };
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var name = form.elements.Nome.value.trim();
+      var email = form.elements.Email.value.trim();
+      var text = form.elements.Mensagem.value.trim();
+      if (!/^\S+@\S+\.\S+$/.test(email) || !text) {
+        show(EN ? "Please enter your email and a message." : "Por favor, preencha o email e a mensagem.", false);
+        return;
+      }
+      var button = form.querySelector("button[type=submit]");
+      button.disabled = true;
+      var data = new FormData();
+      data.append("Nome", name || "—");
+      data.append("Email", email);
+      data.append("Mensagem", text);
+      data.append("Origem", "Formulário de contacto");
+      data.append("Idioma", EN ? "EN" : "PT");
+      data.append("_subject", "Nova mensagem do site — " + (name || email));
+      data.append("_replyto", email);
+      data.append("_template", "table");
+      data.append("_captcha", "false");
+      fetch(FORM_ENDPOINT, { method: "POST", headers: { Accept: "application/json" }, body: data })
+        .then(function (res) {
+          if (!res.ok) throw new Error(res.status);
+          return res.json();
+        })
+        .then(function (d) {
+          if (String(d.success) === "false" && !/activat/i.test(d.message || "")) throw new Error(d.message);
+          form.reset();
+          show(EN ? "Thanks for your message! I'll get back to you soon." : "Obrigada pela mensagem! Respondo em breve.", true);
+        })
+        .catch(function () {
+          show((EN ? "Something went wrong. Please try again or write to " : "Ocorreu um erro. Tente novamente ou escreva para ") + CONTACT_EMAIL + ".", false);
+        })
+        .finally(function () { button.disabled = false; });
+    });
+  });
+
+  // Lead-magnet form: send the lead, then reveal the download. The guide is
+  // handed over even if the relay fails, so the visitor never leaves empty-handed.
+  document.querySelectorAll(".js-guide-form").forEach(function (form) {
+    var msg = form.querySelector(".js-form-message");
+    var success = form.parentNode.querySelector(".js-guide-success");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = form.elements.Email.value.trim();
+      var url = form.elements.URL.value.trim();
+      if (!/^\S+@\S+\.\S+$/.test(email) || !url) {
+        msg.textContent = EN ? "Please enter your email and your website link." : "Por favor, preencha o email e o link do site.";
+        msg.classList.add("is-error");
+        return;
+      }
+      var button = form.querySelector("button[type=submit]");
+      button.disabled = true;
+      var data = new FormData();
+      data.append("Email", email);
+      data.append("URL", url);
+      data.append("Origem", "Guia 8 sinais (faixa)");
+      data.append("Idioma", EN ? "EN" : "PT");
+      data.append("_subject", "Novo download do guia — " + url);
+      data.append("_replyto", email);
+      data.append("_template", "table");
+      data.append("_captcha", "false");
+      var reveal = function () {
+        form.hidden = true;
+        success.hidden = false;
+        var dl = success.querySelector("a");
+        if (dl) dl.focus();
+      };
+      fetch(FORM_ENDPOINT, { method: "POST", headers: { Accept: "application/json" }, body: data })
+        .then(reveal, reveal)
+        .finally(function () { button.disabled = false; });
+    });
+  });
+
   // Free redesign form
   document.querySelectorAll(".js-form").forEach(function (form) {
     var msg = form.querySelector(".js-form-message");
@@ -253,70 +773,85 @@
       var email = form.elements.Email.value.trim();
       var url = form.elements.URL.value.trim();
       if (!/^\S+@\S+\.\S+$/.test(email) || !url) {
-        show("Por favor, preencha o email e o link do site.", false);
-        return;
-      }
-      if (!FORM_ENDPOINT) {
-        var body = "Email: " + email + "\nSite: " + url;
-        window.location.href = "mailto:" + FALLBACK_EMAIL +
-          "?subject=" + encodeURIComponent("Redesign gratuito") +
-          "&body=" + encodeURIComponent(body);
+        show(EN ? "Please enter your email and your website link." : "Por favor, preencha o email e o link do site.", false);
         return;
       }
       var button = form.querySelector("button[type=submit]");
       button.disabled = true;
+      // FormData keeps this a "simple" CORS request (no preflight)
+      var data = new FormData();
+      data.append("Email", email);
+      data.append("URL", url);
+      data.append("Origem", "Plano gratuito (pop-up)");
+      data.append("Idioma", EN ? "EN" : "PT");
+      data.append("_subject", "Novo pedido de redesign gratuito — " + url);
+      data.append("_replyto", email);
+      data.append("_template", "table");
+      data.append("_captcha", "false");
       fetch(FORM_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ Email: email, URL: url })
+        headers: { Accept: "application/json" },
+        body: data
       }).then(function (res) {
         if (!res.ok) throw new Error(res.status);
+        return res.json();
+      }).then(function (data) {
+        // FormSubmit answers 200 with success "false" on real failures; before activation it says so in `message`
+        if (String(data.success) === "false" && !/activat/i.test(data.message || "")) throw new Error(data.message);
         form.reset();
-        show("Obrigada! Receberá a proposta por email.", true);
+        show(EN ? "Thank you! You'll receive the proposal by email." : "Obrigada! Receberá a proposta por email.", true);
       }).catch(function () {
-        show("Ocorreu um erro. Tente novamente ou escreva para " + FALLBACK_EMAIL + ".", false);
+        show((EN ? "Something went wrong. Please try again or write to " : "Ocorreu um erro. Tente novamente ou escreva para ") + CONTACT_EMAIL + ".", false);
       }).finally(function () {
         button.disabled = false;
       });
     });
   });
 
-  // Testimonials: logos double as tabs; prev/next arrows and logo clicks
-  // navigate manually (no auto-rotation).
-  var testimonialLogos = document.querySelector(".js-testimonial-logos");
+  // Testimonials: the client logos double as tabs; prev/next arrows (each
+  // slide carries its own pair, only the active one is reachable)
   var testimonialSlides = document.querySelector(".js-testimonial-slides");
-  if (testimonialLogos && testimonialSlides) {
-    var logos = Array.prototype.slice.call(testimonialLogos.querySelectorAll(".testimonial-logo"));
+  if (testimonialSlides) {
     var slides = Array.prototype.slice.call(testimonialSlides.querySelectorAll(".testimonial-slide"));
+    var logos = Array.prototype.slice.call(document.querySelectorAll(".js-testimonial-logos .testimonial-logo"));
     var current = 0;
-
-    function show(index) {
+    var mobileSlides = window.matchMedia("(max-width: 859px)");
+    var show = function (index) {
+      if (index === current) return;
       current = index;
+      // Mobile: ease the block from the old testimonial's height to the new one's
+      var h0 = testimonialSlides.offsetHeight;
+      slides.forEach(function (slide, i) { slide.classList.toggle("is-active", i === index); });
+      if (mobileSlides.matches) {
+        var h1 = slides[index].offsetHeight;
+        testimonialSlides.style.height = h0 + "px";
+        testimonialSlides.offsetHeight;
+        testimonialSlides.style.height = h1 + "px";
+        setTimeout(function () { testimonialSlides.style.height = ""; }, 700);
+      }
       logos.forEach(function (logo, i) {
-        var active = i === index;
-        logo.classList.toggle("is-active", active);
-        logo.setAttribute("aria-selected", active ? "true" : "false");
+        logo.classList.toggle("is-active", i === index);
+        logo.setAttribute("aria-selected", i === index ? "true" : "false");
       });
-      slides.forEach(function (slide, i) {
-        slide.classList.toggle("is-active", i === index);
-      });
-    }
-
-    function prev() { show((current - 1 + slides.length) % slides.length); }
-    function next() { show((current + 1) % slides.length); }
-
-    logos.forEach(function (logo, i) {
-      logo.addEventListener("click", function () { show(i); });
-    });
-
-    // Each slide carries its own prev/next pair (so the arrows sit right
-    // after that slide's own content); only the active slide's pair is
-    // reachable since inactive slides have pointer-events: none.
+    };
+    logos.forEach(function (logo, i) { logo.addEventListener("click", function () { show(i); }); });
+    // Swipe left/right on touch screens
+    var tx = null, ty = null;
+    testimonialSlides.addEventListener("touchstart", function (e) {
+      tx = e.touches[0].clientX; ty = e.touches[0].clientY;
+    }, { passive: true });
+    testimonialSlides.addEventListener("touchend", function (e) {
+      if (tx === null) return;
+      var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+      tx = null;
+      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      show(dx < 0 ? (current + 1) % slides.length : (current - 1 + slides.length) % slides.length);
+    }, { passive: true });
     document.querySelectorAll(".js-testimonial-prev").forEach(function (btn) {
-      btn.addEventListener("click", prev);
+      btn.addEventListener("click", function () { show((current - 1 + slides.length) % slides.length); });
     });
     document.querySelectorAll(".js-testimonial-next").forEach(function (btn) {
-      btn.addEventListener("click", next);
+      btn.addEventListener("click", function () { show((current + 1) % slides.length); });
     });
   }
 })();
