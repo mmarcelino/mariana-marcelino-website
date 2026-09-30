@@ -864,44 +864,25 @@
     var success = form.parentNode.querySelector(".js-guide-success");
     // "I don't have a website yet": the link field steps aside
     var noSite = form.querySelector(".js-nosite");
+    // The link field sits in a slot that folds away (its height eases to zero
+    // while it fades), so everything below glides up instead of jumping
+    var slot = form.querySelector(".url-slot");
     var syncNoSite = function (animate) {
       var on = !!(noSite && noSite.checked);
       var field = form.elements.URL;
       field.required = !on;
+      field.disabled = on;
       if (on) field.value = "";
-      if (field.hidden === on) return;
+      if (!slot) { field.hidden = on; return; }
       var dlg = form.closest("dialog");
-      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (!animate || !dlg || reduce || !dlg.open) { field.hidden = on; return; }
-      // Pin the popup, then ease its height while the field fades in or out
-      if (!dlg.style.marginTop) {
+      if (animate && dlg && dlg.open && !dlg.style.marginTop) {
+        // Pin the popup so it grows and shrinks at the bottom only
         dlg.style.marginTop = dlg.getBoundingClientRect().top + "px";
         dlg.style.marginBottom = "auto";
         dlg.addEventListener("close", function () { dlg.style.marginTop = ""; dlg.style.marginBottom = ""; }, { once: true });
       }
-      var run = function () {
-      var h0 = dlg.offsetHeight;
-      field.hidden = on;
-      field.classList.remove("swap-out");
-      var h1 = dlg.offsetHeight;
-      dlg.style.overflow = "hidden";
-      dlg.style.height = h0 + "px";
-      dlg.offsetHeight;
-      dlg.style.transition = "height .6s cubic-bezier(.45, 0, .15, 1)";
-      dlg.style.height = h1 + "px";
-      if (!on) {
-        field.classList.add("swap-in");
-        requestAnimationFrame(function () { requestAnimationFrame(function () { field.classList.add("is-in"); }); });
-      }
-      setTimeout(function () {
-        dlg.style.height = "";
-        dlg.style.overflow = "";
-        dlg.style.transition = "";
-        field.classList.remove("swap-in", "is-in");
-      }, 650);
-      };
-      // Hiding: the field fades out first, then the popup closes the gap
-      if (on) { field.classList.add("swap-out"); setTimeout(run, 250); } else { run(); }
+      slot.classList.toggle("no-anim", !animate);
+      slot.classList.toggle("is-collapsed", on);
     };
     if (noSite) {
       Array.prototype.forEach.call(form.querySelectorAll('input[name="HasSite"]'), function (r) {

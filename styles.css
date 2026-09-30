@@ -991,12 +991,13 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
   color: var(--grey);
 }
 .pains-list li:last-child { border-bottom: 1px solid var(--grey); }
-.pains-text { font-size: clamp(18px, 1.55vw, 24px); line-height: 1.35; letter-spacing: -.01em; color: var(--black); text-wrap: pretty; }
+/* Same size as the card titles in "Soluções", so the list sits below the lead in the hierarchy */
+.pains-text { font-size: clamp(17px, 1.4vw, 22px); line-height: 1.35; letter-spacing: -.01em; color: var(--black); text-wrap: pretty; }
 @media (min-width: 860px) {
   .pains-sub { margin-top: 26px; font-size: clamp(17px, 1.3vw, 20px); }
   .pains-lead { margin-top: 72px; margin-bottom: 12px; }
   .pains-list { padding-bottom: 128px; }
-  .pains-row { grid-template-columns: 64px 1fr; padding: 26px 0; }
+  .pains-row { grid-template-columns: 64px 1fr; padding: 22px 0; }
 }
 @media (min-width: 1200px) { .pains-statement { padding-top: 96px; } }
 
@@ -2252,3 +2253,15 @@ body.has-calendly { overflow: hidden; }
 .guide-dl .ul { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 .guide-dl .arrow { display: inline-block; transition: transform .35s var(--ease); }
 @media (hover: hover) { .guide-dl:hover .arrow { transform: translateY(3px); } }
+
+/* Guide popup: the link field folds away smoothly when there's no website */
+.url-slot {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition: grid-template-rows .7s cubic-bezier(.45, 0, .15, 1), margin-top .7s cubic-bezier(.45, 0, .15, 1), opacity .45s ease .15s;
+}
+.url-slot > div { min-height: 0; overflow: hidden; }
+.url-slot.is-collapsed { grid-template-rows: 0fr; margin-top: -8px; opacity: 0; transition: grid-template-rows .7s cubic-bezier(.45, 0, .15, 1), margin-top .7s cubic-bezier(.45, 0, .15, 1), opacity .3s ease; }
+.url-slot.no-anim { transition: none; }
+@media (prefers-reduced-motion: reduce) { .url-slot { transition: none; } }
