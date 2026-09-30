@@ -71,19 +71,9 @@ def graph(page, lang):
         **({"priceSpecification": {"@type": "PriceSpecification", "minPrice": prices[i], "priceCurrency": "EUR"}} if i == 2 else {}),
     } for i, n in enumerate(names)]
 
-    # Testimonials (visible on the page, no invented ratings)
-    reviews = []
-    for block in re.findall(r'<blockquote class="testimonial-slide.*?</blockquote>', page, re.S):
-        body = " ".join(text(p) for p in re.findall(r'<div class="testimonial-quote">(.*?)</div>', block, re.S))
-        name = text(re.search(r'<span class="testimonial-name">(.*?)</span>', block).group(1))
-        role = text(re.search(r'<span class="testimonial-role">(.*?)</span>', block).group(1))
-        reviews.append({
-            "@type": "Review",
-            "reviewBody": body,
-            "author": {"@type": "Person", "name": name, "jobTitle": role},
-            "itemReviewed": {"@id": biz_id},
-            "inLanguage": c["lang"],
-        })
+    # Testimonials are not marked up as Review: Google doesn't show review
+    # snippets for a business's own testimonials ("self-serving reviews") and
+    # flags them as invalid without a star rating, which the page doesn't show.
 
     address = {"@type": "PostalAddress", "addressCountry": BUSINESS["addressCountry"]}
     if BUSINESS["addressLocality"]:
@@ -108,7 +98,6 @@ def graph(page, lang):
                             "target": CALENDLY},
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": c["plans"], "itemListElement": offers},
         "makesOffer": [{"@type": "Offer", "itemOffered": {"@id": s["@id"]}} for s in services],
-        "review": reviews,
         "knowsAbout": ["Web design", "SEO", "Generative engine optimisation", "Conversion rate optimisation",
                        "Marketing automation", "Chatbots", "Structured data"],
     }
