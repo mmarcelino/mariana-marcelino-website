@@ -46,10 +46,10 @@ const COPY = {
       subject: "Obrigada pelo pedido de redesign",
       hello: (n) => (n ? `Olá, ${n}!` : "Olá!"),
       blocks: [
-        { p: "Obrigada pelo interesse em ver como o posso ajudar a renovar o seu site. Já recebi o seu pedido e o próximo passo está do meu lado – vou analisar o site atual e nos próximos dias vou enviar-lhe:" },
+        { p: "Obrigada pelo interesse em ver como posso ajudar a renovar o seu site. Já recebi o seu pedido e o próximo passo está do meu lado – vou analisar o site atual e nos próximos dias vou enviar-lhe:" },
         { ul: [
           "— Uma proposta visual de redesign para a sua nova homepage.",
-          "— Um relatório com os principais pontos de melhoria (além do design) para o ajudar a converter mais visitantes em clientes."
+          "— Um relatório com os principais pontos de melhoria (além do design) para ajudar a converter mais visitantes em clientes."
         ] },
         { p: "Se não quiser esperar pelo e-mail e preferir avançar já para uma conversa direta, pode marcar uma chamada:" },
         { cta: "Marcar chamada", href: CALENDLY },
@@ -62,7 +62,7 @@ const COPY = {
       hello: (n) => (n ? `Olá, ${n},` : "Olá,"),
       blocks: [
         { p: "Como prometido, aqui tem o link para descarregar o guia: ", link: "Oito sinais de que o seu site está a afastar clientes", href: `${SITE}/assets/guia-8-sinais.pdf` },
-        { p: "Identificar estes sinais é apenas o primeiro passo: o verdadeiro desafio é corrigi-los. Se preferir avançar mais rápido, convido-o a marcar comigo uma breve chamada de 30 minutos." },
+        { p: "Identificar estes sinais é apenas o primeiro passo: o verdadeiro desafio é corrigi-los. Se preferir avançar mais rápido, pode marcar comigo uma breve chamada de 30 minutos." },
         { cta: "Marcar chamada", href: CALENDLY },
         { p: FREE_CALL.pt },
         { p: "Ou, se preferir, comece por fazer a auditoria ao seu ritmo. Quando sentir que é altura de avançar, estarei por aqui para conversarmos." }

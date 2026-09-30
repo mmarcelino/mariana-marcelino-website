@@ -17,7 +17,7 @@ Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, pra
 ## Soluções
 
 - Design e estrutura à sua medida
-- Mais pessoas a encontrá-lo (Google, ChatGPT e outras ferramentas de IA)
+- Mais pessoas a encontrar o seu negócio (Google, ChatGPT e outras ferramentas de IA)
 - Mais visitantes a contactar
 - Menos trabalho manual (automação de tarefas repetitivas)
 - Marcações imediatas
@@ -27,7 +27,7 @@ Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, pra
 
 - Prazos: o redesign gratuito da homepage fica pronto em 2 dias; o Redesign Visual demora cerca de 1 semana; no Motor de Contactos o prazo depende da complexidade e fica definido na proposta.
 - Processo: conversa inicial de 30 minutos, proposta escrita, design aprovado pelo cliente (com duas rondas de revisões), construção, testes e publicação, entrega dos acessos com uma pequena formação.
-- Depois da publicação: o site é do cliente, que o pode gerir sozinho; a manutenção é opcional e definida caso a caso.
+- Depois da publicação: o site é do cliente, que o pode gerir de forma autónoma; a manutenção é opcional e definida caso a caso.
 - Onde trabalha: remotamente, com negócios de todo o país e do estrangeiro, por videochamada, email e mensagens.
 
 ## Recursos gratuitos

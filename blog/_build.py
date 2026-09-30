@@ -148,11 +148,11 @@ POSTS = [
 <p>Formulários com dez campos, um email escondido no rodapé ou a obrigação de ligar em horário de expediente são obstáculos desnecessários.</p>
 <p><strong>O que fazer:</strong> reduza o formulário ao essencial e ofereça alternativas, como WhatsApp, marcação online ou chat, para quem prefere outro canal.</p>
 
-<h2>7. Não o encontram no Google nem nas ferramentas de IA</h2>
+<h2>7. Não encontram o seu negócio no Google nem nas ferramentas de IA</h2>
 <p>Um site bonito que ninguém encontra não gera contactos. Pesquise pelo seu serviço e pela sua localidade: se o seu negócio não aparece, os seus concorrentes estão a ficar com esses clientes.</p>
 <p><strong>O que fazer:</strong> reveja títulos, descrições e conteúdos de cada página e complete o seu Perfil da Empresa no Google. Neste artigo explicamos <a href="../como-aparecer-no-chatgpt/">como aparecer também nas respostas do ChatGPT</a>.</p>
 
-<h2>8. Não consegue atualizá-lo sozinho</h2>
+<h2>8. Não consegue atualizá-lo sem ajuda</h2>
 <p>Se mudar um preço ou acrescentar um projeto implica pedir ajuda e esperar dias, o site acaba por ficar desatualizado. E um site desatualizado transmite desleixo.</p>
 <p><strong>O que fazer:</strong> garanta que tem acesso e autonomia para editar os conteúdos do dia a dia.</p>
 
@@ -1237,7 +1237,7 @@ Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, pra
 ## Soluções
 
 - Design e estrutura à sua medida
-- Mais pessoas a encontrá-lo (Google, ChatGPT e outras ferramentas de IA)
+- Mais pessoas a encontrar o seu negócio (Google, ChatGPT e outras ferramentas de IA)
 - Mais visitantes a contactar
 - Menos trabalho manual (automação de tarefas repetitivas)
 - Marcações imediatas
@@ -1247,7 +1247,7 @@ Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, pra
 
 - Prazos: o redesign gratuito da homepage fica pronto em 2 dias; o Redesign Visual demora cerca de 1 semana; no Motor de Contactos o prazo depende da complexidade e fica definido na proposta.
 - Processo: conversa inicial de 30 minutos, proposta escrita, design aprovado pelo cliente (com duas rondas de revisões), construção, testes e publicação, entrega dos acessos com uma pequena formação.
-- Depois da publicação: o site é do cliente, que o pode gerir sozinho; a manutenção é opcional e definida caso a caso.
+- Depois da publicação: o site é do cliente, que o pode gerir de forma autónoma; a manutenção é opcional e definida caso a caso.
 - Onde trabalha: remotamente, com negócios de todo o país e do estrangeiro, por videochamada, email e mensagens.
 
 ## Recursos gratuitos
