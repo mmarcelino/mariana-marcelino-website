@@ -10,7 +10,9 @@
 //   - only requests from the site itself are answered
 //   - per-visitor limit: 20 messages per hour (per server instance)
 //   - short conversations: last 16 messages, 800 characters each
-//   - short replies (max_tokens) and a prompt that keeps to the business
+//   - at most 8 visitor questions per conversation, then a hand-over to Mariana
+//   - short replies (max_tokens) and a prompt that keeps to the business: no
+//     personalised consulting, those questions are redirected to a call/email
 
 const KNOWLEDGE = require("./knowledge.js");
 
@@ -18,6 +20,7 @@ const MODEL = process.env.CHAT_MODEL || "claude-haiku-4-5-20251001";
 const MAX_MESSAGES = 16;
 const MAX_CHARS = 800;
 const PER_HOUR = 20;
+const PER_CONVERSATION = 8; // visitor questions per conversation, then a friendly hand-over
 const hits = new Map(); // ip -> [timestamps]
 
 const ALLOWED = [/^https:\/\/(www\.)?mariana-marcelino\.com$/, /^https:\/\/[a-z0-9-]+\.vercel\.app$/, /^http:\/\/localhost(:\d+)?$/];
@@ -39,6 +42,8 @@ function systemPrompt(lang) {
 Regras:
 - Responde apenas com base na informação abaixo. Se a resposta não estiver lá, diz que não tens essa informação e sugere marcar uma chamada ou deixar o email.
 - Nunca inventes preços, prazos, descontos, garantias ou serviços que não estejam abaixo. Não prometas resultados.
+- O teu papel é só esclarecer o que está no site: serviços, planos, preços, prazos, processo e contactos. Não és consultora nem dás conselhos personalizados.
+- Se a pergunta pedir uma opinião, estratégia ou diagnóstico para um negócio ou site concreto (por exemplo "o que faz sentido para o meu negócio de…", "o que achas do meu site", "como aumento as vendas de…"), NÃO dês a análise. Responde numa ou duas frases que é uma questão melhor respondida pela Mariana em contacto direto, sugere marcar uma chamada gratuita de 30 minutos ou deixar o email, e termina com o marcador [[EMAIL]].
 - Respostas curtas: no máximo 3 ou 4 frases (cerca de 70 palavras). Texto simples, sem markdown, sem títulos, sem negrito. Se precisares de listar, usa linhas começadas por "— ".
 - Escreve de forma neutra em género: não uses "o/a", "obrigado/a", "convido-o", "sozinho", "interessado". Prefere construções como "o seu negócio", "pode", "quem visita".
 - Fala da Mariana na terceira pessoa ("a Mariana").
@@ -53,6 +58,8 @@ Regras:
 Rules:
 - Only answer from the information below. If the answer isn't there, say you don't have that information and suggest booking a call or leaving an email.
 - Never invent prices, timelines, discounts, guarantees or services that aren't below. Don't promise results.
+- Your role is only to clarify what's on the website: services, plans, prices, timelines, process and contact. You're not a consultant and don't give personalised advice.
+- If the question asks for an opinion, strategy or diagnosis for a specific business or website (e.g. "what makes sense for my … business", "what do you think of my site", "how do I increase sales for…"), do NOT give the analysis. Reply in one or two sentences that it's a question best answered by Mariana directly, suggest booking a free 30-minute call or leaving an email, and end with the marker [[EMAIL]].
 - Short replies: 3 or 4 sentences at most (about 70 words). Plain text, no markdown, no headings, no bold. If you need a list, start lines with "— ".
 - Refer to Mariana in the third person ("Mariana").
 - When it makes sense (questions about their specific project, a custom quote, wanting to go ahead), suggest booking a free 30-minute call or requesting the free homepage redesign. The "Book a call" and "Email this conversation" buttons are right below the chat.
@@ -87,13 +94,20 @@ module.exports = async function handler(req, res) {
     .map((m) => ({ role: m.role, content: m.content.trim().slice(0, MAX_CHARS) }));
   // The conversation sent to the model must start with the visitor
   while (messages.length && messages[0].role !== "user") messages.shift();
+  // Long conversations are handed over to Mariana instead of calling the model
+  const asked = (Array.isArray(body.messages) ? body.messages : []).filter((m) => m && m.role === "user").length;
+  if (asked > PER_CONVERSATION) {
+    return res.status(200).json({ reply: (lang === "en"
+      ? "For anything more, it's best to talk to Mariana directly: book a free 30-minute call or leave your email and she'll get back to you."
+      : "Para continuar, o melhor é falar diretamente com a Mariana: pode marcar uma chamada gratuita de 30 minutos ou deixar o email e ela responde-lhe.") + " [[EMAIL]]", limit: true });
+  }
   if (!messages.length || messages[messages.length - 1].role !== "user") return res.status(400).json({ error: "No message" });
 
   try {
     const r = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: { "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-      body: JSON.stringify({ model: MODEL, max_tokens: 350, temperature: 0.3, system: systemPrompt(lang), messages })
+      body: JSON.stringify({ model: MODEL, max_tokens: 220, temperature: 0.3, system: systemPrompt(lang), messages })
     });
     if (!r.ok) {
       console.error("Anthropic", r.status, (await r.text()).slice(0, 300));
