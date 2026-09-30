@@ -491,7 +491,6 @@ def header(prefix, current="blog", lang="pt", alt=None):
   <!-- Lead magnet strip -->
   <div class="promo-strip" role="region" aria-label="{u['strip_region']}">
     <button type="button" class="promo-link" data-open-modal="guide-modal"><span class="promo-text">{u['foot_guide']}</span><span class="promo-go"><span class="ul">{u['strip_go']}</span> <span class="arrow">→</span></span></button>
-    <button type="button" class="promo-close js-promo-close" aria-label="{u['close']}">{X_ICON}</button>
   </div>
 
   <header class="header">
@@ -520,7 +519,7 @@ def header(prefix, current="blog", lang="pt", alt=None):
       <a href="{home}#about" class="js-menu-link">{u['m_l2']}</a>
       <a href="{home}#cta" class="js-menu-link">{u['m_l5']}</a>
     </nav>
-    <a href="{CALENDLY}" target="_blank" rel="noopener" class="mobile-menu-cta"><span class="ul">{u['call']}</span> <span class="arrow" aria-hidden="true">↗</span></a>
+    <a href="{CALENDLY}" target="_blank" rel="noopener" class="mobile-menu-cta"><span class="ul">{u['call']}</span> <span class="arrow"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5"/></svg></span></a>
     <div class="mobile-menu-foot">
       {lang_switch(lang, alt, u['lang_label'])}
     </div>

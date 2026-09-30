@@ -2270,3 +2270,9 @@ body.has-calendly { overflow: hidden; }
 
 /* Free redesign popup: the thank-you note in black (green stays for the contact form) */
 .modal-form .cta-thanks-title, .modal-form .cta-thanks-sub { color: var(--black); }
+
+/* Menu call link: a drawn arrow (the ↗ character turns into an emoji on iOS) */
+.mobile-menu-cta .arrow svg { display: inline-block; width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; vertical-align: -1px; }
+/* The guide strip can't be closed: no room kept for a close button */
+.promo-strip { padding-left: 24px; padding-right: 24px; }
+@media (max-width: 559px) { .promo-strip { padding: 0 var(--gap); } }
