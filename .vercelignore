@@ -1,0 +1,7 @@
+# Not part of the live site: build scripts, drafts and notes
+blog/*.py
+guide/
+versions/
+preview-v1.html
+README.md
+.htaccess

@@ -33,7 +33,7 @@ LEGAL_EN = [
 <h2>Who I share your data with</h2>
 <p>For the website to work, I rely on service providers that process data on my behalf or that your browser connects to:</p>
 <ul>
-  <li><strong>FormSubmit</strong> (formsubmit.co): receives the data from the website’s forms (free redesign, free guide and contact: name, email, website link, message and page language) and forwards it to my email. No account is needed and the data isn’t used for any other purpose.</li>
+  <li><strong>Web3Forms</strong> (web3forms.com): receives the data from the website’s forms (free redesign, free guide and contact: name, email, website link, message and page language) and forwards it to my email. The data isn’t used for any other purpose.</li>
   <li><strong>Calendly</strong> (calendly.com): handles call bookings. The calendar only loads when you click “Book a call”; at that point, your browser connects to Calendly’s servers, which receive your IP address and may set cookies. The data you enter in the calendar is processed by Calendly, under its own privacy policy.</li>
   <li><strong>Email and website hosting providers</strong>: store the messages I receive and serve the website’s pages.</li>
 </ul>
@@ -72,7 +72,7 @@ LEGAL_EN = [
 <ul>
   <li><strong>Calendly:</strong> when you click “Book a call”, Calendly’s calendar opens in a window on this website and may set its own cookies, under its own policy.</li>
   <li><strong>LinkedIn:</strong> links to LinkedIn open LinkedIn’s website, which is subject to that service’s cookie policy.</li>
-  <li><strong>FormSubmit:</strong> when you send a form, the data is passed to FormSubmit to be forwarded by email. This doesn’t set any cookies on this website.</li>
+  <li><strong>Web3Forms:</strong> when you send a form, the data is passed to Web3Forms to be forwarded by email. This doesn’t set any cookies on this website.</li>
 </ul>
 
 <h2>How to manage cookies</h2>

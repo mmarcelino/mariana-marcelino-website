@@ -1,8 +1,22 @@
 (function () {
-  // Free-redesign requests are relayed to CONTACT_EMAIL by FormSubmit. The very
-  // first submission triggers a one-off activation email that must be confirmed.
+  // Form submissions are emailed to CONTACT_EMAIL by Web3Forms. The access key
+  // is public by design (it only allows sending to this address).
   var CONTACT_EMAIL = "info@mariana-marcelino.com";
-  var FORM_ENDPOINT = "https://formsubmit.co/ajax/" + CONTACT_EMAIL;
+  var FORM_ENDPOINT = "https://api.web3forms.com/submit";
+  var FORM_KEY = "973fe51d-cbf3-42aa-a9ed-89eba047449c";
+  var formData = function (subject, replyTo) {
+    var data = new FormData();
+    data.append("access_key", FORM_KEY);
+    data.append("subject", subject);
+    data.append("from_name", "Site Mariana Marcelino");
+    data.append("replyto", replyTo);
+    return data;
+  };
+  var sendForm = function (data) {
+    return fetch(FORM_ENDPOINT, { method: "POST", headers: { Accept: "application/json" }, body: data })
+      .then(function (res) { return res.json().catch(function () { return {}; }); })
+      .then(function (d) { if (!d || d.success !== true) throw new Error((d && d.message) || "send failed"); return d; });
+  };
   var EN = /^en/i.test(document.documentElement.lang);
   var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -678,6 +692,20 @@
   });
 
   // Contact form ("Prefere escrever?")
+  // If the form relay is down, offer the visitor's own email app with the
+  // message already written, so the enquiry isn't lost
+  var mailFallback = function (msg, subject, body) {
+    var href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    msg.textContent = EN ? "The form couldn't be sent right now. " : "Não foi possível enviar o formulário agora. ";
+    var a = document.createElement("a");
+    a.href = href;
+    a.textContent = EN ? "Send it by email instead" : "Enviar por email";
+    msg.appendChild(a);
+    msg.appendChild(document.createTextNode(EN ? " (your message is already filled in)." : " (a sua mensagem já vai escrita)."));
+    msg.classList.remove("is-success");
+    msg.classList.add("is-error");
+  };
+
   document.querySelectorAll(".js-contact-form").forEach(function (form) {
     var msg = form.querySelector(".js-form-message");
     var show = function (text, ok) {
@@ -696,28 +724,19 @@
       }
       var button = form.querySelector("button[type=submit]");
       button.disabled = true;
-      var data = new FormData();
+      var data = formData("Nova mensagem do site — " + (name || email), email);
       data.append("Nome", name || "—");
       data.append("Email", email);
       data.append("Mensagem", text);
       data.append("Origem", "Formulário de contacto");
       data.append("Idioma", EN ? "EN" : "PT");
-      data.append("_subject", "Nova mensagem do site — " + (name || email));
-      data.append("_replyto", email);
-      data.append("_template", "table");
-      data.append("_captcha", "false");
-      fetch(FORM_ENDPOINT, { method: "POST", headers: { Accept: "application/json" }, body: data })
-        .then(function (res) {
-          if (!res.ok) throw new Error(res.status);
-          return res.json();
-        })
-        .then(function (d) {
-          if (String(d.success) === "false" && !/activat/i.test(d.message || "")) throw new Error(d.message);
+      sendForm(data)
+        .then(function () {
           form.reset();
           show(EN ? "Thanks for your message! I'll get back to you soon." : "Obrigada pela mensagem! Respondo em breve.", true);
         })
         .catch(function () {
-          show((EN ? "Something went wrong. Please try again or write to " : "Ocorreu um erro. Tente novamente ou escreva para ") + CONTACT_EMAIL + ".", false);
+          mailFallback(msg, (EN ? "Message from the website" : "Mensagem do site") + (name ? " — " + name : ""), text + "\n\n" + (name || "") + "\n" + email);
         })
         .finally(function () { button.disabled = false; });
     });
@@ -739,22 +758,18 @@
       }
       var button = form.querySelector("button[type=submit]");
       button.disabled = true;
-      var data = new FormData();
+      var data = formData("Novo download do guia — " + url, email);
       data.append("Email", email);
       data.append("URL", url);
-      data.append("Origem", "Guia 8 sinais (faixa)");
+      data.append("Origem", "Guia 8 sinais");
       data.append("Idioma", EN ? "EN" : "PT");
-      data.append("_subject", "Novo download do guia — " + url);
-      data.append("_replyto", email);
-      data.append("_template", "table");
-      data.append("_captcha", "false");
       var reveal = function () {
         form.hidden = true;
         success.hidden = false;
         var dl = success.querySelector("a");
         if (dl) dl.focus();
       };
-      fetch(FORM_ENDPOINT, { method: "POST", headers: { Accept: "application/json" }, body: data })
+      sendForm(data)
         .then(reveal, reveal)
         .finally(function () { button.disabled = false; });
     });
@@ -778,30 +793,16 @@
       }
       var button = form.querySelector("button[type=submit]");
       button.disabled = true;
-      // FormData keeps this a "simple" CORS request (no preflight)
-      var data = new FormData();
+      var data = formData("Novo pedido de redesign gratuito — " + url, email);
       data.append("Email", email);
       data.append("URL", url);
       data.append("Origem", "Plano gratuito (pop-up)");
       data.append("Idioma", EN ? "EN" : "PT");
-      data.append("_subject", "Novo pedido de redesign gratuito — " + url);
-      data.append("_replyto", email);
-      data.append("_template", "table");
-      data.append("_captcha", "false");
-      fetch(FORM_ENDPOINT, {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: data
-      }).then(function (res) {
-        if (!res.ok) throw new Error(res.status);
-        return res.json();
-      }).then(function (data) {
-        // FormSubmit answers 200 with success "false" on real failures; before activation it says so in `message`
-        if (String(data.success) === "false" && !/activat/i.test(data.message || "")) throw new Error(data.message);
+      sendForm(data).then(function () {
         form.reset();
         show(EN ? "Thank you! You'll receive the proposal by email." : "Obrigada! Receberá a proposta por email.", true);
       }).catch(function () {
-        show((EN ? "Something went wrong. Please try again or write to " : "Ocorreu um erro. Tente novamente ou escreva para ") + CONTACT_EMAIL + ".", false);
+        mailFallback(msg, EN ? "Free homepage redesign request" : "Pedido de redesign gratuito", (EN ? "Website: " : "Site: ") + url + "\n" + (EN ? "Email: " : "Email: ") + email);
       }).finally(function () {
         button.disabled = false;
       });
