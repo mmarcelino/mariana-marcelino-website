@@ -965,7 +965,7 @@ def build_post(i, post, lang="pt"):
 # Legal pages (served at /politica-de-privacidade/, /politica-de-cookies/,
 # /termos-e-condicoes/)
 # --------------------------------------------------------------------------
-LEGAL_UPDATED = "2026-09-29"
+LEGAL_UPDATED = "2026-09-30"
 
 LEGAL = [
 {
@@ -983,7 +983,7 @@ LEGAL = [
   <li><strong>Pedido de redesign gratuito:</strong> o endereço de email e o link do seu site, que indica nos formulários da homepage.</li>
   <li><strong>Pedido do guia gratuito:</strong> o endereço de email e o link do seu site, que indica para descarregar o guia “8 sinais de que o seu site está a afastar clientes”.</li>
   <li><strong>Formulário de contacto e email:</strong> o seu nome (opcional), o endereço de email e a informação que decidir partilhar na mensagem.</li>
-  <li><strong>Marcação de chamadas:</strong> quando marca uma chamada, é redirecionado para o Calendly, onde indica o seu nome, email e outras informações que o formulário pedir.</li>
+  <li><strong>Marcação de chamadas:</strong> quando clica em “Marcar chamada”, o calendário do Calendly abre numa janela dentro deste site, onde indica o seu nome, email e outras informações que o formulário de marcação pedir.</li>
   <li><strong>Dados técnicos:</strong> como em qualquer site, o seu browser transmite automaticamente o endereço IP e informação técnica ao servidor de alojamento e aos serviços que carregam recursos na página, como as fontes.</li>
 </ul>
 <p>Não recolho categorias especiais de dados e este site não se destina a menores de 16 anos.</p>
@@ -1000,7 +1000,7 @@ LEGAL = [
 <p>Para que o site funcione, recorro a prestadores de serviços que tratam dados em meu nome ou que são contactados pelo seu browser:</p>
 <ul>
   <li><strong>FormSubmit</strong> (formsubmit.co): recebe os dados dos formulários do site (redesign gratuito, guia gratuito e contacto: nome, email, link do site, mensagem e idioma da página) e reencaminha-os para o meu email. Não é necessário criar conta nem são usados para outros fins.</li>
-  <li><strong>Calendly</strong> (calendly.com): gere a marcação de chamadas. Os dados que introduz na página de marcação são tratados pelo Calendly, de acordo com a respetiva política de privacidade.</li>
+  <li><strong>Calendly</strong> (calendly.com): gere a marcação de chamadas. O calendário só é carregado quando clica em “Marcar chamada”; nesse momento, o seu browser liga-se aos servidores do Calendly, que recebem o seu endereço IP e podem definir cookies. Os dados que introduz no calendário são tratados pelo Calendly, de acordo com a respetiva política de privacidade.</li>
   <li><strong>Google Fonts</strong> (Google): fornece o tipo de letra do site. Ao carregar a página, o seu browser liga-se aos servidores da Google, que recebem o seu endereço IP.</li>
   <li><strong>Fornecedor de email e alojamento do site</strong>: guardam as mensagens que recebo e servem as páginas do site.</li>
 </ul>
@@ -1017,7 +1017,7 @@ LEGAL = [
 <p>Tem também o direito de apresentar reclamação à autoridade de controlo, a Comissão Nacional de Proteção de Dados (<a href="https://www.cnpd.pt" target="_blank" rel="noopener">www.cnpd.pt</a>).</p>
 
 <h2>Cookies</h2>
-<p>Este site não usa cookies próprios. Pode ler os detalhes na <a href="../politica-de-cookies/">Política de Cookies</a>.</p>
+<p>Este site não usa cookies próprios. O Calendly pode definir cookies quando abre o calendário de marcação. Pode ler os detalhes na <a href="../politica-de-cookies/">Política de Cookies</a>.</p>
 
 <h2>Alterações a esta política</h2>
 <p>Esta política pode ser atualizada, por exemplo, quando acrescentar novos serviços ao site. A data da última atualização está sempre indicada no topo desta página.</p>
@@ -1032,12 +1032,13 @@ LEGAL = [
 <p>Cookies são pequenos ficheiros de texto que um site guarda no seu dispositivo quando o visita. Servem, por exemplo, para lembrar preferências ou medir a utilização de um site.</p>
 
 <h2>Cookies usados neste site</h2>
-<p>Este site <strong>não usa cookies próprios</strong>, nem ferramentas de estatística, de publicidade ou de acompanhamento. Por isso, não lhe pedimos consentimento para cookies.</p>
+<p>Este site <strong>não usa cookies próprios</strong>, nem ferramentas de estatística, de publicidade ou de acompanhamento.</p>
+<p>A única exceção é o calendário de marcação do Calendly. Só é carregado quando clica em “Marcar chamada” e, a partir desse momento, o Calendly pode definir cookies para mostrar a disponibilidade e concluir a marcação, de acordo com a sua <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener">política de privacidade</a>. Se o seu país o exigir, o próprio Calendly pede-lhe consentimento dentro do calendário. Se preferir não usar o Calendly, escreva para <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a> e combinamos a chamada por email.</p>
 
 <h2>Serviços de terceiros</h2>
 <ul>
   <li><strong>Google Fonts:</strong> o tipo de letra do site é carregado a partir dos servidores da Google. Este serviço não define cookies, mas recebe o seu endereço IP quando a página é carregada.</li>
-  <li><strong>Calendly:</strong> ao clicar em “Marcar chamada”, é encaminhado para o site do Calendly, que pode usar cookies próprios de acordo com a respetiva política.</li>
+  <li><strong>Calendly:</strong> ao clicar em “Marcar chamada”, o calendário do Calendly abre numa janela dentro deste site e pode definir cookies próprios, de acordo com a respetiva política.</li>
   <li><strong>LinkedIn:</strong> os links para o LinkedIn abrem o site do LinkedIn, sujeito à política de cookies desse serviço.</li>
   <li><strong>FormSubmit:</strong> quando envia um formulário, os dados são transmitidos ao FormSubmit para serem reencaminhados por email. Este envio não define cookies neste site.</li>
 </ul>
@@ -1076,7 +1077,7 @@ LEGAL = [
 <p>Compromete-se a utilizar o site de forma lícita e a não enviar, através dos formulários, conteúdos falsos, ofensivos ou que violem direitos de terceiros.</p>
 
 <h2>Ligações externas</h2>
-<p>Este site contém ligações para sites de terceiros, como o Calendly e o LinkedIn. Não sou responsável pelo conteúdo nem pelas práticas de privacidade desses sites.</p>
+<p>Este site contém ligações para sites de terceiros, como o LinkedIn, e integra serviços de terceiros, como o calendário de marcação do Calendly. Não sou responsável pelo conteúdo nem pelas práticas de privacidade desses sites.</p>
 
 <h2>Responsabilidade</h2>
 <p>Procuro manter a informação deste site correta e atualizada, mas não garanto que esteja isenta de erros ou que o site esteja sempre disponível. Na medida permitida por lei, não sou responsável por danos resultantes da utilização do site ou da impossibilidade de o utilizar.</p>

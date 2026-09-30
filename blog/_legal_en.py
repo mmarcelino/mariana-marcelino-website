@@ -17,7 +17,7 @@ LEGAL_EN = [
   <li><strong>Free redesign request:</strong> your email address and your website link, which you enter in the homepage forms.</li>
   <li><strong>Free guide request:</strong> your email address and your website link, which you enter to download the guide “Eight signs your website is driving clients away”.</li>
   <li><strong>Contact form and email:</strong> your name (optional), your email address and whatever information you choose to share in your message.</li>
-  <li><strong>Booking a call:</strong> when you book a call, you are redirected to Calendly, where you enter your name, email and any other information the form asks for.</li>
+  <li><strong>Booking a call:</strong> when you click “Book a call”, Calendly’s calendar opens in a window on this website, where you enter your name, email and any other information the booking form asks for.</li>
   <li><strong>Technical data:</strong> as with any website, your browser automatically sends your IP address and technical information to the hosting server and to the services that load resources on the page, such as fonts.</li>
 </ul>
 <p>I don’t collect special categories of data, and this website is not intended for children under 16.</p>
@@ -34,7 +34,7 @@ LEGAL_EN = [
 <p>For the website to work, I rely on service providers that process data on my behalf or that your browser connects to:</p>
 <ul>
   <li><strong>FormSubmit</strong> (formsubmit.co): receives the data from the website’s forms (free redesign, free guide and contact: name, email, website link, message and page language) and forwards it to my email. No account is needed and the data isn’t used for any other purpose.</li>
-  <li><strong>Calendly</strong> (calendly.com): handles call bookings. The data you enter on the booking page is processed by Calendly, under its own privacy policy.</li>
+  <li><strong>Calendly</strong> (calendly.com): handles call bookings. The calendar only loads when you click “Book a call”; at that point, your browser connects to Calendly’s servers, which receive your IP address and may set cookies. The data you enter in the calendar is processed by Calendly, under its own privacy policy.</li>
   <li><strong>Google Fonts</strong> (Google): provides the website’s typeface. When the page loads, your browser connects to Google’s servers, which receive your IP address.</li>
   <li><strong>Email and website hosting providers</strong>: store the messages I receive and serve the website’s pages.</li>
 </ul>
@@ -51,7 +51,7 @@ LEGAL_EN = [
 <p>You also have the right to lodge a complaint with the supervisory authority, the Portuguese Data Protection Authority, CNPD (<a href="https://www.cnpd.pt" target="_blank" rel="noopener">www.cnpd.pt</a>).</p>
 
 <h2>Cookies</h2>
-<p>This website doesn’t use its own cookies. You can read the details in the <a href="../cookie-policy/">Cookie Policy</a>.</p>
+<p>This website doesn’t use its own cookies. Calendly may set cookies when you open the booking calendar. You can read the details in the <a href="../cookie-policy/">Cookie Policy</a>.</p>
 
 <h2>Changes to this policy</h2>
 <p>This policy may be updated, for example when new services are added to the website. The date of the last update is always shown at the top of this page.</p>
@@ -66,12 +66,13 @@ LEGAL_EN = [
 <p>Cookies are small text files that a website stores on your device when you visit it. They are used, for example, to remember preferences or measure how a website is used.</p>
 
 <h2>Cookies used on this website</h2>
-<p>This website <strong>doesn’t use its own cookies</strong>, nor any analytics, advertising or tracking tools. That’s why we don’t ask for your consent to cookies.</p>
+<p>This website <strong>doesn’t use its own cookies</strong>, nor any analytics, advertising or tracking tools.</p>
+<p>The only exception is Calendly’s booking calendar. It only loads when you click “Book a call”, and from then on Calendly may set cookies to show availability and complete the booking, under its own <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener">privacy notice</a>. Where required in your country, Calendly asks for your consent inside the calendar. If you’d rather not use Calendly, write to <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a> and we’ll arrange the call by email.</p>
 
 <h2>Third-party services</h2>
 <ul>
   <li><strong>Google Fonts:</strong> the website’s typeface is loaded from Google’s servers. This service doesn’t set cookies, but it receives your IP address when the page loads.</li>
-  <li><strong>Calendly:</strong> when you click “Book a call”, you are taken to Calendly’s website, which may use its own cookies under its own policy.</li>
+  <li><strong>Calendly:</strong> when you click “Book a call”, Calendly’s calendar opens in a window on this website and may set its own cookies, under its own policy.</li>
   <li><strong>LinkedIn:</strong> links to LinkedIn open LinkedIn’s website, which is subject to that service’s cookie policy.</li>
   <li><strong>FormSubmit:</strong> when you send a form, the data is passed to FormSubmit to be forwarded by email. This doesn’t set any cookies on this website.</li>
 </ul>
@@ -110,7 +111,7 @@ LEGAL_EN = [
 <p>You agree to use the website lawfully and not to send, through the forms, content that is false, offensive or infringes the rights of others.</p>
 
 <h2>External links</h2>
-<p>This website contains links to third-party websites, such as Calendly and LinkedIn. I am not responsible for the content or privacy practices of those websites.</p>
+<p>This website contains links to third-party websites, such as LinkedIn, and includes third-party services, such as Calendly’s booking calendar. I am not responsible for the content or privacy practices of those websites.</p>
 
 <h2>Liability</h2>
 <p>I try to keep the information on this website accurate and up to date, but I don’t guarantee that it is error-free or that the website is always available. To the extent permitted by law, I am not liable for any damage resulting from the use of the website or from being unable to use it.</p>

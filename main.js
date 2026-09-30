@@ -59,6 +59,46 @@
     });
   }
 
+  // Booking: every "Marcar chamada" link opens Calendly in a popup over
+  // the page instead of a new tab. Calendly's files load on the first click
+  // only; if they fail, the link simply opens in a new tab as before.
+  var calendlyLoading = null;
+  var loadCalendly = function () {
+    if (calendlyLoading) return calendlyLoading;
+    calendlyLoading = new Promise(function (resolve, reject) {
+      var css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = "https://assets.calendly.com/assets/external/widget.css";
+      document.head.appendChild(css);
+      var js = document.createElement("script");
+      js.src = "https://assets.calendly.com/assets/external/widget.js";
+      js.async = true;
+      js.onload = function () { window.Calendly ? resolve() : reject(); };
+      js.onerror = reject;
+      document.head.appendChild(js);
+    });
+    return calendlyLoading;
+  };
+  document.addEventListener("click", function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest && e.target.closest('a[href*="calendly.com/"]');
+    if (!a) return;
+    e.preventDefault();
+    var url = a.href;
+    // The mobile menu closes first so the calendar opens on a clean page
+    var menuClose = document.querySelector(".js-mobile-menu:not([hidden]) .js-menu-close");
+    if (menuClose) menuClose.click();
+    loadCalendly().then(function () {
+      window.Calendly.initPopupWidget({ url: url });
+    }).catch(function () { window.open(url, "_blank", "noopener"); });
+  });
+  // While the calendar is open, the page behind stays still
+  new MutationObserver(function () {
+    var open = !!document.querySelector(".calendly-overlay");
+    document.body.classList.toggle("has-calendly", open);
+    if (lenis) { if (open) lenis.stop(); else if (!document.body.classList.contains("has-modal")) lenis.start(); }
+  }).observe(document.body, { childList: true });
+
   // Buttons: on hover the label rolls up and a copy rolls in from below
   document.querySelectorAll(".button").forEach(function (btn) {
     var label = btn.textContent.trim();
