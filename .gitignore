@@ -1,6 +1,9 @@
 # macOS
 .DS_Store
 
+# Node.js
+node_modules/
+
 # Design explorations kept locally, not part of the live site
 versions/
 preview-v1.html
