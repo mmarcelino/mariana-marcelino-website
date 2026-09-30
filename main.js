@@ -130,65 +130,214 @@
     if (lenis) { if (open) lenis.stop(); else if (!document.body.classList.contains("has-modal")) lenis.start(); }
   }).observe(document.body, { childList: true });
 
-  // Chat (Tidio), click-to-load: a light button of our own sits in the corner
-  // and nothing from Tidio loads until someone asks for the chat. After a first
-  // use, Tidio loads straight away on later visits so the conversation continues.
-  var TIDIO_SRC = "https://code.tidio.co/tyjm6whhzfmzav3a7kbew664dnakstc2.js";
-  var chatUsed = false;
-  try { chatUsed = localStorage.getItem("chat-used") === "1"; } catch (err) {}
-  var tidioRequested = false;
-  var loadTidio = function (openIt) {
-    if (openIt) {
-      var openNow = function () { if (window.tidioChatApi) { window.tidioChatApi.show(); window.tidioChatApi.open(); } };
-      if (window.tidioChatApi) { openNow(); return; }
-      // Tidio needs a moment after "ready" before it can open its window
-      // (asked twice, as the first call can land before the widget is fully set up)
-      document.addEventListener("tidioChat-ready", function () {
-        var opened = false;
-        var tryOpen = function () { if (!opened) openNow(); };
-        if (window.tidioChatApi && window.tidioChatApi.on) window.tidioChatApi.on("open", function () { opened = true; });
-        setTimeout(tryOpen, 900);
-        setTimeout(tryOpen, 2200);
-      }, { once: true });
-    }
-    if (tidioRequested) return;
-    tidioRequested = true;
-    var t = document.createElement("script");
-    t.src = TIDIO_SRC;
-    t.async = true;
-    document.body.appendChild(t);
+  // ---------- Chat assistant (our own; answers come from /api/chat) ----------
+  // Kept in its own scope: the hero animation further down uses the same names
+  (function () {
+  var CHAT_T = EN ? {
+    open: "Open chat", close: "Close chat", title: "Mariana's assistant", status: "Replies in seconds",
+    hello: "Hi! I'm Mariana's assistant. I can help with questions about plans, prices, timelines or how the process works.",
+    placeholder: "Write your question…", send: "Send",
+    chips: ["How much does a website cost?", "How does the free redesign work?", "How long does it take?"],
+    call: "Book a call", mail: "Email this conversation",
+    mailAsk: "Leave your email and Mariana will get back to you with this conversation in hand.",
+    mailPlaceholder: "Your email", mailSend: "Send", mailCancel: "Cancel",
+    mailOk: "Done! Mariana has received this conversation and will get back to you soon.",
+    mailFail: "It couldn't be sent right now. You can write to info@mariana-marcelino.com.",
+    busy: "Too many messages in a short time. Please try again in a little while, or book a call.",
+    fail: "Sorry, I can't answer right now. You can book a call or write to info@mariana-marcelino.com.",
+    you: "You", bot: "Assistant"
+  } : {
+    open: "Abrir chat", close: "Fechar chat", title: "Assistente da Mariana", status: "Responde em segundos",
+    hello: "Olá! Sou a assistente da Mariana. Posso ajudar com dúvidas sobre planos, preços, prazos ou funcionamento do processo.",
+    placeholder: "Escreva a sua pergunta…", send: "Enviar",
+    chips: ["Quanto custa um site?", "Como funciona o redesign gratuito?", "Quanto tempo demora?"],
+    call: "Marcar chamada", mail: "Enviar conversa por email",
+    mailAsk: "Deixe o seu email e a Mariana responde-lhe com esta conversa em mãos.",
+    mailPlaceholder: "O seu email", mailSend: "Enviar", mailCancel: "Cancelar",
+    mailOk: "Feito! A Mariana recebeu esta conversa e responde-lhe brevemente.",
+    mailFail: "Não foi possível enviar agora. Pode escrever para info@mariana-marcelino.com.",
+    busy: "Muitas mensagens em pouco tempo. Tente de novo daqui a pouco, ou marque uma chamada.",
+    fail: "Desculpe, não consigo responder agora. Pode marcar uma chamada ou escrever para info@mariana-marcelino.com.",
+    you: "Eu", bot: "Assistente"
   };
+  var CHAT_KEY = "chat-" + (EN ? "en" : "pt");
+  var chatHistory = [];
+  try { chatHistory = JSON.parse(sessionStorage.getItem(CHAT_KEY) || "[]"); } catch (err) { chatHistory = []; }
+  var saveChat = function () { try { sessionStorage.setItem(CHAT_KEY, JSON.stringify(chatHistory.slice(-30))); } catch (err) {} };
+
   var launcher = document.createElement("button");
   launcher.type = "button";
   launcher.className = "chat-launcher";
-  launcher.setAttribute("aria-label", EN ? "Open chat" : "Abrir chat");
+  launcher.setAttribute("aria-label", CHAT_T.open);
+  launcher.setAttribute("aria-expanded", "false");
+  launcher.setAttribute("aria-controls", "chat-panel");
   launcher.innerHTML = '<span class="chat-launcher-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v8.5a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 3.5V17H5a1.5 1.5 0 0 1-1.5-1.5V7A1.5 1.5 0 0 1 5 5.5Z"/></svg></span>';
-  launcher.addEventListener("click", function () {
-    launcher.classList.add("is-loading");
-    try { localStorage.setItem("chat-used", "1"); } catch (err) {}
-    loadTidio(true);
+
+  var panel = document.createElement("section");
+  panel.className = "chat-panel";
+  panel.id = "chat-panel";
+  panel.hidden = true;
+  panel.setAttribute("role", "dialog");
+  panel.setAttribute("aria-label", CHAT_T.title);
+  panel.innerHTML =
+    '<header class="chat-head"><div><p class="chat-title"></p><p class="chat-status"><i aria-hidden="true"></i><span></span></p></div>' +
+    '<button type="button" class="chat-close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg></button></header>' +
+    '<div class="chat-log" aria-live="polite"></div>' +
+    '<div class="chat-chips"></div>' +
+    '<form class="chat-mail" hidden novalidate><p class="chat-mail-ask"></p><div class="chat-mail-row"><input type="email" class="chat-mail-input" autocomplete="email" required><button type="submit" class="chat-mail-send"></button></div><button type="button" class="chat-mail-cancel"></button></form>' +
+    '<form class="chat-form" novalidate><textarea class="chat-input" rows="1" maxlength="800"></textarea><button type="submit" class="chat-send"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></svg></button></form>' +
+    '<div class="chat-actions"><a class="chat-action" target="_blank" rel="noopener" href="https://calendly.com/marianacmarcelino/30min"></a><button type="button" class="chat-action js-chat-mail"></button></div>';
+  var $ = function (sel) { return panel.querySelector(sel); };
+  $(".chat-title").textContent = CHAT_T.title;
+  $(".chat-status span").textContent = CHAT_T.status;
+  $(".chat-close").setAttribute("aria-label", CHAT_T.close);
+  $(".chat-input").placeholder = CHAT_T.placeholder;
+  $(".chat-input").setAttribute("aria-label", CHAT_T.placeholder);
+  $(".chat-send").setAttribute("aria-label", CHAT_T.send);
+  $(".chat-actions a").textContent = CHAT_T.call;
+  $(".js-chat-mail").textContent = CHAT_T.mail;
+  $(".chat-mail-ask").textContent = CHAT_T.mailAsk;
+  $(".chat-mail-input").placeholder = CHAT_T.mailPlaceholder;
+  $(".chat-mail-input").setAttribute("aria-label", CHAT_T.mailPlaceholder);
+  $(".chat-mail-send").textContent = CHAT_T.mailSend;
+  $(".chat-mail-cancel").textContent = CHAT_T.mailCancel;
+  var logEl = $(".chat-log"), input = $(".chat-input"), chatForm = $(".chat-form"), chips = $(".chat-chips"), mailForm = $(".chat-mail");
+
+  // Replies are plain text; site links become clickable, everything else stays text
+  var bubble = function (role, content, extraClass) {
+    var el = document.createElement("div");
+    el.className = "chat-msg -" + role + (extraClass ? " " + extraClass : "");
+    String(content).split(/(https:\/\/www\.mariana-marcelino\.com\/[^\s)]*)/).forEach(function (part, idx) {
+      if (idx % 2) {
+        var a = document.createElement("a");
+        a.href = part.replace(/[.,;:]+$/, "");
+        a.textContent = a.href.replace("https://www.", "");
+        el.appendChild(a);
+        if (part !== a.href) el.appendChild(document.createTextNode(part.slice(a.href.length)));
+      } else {
+        el.appendChild(document.createTextNode(part));
+      }
+    });
+    logEl.appendChild(el);
+    logEl.scrollTop = logEl.scrollHeight;
+    return el;
+  };
+  var renderChat = function () {
+    logEl.innerHTML = "";
+    bubble("bot", CHAT_T.hello);
+    chatHistory.forEach(function (m) { bubble(m.role === "user" ? "user" : "bot", m.content); });
+    chips.hidden = chatHistory.length > 0;
+  };
+  CHAT_T.chips.forEach(function (label) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "chat-chip";
+    b.textContent = label;
+    b.addEventListener("click", function () { ask(label); });
+    chips.appendChild(b);
   });
-  // Once Tidio is there, its own button takes over
-  document.addEventListener("tidioChat-ready", function () { launcher.classList.add("is-gone"); });
-  if (chatUsed) {
-    launcher.classList.add("is-gone");
-    var later = function () { setTimeout(function () { loadTidio(false); }, 1500); };
-    if (document.readyState === "complete") later(); else window.addEventListener("load", later);
-  }
+
+  var waiting = false;
+  var ask = function (text) {
+    text = String(text || "").trim();
+    if (!text || waiting) return;
+    waiting = true;
+    chips.hidden = true;
+    chatHistory.push({ role: "user", content: text.slice(0, 800) });
+    saveChat();
+    bubble("user", text);
+    input.value = "";
+    autosize();
+    var typing = bubble("bot", "", "is-typing");
+    typing.innerHTML = "<i></i><i></i><i></i>";
+    fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ lang: EN ? "en" : "pt", messages: chatHistory })
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (d) {
+        if (res.status === 429) throw new Error("busy");
+        if (!res.ok || !d.reply) throw new Error("fail");
+        return d.reply;
+      });
+    }).then(function (reply) {
+      typing.remove();
+      chatHistory.push({ role: "assistant", content: reply });
+      saveChat();
+      bubble("bot", reply);
+    }).catch(function (e) {
+      typing.remove();
+      bubble("bot", e.message === "busy" ? CHAT_T.busy : CHAT_T.fail, "is-note");
+    }).finally(function () { waiting = false; });
+  };
+  var autosize = function () { input.style.height = "auto"; input.style.height = Math.min(input.scrollHeight, 120) + "px"; };
+  input.addEventListener("input", autosize);
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(input.value); }
+  });
+  chatForm.addEventListener("submit", function (e) { e.preventDefault(); ask(input.value); });
+
+  // "Email this conversation": sent through the same email function as the forms
+  $(".js-chat-mail").addEventListener("click", function () {
+    mailForm.hidden = false;
+    chatForm.hidden = true;
+    $(".chat-mail-input").focus();
+  });
+  $(".chat-mail-cancel").addEventListener("click", function () { mailForm.hidden = true; chatForm.hidden = false; input.focus(); });
+  mailForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var email = $(".chat-mail-input").value.trim();
+    if (!/^\S+@\S+\.\S+$/.test(email)) { $(".chat-mail-input").focus(); return; }
+    var transcript = chatHistory.map(function (m) { return (m.role === "user" ? CHAT_T.you : CHAT_T.bot) + ": " + m.content; }).join("\n\n") || "—";
+    $(".chat-mail-send").disabled = true;
+    var w3 = formData("Chat: novo contacto", email);
+    w3.append("Email", email);
+    w3.append("Mensagem", transcript);
+    w3.append("Origem", "Chat do site");
+    w3.append("Idioma", EN ? "EN" : "PT");
+    submit(mailForm, { type: "chat", email: email, message: transcript }, w3).then(function () {
+      mailForm.hidden = true;
+      chatForm.hidden = false;
+      bubble("bot", CHAT_T.mailOk, "is-note");
+    }).catch(function () {
+      bubble("bot", CHAT_T.mailFail, "is-note");
+    }).finally(function () { $(".chat-mail-send").disabled = false; });
+  });
+
+  var chatIsOpen = false;
+  var openChat = function () {
+    if (!logEl.childNodes.length) renderChat();
+    panel.hidden = false;
+    requestAnimationFrame(function () { panel.classList.add("is-open"); });
+    chatIsOpen = true;
+    launcher.setAttribute("aria-expanded", "true");
+    launcher.setAttribute("aria-label", CHAT_T.close);
+    launcher.classList.add("is-active");
+    setTimeout(function () { input.focus({ preventScroll: true }); logEl.scrollTop = logEl.scrollHeight; }, 50);
+  };
+  var closeChat = function () {
+    panel.classList.remove("is-open");
+    chatIsOpen = false;
+    launcher.setAttribute("aria-expanded", "false");
+    launcher.setAttribute("aria-label", CHAT_T.open);
+    launcher.classList.remove("is-active");
+    setTimeout(function () { if (!chatIsOpen) panel.hidden = true; }, 300);
+  };
+  launcher.addEventListener("click", function () { if (chatIsOpen) closeChat(); else openChat(); });
+  $(".chat-close").addEventListener("click", function () { closeChat(); launcher.focus(); });
+  panel.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeChat(); launcher.focus(); } });
+  document.body.appendChild(panel);
   document.body.appendChild(launcher);
+
   // Keep the button out of the way while it would sit on top of the hero
-  // animation; it appears once the animation has scrolled past
+  // animation, and give it a light outline over black sections
   var heroVisual = document.querySelector(".hero-visual");
   var darkZones = document.querySelectorAll('[data-nav="dark"]');
   var chatTick = false;
-  // Tidio's own button (once loaded) steps aside too, but only while its
-  // chat window is closed
-  var chatOpen = false, tidioHidden = false;
   var placeLauncher = function () {
     chatTick = false;
     var l = launcher.getBoundingClientRect();
     var cy = l.top + l.height / 2;
-    // Over a black section: a light outline keeps the black button visible
     var onDark = false;
     for (var z = 0; z < darkZones.length; z++) {
       var d = darkZones[z].getBoundingClientRect();
@@ -198,22 +347,12 @@
     if (!heroVisual) return;
     var v = heroVisual.getBoundingClientRect();
     var overlaps = v.bottom > l.top - 24 && v.top < l.bottom + 24;
-    launcher.classList.toggle("is-hidden", overlaps);
-    var api = window.tidioChatApi;
-    if (api && !chatOpen && overlaps !== tidioHidden) {
-      tidioHidden = overlaps;
-      if (overlaps) api.hide(); else api.show();
-    }
+    launcher.classList.toggle("is-hidden", overlaps && !chatIsOpen);
   };
-  document.addEventListener("tidioChat-ready", function () {
-    if (!window.tidioChatApi || !window.tidioChatApi.on) return;
-    window.tidioChatApi.on("open", function () { chatOpen = true; tidioHidden = false; });
-    window.tidioChatApi.on("close", function () { chatOpen = false; placeLauncher(); });
-    placeLauncher();
-  });
   window.addEventListener("scroll", function () { if (!chatTick) { chatTick = true; requestAnimationFrame(placeLauncher); } }, { passive: true });
   window.addEventListener("resize", placeLauncher);
   placeLauncher();
+  })();
 
   // Buttons: on hover the label rolls up and a copy rolls in from below
   document.querySelectorAll(".button").forEach(function (btn) {
