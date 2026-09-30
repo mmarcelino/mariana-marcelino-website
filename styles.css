@@ -2203,3 +2203,4 @@ body.has-calendly { overflow: hidden; }
   transition: transform .2s ease;
 }
 .skip-link:focus { transform: none; }
+.message a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }

@@ -1003,7 +1003,7 @@ LEGAL = [
 <h2>Com quem partilho os seus dados</h2>
 <p>Para que o site funcione, recorro a prestadores de serviços que tratam dados em meu nome ou que são contactados pelo seu browser:</p>
 <ul>
-  <li><strong>FormSubmit</strong> (formsubmit.co): recebe os dados dos formulários do site (redesign gratuito, guia gratuito e contacto: nome, email, link do site, mensagem e idioma da página) e reencaminha-os para o meu email. Não é necessário criar conta nem são usados para outros fins.</li>
+  <li><strong>Web3Forms</strong> (web3forms.com): recebe os dados dos formulários do site (redesign gratuito, guia gratuito e contacto: nome, email, link do site, mensagem e idioma da página) e reencaminha-os para o meu email. Os dados não são usados para outros fins.</li>
   <li><strong>Calendly</strong> (calendly.com): gere a marcação de chamadas. O calendário só é carregado quando clica em “Marcar chamada”; nesse momento, o seu browser liga-se aos servidores do Calendly, que recebem o seu endereço IP e podem definir cookies. Os dados que introduz no calendário são tratados pelo Calendly, de acordo com a respetiva política de privacidade.</li>
   <li><strong>Fornecedor de email e alojamento do site</strong>: guardam as mensagens que recebo e servem as páginas do site.</li>
 </ul>
@@ -1042,7 +1042,7 @@ LEGAL = [
 <ul>
   <li><strong>Calendly:</strong> ao clicar em “Marcar chamada”, o calendário do Calendly abre numa janela dentro deste site e pode definir cookies próprios, de acordo com a respetiva política.</li>
   <li><strong>LinkedIn:</strong> os links para o LinkedIn abrem o site do LinkedIn, sujeito à política de cookies desse serviço.</li>
-  <li><strong>FormSubmit:</strong> quando envia um formulário, os dados são transmitidos ao FormSubmit para serem reencaminhados por email. Este envio não define cookies neste site.</li>
+  <li><strong>Web3Forms:</strong> quando envia um formulário, os dados são transmitidos à Web3Forms para serem reencaminhados por email. Este envio não define cookies neste site.</li>
 </ul>
 
 <h2>Como gerir cookies</h2>
