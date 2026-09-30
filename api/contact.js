@@ -30,10 +30,10 @@ const FREE_CALL = {
 const COPY = {
   pt: {
     contact: {
-      subject: "Recebi a sua mensagem",
+      subject: "Obrigada pela sua mensagem",
       hello: (n) => (n ? `Olá, ${n}!` : "Olá!"),
       blocks: [
-        { p: "Obrigada por entrar em contacto. Recebi a sua mensagem e vou lê-la muito em breve." },
+        { p: "Obrigada pela mensagem, volto ao seu contacto muito em breve." },
         { p: "Se preferir avançar já para uma conversa direta, pode marcar uma chamada:" },
         { cta: "Marcar chamada", href: CALENDLY },
         { p: FREE_CALL.pt },
@@ -43,7 +43,7 @@ const COPY = {
       recap: "A sua mensagem"
     },
     redesign: {
-      subject: "Recebi o seu pedido de redesign gratuito",
+      subject: "Obrigada pelo pedido de redesign",
       hello: (n) => (n ? `Olá, ${n}!` : "Olá!"),
       blocks: [
         { p: "Obrigada pelo interesse em ver como o posso ajudar a renovar o seu site. Já recebi o seu pedido e o próximo passo está do meu lado: vou analisar o seu site atual e nos próximos dias vou enviar-lhe:" },
@@ -62,11 +62,13 @@ const COPY = {
       hello: (n) => (n ? `Olá, ${n},` : "Olá,"),
       blocks: [
         { p: "Como prometido, aqui tem o link de acesso ao guia “Oito sinais de que o seu site está a afastar clientes”." },
-        { link: "Descarregar o guia em PDF", href: `${SITE}/assets/guia-8-sinais.pdf` },
+        { link: "Descarregar", href: `${SITE}/assets/guia-8-sinais.pdf` },
         { p: "Identificar estes sinais é apenas o primeiro passo: o verdadeiro desafio é corrigi-los. Se preferir avançar mais rápido, convido-o a marcar comigo uma breve chamada de 30 minutos:" },
         { cta: "Marcar chamada", href: CALENDLY },
-        { p: FREE_CALL.pt }
+        { p: FREE_CALL.pt },
+        { p: "Mas, se preferir, comece por fazer a auditoria ao seu ritmo. Quando sentir que é altura de avançar, estarei por aqui para conversarmos." }
       ],
+      sign: "Até já,",
       recap: null
     },
     sign: "Até breve,",
@@ -77,10 +79,10 @@ const COPY = {
   },
   en: {
     contact: {
-      subject: "I've received your message",
+      subject: "Thank you for your message",
       hello: (n) => (n ? `Hi, ${n}!` : "Hi!"),
       blocks: [
-        { p: "Thank you for getting in touch. I've received your message and will read it very soon." },
+        { p: "Thank you for your message, I'll get back to you very soon." },
         { p: "If you'd like to go straight to a conversation, you can book a call:" },
         { cta: "Book a call", href: CALENDLY },
         { p: FREE_CALL.en },
@@ -90,7 +92,7 @@ const COPY = {
       recap: "Your message"
     },
     redesign: {
-      subject: "I've received your free redesign request",
+      subject: "Thank you for your redesign request",
       hello: (n) => (n ? `Hi, ${n}!` : "Hi!"),
       blocks: [
         { p: "Thank you for your interest in seeing how I can help you refresh your website. I've received your request and the next step is on me: I'll review your current website and, over the next few days, send you:" },
@@ -109,11 +111,13 @@ const COPY = {
       hello: (n) => (n ? `Hi, ${n},` : "Hi,"),
       blocks: [
         { p: "As promised, here's your link to the guide “Eight signs your website is driving clients away”." },
-        { link: "Download the PDF guide", href: `${SITE}/assets/guide-8-signs.pdf` },
+        { link: "Download", href: `${SITE}/assets/guide-8-signs.pdf` },
         { p: "Spotting these signs is only the first step: the real challenge is fixing them. If you'd like to move faster, I'd like to invite you to book a short 30-minute call with me:" },
         { cta: "Book a call", href: CALENDLY },
-        { p: FREE_CALL.en }
+        { p: FREE_CALL.en },
+        { p: "But if you'd prefer, start by running the audit at your own pace. When you feel it's time to move forward, I'll be here to talk." }
       ],
+      sign: "Talk soon,",
       recap: null
     },
     sign: "Speak soon,",
@@ -144,7 +148,7 @@ function visitorEmail(type, lang, data) {
   const recapRows = c.recap
     ? Object.keys(L.fields)
         .filter((k) => data[k] && k !== "Email")
-        .map((k) => `<tr><td style="padding:6px 0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6b6b69;vertical-align:top;width:90px">${esc(L.fields[k])}</td><td style="padding:6px 0;font-size:15px;line-height:1.5;color:${INK};white-space:pre-wrap">${esc(data[k])}</td></tr>`)
+        .map((k) => `<tr><td valign="top" style="padding:6px 16px 6px 0;font-size:12px;line-height:22px;letter-spacing:.06em;text-transform:uppercase;color:#6b6b69;vertical-align:top;width:90px;white-space:nowrap">${esc(L.fields[k])}</td><td valign="top" style="padding:6px 0;font-size:15px;line-height:22px;color:${INK};vertical-align:top;white-space:pre-wrap">${esc(data[k])}</td></tr>`)
         .join("")
     : "";
   // The recap sits at the very end, below a line under the signature
@@ -224,6 +228,8 @@ module.exports = async function handler(req, res) {
   };
   if (!isEmail(data.Email)) return res.status(400).json({ success: false, message: "Invalid email" });
   if (type === "contact" && !data.Mensagem) return res.status(400).json({ success: false, message: "Missing message" });
+  // The guide can be requested by someone who doesn't have a website yet
+  if (type === "guide" && body.noSite === true) data.URL = "Ainda não tem site";
   if (type !== "contact" && !data.URL) return res.status(400).json({ success: false, message: "Missing website" });
 
   const from = process.env.MAIL_FROM || "Mariana Marcelino <info@mariana-marcelino.com>";

@@ -391,7 +391,7 @@ UI = {
     strip_go="Receber guia", close="Fechar",
     g_kicker="Guia gratuito", g_sub="Um guia prático, com um teste rápido para cada sinal. Em poucos minutos percebe o que pode estar a custar-lhe contactos.",
     g_inc="O que vai encontrar", g_items=["Os oito sinais mais comuns, explicados sem jargão", "O que fazer e um teste rápido para cada um", "Uma grelha para decidir o próximo passo"],
-    g_label="Pedido do guia gratuito", g_url="Insira o link para o seu site", g_email="Insira o seu email", g_btn="Receber o guia",
+    g_label="Pedido do guia gratuito", g_nosite="Ainda não tenho site", g_yes="Já tenho site", g_site_q="Tem site?", g_url="Insira o link para o seu site", g_email="Insira o seu email", g_btn="Receber o guia",
     g_note="Sem qualquer custo. Os seus dados servem apenas para este pedido.", privacy="Política de Privacidade",
     g_ok_t="Obrigada, já pode descarregar o guia", g_dl="Descarregar", g_file="assets/guia-8-sinais.pdf", g_dl_name="Oito-sinais-de-que-o-seu-site-esta-a-afastar-clientes.pdf",
     cta_kicker="Contacto", cta_title="Comecemos com uma conversa",
@@ -414,7 +414,7 @@ UI = {
     strip_go="Get the guide", close="Close",
     g_kicker="Free guide", g_sub="A practical guide with a quick test for each sign. In a few minutes you’ll see what might be costing you enquiries.",
     g_inc="What’s inside", g_items=["The eight most common signs, explained without jargon", "What to do, and a quick test for each one", "A simple way to decide your next step"],
-    g_label="Free guide request", g_url="Enter your website link", g_email="Enter your email", g_btn="Get the guide",
+    g_label="Free guide request", g_nosite="I don't have one yet", g_yes="I have a website", g_site_q="Do you have a website?", g_url="Enter your website link", g_email="Enter your email", g_btn="Get the guide",
     g_note="Completely free. Your details are only used for this request.", privacy="Privacy Policy",
     g_ok_t="Thank you, you can now download the guide", g_dl="Download", g_file="assets/guide-8-signs.pdf", g_dl_name="Eight-signs-your-website-is-driving-clients-away.pdf",
     cta_kicker="Contact", cta_title="Let's start with a conversation",
@@ -547,6 +547,7 @@ def guide_modal(prefix, lang="pt"):
     </div>
     <form class="js-guide-form form-free modal-form" aria-label="{u['g_label']}" novalidate>
       <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="site-choice" role="radiogroup" aria-label="{u['g_site_q']}"><label class="radio"><input type="radio" name="HasSite" value="yes" checked><span>{u['g_yes']}</span></label><label class="radio"><input type="radio" name="HasSite" value="no" class="js-nosite"><span>{u['g_nosite']}</span></label></div>
       <input type="text" name="URL" class="input" placeholder="{u['g_url']}" required autocomplete="url">
       <input type="email" name="Email" class="input" placeholder="{u['g_email']}" required autocomplete="email">
       <button type="submit" class="button">{u['g_btn']}</button>
