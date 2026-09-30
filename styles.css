@@ -2353,7 +2353,11 @@ body.has-modal .chat-launcher { opacity: 0; pointer-events: none; }
 .chat-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 12px 14px 20px; border-bottom: 1px solid rgba(0, 0, 0, .1); }
 .chat-title { font-size: 15px; font-weight: 600; }
 .chat-status { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-size: 12px; color: var(--text-3); }
-.chat-status i { width: 7px; height: 7px; border-radius: 50%; background: #2fa36b; }
+/* "Online" dot: a soft sage green that gently pulses */
+.chat-status i { position: relative; width: 7px; height: 7px; border-radius: 50%; background: #5f9e7f; }
+.chat-status i::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #5f9e7f; animation: chat-pulse 2s ease-out infinite; }
+@keyframes chat-pulse { 0% { transform: scale(1); opacity: .55; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .chat-status i::after { animation: none; } }
 .chat-close { display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 50%; background: none; color: inherit; cursor: pointer; }
 .chat-close svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.5; }
 @media (hover: hover) { .chat-close:hover { background: rgba(0, 0, 0, .06); } }
@@ -2390,7 +2394,8 @@ body.has-modal .chat-launcher { opacity: 0; pointer-events: none; }
 .chat-mail-input:focus { border-color: rgba(0, 0, 0, .4); }
 .chat-mail-send { padding: 9px 16px; border: 0; border-radius: 999px; background: var(--black); color: var(--off-white); font-family: var(--font-sans); font-size: 14px; cursor: pointer; }
 .chat-mail-cancel { margin-top: 8px; padding: 0; border: 0; background: none; font-family: var(--font-sans); font-size: 12.5px; color: var(--text-3); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
-.chat-actions { display: flex; justify-content: center; gap: 18px; padding: 16px 12px 20px; }
+/* Links under the composer, lined up with its left and right edges */
+.chat-actions { display: flex; justify-content: space-between; gap: 18px; padding: 16px 24px 20px; }
 .chat-action { padding: 0; border: 0; background: none; font-family: var(--font-sans); font-size: 12.5px; font-weight: 600; color: var(--black); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 @media (hover: hover) { .chat-action:hover { text-decoration: none; } }
 @media (max-width: 559px) {

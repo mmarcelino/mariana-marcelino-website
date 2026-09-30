@@ -134,30 +134,30 @@
   // Kept in its own scope: the hero animation further down uses the same names
   (function () {
   var CHAT_T = EN ? {
-    open: "Open chat", close: "Close chat", title: "Mariana's assistant", status: "Replies in seconds",
-    hello: "Hi! I'm Mariana's assistant. I can help with questions about plans, prices, timelines or how the process works.",
+    open: "Open chat", close: "Close chat", title: "Let's talk", status: "Virtual assistant · Online", label: "Mariana's virtual assistant",
+    hello: "Hi! I'm Mariana's assistant. How can I help? I can answer your questions, explain the services or help you work out what might make sense for your business.",
     placeholder: "Write your question…", send: "Send",
     chips: ["How much does a website cost?", "How does the free redesign work?", "How long does it take?"],
     call: "Book a call", mail: "Email this conversation",
     mailAsk: "Leave your email and Mariana will get back to you with this conversation in hand.",
     mailPlaceholder: "Your email", mailSend: "Send", mailCancel: "Cancel",
     mailOk: "Done! Mariana has received this conversation and will get back to you soon.",
-    leadAsk: "Would you like Mariana to follow up by email, with a proposal or next steps? Leave your email and she'll get back to you with this conversation in hand.",
+    leadAsk: "Would you like Mariana to follow up on your questions in more detail? Leave your email and she'll get back to you soon.",
     leadSkip: "Not now",
     mailFail: "It couldn't be sent right now. You can write to info@mariana-marcelino.com.",
     busy: "Too many messages in a short time. Please try again in a little while, or book a call.",
     fail: "Sorry, I can't answer right now. You can book a call or write to info@mariana-marcelino.com.",
     you: "You", bot: "Assistant"
   } : {
-    open: "Abrir chat", close: "Fechar chat", title: "Assistente da Mariana", status: "Responde em segundos",
-    hello: "Olá! Sou a assistente da Mariana. Posso ajudar com dúvidas sobre planos, preços, prazos ou funcionamento do processo.",
+    open: "Abrir chat", close: "Fechar chat", title: "Fale connosco", status: "Assistente virtual · Online", label: "Assistente virtual da Mariana",
+    hello: "Olá! Sou a assistente da Mariana. Como posso ajudar? Posso responder às suas dúvidas, explicar os serviços ou ajudar a perceber o que pode fazer sentido para o seu negócio.",
     placeholder: "Escreva a sua pergunta…", send: "Enviar",
     chips: ["Quanto custa um site?", "Como funciona o redesign gratuito?", "Quanto tempo demora?"],
     call: "Marcar chamada", mail: "Enviar conversa por email",
     mailAsk: "Deixe o seu email e a Mariana responde-lhe com esta conversa em mãos.",
     mailPlaceholder: "O seu email", mailSend: "Enviar", mailCancel: "Cancelar",
     mailOk: "Feito! A Mariana recebeu esta conversa e responde-lhe brevemente.",
-    leadAsk: "Quer que a Mariana dê seguimento por email, com uma proposta ou os próximos passos? Deixe o seu email e ela responde-lhe com esta conversa em mãos.",
+    leadAsk: "Quer que a Mariana dê seguimento mais detalhado às suas dúvidas? Deixe o seu email e ela responde-lhe brevemente.",
     leadSkip: "Agora não",
     mailFail: "Não foi possível enviar agora. Pode escrever para info@mariana-marcelino.com.",
     busy: "Muitas mensagens em pouco tempo. Tente de novo daqui a pouco, ou marque uma chamada.",
@@ -184,7 +184,7 @@
   panel.setAttribute("role", "dialog");
   // Wheel and touch scrolling inside the chat stay in the chat (not the page)
   panel.setAttribute("data-lenis-prevent", "");
-  panel.setAttribute("aria-label", CHAT_T.title);
+  panel.setAttribute("aria-label", CHAT_T.label);
   panel.innerHTML =
     '<header class="chat-head"><div><p class="chat-title"></p><p class="chat-status"><i aria-hidden="true"></i><span></span></p></div>' +
     '<button type="button" class="chat-close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg></button></header>' +
