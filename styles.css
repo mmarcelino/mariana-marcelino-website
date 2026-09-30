@@ -2222,3 +2222,26 @@ body.has-calendly { overflow: hidden; }
 .cta-thanks-again .ul::after { content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: currentColor; }
 .cta-thanks-again .arrow { display: inline-block; transition: transform .35s var(--ease); }
 @media (hover: hover) { .cta-thanks-again:hover .arrow { transform: translateX(4px); } }
+
+/* Guide popup: "Do you have a website?" as two small radio options above the
+   link field; choosing "not yet" hides the field */
+.site-choice { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 6px 4px; }
+.radio { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; line-height: 1; color: var(--text-2); cursor: pointer; user-select: none; }
+.radio input {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  border: 1px solid rgba(0, 0, 0, .35);
+  border-radius: 50%;
+  background: var(--off-white);
+  cursor: pointer;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.radio input:checked { border-color: var(--black); box-shadow: inset 0 0 0 3px var(--off-white), inset 0 0 0 7px var(--black); }
+.radio input:checked + span { color: var(--black); }
+.radio input:focus-visible { outline: 2px solid var(--black); outline-offset: 2px; }
+@media (hover: hover) { .radio:hover { color: var(--black); } .radio:hover input { border-color: var(--black); } }
+.modal-form .input[hidden] { display: none; }

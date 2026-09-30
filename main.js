@@ -862,11 +862,26 @@
   document.querySelectorAll(".js-guide-form").forEach(function (form) {
     var msg = form.querySelector(".js-form-message");
     var success = form.parentNode.querySelector(".js-guide-success");
+    // "I don't have a website yet": the link field steps aside
+    var noSite = form.querySelector(".js-nosite");
+    var syncNoSite = function () {
+      var on = !!(noSite && noSite.checked);
+      form.elements.URL.hidden = on;
+      form.elements.URL.required = !on;
+      if (on) form.elements.URL.value = "";
+    };
+    if (noSite) {
+      Array.prototype.forEach.call(form.querySelectorAll('input[name="HasSite"]'), function (r) {
+        r.addEventListener("change", syncNoSite);
+      });
+      form.addEventListener("reset", function () { setTimeout(syncNoSite, 0); });
+    }
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var email = form.elements.Email.value.trim();
-      var url = form.elements.URL.value.trim();
-      if (!/^\S+@\S+\.\S+$/.test(email) || !url) {
+      var hasNoSite = !!(noSite && noSite.checked);
+      var url = hasNoSite ? "" : form.elements.URL.value.trim();
+      if (!/^\S+@\S+\.\S+$/.test(email) || (!url && !hasNoSite)) {
         msg.textContent = EN ? "Please enter your email and your website link." : "Por favor, preencha o email e o link do site.";
         msg.classList.add("is-error");
         return;
@@ -875,10 +890,10 @@
       button.disabled = true;
       var data = formData("Guia: novo download", email);
       data.append("Email", email);
-      data.append("URL", url);
+      data.append("URL", hasNoSite ? "Ainda não tem site" : url);
       data.append("Origem", "Guia 8 sinais");
       data.append("Idioma", EN ? "EN" : "PT");
-      var payload = { type: "guide", email: email, url: url };
+      var payload = { type: "guide", email: email, url: url, noSite: hasNoSite };
       var reveal = function () {
         smoothSwap({
           box: form.closest("dialog") || form.parentNode,
