@@ -2206,13 +2206,19 @@ body.has-calendly { overflow: hidden; }
 .message a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
 /* Contact form sent: the form fades out and a short note takes its place */
-.cta-write { transition: height .55s cubic-bezier(.22, 1, .36, 1); }
-.cta-write > * { transition: opacity .35s ease, transform .35s ease; }
-.cta-write.is-leaving > * { opacity: 0; transform: translateY(-6px); }
-.cta-thanks { opacity: 0; transform: translateY(8px); transition: opacity .6s ease, transform .7s cubic-bezier(.22, 1, .36, 1); outline: none; }
-.cta-thanks.is-in { opacity: 1; transform: none; }
-.cta-thanks-title { font-size: clamp(20px, 1.7vw, 26px); line-height: 1.2; letter-spacing: -.015em; color: #0a5e45; }
-.cta-thanks-sub { margin-top: 6px; font-size: var(--fs-body); color: #0a5e45; } /* deep green: readable (AA) on the lilac panel */
+.swap-out { opacity: 0 !important; transform: translateY(-4px); transition: opacity .5s ease, transform .5s ease; }
+.swap-in { opacity: 0; transform: translateY(8px); transition: opacity .8s ease, transform 1s cubic-bezier(.22, 1, .36, 1); }
+.swap-in.is-in { opacity: 1; transform: none; }
+.cta-thanks { outline: none; }
+.cta-thanks-title { font-size: clamp(20px, 1.7vw, 26px); line-height: 1.2; letter-spacing: -.015em; color: #0b7a4e; }
+.cta-thanks-sub { margin-top: 6px; font-size: var(--fs-body); color: #0b7a4e; }
 
 /* Honeypot field for bots: kept out of sight and out of the tab order */
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+/* "Send another message" under the contact confirmation */
+.cta-thanks-again { display: inline-flex; align-items: baseline; gap: 6px; margin-top: 18px; padding: 0; border: 0; background: none; font-family: var(--font-sans); font-size: 15px; font-weight: 600; color: var(--black); cursor: pointer; }
+.cta-thanks-again .ul { position: relative; }
+.cta-thanks-again .ul::after { content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: currentColor; }
+.cta-thanks-again .arrow { display: inline-block; transition: transform .35s var(--ease); }
+@media (hover: hover) { .cta-thanks-again:hover .arrow { transform: translateX(4px); } }

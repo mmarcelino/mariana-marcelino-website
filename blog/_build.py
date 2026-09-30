@@ -393,7 +393,7 @@ UI = {
     g_inc="O que vai encontrar", g_items=["Os oito sinais mais comuns, explicados sem jargão", "O que fazer e um teste rápido para cada um", "Uma grelha para decidir o próximo passo"],
     g_label="Pedido do guia gratuito", g_url="Insira o link para o seu site", g_email="Insira o seu email", g_btn="Receber o guia",
     g_note="Sem qualquer custo. Os seus dados servem apenas para este pedido.", privacy="Política de Privacidade",
-    g_ok_t="O seu guia está pronto", g_ok_p="Obrigada! Já o pode descarregar.", g_dl="Descarregar o guia", g_file="assets/guia-8-sinais.pdf", g_dl_name="Oito-sinais-de-que-o-seu-site-esta-a-afastar-clientes.pdf",
+    g_ok_t="Obrigada, já pode descarregar o guia", g_dl="Descarregar", g_file="assets/guia-8-sinais.pdf", g_dl_name="Oito-sinais-de-que-o-seu-site-esta-a-afastar-clientes.pdf",
     cta_kicker="Contacto", cta_title="Comecemos com uma conversa",
     cta_sub="Identificamos oportunidades de melhoria no seu site e falamos sobre o caminho que faz sentido. Sem qualquer custo nem compromisso.",
     cta_write="Se preferir, envie uma mensagem", cta_aria="Formulário de contacto", f_name="Nome", f_msg="Mensagem", f_send="Enviar",
@@ -416,7 +416,7 @@ UI = {
     g_inc="What’s inside", g_items=["The eight most common signs, explained without jargon", "What to do, and a quick test for each one", "A simple way to decide your next step"],
     g_label="Free guide request", g_url="Enter your website link", g_email="Enter your email", g_btn="Get the guide",
     g_note="Completely free. Your details are only used for this request.", privacy="Privacy Policy",
-    g_ok_t="Your guide is ready", g_ok_p="Thank you! You can download it now.", g_dl="Download the guide", g_file="assets/guide-8-signs.pdf", g_dl_name="Eight-signs-your-website-is-driving-clients-away.pdf",
+    g_ok_t="Thank you, you can now download the guide", g_dl="Download", g_file="assets/guide-8-signs.pdf", g_dl_name="Eight-signs-your-website-is-driving-clients-away.pdf",
     cta_kicker="Contact", cta_title="Let's start with a conversation",
     cta_sub="We'll look at where your website could improve and talk about the path that makes sense. No cost, no commitment.",
     cta_write="If you prefer, send a message", cta_aria="Contact form", f_name="Name", f_msg="Message", f_send="Send",
@@ -555,7 +555,6 @@ def guide_modal(prefix, lang="pt"):
     </form>
     <div class="modal-success js-guide-success" hidden>
       <p class="modal-success-title">{u['g_ok_t']}</p>
-      <p>{u['g_ok_p']}</p>
       <a class="button" href="{prefix}{u['g_file']}" download="{u['g_dl_name']}">{u['g_dl']}</a>
     </div>
   </dialog>

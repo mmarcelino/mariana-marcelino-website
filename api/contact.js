@@ -21,42 +21,56 @@ const clip = (s, n) => String(s == null ? "" : s).trim().slice(0, n);
 const isEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 
 // ---------- Copy ----------
+// Each email is a list of blocks: { p } paragraph, { ul } bullet list,
+// { cta, href, secondary } button. PT and EN say the same thing.
+const FREE_CALL = {
+  pt: "Esta conversa é 100% gratuita e sem qualquer compromisso – serve apenas para alinharmos ideias e conversarmos sobre o seu projeto.",
+  en: "This conversation is 100% free and comes with no commitment – it's simply a chance to align ideas and talk about your project."
+};
 const COPY = {
   pt: {
     contact: {
       subject: "Recebi a sua mensagem",
-      hello: (n) => (n ? `Olá ${n},` : "Olá,"),
-      body: [
-        "Obrigada pela sua mensagem. Já a recebi e vou lê-la com atenção. Respondo-lhe pessoalmente o mais brevemente possível.",
-        "Se preferir falar já, pode marcar uma chamada de 30 minutos, sem custo nem compromisso."
+      hello: (n) => (n ? `Olá, ${n}!` : "Olá!"),
+      blocks: [
+        { p: "Obrigada por entrar em contacto. Recebi a sua mensagem e vou lê-la muito em breve." },
+        { p: "Se não quiser esperar pelo e-mail e preferir avançar já para uma conversa direta, pode marcar uma chamada:" },
+        { cta: "Marcar chamada", href: CALENDLY },
+        { p: FREE_CALL.pt }
       ],
-      cta: "Marcar chamada",
-      ctaHref: CALENDLY,
       recap: "A sua mensagem"
     },
     redesign: {
       subject: "Recebi o seu pedido de redesign gratuito",
-      hello: () => "Olá,",
-      body: [
-        "Obrigada pelo seu pedido. Vou analisar o seu site e, em até 2 dias úteis, envio-lhe por email o redesign da sua homepage, uma auditoria com pontos claros de melhoria e uma proposta personalizada.",
-        "Não tem qualquer custo nem compromisso. Se entretanto quiser falar, pode marcar uma chamada de 30 minutos."
+      hello: (n) => (n ? `Olá, ${n}!` : "Olá!"),
+      blocks: [
+        { p: "Obrigada pelo interesse em ver como o posso ajudar a renovar o seu site." },
+        { p: "Já recebi o seu pedido e o próximo passo está do meu lado: vou analisar o seu site atual e nos próximos dias vou enviar-lhe:" },
+        { ul: [
+          "📐 Uma proposta visual de redesign para a sua nova homepage.",
+          "📊 Um relatório com os principais pontos de melhoria (além do design) para o ajudar a converter mais visitantes em clientes."
+        ] },
+        { p: "A ideia é vermos juntos o potencial que o seu site ainda não está a aproveitar." },
+        { p: "Se não quiser esperar pelo e-mail e preferir avançar já para uma conversa direta, pode marcar uma chamada:" },
+        { cta: "Marcar chamada", href: CALENDLY },
+        { p: FREE_CALL.pt }
       ],
-      cta: "Marcar chamada",
-      ctaHref: CALENDLY,
       recap: "O seu pedido"
     },
     guide: {
       subject: "O seu guia: Oito sinais de que o seu site está a afastar clientes",
-      hello: () => "Olá,",
-      body: [
-        "Obrigada pelo interesse. Aqui está o guia, para ler quando lhe der mais jeito: cada sinal vem com um teste rápido para fazer ao seu site.",
-        "Se reconhecer alguns destes sinais no seu site, posso fazer-lhe um redesign gratuito da homepage, com uma auditoria e uma proposta, sem compromisso."
+      hello: (n) => (n ? `Olá, ${n},` : "Olá,"),
+      blocks: [
+        { p: "Como prometido, aqui tem o link de acesso ao guia “Oito sinais de que o seu site está a afastar clientes”." },
+        { cta: "👉 Descarregar o guia em PDF", href: `${SITE}/assets/guia-8-sinais.pdf` },
+        { p: "Este guia foi desenhado para o ajudar a identificar falhas invisíveis no seu site que podem estar a impedir que novos clientes cheguem até si. No entanto, identificar estas falhas é apenas o primeiro passo: o verdadeiro desafio é saber corrigi-las. Se preferir avançar mais rápido, convido-o a marcar comigo uma breve chamada de 30 minutos:" },
+        { cta: "Marcar chamada", href: CALENDLY, secondary: true },
+        { p: FREE_CALL.pt }
       ],
-      cta: "Descarregar o guia",
-      ctaHref: `${SITE}/assets/guia-8-sinais.pdf`,
       recap: null
     },
-    sign: "Até breve,",
+    sign: "Até já,",
+    name: "– Mariana",
     role: "Web Design · Automação · IA",
     fields: { Nome: "Nome", Email: "Email", Mensagem: "Mensagem", URL: "Site" },
     footer: "Recebeu este email porque enviou um formulário em mariana-marcelino.com."
@@ -64,38 +78,46 @@ const COPY = {
   en: {
     contact: {
       subject: "I've received your message",
-      hello: (n) => (n ? `Hi ${n},` : "Hi,"),
-      body: [
-        "Thank you for your message. I've received it and will read it carefully. I'll get back to you personally as soon as I can.",
-        "If you'd rather talk now, you can book a free 30-minute call, with no commitment."
+      hello: (n) => (n ? `Hi, ${n}!` : "Hi!"),
+      blocks: [
+        { p: "Thank you for getting in touch. I've received your message and will read it very soon." },
+        { p: "If you'd rather not wait for my email and prefer to go straight to a conversation, you can book a call:" },
+        { cta: "Book a call", href: CALENDLY },
+        { p: FREE_CALL.en }
       ],
-      cta: "Book a call",
-      ctaHref: CALENDLY,
       recap: "Your message"
     },
     redesign: {
       subject: "I've received your free redesign request",
-      hello: () => "Hi,",
-      body: [
-        "Thank you for your request. I'll look at your website and, within 2 working days, email you a redesign of your homepage, an audit with clear points for improvement and a personalised proposal.",
-        "There's no cost and no commitment. If you'd like to talk in the meantime, you can book a 30-minute call."
+      hello: (n) => (n ? `Hi, ${n}!` : "Hi!"),
+      blocks: [
+        { p: "Thank you for your interest in seeing how I can help you refresh your website." },
+        { p: "I've received your request and the next step is on me: I'll review your current website and, over the next few days, send you:" },
+        { ul: [
+          "📐 A visual redesign proposal for your new homepage.",
+          "📊 A report with the main points for improvement (beyond design) to help you turn more visitors into clients."
+        ] },
+        { p: "The idea is for us to see together the potential your website isn't using yet." },
+        { p: "If you'd rather not wait for my email and prefer to go straight to a conversation, you can book a call:" },
+        { cta: "Book a call", href: CALENDLY },
+        { p: FREE_CALL.en }
       ],
-      cta: "Book a call",
-      ctaHref: CALENDLY,
       recap: "Your request"
     },
     guide: {
       subject: "Your guide: Eight signs your website is driving clients away",
-      hello: () => "Hi,",
-      body: [
-        "Thank you for your interest. Here's the guide, to read whenever suits you: each sign comes with a quick test you can run on your website.",
-        "If you recognise some of these signs on your site, I can do a free redesign of your homepage, with an audit and a proposal, no strings attached."
+      hello: (n) => (n ? `Hi, ${n},` : "Hi,"),
+      blocks: [
+        { p: "As promised, here's your link to the guide “Eight signs your website is driving clients away”." },
+        { cta: "👉 Download the PDF guide", href: `${SITE}/assets/guide-8-signs.pdf` },
+        { p: "This guide was designed to help you spot hidden problems on your website that may be stopping new clients from reaching you. But spotting them is only the first step: the real challenge is knowing how to fix them. If you'd like to move faster, I'd like to invite you to book a short 30-minute call with me:" },
+        { cta: "Book a call", href: CALENDLY, secondary: true },
+        { p: FREE_CALL.en }
       ],
-      cta: "Download the guide",
-      ctaHref: `${SITE}/assets/guide-8-signs.pdf`,
       recap: null
     },
     sign: "Speak soon,",
+    name: "– Mariana",
     role: "Web Design · Automation · AI",
     fields: { Nome: "Name", Email: "Email", Mensagem: "Message", URL: "Website" },
     footer: "You received this email because you submitted a form on mariana-marcelino.com."
@@ -107,47 +129,56 @@ function visitorEmail(type, lang, data) {
   const L = COPY[lang];
   const c = L[type];
   const first = (data.Nome || "").split(/\s+/)[0];
+  const home = `${SITE}${lang === "en" ? "/en/" : "/"}`;
+  const P = (t) => `<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:${INK}">${esc(t)}</p>`;
+  const blockHtml = (b) => {
+    if (b.p) return P(b.p);
+    if (b.ul) return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px">${b.ul.map((li) => `<tr><td style="padding:4px 0;font-size:16px;line-height:1.55;color:${INK}">${esc(li)}</td></tr>`).join("")}</table>`;
+    if (b.cta) {
+      const bg = b.secondary ? "#ffffff" : INK, fg = b.secondary ? INK : "#ffffff";
+      return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 20px"><tr><td style="background:${bg};border:1px solid ${INK};border-radius:44px"><a href="${b.href}" style="display:inline-block;padding:13px 26px;font-size:15px;color:${fg};text-decoration:none">${esc(b.cta)}</a></td></tr></table>`;
+    }
+    return "";
+  };
   const recapRows = c.recap
     ? Object.keys(L.fields)
         .filter((k) => data[k] && k !== "Email")
         .map((k) => `<tr><td style="padding:6px 0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6b6b69;vertical-align:top;width:90px">${esc(L.fields[k])}</td><td style="padding:6px 0;font-size:15px;line-height:1.5;color:${INK};white-space:pre-wrap">${esc(data[k])}</td></tr>`)
         .join("")
     : "";
+  // The recap sits at the very end, below a line under the signature
   const recap = recapRows
-    ? `<tr><td style="padding:32px 40px 0"><p style="margin:0 0 8px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6b6b69">${esc(c.recap)}</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #d4d4cf">${recapRows}</table></td></tr>`
+    ? `<tr><td style="padding:0 40px 36px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #d4d4cf"><tr><td style="padding-top:24px"><p style="margin:0 0 8px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6b6b69">${esc(c.recap)}</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${recapRows}</table></td></tr></table></td></tr>`
     : "";
-  const paragraphs = c.body.map((p) => `<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:${INK}">${esc(p)}</p>`).join("");
   const html = `<!doctype html><html lang="${lang === "en" ? "en" : "pt-PT"}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(c.subject)}</title></head>
 <body style="margin:0;padding:0;background:${PAPER};font-family:Inter,-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;color:${INK}">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAPER}"><tr><td align="center" style="padding:32px 16px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff">
 <tr><td style="height:6px;background:${LILAC};font-size:0;line-height:0">&nbsp;</td></tr>
-<tr><td style="padding:32px 40px 8px"><a href="${SITE}${lang === "en" ? "/en/" : "/"}" style="font-size:15px;font-weight:600;letter-spacing:.02em;color:${INK};text-decoration:none">MARIANA MARCELINO</a></td></tr>
-<tr><td style="padding:24px 40px 0">
-<h1 style="margin:0 0 24px;font-size:26px;line-height:1.2;font-weight:400;letter-spacing:-.02em;color:${INK}">${esc(c.subject)}</h1>
-<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:${INK}">${esc(c.hello(first))}</p>
-${paragraphs}
-<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 8px"><tr><td style="background:${INK};border-radius:44px"><a href="${c.ctaHref}" style="display:inline-block;padding:13px 26px;font-size:15px;color:#ffffff;text-decoration:none">${esc(c.cta)}</a></td></tr></table>
+<tr><td style="padding:32px 40px 8px"><a href="${home}" style="font-size:15px;font-weight:600;letter-spacing:.02em;color:${INK};text-decoration:none">MARIANA MARCELINO</a></td></tr>
+<tr><td style="padding:28px 40px 0">
+${P(c.hello(first))}
+${c.blocks.map(blockHtml).join("\n")}
+</td></tr>
+<tr><td style="padding:8px 40px 32px">
+<p style="margin:0;font-size:16px;line-height:1.6;color:${INK}">${esc(L.sign)}</p>
+<p style="margin:4px 0 0;font-size:16px;line-height:1.4;color:${INK}">${esc(L.name)}</p>
+<p style="margin:6px 0 0;font-size:13px;line-height:1.4;color:#6b6b69">Mariana Marcelino · ${esc(L.role)} · <a href="${home}" style="color:#6b6b69">mariana-marcelino.com</a></p>
 </td></tr>
 ${recap}
-<tr><td style="padding:32px 40px 36px">
-<p style="margin:0;font-size:16px;line-height:1.6;color:${INK}">${esc(L.sign)}</p>
-<p style="margin:4px 0 0;font-size:16px;line-height:1.4;color:${INK}">Mariana Marcelino</p>
-<p style="margin:2px 0 0;font-size:13px;line-height:1.4;color:#6b6b69">${esc(L.role)} · <a href="${SITE}${lang === "en" ? "/en/" : "/"}" style="color:#6b6b69">mariana-marcelino.com</a></p>
-</td></tr>
 </table>
 <p style="max-width:560px;margin:16px auto 0;font-size:12px;line-height:1.5;color:#8a8a86">${esc(L.footer)}</p>
 </td></tr></table></body></html>`;
-  const text = [c.subject, "", c.hello(first), "", ...c.body, "", `${c.cta}: ${c.ctaHref}`, "",
-    ...(c.recap ? [c.recap + ":", ...Object.keys(L.fields).filter((k) => data[k] && k !== "Email").map((k) => `${L.fields[k]}: ${data[k]}`), ""] : []),
-    L.sign, "Mariana Marcelino", `${L.role} · ${SITE}`].join("\n");
+  const textBlocks = c.blocks.map((b) => b.p ? b.p : b.ul ? b.ul.join("\n") : `${b.cta}: ${b.href}`);
+  const text = [c.hello(first), "", ...textBlocks.flatMap((t) => [t, ""]), L.sign, L.name, `Mariana Marcelino · ${L.role} · ${home}`,
+    ...(recapRows ? ["", "———", c.recap + ":", ...Object.keys(L.fields).filter((k) => data[k] && k !== "Email").map((k) => `${L.fields[k]}: ${data[k]}`)] : [])].join("\n");
   return { subject: c.subject, html, text };
 }
 
 // ---------- Notification to Mariana ----------
 function notification(type, lang, data) {
-  const label = { contact: "Nova mensagem do site", redesign: "Novo pedido de redesign gratuito", guide: "Novo download do guia" }[type];
-  const subject = `${label} — ${data.Nome || data.URL || data.Email}`;
+  const label = { contact: "Formulário: nova mensagem", redesign: "Redesign: novo pedido", guide: "Guia: novo download" }[type];
+  const subject = label;
   const rows = [["Tipo", label], ["Idioma", lang.toUpperCase()], ["Nome", data.Nome], ["Email", data.Email], ["Site", data.URL], ["Mensagem", data.Mensagem]]
     .filter(([, v]) => v)
     .map(([k, v]) => `<tr><td style="padding:8px 12px 8px 0;font-size:12px;color:#6b6b69;text-transform:uppercase;letter-spacing:.06em;vertical-align:top">${esc(k)}</td><td style="padding:8px 0;font-size:15px;color:${INK};white-space:pre-wrap">${esc(v)}</td></tr>`)
