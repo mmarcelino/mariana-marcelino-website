@@ -64,7 +64,7 @@ html {
 body {
   font-family: var(--font-sans);
   font-weight: 400;
-  overflow-x: hidden;
+  overflow-x: clip; /* clip, not hidden: body never turns into a scroll container, so sticky elements keep working */
   width: 100%;
   padding-top: var(--strip-h);
   background: var(--off-white);
@@ -1777,7 +1777,8 @@ img.fade-on-load.loaded { opacity: 1; }
   .modal-body { padding: 40px 40px 36px; }
   .modal-form { padding: 32px 40px 36px; }
 }
-body.has-modal { overflow: hidden; }
+/* Page scroll is locked on the root element (locking body breaks the sticky strip) */
+html:has(> body.has-modal), html:has(> body.has-calendly) { overflow: hidden; }
 
 /* ---------- Lead-magnet strip (fixed above the nav) ---------- */
 .promo-strip {
@@ -2180,7 +2181,6 @@ html.pt-enter :is(main, footer, .promo-strip) { animation: pt-in 1s cubic-bezier
 :where(.js-reveal) :is(main > .blog-head, main .blog-filters, main .post-list) :is(.kicker, .blog-title, .blog-intro, .filters-title, .filters-search, .filters-chips, .post-card):not(.reveal):not(.title-reveal) { opacity: 0; }
 
 /* Calendly popup: page behind doesn't scroll; the overlay matches the site */
-body.has-calendly { overflow: hidden; }
 .calendly-overlay .calendly-close-overlay { background: rgba(23, 23, 21, .72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 
 /* ---------- Keyboard access ---------- */
@@ -2375,7 +2375,7 @@ body.has-modal .chat-launcher { opacity: 0; pointer-events: none; }
 /* Composer: sits on a soft tinted field, no hard outline; focus only deepens the tint */
 .chat-form { display: flex; align-items: flex-end; gap: 8px; margin: 0 12px; padding: 6px 6px 6px 16px; border: 0; border-radius: 22px; background: rgba(0, 0, 0, .05); transition: background-color .25s ease, box-shadow .25s ease; }
 .chat-form[hidden] { display: none; }
-.chat-form:focus-within { background: rgba(214, 203, 236, .45); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .06); }
+.chat-form:focus-within { background: rgba(0, 0, 0, .07); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1); }
 .chat-input { flex: 1 1 auto; max-height: 120px; padding: 8px 0; border: 0; outline: none; resize: none; background: transparent; font-family: var(--font-sans); font-size: 15px; line-height: 1.4; color: var(--black); }
 .chat-input:focus-visible { outline: none; }
 .chat-send { flex: 0 0 auto; display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 50%; background: var(--black); color: var(--off-white); cursor: pointer; transition: opacity .2s ease, transform .2s ease; }
@@ -2390,7 +2390,7 @@ body.has-modal .chat-launcher { opacity: 0; pointer-events: none; }
 .chat-mail-input:focus { border-color: rgba(0, 0, 0, .4); }
 .chat-mail-send { padding: 9px 16px; border: 0; border-radius: 999px; background: var(--black); color: var(--off-white); font-family: var(--font-sans); font-size: 14px; cursor: pointer; }
 .chat-mail-cancel { margin-top: 8px; padding: 0; border: 0; background: none; font-family: var(--font-sans); font-size: 12.5px; color: var(--text-3); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
-.chat-actions { display: flex; justify-content: center; gap: 18px; padding: 10px 12px 14px; }
+.chat-actions { display: flex; justify-content: center; gap: 18px; padding: 16px 12px 20px; }
 .chat-action { padding: 0; border: 0; background: none; font-family: var(--font-sans); font-size: 12.5px; font-weight: 600; color: var(--black); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 @media (hover: hover) { .chat-action:hover { text-decoration: none; } }
 @media (max-width: 559px) {
@@ -2398,3 +2398,6 @@ body.has-modal .chat-launcher { opacity: 0; pointer-events: none; }
 }
 @media (prefers-reduced-motion: reduce) { .chat-panel { transition: none; } }
 .chat-input::placeholder { color: rgba(0, 0, 0, .45); }
+/* Optional email card inside the conversation */
+.chat-lead { align-self: stretch; margin-top: 4px; padding: 14px; border-radius: 16px; background: rgba(0, 0, 0, .05); }
+.chat-lead p { font-size: 13.5px; line-height: 1.45; color: var(--text-2); }
