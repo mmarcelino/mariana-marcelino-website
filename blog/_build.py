@@ -385,7 +385,7 @@ X_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3
 # Interface copy for both languages
 UI = {
 "pt": dict(
-    html_lang="pt-PT", og_locale="pt_PT", m_open="Abrir menu", m_close="Fechar menu", m_l1="Soluções", m_l2="Sobre", m_l3="Planos", m_l5="Contactos", home_label="Mariana Marcelino — página inicial",
+    html_lang="pt-PT", og_locale="pt_PT", skip="Saltar para o conteúdo", m_open="Abrir menu", m_close="Fechar menu", m_l1="Soluções", m_l2="Sobre", m_l3="Planos", m_l5="Contactos", home_label="Mariana Marcelino — página inicial",
     call="Marcar chamada", lang_label="Idioma",
     strip_region="Guia gratuito", strip_kicker="Gratuito", guide_title="8 sinais de que o seu site está a afastar clientes", foot_guide="Oito sinais de que o seu site está a afastar clientes",
     strip_go="Receber guia", close="Fechar",
@@ -408,7 +408,7 @@ UI = {
     f_title="Explorar por tema", f_all="Todos", f_search="Pesquisar artigos", f_topics="Temas", f_empty="Nenhum artigo encontrado. Experimente outro tema ou outra palavra.",
 ),
 "en": dict(
-    html_lang="en", og_locale="en_GB", m_open="Open menu", m_close="Close menu", m_l1="Solutions", m_l2="About", m_l3="Plans", m_l5="Contact", home_label="Mariana Marcelino — homepage",
+    html_lang="en", og_locale="en_GB", skip="Skip to content", m_open="Open menu", m_close="Close menu", m_l1="Solutions", m_l2="About", m_l3="Plans", m_l5="Contact", home_label="Mariana Marcelino — homepage",
     call="Book a call", lang_label="Language",
     strip_region="Free guide", strip_kicker="Free", guide_title="8 signs your website is driving clients away", foot_guide="Eight signs your website is driving clients away",
     strip_go="Get the guide", close="Close",
@@ -487,7 +487,8 @@ def header(prefix, current="blog", lang="pt", alt=None):
     home = home_of(prefix, lang)
     if alt is None:
         alt = prefix if lang == "en" else prefix + "en/"
-    return f"""  <!-- Lead magnet strip -->
+    return f"""  <a class="skip-link" href="#main">{u['skip']}</a>
+  <!-- Lead magnet strip -->
   <div class="promo-strip" role="region" aria-label="{u['strip_region']}">
     <button type="button" class="promo-link" data-open-modal="guide-modal"><span class="promo-text">{u['foot_guide']}</span><span class="promo-go"><span class="ul">{u['strip_go']}</span> <span class="arrow">→</span></span></button>
     <button type="button" class="promo-close js-promo-close" aria-label="{u['close']}">{X_ICON}</button>
@@ -615,6 +616,9 @@ def footer(prefix, lang="pt", alt=None):
 
 def head(title, description, canonical, image, prefix, og_type, jsonld, lang="pt", alternates=None):
     u = UI[lang]
+    # Search results show ~60 characters: long titles go without the brand suffix
+    if len(title) > 62 and title.endswith(" | Mariana Marcelino"):
+        title = title[: -len(" | Mariana Marcelino")]
     ld = "\n".join(f'  <script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in jsonld)
     alt_links = ""
     alt_locale = ""
@@ -778,7 +782,7 @@ def build_index(lang="pt"):
 
 {header(prefix, "blog", lang, alt)}
 
-  <main class="blog-main">
+  <main class="blog-main" id="main">
     <section class="blog-head">
       <p class="kicker blog-kicker">Blog</p>
       <div class="narrow-container">
@@ -884,7 +888,7 @@ def build_post(i, post, lang="pt"):
 
 {header(prefix, "blog", lang, alt)}
 
-  <main class="blog-main">
+  <main class="blog-main" id="main">
     <article>
       <header class="blog-head article-head">
         <p class="kicker blog-kicker"><a href="{home}blog/">← Blog</a></p>
@@ -1119,7 +1123,7 @@ def build_legal():
 
 {header(prefix, None, lang, alt)}
 
-  <main class="blog-main">
+  <main class="blog-main" id="main">
     <article>
       <header class="blog-head article-head">
         <p class="kicker blog-kicker">Legal</p>
@@ -1167,7 +1171,7 @@ def build_404():
 
 {header(prefix, current=None)}
 
-  <main class="blog-main nf-main">
+  <main class="blog-main nf-main" id="main">
     <section class="blog-head nf-head">
       <p class="kicker blog-kicker">Página não encontrada</p>
       <div class="narrow-container">
@@ -1214,7 +1218,9 @@ def build_seo_files():
     posts_en = "\n".join(f"- [{p['title']}]({SITE}/en/blog/{p['slug']}/): {p['description']}" for p in posts_for("en"))
     llms = f"""# Mariana Marcelino
 
-> Web designer e developer em Lisboa, Portugal. Redesenha e reconstrói sites de pequenos negócios para que tenham uma imagem moderna e credível, sejam encontrados no Google e em ferramentas de IA (ChatGPT, Perplexity) e transformem visitas em contactos. Trabalha em português e inglês.
+> Web designer e developer em Portugal. Redesenha e reconstrói sites de pequenos negócios para que tenham uma imagem moderna e credível, sejam encontrados no Google e em ferramentas de IA (ChatGPT, Perplexity) e transformem visitas em contactos. Trabalha remotamente com negócios de todo o país e do estrangeiro, em português e inglês.
+
+> Web designer and developer based in Portugal. Redesigns and rebuilds small-business websites so they look modern and credible, get found on Google and AI tools, and turn visitors into enquiries. Works remotely with clients in Portugal and abroad, in Portuguese and English.
 
 Áreas: design, automação e IA aplicados a sites. Trabalha diretamente com o cliente, sem estrutura de agência. Formação em marketing, em desenvolvimento de software desde 2018 e com negócio próprio.
 
@@ -1222,7 +1228,25 @@ def build_seo_files():
 
 - Redesign da Homepage (gratuito): redesign da homepage, auditoria com pontos de otimização e proposta personalizada por email.
 - Redesign Visual (750€, para sites até 4 páginas): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
-- Motor de Contactos (a partir de 1 800€, o mais popular): design e estrutura à medida, otimização para Google e ferramentas de IA, marcações automáticas, WhatsApp e chatbot, formulários de captação, integração com gestão de contactos e painel de métricas.
+- Motor de Contactos (a partir de 1 800€, o mais popular): novo design e estrutura à medida, integração dos conteúdos do cliente, otimização para Google, ChatGPT e outras ferramentas de IA, percurso do utilizador e chamadas à ação pensados para gerar contactos, formulários e captação de contactos, gestão automática de contactos e automação de follow-ups, agendamento e marcações automatizados, WhatsApp e chatbot, painel de métricas, otimização para mobile e publicação.
+
+Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, prazo e valor fechado.
+
+## Soluções
+
+- Design e estrutura à sua medida
+- Mais pessoas a encontrá-lo (Google, ChatGPT e outras ferramentas de IA)
+- Mais visitantes a contactar
+- Menos trabalho manual (automação de tarefas repetitivas)
+- Marcações imediatas
+- Resultados que pode acompanhar (métricas)
+
+## Como funciona
+
+- Prazos: o redesign gratuito da homepage fica pronto em 2 dias; o Redesign Visual demora cerca de 1 semana; no Motor de Contactos o prazo depende da complexidade e fica definido na proposta.
+- Processo: conversa inicial de 30 minutos, proposta escrita, design aprovado pelo cliente (com duas rondas de revisões), construção, testes e publicação, entrega dos acessos com uma pequena formação.
+- Depois da publicação: o site é do cliente, que o pode gerir sozinho; a manutenção é opcional e definida caso a caso.
+- Onde trabalha: remotamente, com negócios de todo o país e do estrangeiro, por videochamada, email e mensagens.
 
 ## Recursos gratuitos
 
@@ -1230,11 +1254,11 @@ def build_seo_files():
 
 ## Páginas principais
 
-- [Página inicial]({SITE}/): o problema, o que faço, sobre, planos, testemunhos e contacto.
+- [Página inicial]({SITE}/): o problema, soluções, sobre, planos, perguntas frequentes, testemunhos e contacto.
 - [Homepage in English]({SITE}/en/)
 - [Blog]({SITE}/blog/)
 - [Blog in English]({SITE}/en/blog/)
-- [Marcar chamada]({CALENDLY}): chamada gratuita de 30 minutos.
+- [Marcar chamada]({CALENDLY}): chamada gratuita de 30 minutos (também abre diretamente no site, em qualquer botão "Marcar chamada").
 - [Política de Privacidade]({SITE}/politica-de-privacidade/)
 
 ## Artigos

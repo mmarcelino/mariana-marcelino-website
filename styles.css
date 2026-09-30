@@ -1128,16 +1128,15 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
 }
 
 /* 3 columns: triples are rows (1,2,3)(4,5,6) — 2 rows, only 1 row-rule */
+/* Three equal text columns, 48px apart, with each divider in the middle of
+   its gap: every card gets the same text width and 24px either side of a line */
 @media (min-width: 860px) {
-  .cards::before { left: 33.3333%; }
-  .cards::after  { display: block; left: 66.6667%; }
+  .cards { column-gap: 48px; }
+  .cards::before { left: calc(33.3333% - 8px); }
+  .cards::after  { display: block; left: calc(66.6667% + 8px); }
   .row-rule.-r3 { display: none; }
-  .card:nth-child(1) { padding: 0 32px 32px 0; }
-  .card:nth-child(2) { padding: 0 24px 32px; }
-  .card:nth-child(3) { padding: 0 0 32px 24px; }
-  .card:nth-child(4) { padding: 32px 32px 0 0; }
-  .card:nth-child(5) { padding: 32px 24px 0; }
-  .card:nth-child(6) { padding: 32px 0 0 24px; }
+  .card:nth-child(-n+3) { padding: 0 0 32px; }
+  .card:nth-child(n+4) { padding: 32px 0 0; }
 }
 
 /* Sobre mim: dark surface, but the same kicker + narrow-container rhythm
@@ -1280,7 +1279,12 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
   @media (hover: hover) { .tiers .tier.-featured .tier-cta .button:hover { background: var(--black); color: var(--off-white); } }
 }
 @media (min-width: 860px) {
-  .tiers { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(4, auto); }
+  /* Outer plans have 32px padding on one side, the middle one on both: the middle
+     column is 32px wider so all three get the same content width */
+  .tiers {
+    grid-template-columns: calc((100% - 128px) / 3 + 32px) calc((100% - 128px) / 3 + 64px) calc((100% - 128px) / 3 + 32px);
+    grid-template-rows: repeat(4, auto);
+  }
   .tier { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; padding: 32px 32px 8px; }
   .tier + .tier { border-top: 0; border-left: 1px solid var(--grey); }
   .tier:first-child { padding-left: 0; }
@@ -2177,3 +2181,25 @@ html.pt-enter :is(main, footer, .promo-strip) { animation: pt-in 1s cubic-bezier
 /* Calendly popup: page behind doesn't scroll; the overlay matches the site */
 body.has-calendly { overflow: hidden; }
 .calendly-overlay .calendly-close-overlay { background: rgba(23, 23, 21, .72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+
+/* ---------- Keyboard access ---------- */
+/* A clear ring on whatever has keyboard focus (mouse clicks don't show it) */
+:focus-visible { outline: 2px solid var(--focus-ring, #171715); outline-offset: 3px; }
+[data-nav="dark"], .footer { --focus-ring: var(--off-white); }
+/* Text fields already show focus with their own border */
+.input:focus-visible, .cta-field input:focus-visible, .cta-field textarea:focus-visible, .filters-search input:focus-visible { outline: none; }
+.modal-form .input:focus { border-color: var(--black); }
+/* Skip link: hidden until tabbed to, then shown above everything */
+.skip-link {
+  position: fixed;
+  top: 12px; left: 12px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 44px;
+  background: var(--black);
+  color: var(--off-white);
+  font-size: 14px;
+  transform: translateY(-160%);
+  transition: transform .2s ease;
+}
+.skip-link:focus { transform: none; }

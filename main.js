@@ -598,7 +598,13 @@
   var mobileMenu = document.querySelector(".js-mobile-menu");
   var menuOpen = document.querySelector(".js-menu-open");
   if (mobileMenu && menuOpen) {
+    var setPageInert = function (on) {
+      Array.prototype.forEach.call(document.body.children, function (el) {
+        if (el !== mobileMenu && el.tagName !== "SCRIPT" && el.tagName !== "DIALOG") el.inert = on;
+      });
+    };
     var closeMenu = function (restoreFocus) {
+      setPageInert(false);
       mobileMenu.classList.remove("is-open");
       menuOpen.setAttribute("aria-expanded", "false");
       document.body.classList.remove("has-modal");
@@ -607,6 +613,7 @@
     };
     menuOpen.addEventListener("click", function () {
       mobileMenu.hidden = false;
+      setPageInert(true);
       requestAnimationFrame(function () { mobileMenu.classList.add("is-open"); });
       menuOpen.setAttribute("aria-expanded", "true");
       document.body.classList.add("has-modal");

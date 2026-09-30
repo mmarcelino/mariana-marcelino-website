@@ -1,6 +1,8 @@
 # Mariana Marcelino
 
-> Web designer e developer em Lisboa, Portugal. Redesenha e reconstrói sites de pequenos negócios para que tenham uma imagem moderna e credível, sejam encontrados no Google e em ferramentas de IA (ChatGPT, Perplexity) e transformem visitas em contactos. Trabalha em português e inglês.
+> Web designer e developer em Portugal. Redesenha e reconstrói sites de pequenos negócios para que tenham uma imagem moderna e credível, sejam encontrados no Google e em ferramentas de IA (ChatGPT, Perplexity) e transformem visitas em contactos. Trabalha remotamente com negócios de todo o país e do estrangeiro, em português e inglês.
+
+> Web designer and developer based in Portugal. Redesigns and rebuilds small-business websites so they look modern and credible, get found on Google and AI tools, and turn visitors into enquiries. Works remotely with clients in Portugal and abroad, in Portuguese and English.
 
 Áreas: design, automação e IA aplicados a sites. Trabalha diretamente com o cliente, sem estrutura de agência. Formação em marketing, em desenvolvimento de software desde 2018 e com negócio próprio.
 
@@ -8,7 +10,25 @@
 
 - Redesign da Homepage (gratuito): redesign da homepage, auditoria com pontos de otimização e proposta personalizada por email.
 - Redesign Visual (750€, para sites até 4 páginas): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
-- Motor de Contactos (a partir de 1 800€, o mais popular): design e estrutura à medida, otimização para Google e ferramentas de IA, marcações automáticas, WhatsApp e chatbot, formulários de captação, integração com gestão de contactos e painel de métricas.
+- Motor de Contactos (a partir de 1 800€, o mais popular): novo design e estrutura à medida, integração dos conteúdos do cliente, otimização para Google, ChatGPT e outras ferramentas de IA, percurso do utilizador e chamadas à ação pensados para gerar contactos, formulários e captação de contactos, gestão automática de contactos e automação de follow-ups, agendamento e marcações automatizados, WhatsApp e chatbot, painel de métricas, otimização para mobile e publicação.
+
+Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, prazo e valor fechado.
+
+## Soluções
+
+- Design e estrutura à sua medida
+- Mais pessoas a encontrá-lo (Google, ChatGPT e outras ferramentas de IA)
+- Mais visitantes a contactar
+- Menos trabalho manual (automação de tarefas repetitivas)
+- Marcações imediatas
+- Resultados que pode acompanhar (métricas)
+
+## Como funciona
+
+- Prazos: o redesign gratuito da homepage fica pronto em 2 dias; o Redesign Visual demora cerca de 1 semana; no Motor de Contactos o prazo depende da complexidade e fica definido na proposta.
+- Processo: conversa inicial de 30 minutos, proposta escrita, design aprovado pelo cliente (com duas rondas de revisões), construção, testes e publicação, entrega dos acessos com uma pequena formação.
+- Depois da publicação: o site é do cliente, que o pode gerir sozinho; a manutenção é opcional e definida caso a caso.
+- Onde trabalha: remotamente, com negócios de todo o país e do estrangeiro, por videochamada, email e mensagens.
 
 ## Recursos gratuitos
 
@@ -16,11 +36,11 @@
 
 ## Páginas principais
 
-- [Página inicial](https://www.mariana-marcelino.com/): o problema, o que faço, sobre, planos, testemunhos e contacto.
+- [Página inicial](https://www.mariana-marcelino.com/): o problema, soluções, sobre, planos, perguntas frequentes, testemunhos e contacto.
 - [Homepage in English](https://www.mariana-marcelino.com/en/)
 - [Blog](https://www.mariana-marcelino.com/blog/)
 - [Blog in English](https://www.mariana-marcelino.com/en/blog/)
-- [Marcar chamada](https://calendly.com/marianacmarcelino/30min): chamada gratuita de 30 minutos.
+- [Marcar chamada](https://calendly.com/marianacmarcelino/30min): chamada gratuita de 30 minutos (também abre diretamente no site, em qualquer botão "Marcar chamada").
 - [Política de Privacidade](https://www.mariana-marcelino.com/politica-de-privacidade/)
 
 ## Artigos

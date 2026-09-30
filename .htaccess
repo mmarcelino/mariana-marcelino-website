@@ -1,5 +1,36 @@
 ErrorDocument 404 /404.html
 
+# ---------- Always HTTPS, always www (matches the canonical URLs) ----------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://www.mariana-marcelino.com%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTP_HOST} ^mariana-marcelino\.com$ [NC]
+  RewriteRule ^ https://www.mariana-marcelino.com%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ---------- Security headers ----------
+# The CSP only lets the site load its own files, Calendly (booking popup) and
+# FormSubmit (forms). The two sha256 values are the two small inline scripts in
+# every page's <head>: if either script changes, its hash must be updated here.
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-FzEKlawfsy0A74vKt6TMeioz5FtUGrXgBw2GLj6+NJ8=' 'sha256-Fm5N84qQTViBtIz/JedWhYeYLCBABUQCD3QLK7yX+zc=' https://assets.calendly.com; style-src 'self' 'unsafe-inline' https://assets.calendly.com; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://formsubmit.co; frame-src https://calendly.com; form-action 'self' https://formsubmit.co; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; upgrade-insecure-requests"
+</IfModule>
+
+# Build scripts and private files are not served
+<FilesMatch "\.(py|md|sh|log|bak)$">
+  Require all denied
+</FilesMatch>
+# Design explorations and the guide's print sources aren't part of the site
+RedirectMatch 404 ^/(versions/|preview-v1\.html|package(-lock)?\.json|guide/.*\.html)
+
 # ---------- File types ----------
 AddType font/woff2 .woff2
 AddType image/webp .webp
