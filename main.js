@@ -86,8 +86,8 @@
     var navParts = [header.querySelector(".logo-container"), header.querySelector(".lang-switch"), header.querySelector(".nav-link-plain"), header.querySelector(".nav-cta-fixed"), header.querySelector(".nav-burger")].filter(Boolean);
     var darkAreas = document.querySelectorAll('[data-nav="dark"]');
     var hideAreas = document.querySelectorAll("[data-nav-hide]");
-    // The guide strip stays up over the contact section and only leaves over the footer
-    var stripHideAreas = document.querySelectorAll("footer[data-nav-hide]");
+    // The guide strip steps aside over the contact section and the footer
+    var stripHideAreas = document.querySelectorAll("[data-nav-hide]");
     var navTicking = false;
     var over = function (areas, x, y) {
       for (var i = 0; i < areas.length; i++) {
@@ -98,7 +98,7 @@
     };
     var promoStrip = document.querySelector(".promo-strip");
     var curtain = document.querySelector(".hero-curtain");
-    var curtainNav = document.querySelectorAll(".header .lang-switch, .header .nav-link-plain");
+    var curtainNav = document.querySelectorAll(".header .lang-switch");
     if (curtain) document.documentElement.classList.add("has-curtain");
     var curtainStart = 0;
     var measureCurtain = function () { if (curtain) curtainStart = curtain.getBoundingClientRect().top + window.scrollY; };
@@ -123,7 +123,7 @@
         part.classList.toggle("nav-on-dark", over(darkAreas, x, y));
         part.classList.toggle("nav-hidden", over(hideAreas, x, y));
       });
-      // Homepage curtain: language switch and Blog get covered by the rising
+      // Homepage curtain: the language switch gets covered by the rising
       // curtain (clipped from the bottom) instead of fading out
       if (curtain) {
         var ct = curtain.getBoundingClientRect().top;
@@ -549,6 +549,9 @@
       });
       section.querySelectorAll(BODY).forEach(function (el, i) { prep(el, start + Math.min(i, 6) * 70); });
     });
+    // Settle the hidden starting state now, so elements already on screen at
+    // load still animate in instead of appearing at once
+    void document.body.offsetHeight;
   }
 
   // Mobile menu
@@ -758,42 +761,50 @@
     });
   });
 
-  // Testimonials: logos double as tabs; prev/next arrows and logo clicks
-  // navigate manually (no auto-rotation).
-  var testimonialLogos = document.querySelector(".js-testimonial-logos");
+  // Testimonials: the client logos double as tabs; prev/next arrows (each
+  // slide carries its own pair, only the active one is reachable)
   var testimonialSlides = document.querySelector(".js-testimonial-slides");
-  if (testimonialLogos && testimonialSlides) {
-    var logos = Array.prototype.slice.call(testimonialLogos.querySelectorAll(".testimonial-logo"));
+  if (testimonialSlides) {
     var slides = Array.prototype.slice.call(testimonialSlides.querySelectorAll(".testimonial-slide"));
+    var logos = Array.prototype.slice.call(document.querySelectorAll(".js-testimonial-logos .testimonial-logo"));
     var current = 0;
-
-    function show(index) {
+    var mobileSlides = window.matchMedia("(max-width: 859px)");
+    var show = function (index) {
+      if (index === current) return;
       current = index;
+      // Mobile: ease the block from the old testimonial's height to the new one's
+      var h0 = testimonialSlides.offsetHeight;
+      slides.forEach(function (slide, i) { slide.classList.toggle("is-active", i === index); });
+      if (mobileSlides.matches) {
+        var h1 = slides[index].offsetHeight;
+        testimonialSlides.style.height = h0 + "px";
+        testimonialSlides.offsetHeight;
+        testimonialSlides.style.height = h1 + "px";
+        setTimeout(function () { testimonialSlides.style.height = ""; }, 700);
+      }
       logos.forEach(function (logo, i) {
-        var active = i === index;
-        logo.classList.toggle("is-active", active);
-        logo.setAttribute("aria-selected", active ? "true" : "false");
+        logo.classList.toggle("is-active", i === index);
+        logo.setAttribute("aria-selected", i === index ? "true" : "false");
       });
-      slides.forEach(function (slide, i) {
-        slide.classList.toggle("is-active", i === index);
-      });
-    }
-
-    function prev() { show((current - 1 + slides.length) % slides.length); }
-    function next() { show((current + 1) % slides.length); }
-
-    logos.forEach(function (logo, i) {
-      logo.addEventListener("click", function () { show(i); });
-    });
-
-    // Each slide carries its own prev/next pair (so the arrows sit right
-    // after that slide's own content); only the active slide's pair is
-    // reachable since inactive slides have pointer-events: none.
+    };
+    logos.forEach(function (logo, i) { logo.addEventListener("click", function () { show(i); }); });
+    // Swipe left/right on touch screens
+    var tx = null, ty = null;
+    testimonialSlides.addEventListener("touchstart", function (e) {
+      tx = e.touches[0].clientX; ty = e.touches[0].clientY;
+    }, { passive: true });
+    testimonialSlides.addEventListener("touchend", function (e) {
+      if (tx === null) return;
+      var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+      tx = null;
+      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      show(dx < 0 ? (current + 1) % slides.length : (current - 1 + slides.length) % slides.length);
+    }, { passive: true });
     document.querySelectorAll(".js-testimonial-prev").forEach(function (btn) {
-      btn.addEventListener("click", prev);
+      btn.addEventListener("click", function () { show((current - 1 + slides.length) % slides.length); });
     });
     document.querySelectorAll(".js-testimonial-next").forEach(function (btn) {
-      btn.addEventListener("click", next);
+      btn.addEventListener("click", function () { show((current + 1) % slides.length); });
     });
   }
 })();

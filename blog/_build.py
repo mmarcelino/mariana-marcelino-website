@@ -565,8 +565,8 @@ def guide_modal(prefix, lang="pt"):
 def cta(prefix, lang="pt"):
     u = UI[lang]
     return f"""    <section class="cta-section" data-nav-hide>
-      <p class="kicker cta-kicker">{u['cta_kicker']}</p>
-      <div class="narrow-container">
+      <div class="cta-panel">
+        <div class="cta-inner">
         <h2 class="cta-title">{u['cta_title']}</h2>
         <p class="cta-sub">{u['cta_sub']}</p>
         <div class="cta-main">
@@ -585,6 +585,7 @@ def cta(prefix, lang="pt"):
           </form>
         </div>
       </div>
+      </div>
     </section>"""
 
 def footer(prefix, lang="pt", alt=None):
@@ -599,6 +600,7 @@ def footer(prefix, lang="pt", alt=None):
         <a href="{home}" class="logo footer-logo">MARIANA MARCELINO</a>
         <a href="mailto:info@mariana-marcelino.com" class="footer-email">info@mariana-marcelino.com</a>
       </div>
+      <button type="button" class="footer-guide" data-open-modal="guide-modal"><span class="footer-guide-label">{'Guia' if lang == 'pt' else 'Guide'}</span><span class="footer-guide-title"><span class="ul">{u['foot_guide']}</span> <span class="arrow" aria-hidden="true">→</span></span></button>
       <nav class="footer-links" aria-label="{u['foot_aria']}">
         {lang_switch(lang, alt, u['lang_label'])}
         <a href="{home}blog/" class="nav-link-plain">Blog</a>
@@ -626,6 +628,7 @@ def head(title, description, canonical, image, prefix, og_type, jsonld, lang="pt
 <html lang="{u['html_lang']}">
 <head>
   <meta charset="utf-8">
+  <script>if("IntersectionObserver"in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("js-reveal")</script>
   <script>try{{if(sessionStorage.getItem("pt")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("pt-enter");sessionStorage.removeItem("pt")}}catch(e){{}}</script>
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>{esc(title)}</title>

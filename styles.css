@@ -159,7 +159,8 @@ a { color: inherit; text-decoration: none; }
 /* Fixed but click-through: only the links themselves catch the pointer */
 .header {
   position: fixed;
-  top: var(--strip-h); left: 0; right: 0;
+  /* Follows the strip once it sticks to the top, like the fixed logo and CTA */
+  top: calc(var(--strip-h) + var(--nav-extra, 0px)); left: 0; right: 0;
   z-index: 20;
   color: var(--black);
   pointer-events: none;
@@ -170,8 +171,8 @@ a { color: inherit; text-decoration: none; }
 /* The contact section and footer carry their own CTAs: the fixed nav steps aside */
 .header .nav-hidden { opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility 0s .3s, color .3s ease; }
 .header .lang-switch, .header .nav-link-plain { transition: color .3s ease, opacity .25s ease, visibility 0s; }
-/* Language switch and Blog stay put and fade out as soon as the page scrolls */
-html.is-scrolled:not(.has-curtain) .header .lang-switch, html.is-scrolled:not(.has-curtain) .header .nav-link-plain { opacity: 0; visibility: hidden; transition: color .3s ease, opacity .25s ease, visibility 0s .25s; }
+/* The language switch fades out as soon as the page scrolls; Blog stays */
+html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility: hidden; transition: color .3s ease, opacity .25s ease, visibility 0s .25s; }
 .nav-cta-spacer { visibility: hidden; }
 .lang-switch {
   display: inline-flex;
@@ -203,7 +204,7 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch, html.is-scrolled:not(.h
   height: 14px;
 }
 @media (min-width: 860px) { .header .logo-container { height: 17px; } }
-.header .nav-right { margin-left: auto; }
+.header .nav-right { position: relative; z-index: 1; margin-left: auto; }
 .header .navigation { min-height: calc(14px + var(--gap) * 2); }
 @media (min-width: 860px) { .header .navigation { min-height: calc(17px + var(--gap) * 2); } }
 @media (min-width: 1200px) {
@@ -805,27 +806,15 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch, html.is-scrolled:not(.h
   100% { left: 100%; opacity: 0; }
 }
 
-/* Contacto: same kicker + narrow-container rhythm as the other sections,
-   closing on the two ways in, split by hairlines like the pricing tiers. */
-/* Lilac (same as the strip and the mini-site image): sets the closing pitch apart from the dark footer */
-.cta-section { position: relative; border-top: 1px solid var(--grey); color: var(--black); }
-.cta-kicker {
-  padding-top: 64px;
-  padding-left: var(--gap);
-  margin-bottom: 16px;
-}
-@media (min-width: 860px) {
-  .cta-kicker { padding-top: 96px; margin-bottom: 20px; }
-}
+/* Contacto: a lilac panel inside an off-white frame, everything centred */
+.cta-section { position: relative; padding: var(--gap); background: var(--off-white); color: var(--black); }
+@media (min-width: 1200px) { .cta-section { padding: calc(var(--gap) * 2); } }
+.cta-panel { padding: 64px var(--gap) 72px; background: #d6cbec; }
+@media (min-width: 860px) { .cta-panel { padding: 96px 48px 104px; } }
+/* From 1200px the content lines up with the 60% column of the other sections */
 @media (min-width: 1200px) {
-  .cta-title { padding-top: 96px; }
-  .cta-kicker {
-    position: absolute;
-    top: 107px;
-    left: var(--gap);
-    padding-top: 0;
-    margin-bottom: 0;
-  }
+  .cta-panel { padding-left: 0; padding-right: 0; }
+  .cta-inner { width: calc(60% + var(--gap) * 2.4); margin-left: calc(20% - var(--gap) * 1.2); }
 }
 .cta-title {
   max-width: 16em;
@@ -852,12 +841,11 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch, html.is-scrolled:not(.h
   background: var(--black);
   color: var(--off-white);
   border-color: var(--black);
-  transition: opacity .3s ease;
 }
-@media (hover: hover) { .cta-section .cta-main .cta-button:hover { opacity: .75; background: var(--black); color: var(--off-white); } }
+@media (hover: hover) { .cta-section .cta-main .cta-button:hover { opacity: 1; background: var(--black); color: var(--off-white); } }
 
 /* "Prefere escrever?": a quieter alternative below a hairline */
-.cta-write { margin-top: 48px; padding: 40px 0 72px; border-top: 1px solid rgba(0, 0, 0, .18); }
+.cta-write { margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(0, 0, 0, .12); }
 .cta-field span {
   display: block;
   font-size: 11px;
@@ -924,7 +912,7 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch, html.is-scrolled:not(.h
   .cta-sub { font-size: clamp(17px, 1.3vw, 20px); }
   .cta-title { margin-bottom: 26px; }
   .cta-main { margin-top: 44px; }
-  .cta-write { margin-top: 64px; padding-top: 56px; padding-bottom: 104px; }
+  .cta-write { margin-top: 64px; padding-top: 40px; }
 }
 
 /* ---------- Sections ---------- */
@@ -1192,7 +1180,7 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch, html.is-scrolled:not(.h
   padding-bottom: 64px;
 }
 .about-copy { display: flex; flex-direction: column; gap: 1.1em; font-size: 18px; line-height: 1.5; }
-.about-link { display: inline-block; margin-top: -2px; }
+.about-link { display: inline-block; align-self: flex-start; width: fit-content; margin-top: -2px; }
 @media (hover: hover) { .about-link:hover { text-decoration: none; } }
 .about-photo {
   position: relative;
@@ -1447,44 +1435,6 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch, html.is-scrolled:not(.h
     margin-bottom: 0;
   }
 }
-/* Client logos, doubling as tabs — the one matching the testimonial on
-   screen is full-strength black, the rest sit dimmed. */
-.testimonial-logos {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 20px 40px;
-  min-height: 27px;
-  margin-bottom: 72px;
-}
-.testimonial-logo {
-  display: inline-flex;
-  align-items: center;
-  background: none;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  opacity: .28;
-  transition: opacity .3s ease;
-}
-@media (hover: hover) { .testimonial-logo:hover { opacity: .6; } }
-.testimonial-logo.is-active { opacity: 1; }
-.testimonial-logo-img {
-  display: block;
-  height: 16px;
-  width: auto;
-  filter: brightness(0) invert(1);
-}
-.testimonial-logo-img--oporto {
-  height: 27px;
-}
-.testimonial-logo-img--softingal {
-  height: 26px;
-}
-.testimonial-logo-img--alviere {
-  height: 22px;
-}
-
 .testimonial-top {
   display: flex;
   align-items: flex-start;
@@ -1500,67 +1450,101 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch, html.is-scrolled:not(.h
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 1s ease, visibility 1s ease;
+  transform: translateY(14px);
+  transition: opacity .45s ease, transform .45s ease, visibility 0s .45s;
 }
-.testimonial-slide.is-active { opacity: 1; visibility: visible; pointer-events: auto; }
-/* One strong sentence, big; the full testimonial underneath, quieter */
-/* Paired quotes at text size; the opening one hangs in the margin so the
-   sentence stays aligned on its first letter (editorial hanging punctuation) */
-.testimonial-pull::before { content: "\201C"; position: absolute; transform: translateX(-100%); }
-.testimonial-pull::after { content: "\201D"; }
-.testimonial-pull {
-  position: relative;
-  max-width: 22em;
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: clamp(26px, 2.6vw, 40px);
-  line-height: 1.15;
-  letter-spacing: -.025em;
-  text-wrap: balance;
+/* The new one fades up once the old one has faded out */
+.testimonial-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  transition: opacity .8s ease .3s, transform .9s cubic-bezier(.22, 1, .36, 1) .3s, visibility 0s;
 }
-.testimonial-quote {
-  max-width: 38em;
-  margin-top: 24px;
-  font-size: clamp(15px, 1.1vw, 17px);
-  line-height: 1.6;
-  color: currentColor;
-  text-wrap: pretty;
+/* Mobile: the block takes each testimonial's own height, easing between them */
+@media (max-width: 859px) {
+  .testimonial-slides { display: block; transition: height .6s cubic-bezier(.22, 1, .36, 1); }
+  .testimonial-slide { position: absolute; top: 0; left: 0; right: 0; }
+  .testimonial-slide.is-active { position: relative; }
+  .testimonial-slides { touch-action: pan-y; }
 }
-.testimonial-quote p { margin: 0; }
-.testimonial-quote p + p { margin-top: .7em; }
-.testimonial-author { display: flex; flex-direction: column; margin-top: auto; padding-top: 32px; }
-.testimonial-name { font-family: var(--font-sans); font-weight: 600; font-size: 16px; }
-.testimonial-role { font-size: 14px; color: rgba(238, 238, 234, .6); margin-top: 2px; }
-
-/* Hairline arrows, on the author's line */
-.testimonial-nav { display: flex; align-items: center; gap: 24px; margin-top: 32px; }
-.testimonial-nav-buttons { display: flex; gap: 20px; }
-.testimonial-nav-btn {
+/* Client logos, doubling as tabs: the one on screen at full strength, the rest dimmed */
+.testimonial-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 40px; margin-bottom: 56px; }
+.testimonial-logo {
   display: inline-flex;
   align-items: center;
   background: none;
   border: 0;
-  padding: 8px 0;
-  margin: -8px 0;
+  padding: 0;
   cursor: pointer;
-  color: currentColor;
+  opacity: .28;
+  transition: opacity .3s ease;
+}
+@media (hover: hover) { .testimonial-logo:hover { opacity: .6; } }
+.testimonial-logo.is-active { opacity: 1; }
+.testimonial-logo-img { display: block; width: auto; height: 20px; filter: brightness(0) invert(1); }
+/* Heights tuned by eye so the three read at the same weight */
+.testimonial-logo-img--oporto { height: 30px; }
+.testimonial-logo-img--softingal { height: 23px; }
+.testimonial-logo-img--alviere { height: 16px; }
+@media (min-width: 860px) { .testimonial-logos { margin-bottom: 72px; } }
+
+/* The whole testimonial, read at once, fairly large; the opening quote mark
+   hangs in the margin so the text stays aligned on its first letter */
+.testimonial-quote {
+  max-width: 34em;
+  font-size: clamp(19px, 1.6vw, 24px);
+  line-height: 1.45;
+  letter-spacing: -.01em;
+  text-wrap: pretty;
+}
+.testimonial-quote p { margin: 0; }
+.testimonial-quote p + p { margin-top: .8em; }
+.testimonial-quote p:first-child::before { content: "\201C"; position: absolute; transform: translateX(-100%); }
+.testimonial-quote p:last-child::after { content: "\201D"; }
+
+/* Author line: name + role, arrows at the far end */
+.testimonial-author { display: flex; align-items: center; gap: 20px; margin-top: auto; padding-top: 40px; }
+.testimonial-who { display: flex; flex-direction: column; }
+.testimonial-name { font-family: var(--font-sans); font-weight: 600; font-size: 15px; }
+.testimonial-role { font-size: 14px; color: rgba(238, 238, 234, .6); margin-top: 2px; }
+
+/* Round outline buttons at the end of the author's line, like the site's
+   other outline buttons: filled on hover */
+.testimonial-nav-buttons { display: flex; gap: 12px; margin-left: auto; }
+.testimonial-nav-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(238, 238, 234, .4);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--off-white);
+  cursor: pointer;
+  transition: background-color .3s ease, color .3s ease, border-color .3s ease, transform .2s ease;
 }
 .testimonial-nav-btn svg {
-  width: 40px;
+  width: 16px;
   height: 12px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.5;
+  stroke-width: 1.4;
   overflow: visible;
-  transition: transform .5s var(--ease);
+  transition: transform .4s var(--ease);
 }
+.testimonial-nav-btn:active { transform: scale(.94); }
 @media (hover: hover) {
-  .js-testimonial-prev:hover svg { transform: translateX(-6px); }
-  .js-testimonial-next:hover svg { transform: translateX(6px); }
+  .testimonial-nav-btn:hover { background: var(--off-white); border-color: var(--off-white); color: var(--black); }
+  .js-testimonial-prev:hover svg { transform: translateX(-2px); }
+  .js-testimonial-next:hover svg { transform: translateX(2px); }
 }
-@media (min-width: 860px) {
-  .testimonial-nav { position: absolute; right: 0; bottom: 12px; margin-top: 0; }
+@media (max-width: 559px) {
+  .testimonial-author { flex-wrap: wrap; }
+  .testimonial-nav-buttons { flex-basis: 100%; margin: 16px 0 0; }
 }
+
 
 /* ---------- Footer ---------- */
 /* Same 48px desktop inset as the section kickers, so the footer hangs off
@@ -1584,6 +1568,45 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch, html.is-scrolled:not(.h
   transition: color .3s ease;
 }
 @media (hover: hover) { .footer-email:hover { color: var(--off-white) !important; } }
+/* The free guide under the email, set like a footer newsletter sign-up:
+   a small label, then the title in lilac */
+.footer-guide {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+}
+.footer-guide-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(238, 238, 234, .5);
+}
+.footer-guide-title { font-size: 14px; line-height: 1.4; color: var(--off-white); }
+.footer-guide .ul { display: inline; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; padding-bottom: 2px; transition: background-size .5s cubic-bezier(.65, 0, .35, 1); }
+.footer-guide .arrow { display: inline-block; transition: transform .35s var(--ease); }
+@media (hover: hover) {
+  .footer-guide:hover .ul { background-size: 100% 1px; }
+  .footer-guide:hover .arrow { transform: translateX(4px); }
+}
+/* Desktop: centred in the top row, between the brand and the links */
+@media (min-width: 1100px) {
+  .footer-top { position: relative; }
+  .footer-guide { position: absolute; top: 80px; left: 50%; transform: translateX(-50%); }
+}
+/* Tablet widths: not enough room for three columns, so it drops below the row */
+@media (min-width: 860px) and (max-width: 1099px) {
+  .footer-top { flex-wrap: wrap; }
+  .footer-guide { order: 3; flex-basis: 100%; margin-top: 8px; }
+}
+
 /* Same items, order and styles as the top nav */
 .footer-links { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; min-height: 17px; }
 .footer-bottom {
@@ -1738,7 +1761,7 @@ body.has-modal { overflow: hidden; }
   background: #d6cbec;
   color: var(--black);
 }
-.promo-strip { overflow: hidden; box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1); transition: transform .45s var(--ease); }
+.promo-strip { overflow: hidden; box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1); transition: transform .45s var(--ease), background-color .35s ease, color .35s ease; }
 /* Slides up (no layout change) over the contact section and footer */
 .promo-strip.is-away { transform: translateY(-100%); }
 html.strip-closed .promo-strip { visibility: hidden; transition: visibility 0s .45s; }
@@ -1771,8 +1794,9 @@ html.strip-inline.strip-closed .promo-strip { transform: translateY(-100%); tran
   width: 28px; height: 28px;
   border: 0; border-radius: 50%;
   background: transparent;
-  color: var(--black);
+  color: inherit;
   cursor: pointer;
+  transition: color .35s ease;
 }
 .promo-close:hover { background: rgba(0, 0, 0, .08); }
 .promo-close svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.6; }
@@ -1945,7 +1969,7 @@ html.nav-away .header::before { opacity: 0; }
 
 /* Running text: lead / body / small */
 .hero-statement, .pains-sub, .impact-sub, .tiers-sub, .cta-sub, .about-copy { font-size: var(--fs-lead); }
-.faq-answer, .testimonial-quote, .modal-sub, .modal-list li { font-size: var(--fs-body); }
+.faq-answer, .modal-sub, .modal-list li { font-size: var(--fs-body); }
 .card-desc, .tier-desc, .tier-list { font-size: var(--fs-small); }
 .faq-item summary { font-size: 17px; }
 
@@ -2116,3 +2140,6 @@ html.pt-enter :is(main, footer, .promo-strip) { animation: pt-in 1s cubic-bezier
   .btn-roll > span { transition: none; }
   .nav-cta:hover::after, .promo-link:hover .ul::after, .cta-write-toggle:hover .cta-write-text::after, .about-link:hover::after { animation: none; }
 }
+
+/* Same on the blog: nothing in the first view shows before its entrance */
+:where(.js-reveal) :is(main > .blog-head, main .blog-filters, main .post-list) :is(.kicker, .blog-title, .blog-intro, .filters-title, .filters-search, .filters-chips, .post-card):not(.reveal):not(.title-reveal) { opacity: 0; }
