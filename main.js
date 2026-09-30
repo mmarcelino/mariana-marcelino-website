@@ -142,6 +142,8 @@
     mailAsk: "Leave your email and Mariana will get back to you with this conversation in hand.",
     mailPlaceholder: "Your email", mailSend: "Send", mailCancel: "Cancel",
     mailOk: "Done! Mariana has received this conversation and will get back to you soon.",
+    leadAsk: "Would you like Mariana to follow up by email, with a proposal or next steps? Leave your email and she'll get back to you with this conversation in hand.",
+    leadSkip: "Not now",
     mailFail: "It couldn't be sent right now. You can write to info@mariana-marcelino.com.",
     busy: "Too many messages in a short time. Please try again in a little while, or book a call.",
     fail: "Sorry, I can't answer right now. You can book a call or write to info@mariana-marcelino.com.",
@@ -155,6 +157,8 @@
     mailAsk: "Deixe o seu email e a Mariana responde-lhe com esta conversa em mãos.",
     mailPlaceholder: "O seu email", mailSend: "Enviar", mailCancel: "Cancelar",
     mailOk: "Feito! A Mariana recebeu esta conversa e responde-lhe brevemente.",
+    leadAsk: "Quer que a Mariana dê seguimento por email, com uma proposta ou os próximos passos? Deixe o seu email e ela responde-lhe com esta conversa em mãos.",
+    leadSkip: "Agora não",
     mailFail: "Não foi possível enviar agora. Pode escrever para info@mariana-marcelino.com.",
     busy: "Muitas mensagens em pouco tempo. Tente de novo daqui a pouco, ou marque uma chamada.",
     fail: "Desculpe, não consigo responder agora. Pode marcar uma chamada ou escrever para info@mariana-marcelino.com.",
@@ -178,6 +182,8 @@
   panel.id = "chat-panel";
   panel.hidden = true;
   panel.setAttribute("role", "dialog");
+  // Wheel and touch scrolling inside the chat stay in the chat (not the page)
+  panel.setAttribute("data-lenis-prevent", "");
   panel.setAttribute("aria-label", CHAT_T.title);
   panel.innerHTML =
     '<header class="chat-head"><div><p class="chat-title"></p><p class="chat-status"><i aria-hidden="true"></i><span></span></p></div>' +
@@ -237,6 +243,61 @@
     chips.appendChild(b);
   });
 
+  // Lead capture: never before the chat starts. A soft, optional card asks for
+  // an email after the second answer, or earlier if the assistant sees intent
+  // (it ends its reply with [[EMAIL]]). Shown once per visit; skipping is fine.
+  var LEAD_KEY = "chat-lead";
+  var leadState = "";
+  try { leadState = sessionStorage.getItem(LEAD_KEY) || ""; } catch (err) {}
+  var setLead = function (v) { leadState = v; try { sessionStorage.setItem(LEAD_KEY, v); } catch (err) {} };
+  var transcriptText = function () {
+    return chatHistory.map(function (m) { return (m.role === "user" ? CHAT_T.you : CHAT_T.bot) + ": " + m.content; }).join("\n\n") || "—";
+  };
+  var sendTranscript = function (email, form) {
+    var transcript = transcriptText();
+    var w3 = formData("Chat: novo contacto", email);
+    w3.append("Email", email);
+    w3.append("Mensagem", transcript);
+    w3.append("Origem", "Chat do site");
+    w3.append("Idioma", EN ? "EN" : "PT");
+    return submit(form, { type: "chat", email: email, message: transcript }, w3);
+  };
+  var leadCard = null;
+  var offerLead = function () {
+    if (leadState || leadCard) return;
+    setLead("offered");
+    leadCard = document.createElement("form");
+    leadCard.className = "chat-lead";
+    leadCard.noValidate = true;
+    leadCard.innerHTML = '<p></p><div class="chat-mail-row"><input type="email" class="chat-mail-input" autocomplete="email" required><button type="submit" class="chat-mail-send"></button></div><button type="button" class="chat-mail-cancel"></button>';
+    leadCard.querySelector("p").textContent = CHAT_T.leadAsk;
+    var li = leadCard.querySelector("input");
+    li.placeholder = CHAT_T.mailPlaceholder;
+    li.setAttribute("aria-label", CHAT_T.mailPlaceholder);
+    leadCard.querySelector(".chat-mail-send").textContent = CHAT_T.mailSend;
+    leadCard.querySelector(".chat-mail-cancel").textContent = CHAT_T.leadSkip;
+    leadCard.querySelector(".chat-mail-cancel").addEventListener("click", function () {
+      leadCard.remove(); leadCard = null; setLead("skipped"); input.focus();
+    });
+    leadCard.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = li.value.trim();
+      if (!/^\S+@\S+\.\S+$/.test(email)) { li.focus(); return; }
+      var btn = leadCard.querySelector(".chat-mail-send");
+      btn.disabled = true;
+      sendTranscript(email, leadCard).then(function () {
+        setLead("sent");
+        leadCard.remove(); leadCard = null;
+        bubble("bot", CHAT_T.mailOk, "is-note");
+      }).catch(function () {
+        btn.disabled = false;
+        bubble("bot", CHAT_T.mailFail, "is-note");
+      });
+    });
+    logEl.appendChild(leadCard);
+    logEl.scrollTop = logEl.scrollHeight;
+  };
+
   var waiting = false;
   var ask = function (text) {
     text = String(text || "").trim();
@@ -262,9 +323,13 @@
       });
     }).then(function (reply) {
       typing.remove();
+      var wantsEmail = /\[\[EMAIL\]\]/.test(reply);
+      reply = reply.replace(/\s*\[\[EMAIL\]\]\s*/g, " ").trim();
       chatHistory.push({ role: "assistant", content: reply });
       saveChat();
       bubble("bot", reply);
+      var answers = chatHistory.filter(function (m) { return m.role === "assistant"; }).length;
+      if (wantsEmail || answers >= 2) offerLead();
     }).catch(function (e) {
       typing.remove();
       bubble("bot", e.message === "busy" ? CHAT_T.busy : CHAT_T.fail, "is-note");
@@ -288,14 +353,10 @@
     e.preventDefault();
     var email = $(".chat-mail-input").value.trim();
     if (!/^\S+@\S+\.\S+$/.test(email)) { $(".chat-mail-input").focus(); return; }
-    var transcript = chatHistory.map(function (m) { return (m.role === "user" ? CHAT_T.you : CHAT_T.bot) + ": " + m.content; }).join("\n\n") || "—";
     $(".chat-mail-send").disabled = true;
-    var w3 = formData("Chat: novo contacto", email);
-    w3.append("Email", email);
-    w3.append("Mensagem", transcript);
-    w3.append("Origem", "Chat do site");
-    w3.append("Idioma", EN ? "EN" : "PT");
-    submit(mailForm, { type: "chat", email: email, message: transcript }, w3).then(function () {
+    sendTranscript(email, mailForm).then(function () {
+      setLead("sent");
+      if (leadCard) { leadCard.remove(); leadCard = null; }
       mailForm.hidden = true;
       chatForm.hidden = false;
       bubble("bot", CHAT_T.mailOk, "is-note");
@@ -731,8 +792,10 @@
         opener = trigger;
         modal.showModal();
         document.body.classList.add("has-modal");
+        modal.scrollTop = 0;
         var first = modal.querySelector("input:not([hidden])");
-        if (first && first.offsetParent) first.focus();
+        if (first && first.offsetParent && !window.matchMedia("(pointer: coarse)").matches) first.focus({ preventScroll: true });
+        else modal.focus({ preventScroll: true });
       });
     });
     modal.querySelectorAll(".js-close-modal").forEach(function (btn) { btn.addEventListener("click", closeModal); });
