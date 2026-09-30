@@ -12,6 +12,23 @@
     data.append("replyto", replyTo);
     return data;
   };
+  // Forms go to the site's own email function first (branded confirmation for
+  // the visitor); if that isn't available, Web3Forms delivers the enquiry
+  var submit = function (form, payload, w3) {
+    payload.lang = EN ? "en" : "pt";
+    payload.company = form.elements.company ? form.elements.company.value : "";
+    return fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (d) {
+        if (res.ok && d.success === true) return d;
+        if (res.status === 400) throw new Error(d.message || "invalid");
+        return sendForm(w3);
+      });
+    }, function () { return sendForm(w3); });
+  };
   var sendForm = function (data) {
     return fetch(FORM_ENDPOINT, { method: "POST", headers: { Accept: "application/json" }, body: data })
       .then(function (res) { return res.json().catch(function () { return {}; }); })
@@ -706,6 +723,40 @@
     msg.classList.add("is-error");
   };
 
+  // Sent: the toggle and form fade out, the block eases to the height of a
+  // short thank-you note, which then fades in where the form was
+  var thankYou = function (form) {
+    var wrap = form.closest(".cta-write") || form;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var note = document.createElement("div");
+    note.className = "cta-thanks";
+    note.setAttribute("role", "status");
+    note.setAttribute("tabindex", "-1");
+    note.innerHTML = EN
+      ? '<p class="cta-thanks-title">Thank you for your message!</p><p class="cta-thanks-sub">I\'ll be in touch soon.</p>'
+      : '<p class="cta-thanks-title">Obrigada pela mensagem!</p><p class="cta-thanks-sub">Entrarei em contacto brevemente.</p>';
+    var swap = function () {
+      var h0 = wrap.offsetHeight;
+      wrap.innerHTML = "";
+      wrap.appendChild(note);
+      if (reduce) { note.classList.add("is-in"); note.focus({ preventScroll: true }); return; }
+      var h1 = wrap.offsetHeight;
+      wrap.style.overflow = "hidden";
+      wrap.style.height = h0 + "px";
+      wrap.offsetHeight;
+      wrap.style.height = h1 + "px";
+      setTimeout(function () {
+        wrap.style.height = "";
+        wrap.style.overflow = "";
+        note.classList.add("is-in");
+        note.focus({ preventScroll: true });
+      }, 550);
+    };
+    if (reduce) { swap(); return; }
+    wrap.classList.add("is-leaving");
+    setTimeout(swap, 380);
+  };
+
   document.querySelectorAll(".js-contact-form").forEach(function (form) {
     var msg = form.querySelector(".js-form-message");
     var show = function (text, ok) {
@@ -730,10 +781,10 @@
       data.append("Mensagem", text);
       data.append("Origem", "Formulário de contacto");
       data.append("Idioma", EN ? "EN" : "PT");
-      sendForm(data)
+      submit(form, { type: "contact", name: name, email: email, message: text }, data)
         .then(function () {
           form.reset();
-          show(EN ? "Thanks for your message! I'll get back to you soon." : "Obrigada pela mensagem! Respondo em breve.", true);
+          thankYou(form);
         })
         .catch(function () {
           mailFallback(msg, (EN ? "Message from the website" : "Mensagem do site") + (name ? " — " + name : ""), text + "\n\n" + (name || "") + "\n" + email);
@@ -763,13 +814,14 @@
       data.append("URL", url);
       data.append("Origem", "Guia 8 sinais");
       data.append("Idioma", EN ? "EN" : "PT");
+      var payload = { type: "guide", email: email, url: url };
       var reveal = function () {
         form.hidden = true;
         success.hidden = false;
         var dl = success.querySelector("a");
         if (dl) dl.focus();
       };
-      sendForm(data)
+      submit(form, payload, data)
         .then(reveal, reveal)
         .finally(function () { button.disabled = false; });
     });
@@ -798,7 +850,7 @@
       data.append("URL", url);
       data.append("Origem", "Plano gratuito (pop-up)");
       data.append("Idioma", EN ? "EN" : "PT");
-      sendForm(data).then(function () {
+      submit(form, { type: "redesign", email: email, url: url }, data).then(function () {
         form.reset();
         show(EN ? "Thank you! You'll receive the proposal by email." : "Obrigada! Receberá a proposta por email.", true);
       }).catch(function () {
