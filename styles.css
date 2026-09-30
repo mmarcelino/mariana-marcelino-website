@@ -991,12 +991,13 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
   color: var(--grey);
 }
 .pains-list li:last-child { border-bottom: 1px solid var(--grey); }
-.pains-text { font-size: clamp(18px, 1.55vw, 24px); line-height: 1.35; letter-spacing: -.01em; color: var(--black); text-wrap: pretty; }
+/* Same size as the card titles in "Soluções", so the list sits below the lead in the hierarchy */
+.pains-text { font-size: clamp(17px, 1.4vw, 22px); line-height: 1.35; letter-spacing: -.01em; color: var(--black); text-wrap: pretty; }
 @media (min-width: 860px) {
   .pains-sub { margin-top: 26px; font-size: clamp(17px, 1.3vw, 20px); }
   .pains-lead { margin-top: 72px; margin-bottom: 12px; }
   .pains-list { padding-bottom: 128px; }
-  .pains-row { grid-template-columns: 64px 1fr; padding: 26px 0; }
+  .pains-row { grid-template-columns: 64px 1fr; padding: 22px 0; }
 }
 @media (min-width: 1200px) { .pains-statement { padding-top: 96px; } }
 
