@@ -61,12 +61,11 @@ const COPY = {
       subject: "O seu guia: Oito sinais de que o seu site está a afastar clientes",
       hello: (n) => (n ? `Olá, ${n},` : "Olá,"),
       blocks: [
-        { p: "Como prometido, aqui tem o link de acesso ao guia “Oito sinais de que o seu site está a afastar clientes”." },
-        { link: "Descarregar", href: `${SITE}/assets/guia-8-sinais.pdf` },
-        { p: "Identificar estes sinais é apenas o primeiro passo: o verdadeiro desafio é corrigi-los. Se preferir avançar mais rápido, convido-o a marcar comigo uma breve chamada de 30 minutos:" },
+        { p: "Como prometido, aqui tem o link para descarregar o guia: ", link: "Oito sinais de que o seu site está a afastar clientes", href: `${SITE}/assets/guia-8-sinais.pdf` },
+        { p: "Identificar estes sinais é apenas o primeiro passo: o verdadeiro desafio é corrigi-los. Se preferir avançar mais rápido, convido-o a marcar comigo uma breve chamada de 30 minutos." },
         { cta: "Marcar chamada", href: CALENDLY },
         { p: FREE_CALL.pt },
-        { p: "Mas, se preferir, comece por fazer a auditoria ao seu ritmo. Quando sentir que é altura de avançar, estarei por aqui para conversarmos." }
+        { p: "Ou, se preferir, comece por fazer a auditoria ao seu ritmo. Quando sentir que é altura de avançar, estarei por aqui para conversarmos." }
       ],
       sign: "Até já,",
       recap: null
@@ -110,12 +109,11 @@ const COPY = {
       subject: "Your guide: Eight signs your website is driving clients away",
       hello: (n) => (n ? `Hi, ${n},` : "Hi,"),
       blocks: [
-        { p: "As promised, here's your link to the guide “Eight signs your website is driving clients away”." },
-        { link: "Download", href: `${SITE}/assets/guide-8-signs.pdf` },
-        { p: "Spotting these signs is only the first step: the real challenge is fixing them. If you'd like to move faster, I'd like to invite you to book a short 30-minute call with me:" },
+        { p: "As promised, here's the link to download the guide: ", link: "Eight signs your website is driving clients away", href: `${SITE}/assets/guide-8-signs.pdf` },
+        { p: "Spotting these signs is only the first step: the real challenge is fixing them. If you'd like to move faster, I'd like to invite you to book a short 30-minute call with me." },
         { cta: "Book a call", href: CALENDLY },
         { p: FREE_CALL.en },
-        { p: "But if you'd prefer, start by running the audit at your own pace. When you feel it's time to move forward, I'll be here to talk." }
+        { p: "Or, if you'd prefer, start by running the audit at your own pace. When you feel it's time to move forward, I'll be here to talk." }
       ],
       sign: "Talk soon,",
       recap: null
@@ -136,6 +134,7 @@ function visitorEmail(type, lang, data) {
   const home = `${SITE}${lang === "en" ? "/en/" : "/"}`;
   const P = (t) => `<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:${INK}">${esc(t)}</p>`;
   const blockHtml = (b) => {
+    if (b.p && b.link) return `<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:${INK}">${esc(b.p)}<a href="${b.href}" style="color:${INK};font-weight:600;text-decoration:underline;text-underline-offset:3px">${esc(b.link)}</a></p>`;
     if (b.p) return P(b.p);
     if (b.link) return `<p style="margin:0 0 20px;font-size:16px;line-height:1.6"><a href="${b.href}" style="color:${INK};font-weight:600;text-decoration:underline;text-underline-offset:3px">${esc(b.link)}</a></p>`;
     if (b.ul) return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px">${b.ul.map((li) => `<tr><td style="padding:4px 0;font-size:16px;line-height:1.55;color:${INK}">${esc(li)}</td></tr>`).join("")}</table>`;
@@ -175,7 +174,7 @@ ${recap}
 </table>
 <p style="max-width:560px;margin:16px auto 0;font-size:12px;line-height:1.5;color:#8a8a86">${esc(L.footer)}</p>
 </td></tr></table></body></html>`;
-  const textBlocks = c.blocks.map((b) => b.p ? b.p : b.ul ? b.ul.join("\n") : `${b.cta || b.link}: ${b.href}`);
+  const textBlocks = c.blocks.map((b) => b.p && b.link ? `${b.p}${b.link} (${b.href})` : b.p ? b.p : b.ul ? b.ul.join("\n") : `${b.cta || b.link}: ${b.href}`);
   const text = [c.hello(first), "", ...textBlocks.flatMap((t) => [t, ""]), c.sign || L.sign, "", L.name, L.role, home,
     ...(recapRows ? ["", "———", c.recap + ":", ...Object.keys(L.fields).filter((k) => data[k] && k !== "Email").map((k) => `${L.fields[k]}: ${data[k]}`)] : [])].join("\n");
   return { subject: c.subject, html, text };
