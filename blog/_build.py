@@ -548,7 +548,7 @@ def guide_modal(prefix, lang="pt"):
     <form class="js-guide-form form-free modal-form" aria-label="{u['g_label']}" novalidate>
       <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="site-choice" role="radiogroup" aria-label="{u['g_site_q']}"><label class="radio"><input type="radio" name="HasSite" value="yes" checked><span>{u['g_yes']}</span></label><label class="radio"><input type="radio" name="HasSite" value="no" class="js-nosite"><span>{u['g_nosite']}</span></label></div>
-      <input type="text" name="URL" class="input" placeholder="{u['g_url']}" required autocomplete="url">
+      <div class="url-slot"><div><input type="text" name="URL" class="input" placeholder="{u['g_url']}" required autocomplete="url"></div></div>
       <input type="email" name="Email" class="input" placeholder="{u['g_email']}" required autocomplete="email">
       <button type="submit" class="button">{u['g_btn']}</button>
       <p class="js-form-message message" role="status"></p>
