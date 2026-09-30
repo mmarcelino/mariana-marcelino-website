@@ -18,7 +18,7 @@ LEGAL_EN = [
   <li><strong>Free guide request:</strong> your email address and your website link, which you enter to download the guide “Eight signs your website is driving clients away”.</li>
   <li><strong>Contact form and email:</strong> your name (optional), your email address and whatever information you choose to share in your message.</li>
   <li><strong>Booking a call:</strong> when you click “Book a call”, Calendly’s calendar opens in a window on this website, where you enter your name, email and any other information the booking form asks for.</li>
-  <li><strong>Technical data:</strong> as with any website, your browser automatically sends your IP address and technical information to the hosting server and to the services that load resources on the page, such as fonts.</li>
+  <li><strong>Technical data:</strong> as with any website, your browser automatically sends your IP address and technical information to the hosting server and, when you use them, to the third-party services built into the page, such as the booking calendar.</li>
 </ul>
 <p>I don’t collect special categories of data, and this website is not intended for children under 16.</p>
 
@@ -35,7 +35,6 @@ LEGAL_EN = [
 <ul>
   <li><strong>FormSubmit</strong> (formsubmit.co): receives the data from the website’s forms (free redesign, free guide and contact: name, email, website link, message and page language) and forwards it to my email. No account is needed and the data isn’t used for any other purpose.</li>
   <li><strong>Calendly</strong> (calendly.com): handles call bookings. The calendar only loads when you click “Book a call”; at that point, your browser connects to Calendly’s servers, which receive your IP address and may set cookies. The data you enter in the calendar is processed by Calendly, under its own privacy policy.</li>
-  <li><strong>Google Fonts</strong> (Google): provides the website’s typeface. When the page loads, your browser connects to Google’s servers, which receive your IP address.</li>
   <li><strong>Email and website hosting providers</strong>: store the messages I receive and serve the website’s pages.</li>
 </ul>
 <p>Some of these providers may process data outside the European Economic Area, particularly in the United States. In those cases, transfers are made with the safeguards provided for in the GDPR, such as the Standard Contractual Clauses approved by the European Commission or the EU–US Data Privacy Framework.</p>
@@ -71,7 +70,6 @@ LEGAL_EN = [
 
 <h2>Third-party services</h2>
 <ul>
-  <li><strong>Google Fonts:</strong> the website’s typeface is loaded from Google’s servers. This service doesn’t set cookies, but it receives your IP address when the page loads.</li>
   <li><strong>Calendly:</strong> when you click “Book a call”, Calendly’s calendar opens in a window on this website and may set its own cookies, under its own policy.</li>
   <li><strong>LinkedIn:</strong> links to LinkedIn open LinkedIn’s website, which is subject to that service’s cookie policy.</li>
   <li><strong>FormSubmit:</strong> when you send a form, the data is passed to FormSubmit to be forwarded by email. This doesn’t set any cookies on this website.</li>

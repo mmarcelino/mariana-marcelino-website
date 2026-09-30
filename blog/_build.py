@@ -656,9 +656,7 @@ def head(title, description, canonical, image, prefix, og_type, jsonld, lang="pt
   <link rel="apple-touch-icon" href="{prefix}assets/apple-touch-icon.png">
   <link rel="manifest" href="{prefix}site.webmanifest">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
+  <link rel="preload" href="{prefix}assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{prefix}styles.css?v={VERSION}">
   <link rel="stylesheet" href="{prefix}blog/blog.css?v={VERSION}">
 {ld}
@@ -698,7 +696,9 @@ def card(post, prefix, feature=False, lang="pt"):
     url = f"{home_of(prefix, lang)}blog/{post['slug']}/"
     data = f' data-cat="{slugify(post["category"])}" data-text="{esc(search_text(post))}"'
     meta = f"""<p class="post-meta"><span class="post-cat">{esc(post['category'])}</span><time datetime="{post['date']}">{fmt_date(post['date'], lang)}</time><span>{reading_minutes(post)} min</span></p>"""
-    img = f"""<img src="{prefix}assets/blog/{post['cover']}{'' if feature else '-sm'}.jpg?v={VERSION}" alt="{esc(post['cover_alt'])}" width="{1400 if feature else 800}" height="{875 if feature else 500}" loading="{'eager' if feature else 'lazy'}" class="fade-on-load">"""
+    base = f"{prefix}assets/blog/{post['cover']}"
+    sizes = "(min-width: 860px) 56vw, 100vw" if feature else "(min-width: 860px) 46vw, 100vw"
+    img = f"""<img src="{base}-sm.webp?v={VERSION}" srcset="{base}-sm.webp?v={VERSION} 800w, {base}.webp?v={VERSION} 1400w" sizes="{sizes}" alt="{esc(post['cover_alt'])}" width="{1400 if feature else 800}" height="{875 if feature else 500}" {'fetchpriority="high"' if feature else 'loading="lazy"'} decoding="async" class="fade-on-load">"""
     if feature:
         return f"""      <article class="post-card post-feature js-post"{data}>
         <a href="{url}" class="post-media" tabindex="-1" aria-hidden="true">{img}</a>
@@ -893,11 +893,11 @@ def build_post(i, post, lang="pt"):
           <h1 class="article-title">{esc(post['title'])}</h1>
           <p class="article-dek">{esc(post['dek'])}</p>
           <div class="article-byline">
-            <img src="{prefix}{AVATAR}" alt="" width="40" height="40">
+            <img src="{prefix}assets/mariana-avatar.webp" alt="" width="40" height="40">
             <p>Mariana Marcelino<span>{u['role']}</span></p>
           </div>
           <figure class="article-cover">
-            <img src="{prefix}assets/blog/{post['cover']}.jpg?v={VERSION}" alt="{esc(post['cover_alt'])}" width="1400" height="875" fetchpriority="high">
+            <img src="{prefix}assets/blog/{post['cover']}.webp?v={VERSION}" srcset="{prefix}assets/blog/{post['cover']}-sm.webp?v={VERSION} 800w, {prefix}assets/blog/{post['cover']}.webp?v={VERSION} 1400w" sizes="(min-width: 1200px) 60vw, 100vw" alt="{esc(post['cover_alt'])}" width="1400" height="875" fetchpriority="high" decoding="async">
           </figure>
         </div>
       </header>
@@ -928,7 +928,7 @@ def build_post(i, post, lang="pt"):
             </section>
 
             <aside class="author-box">
-              <img src="{prefix}{AVATAR}" alt="Mariana Marcelino" width="64" height="64" loading="lazy">
+              <img src="{prefix}assets/mariana-avatar.webp" alt="Mariana Marcelino" width="64" height="64" loading="lazy" decoding="async">
               <div>
                 <p class="author-name">Mariana Marcelino</p>
                 <p>{esc(u['bio'])} <a href="{LINKEDIN}" target="_blank" rel="noopener">LinkedIn</a></p>
@@ -984,7 +984,7 @@ LEGAL = [
   <li><strong>Pedido do guia gratuito:</strong> o endereço de email e o link do seu site, que indica para descarregar o guia “8 sinais de que o seu site está a afastar clientes”.</li>
   <li><strong>Formulário de contacto e email:</strong> o seu nome (opcional), o endereço de email e a informação que decidir partilhar na mensagem.</li>
   <li><strong>Marcação de chamadas:</strong> quando clica em “Marcar chamada”, o calendário do Calendly abre numa janela dentro deste site, onde indica o seu nome, email e outras informações que o formulário de marcação pedir.</li>
-  <li><strong>Dados técnicos:</strong> como em qualquer site, o seu browser transmite automaticamente o endereço IP e informação técnica ao servidor de alojamento e aos serviços que carregam recursos na página, como as fontes.</li>
+  <li><strong>Dados técnicos:</strong> como em qualquer site, o seu browser transmite automaticamente o endereço IP e informação técnica ao servidor de alojamento e, quando os usa, aos serviços de terceiros integrados na página, como o calendário de marcação.</li>
 </ul>
 <p>Não recolho categorias especiais de dados e este site não se destina a menores de 16 anos.</p>
 
@@ -1001,7 +1001,6 @@ LEGAL = [
 <ul>
   <li><strong>FormSubmit</strong> (formsubmit.co): recebe os dados dos formulários do site (redesign gratuito, guia gratuito e contacto: nome, email, link do site, mensagem e idioma da página) e reencaminha-os para o meu email. Não é necessário criar conta nem são usados para outros fins.</li>
   <li><strong>Calendly</strong> (calendly.com): gere a marcação de chamadas. O calendário só é carregado quando clica em “Marcar chamada”; nesse momento, o seu browser liga-se aos servidores do Calendly, que recebem o seu endereço IP e podem definir cookies. Os dados que introduz no calendário são tratados pelo Calendly, de acordo com a respetiva política de privacidade.</li>
-  <li><strong>Google Fonts</strong> (Google): fornece o tipo de letra do site. Ao carregar a página, o seu browser liga-se aos servidores da Google, que recebem o seu endereço IP.</li>
   <li><strong>Fornecedor de email e alojamento do site</strong>: guardam as mensagens que recebo e servem as páginas do site.</li>
 </ul>
 <p>Alguns destes prestadores podem tratar dados fora do Espaço Económico Europeu, nomeadamente nos Estados Unidos. Nesses casos, as transferências são feitas com as garantias previstas no RGPD, como as cláusulas contratuais-tipo aprovadas pela Comissão Europeia ou o Quadro de Privacidade de Dados UE-EUA.</p>
@@ -1037,7 +1036,6 @@ LEGAL = [
 
 <h2>Serviços de terceiros</h2>
 <ul>
-  <li><strong>Google Fonts:</strong> o tipo de letra do site é carregado a partir dos servidores da Google. Este serviço não define cookies, mas recebe o seu endereço IP quando a página é carregada.</li>
   <li><strong>Calendly:</strong> ao clicar em “Marcar chamada”, o calendário do Calendly abre numa janela dentro deste site e pode definir cookies próprios, de acordo com a respetiva política.</li>
   <li><strong>LinkedIn:</strong> os links para o LinkedIn abrem o site do LinkedIn, sujeito à política de cookies desse serviço.</li>
   <li><strong>FormSubmit:</strong> quando envia um formulário, os dados são transmitidos ao FormSubmit para serem reencaminhados por email. Este envio não define cookies neste site.</li>

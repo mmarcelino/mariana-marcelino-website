@@ -1,7 +1,7 @@
 """Generates the blog cover illustrations (one per article) in the site's
 palette. Run:  python3 blog/_art.py
-Outputs assets/blog/<name>.jpg (1400x875), <name>-sm.jpg (800x500) and
-<name>-og.jpg (1200x630).
+Outputs assets/blog/<name>.jpg (1400x875), <name>.webp + <name>-sm.webp
+(1400 and 800 wide, used by the pages) and <name>-og.jpg (1200x630).
 """
 import math, os, random
 import numpy as np
@@ -263,6 +263,8 @@ if __name__ == "__main__":
     for name, fn in ARTS.items():
         big = render(fn, 1400, 875)
         big.save(os.path.join(OUT, f"{name}.jpg"), quality=86, optimize=True, progressive=True)
-        big.resize((800, 500), Image.LANCZOS).save(os.path.join(OUT, f"{name}-sm.jpg"), quality=84, optimize=True, progressive=True)
+        # WebP copies are what the pages load; the JPGs stay for structured data
+        big.convert("RGB").save(os.path.join(OUT, f"{name}.webp"), quality=80, method=6)
+        big.convert("RGB").resize((800, 500), Image.LANCZOS).save(os.path.join(OUT, f"{name}-sm.webp"), quality=80, method=6)
         render(fn, 1200, 630).save(os.path.join(OUT, f"{name}-og.jpg"), quality=84, optimize=True)
         print("rendered", name)
