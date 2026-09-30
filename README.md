@@ -48,3 +48,18 @@ Set in Vercel → Settings → Environment Variables:
 
 While `RESEND_API_KEY` isn't set, the function answers 503 and the site
 sends the forms through Web3Forms instead (no confirmation email).
+
+## Chat assistant
+
+`api/chat.js` answers the website's chat (button in the bottom-right corner)
+with Claude, using only what the site says: `api/knowledge.js`, generated from
+the live pages by `blog/_knowledge.py` every time `python3 blog/_build.py` runs.
+
+Set in Vercel → Settings → Environment Variables:
+- `ANTHROPIC_API_KEY` (required, from console.anthropic.com)
+- `CHAT_MODEL` (optional, default `claude-haiku-4-5-20251001`)
+
+Limits: 20 messages per visitor per hour, last 16 messages sent, 800
+characters per message, short replies. "Email this conversation" goes through
+`api/contact.js` (type `chat`), arriving as "Chat: novo contacto".
+Without the key the chat shows a polite fallback (book a call / email).

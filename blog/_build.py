@@ -988,7 +988,7 @@ LEGAL = [
   <li><strong>Pedido de redesign gratuito:</strong> o endereço de email e o link do seu site, que indica nos formulários da homepage.</li>
   <li><strong>Pedido do guia gratuito:</strong> o endereço de email e o link do seu site, que indica para descarregar o guia “8 sinais de que o seu site está a afastar clientes”.</li>
   <li><strong>Formulário de contacto e email:</strong> o seu nome (opcional), o endereço de email e a informação que decidir partilhar na mensagem.</li>
-  <li><strong>Chat:</strong> se usar o chat do site, as mensagens que escreve e os dados que decidir partilhar (por exemplo, nome ou email).</li>
+  <li><strong>Chat:</strong> se usar o assistente de chat do site, as mensagens que escreve. A conversa fica guardada apenas no seu browser enquanto o separador estiver aberto. Se escolher “Enviar conversa por email”, recebo a conversa e o email que indicar.</li>
   <li><strong>Marcação de chamadas:</strong> quando clica em “Marcar chamada”, o calendário do Calendly abre numa janela dentro deste site, onde indica o seu nome, email e outras informações que o formulário de marcação pedir.</li>
   <li><strong>Dados técnicos:</strong> como em qualquer site, o seu browser transmite automaticamente o endereço IP e informação técnica ao servidor de alojamento e, quando os usa, aos serviços de terceiros integrados na página, como o calendário de marcação.</li>
 </ul>
@@ -1008,7 +1008,7 @@ LEGAL = [
   <li><strong>Resend</strong> (resend.com): envia os emails gerados pelos formulários do site (redesign gratuito, guia gratuito e contacto: nome, email, link do site, mensagem e idioma da página), ou seja, a notificação que recebo e a confirmação que lhe é enviada. Os dados não são usados para outros fins.</li>
   <li><strong>Web3Forms</strong> (web3forms.com): serviço alternativo que entrega os formulários por email caso o anterior não esteja disponível. Os dados não são usados para outros fins.</li>
   <li><strong>Vercel Web Analytics</strong> (vercel.com): mede de forma agregada e anónima as visitas ao site (páginas vistas, origem da visita, país, tipo de dispositivo e browser). Não usa cookies, não guarda o endereço IP e não permite identificar nem seguir visitantes entre sites.</li>
-  <li><strong>Tidio</strong> (tidio.com): fornece o chat do site. Só é carregado quando clica no botão de chat (ou logo ao abrir o site, se já o tiver usado antes); a partir daí recebe o seu endereço IP e as mensagens que enviar, e guarda no seu browser um identificador para manter a conversa. Os dados são tratados pela Tidio, de acordo com a respetiva política de privacidade.</li>
+  <li><strong>Anthropic</strong> (anthropic.com): gera as respostas do assistente de chat do site, através do modelo de IA Claude. Recebe apenas as mensagens da conversa, para responder, e não as usa para treinar os seus modelos. O chat não pede nem guarda dados pessoais, a menos que decida enviar a conversa por email.</li>
   <li><strong>Calendly</strong> (calendly.com): gere a marcação de chamadas. O calendário só é carregado quando clica em “Marcar chamada”; nesse momento, o seu browser liga-se aos servidores do Calendly, que recebem o seu endereço IP e podem definir cookies. Os dados que introduz no calendário são tratados pelo Calendly, de acordo com a respetiva política de privacidade.</li>
   <li><strong>Fornecedor de email e alojamento do site</strong>: guardam as mensagens que recebo e servem as páginas do site.</li>
 </ul>
@@ -1041,11 +1041,10 @@ LEGAL = [
 
 <h2>Cookies usados neste site</h2>
 <p>Este site <strong>não usa cookies próprios</strong>, nem ferramentas de publicidade ou de acompanhamento. Para medir visitas usa o Vercel Web Analytics, que funciona sem cookies e de forma anónima.</p>
-<p>As exceções são o chat da Tidio, que, só depois de clicar no botão de chat, guarda no seu browser um identificador para manter a conversa entre páginas e visitas, e o calendário de marcação do Calendly. O calendário só é carregado quando clica em “Marcar chamada” e, a partir desse momento, o Calendly pode definir cookies para mostrar a disponibilidade e concluir a marcação, de acordo com a sua <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener">política de privacidade</a>. Se o seu país o exigir, o próprio Calendly pede-lhe consentimento dentro do calendário. Se preferir não usar o Calendly, escreva para <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a> e combinamos a chamada por email.</p>
+<p>O assistente de chat não usa cookies: guarda a conversa apenas no armazenamento temporário do seu browser, que é apagado quando fecha o separador. A única exceção é o calendário de marcação do Calendly. Só é carregado quando clica em “Marcar chamada” e, a partir desse momento, o Calendly pode definir cookies para mostrar a disponibilidade e concluir a marcação, de acordo com a sua <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener">política de privacidade</a>. Se o seu país o exigir, o próprio Calendly pede-lhe consentimento dentro do calendário. Se preferir não usar o Calendly, escreva para <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a> e combinamos a chamada por email.</p>
 
 <h2>Serviços de terceiros</h2>
 <ul>
-  <li><strong>Tidio:</strong> o chat do site pode definir cookies e guardar dados no seu browser para funcionar, de acordo com a política da Tidio.</li>
   <li><strong>Calendly:</strong> ao clicar em “Marcar chamada”, o calendário do Calendly abre numa janela dentro deste site e pode definir cookies próprios, de acordo com a respetiva política.</li>
   <li><strong>LinkedIn:</strong> os links para o LinkedIn abrem o site do LinkedIn, sujeito à política de cookies desse serviço.</li>
   <li><strong>Web3Forms:</strong> quando envia um formulário, os dados são transmitidos à Web3Forms para serem reencaminhados por email. Este envio não define cookies neste site.</li>
@@ -1292,4 +1291,6 @@ if __name__ == "__main__":
     build_seo_files()
     import _schema_home
     _schema_home.run()
+    import _knowledge
+    _knowledge.run()
     print("built", len(POSTS), "posts")

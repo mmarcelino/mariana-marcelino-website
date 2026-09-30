@@ -182,7 +182,7 @@ ${recap}
 
 // ---------- Notification to Mariana ----------
 function notification(type, lang, data) {
-  const label = { contact: "Formulário: nova mensagem", redesign: "Redesign: novo pedido", guide: "Guia: novo download" }[type];
+  const label = { contact: "Formulário: nova mensagem", redesign: "Redesign: novo pedido", guide: "Guia: novo download", chat: "Chat: novo contacto" }[type];
   const subject = label;
   const rows = [["Tipo", label], ["Idioma", lang.toUpperCase()], ["Nome", data.Nome], ["Email", data.Email], ["Site", data.URL], ["Mensagem", data.Mensagem]]
     .filter(([, v]) => v)
@@ -217,19 +217,19 @@ module.exports = async function handler(req, res) {
   // Honeypot: real visitors never fill this hidden field
   if (body.company) return res.status(200).json({ success: true });
 
-  const type = ["contact", "redesign", "guide"].includes(body.type) ? body.type : "contact";
+  const type = ["contact", "redesign", "guide", "chat"].includes(body.type) ? body.type : "contact";
   const lang = body.lang === "en" ? "en" : "pt";
   const data = {
     Nome: clip(body.name, 120),
     Email: clip(body.email, 200),
     URL: clip(body.url, 300),
-    Mensagem: clip(body.message, 5000)
+    Mensagem: clip(body.message, type === "chat" ? 12000 : 5000)
   };
   if (!isEmail(data.Email)) return res.status(400).json({ success: false, message: "Invalid email" });
-  if (type === "contact" && !data.Mensagem) return res.status(400).json({ success: false, message: "Missing message" });
+  if ((type === "contact" || type === "chat") && !data.Mensagem) return res.status(400).json({ success: false, message: "Missing message" });
   // The guide can be requested by someone who doesn't have a website yet
   if (type === "guide" && body.noSite === true) data.URL = "Ainda não tem site";
-  if (type !== "contact" && !data.URL) return res.status(400).json({ success: false, message: "Missing website" });
+  if ((type === "redesign" || type === "guide") && !data.URL) return res.status(400).json({ success: false, message: "Missing website" });
 
   const from = process.env.MAIL_FROM || "Mariana Marcelino <info@mariana-marcelino.com>";
   const to = process.env.MAIL_TO || "info@mariana-marcelino.com";
@@ -238,7 +238,8 @@ module.exports = async function handler(req, res) {
     await send(key, { from, to: [to], reply_to: data.Email, subject: n.subject, html: n.html, text: n.text });
     // The visitor's confirmation shouldn't fail the whole request
     try {
-      const v = visitorEmail(type, lang, data);
+      // A chat left by email gets the same confirmation as the contact form
+      const v = visitorEmail(type === "chat" ? "contact" : type, lang, data);
       await send(key, { from, to: [data.Email], reply_to: to, subject: v.subject, html: v.html, text: v.text });
     } catch (e) {
       console.error("Confirmation email failed:", e.message);
