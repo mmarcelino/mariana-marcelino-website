@@ -2248,7 +2248,9 @@ body.has-calendly { overflow: hidden; }
 .modal-form .input[hidden] { display: none; }
 
 /* Guide ready: one green line, and its end is the download link */
-.js-guide-success .modal-success-title { color: #0b7a4e; }
+.js-guide-success { display: flex; flex-direction: column; justify-content: center; }
+.js-guide-success[hidden] { display: none; }
+.js-guide-success .modal-success-title { color: var(--black); }
 .guide-dl { color: inherit; white-space: nowrap; }
 .guide-dl .ul { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 .guide-dl .arrow { display: inline-block; transition: transform .35s var(--ease); }
@@ -2265,3 +2267,6 @@ body.has-calendly { overflow: hidden; }
 .url-slot.is-collapsed { grid-template-rows: 0fr; margin-top: -8px; opacity: 0; transition: grid-template-rows .7s cubic-bezier(.45, 0, .15, 1), margin-top .7s cubic-bezier(.45, 0, .15, 1), opacity .3s ease; }
 .url-slot.no-anim { transition: none; }
 @media (prefers-reduced-motion: reduce) { .url-slot { transition: none; } }
+
+/* Free redesign popup: the thank-you note in black (green stays for the contact form) */
+.modal-form .cta-thanks-title, .modal-form .cta-thanks-sub { color: var(--black); }
