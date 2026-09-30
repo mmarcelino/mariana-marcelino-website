@@ -665,6 +665,7 @@ def head(title, description, canonical, image, prefix, og_type, jsonld, lang="pt
   <link rel="stylesheet" href="{prefix}styles.css?v={VERSION}">
   <link rel="stylesheet" href="{prefix}blog/blog.css?v={VERSION}">
 {ld}
+  <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>"""
 
 PERSON = {
@@ -997,7 +998,7 @@ LEGAL = [
 <ul>
   <li>Responder ao seu pedido, preparar o redesign gratuito e a proposta que solicitou e disponibilizar o guia gratuito. Fundamento: diligências pré-contratuais a seu pedido (artigo 6.º, n.º 1, alínea b) do RGPD).</li>
   <li>Prestar os serviços contratados e cumprir obrigações legais, como a faturação. Fundamento: execução de contrato e cumprimento de obrigação legal.</li>
-  <li>Garantir o funcionamento e a segurança do site. Fundamento: interesse legítimo.</li>
+  <li>Garantir o funcionamento e a segurança do site e medir as visitas de forma anónima, para o melhorar. Fundamento: interesse legítimo.</li>
 </ul>
 <p>Não uso os seus dados para publicidade nem os vendo a terceiros.</p>
 
@@ -1006,6 +1007,7 @@ LEGAL = [
 <ul>
   <li><strong>Resend</strong> (resend.com): envia os emails gerados pelos formulários do site (redesign gratuito, guia gratuito e contacto: nome, email, link do site, mensagem e idioma da página), ou seja, a notificação que recebo e a confirmação que lhe é enviada. Os dados não são usados para outros fins.</li>
   <li><strong>Web3Forms</strong> (web3forms.com): serviço alternativo que entrega os formulários por email caso o anterior não esteja disponível. Os dados não são usados para outros fins.</li>
+  <li><strong>Vercel Web Analytics</strong> (vercel.com): mede de forma agregada e anónima as visitas ao site (páginas vistas, origem da visita, país, tipo de dispositivo e browser). Não usa cookies, não guarda o endereço IP e não permite identificar nem seguir visitantes entre sites.</li>
   <li><strong>Calendly</strong> (calendly.com): gere a marcação de chamadas. O calendário só é carregado quando clica em “Marcar chamada”; nesse momento, o seu browser liga-se aos servidores do Calendly, que recebem o seu endereço IP e podem definir cookies. Os dados que introduz no calendário são tratados pelo Calendly, de acordo com a respetiva política de privacidade.</li>
   <li><strong>Fornecedor de email e alojamento do site</strong>: guardam as mensagens que recebo e servem as páginas do site.</li>
 </ul>
@@ -1037,7 +1039,7 @@ LEGAL = [
 <p>Cookies são pequenos ficheiros de texto que um site guarda no seu dispositivo quando o visita. Servem, por exemplo, para lembrar preferências ou medir a utilização de um site.</p>
 
 <h2>Cookies usados neste site</h2>
-<p>Este site <strong>não usa cookies próprios</strong>, nem ferramentas de estatística, de publicidade ou de acompanhamento.</p>
+<p>Este site <strong>não usa cookies próprios</strong>, nem ferramentas de publicidade ou de acompanhamento. Para medir visitas usa o Vercel Web Analytics, que funciona sem cookies e de forma anónima.</p>
 <p>A única exceção é o calendário de marcação do Calendly. Só é carregado quando clica em “Marcar chamada” e, a partir desse momento, o Calendly pode definir cookies para mostrar a disponibilidade e concluir a marcação, de acordo com a sua <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener">política de privacidade</a>. Se o seu país o exigir, o próprio Calendly pede-lhe consentimento dentro do calendário. Se preferir não usar o Calendly, escreva para <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a> e combinamos a chamada por email.</p>
 
 <h2>Serviços de terceiros</h2>
