@@ -156,17 +156,22 @@ a { color: inherit; text-decoration: none; }
 /* Only "Marcar chamada" stays on screen: it's fixed, and an invisible copy
    holds its place in the nav. main.js flips each part to off-white while it
    sits over a [data-nav="dark"] area. */
+/* Fixed but click-through: only the links themselves catch the pointer */
 .header {
-  position: absolute;
+  position: fixed;
   top: var(--strip-h); left: 0; right: 0;
   z-index: 20;
   color: var(--black);
+  pointer-events: none;
 }
+.header a, .header button, .header .lang-switch { pointer-events: auto; }
 .header .logo-container, .header .nav-right, .header .nav-cta-fixed { transition: color .3s ease, opacity .3s ease; }
 .header .nav-on-dark { color: var(--off-white); }
 /* The contact section and footer carry their own CTAs: the fixed nav steps aside */
 .header .nav-hidden { opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility 0s .3s, color .3s ease; }
-.header .lang-switch, .header .nav-link-plain { transition: color .3s ease, opacity .3s ease; }
+.header .lang-switch, .header .nav-link-plain { transition: color .3s ease, opacity .25s ease, visibility 0s; }
+/* Language switch and Blog stay put and fade out as soon as the page scrolls */
+html.is-scrolled .header .lang-switch, html.is-scrolled .header .nav-link-plain { opacity: 0; visibility: hidden; transition: color .3s ease, opacity .25s ease, visibility 0s .25s; }
 .nav-cta-spacer { visibility: hidden; }
 .lang-switch {
   display: inline-flex;
@@ -815,35 +820,78 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 20px;
 }
 .cta-sub {
-  max-width: 34em;
+  max-width: 30em;
   font-size: 18px;
   line-height: 1.45;
   color: rgba(0, 0, 0, .62);
   text-wrap: pretty;
 }
-.cta-main {
-  display: flex;
-  flex-wrap: wrap;
+.cta-main { margin-top: 36px; }
+/* The call is the main action: solid, larger */
+.cta-section .cta-main .cta-button {
+  padding: 18px 40px;
+  font-size: clamp(17px, 1.3vw, 21px);
+  background: var(--black);
+  color: var(--off-white);
+  border-color: var(--black);
+  transition: opacity .3s ease;
+}
+@media (hover: hover) { .cta-section .cta-main .cta-button:hover { opacity: .75; background: var(--black); color: var(--off-white); } }
+
+/* "Prefere escrever?": a quieter alternative below a hairline */
+.cta-write { margin-top: 48px; padding: 40px 0 72px; border-top: 1px solid rgba(0, 0, 0, .18); }
+.cta-field span {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, .55);
+}
+/* "Se preferir, envie uma mensagem →": opens the form in place */
+.cta-write-toggle {
+  display: inline-flex;
   align-items: center;
-  gap: 16px 24px;
-  margin-top: 40px;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--black);
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.1vw, 17px);
+  font-weight: 600;
+  cursor: pointer;
 }
-.cta-main .cta-button { padding: 16px 32px; font-size: clamp(16px, 1.2vw, 20px); }
-/* "Prefere escrever?": a quiet, secondary way in under the call button */
-.cta-write { max-width: 640px; margin-top: 56px; }
-.cta-write-label { margin-bottom: 14px; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(0, 0, 0, .55); }
-.cta-form { display: grid; grid-template-columns: 1fr; gap: 8px; }
-.cta-form .input {
-  padding: 13px 18px;
-  font-size: 15px;
-  border-color: transparent;
-  background: rgba(255, 255, 255, .5);
-  transition: border-color .2s ease, background .2s ease;
+.cta-write-text { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+@media (hover: hover) { .cta-write-toggle:hover .cta-write-text { text-decoration: none; } }
+.cta-write-arrow { display: inline-block; transition: transform .3s var(--ease); }
+.cta-write-toggle[aria-expanded="true"] .cta-write-arrow { transform: rotate(90deg); }
+.cta-form { margin-top: 32px; animation: cta-form-in .4s var(--ease); }
+.cta-form[hidden] { display: none; }
+@keyframes cta-form-in { from { opacity: 0; transform: translateY(-6px); } }
+.cta-form { display: grid; grid-template-columns: 1fr; gap: 28px 32px; max-width: 640px; }
+.cta-field { display: block; }
+.cta-field input, .cta-field textarea {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px 0 10px;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, .4);
+  border-radius: 0;
+  background: transparent;
+  color: var(--black);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.4;
+  outline: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
 }
-.cta-form .input::placeholder { color: rgba(0, 0, 0, .45); }
-.cta-form .input:focus { border-color: rgba(0, 0, 0, .4); background: rgba(255, 255, 255, .7); box-shadow: none; }
-.cta-form .cta-textarea { border-radius: 20px; resize: vertical; min-height: 116px; line-height: 1.45; }
-.cta-form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 8px; }
+.cta-field textarea { min-height: 88px; resize: vertical; }
+.cta-field input:focus, .cta-field textarea:focus { border-bottom-color: var(--black); box-shadow: 0 1px 0 var(--black); }
+.cta-form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
 .cta-form-foot .message { font-size: 14px; }
 .cta-form .button {
   background: transparent;
@@ -854,24 +902,13 @@ a { color: inherit; text-decoration: none; }
 @media (hover: hover) { .cta-form .button:hover { opacity: 1; background: var(--black); color: #d6cbec; } }
 @media (min-width: 560px) {
   .cta-form { grid-template-columns: 1fr 1fr; }
-  .cta-form .cta-textarea, .cta-form-foot { grid-column: 1 / -1; }
+  .cta-field.-full, .cta-form-foot { grid-column: 1 / -1; }
 }
-@media (min-width: 860px) { .cta-write { margin-top: 64px; } }
-.cta-alt {
-  margin-top: 64px;
-  padding: 24px 0 64px;
-  border-top: 1px solid rgba(0, 0, 0, .18);
-  font-size: clamp(14px, 1vw, 16px);
-  line-height: 1.5;
-}
-.cta-alt-label { color: rgba(0, 0, 0, .55); margin-right: 4px; }
-.cta-alt-link { text-decoration: underline; text-underline-offset: 3px; }
-@media (hover: hover) { .cta-alt-link:hover { text-decoration: none; } }
 @media (min-width: 860px) {
   .cta-sub { font-size: clamp(17px, 1.3vw, 20px); }
   .cta-title { margin-bottom: 26px; }
-  .cta-main { margin-top: 48px; }
-  .cta-alt { margin-top: 72px; padding-bottom: 96px; }
+  .cta-main { margin-top: 44px; }
+  .cta-write { margin-top: 64px; padding-top: 56px; padding-bottom: 104px; }
 }
 
 /* ---------- Sections ---------- */
@@ -1212,77 +1249,74 @@ a { color: inherit; text-decoration: none; }
 }
 @media (min-width: 860px) { .tiers-sub { font-size: clamp(17px, 1.3vw, 20px); } }
 
+/* Three plan columns on shared rows (subgrid): head / price / button / list.
+   Same hairline language as "O problema" and "O que faço": no boxes,
+   vertical rules between columns. */
 .tiers { display: grid; grid-template-columns: 1fr; margin: 0 var(--gap); }
-@media (min-width: 1200px) {
-  /* Match the kicker's breakout inset (left/right: var(--gap) plus its own
-     padding-left) so the cards line up with "Soluções" above them. */
-  .tiers { margin: 0 calc(var(--gap) * 2); }
-}
-/* Mobile: stacked cards, dividers run edge to edge */
+@media (min-width: 1200px) { .tiers { margin: 0 calc(var(--gap) * 2); } }
 .tier {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 0 calc(-1 * var(--gap));
-  padding: 32px var(--gap) 64px;
-  border-top: 1px solid var(--grey);
+  padding: 28px 0 48px;
 }
-.tier:first-child { border-top: 0; padding-top: 0; }
+.tier + .tier { border-top: 1px solid var(--grey); }
 @media (min-width: 860px) {
-  /* Shared rows across the three cards (subgrid), so the price, button
-     and "Inclui" rows all line up horizontally across the three plans. */
-  .tiers { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(5, auto); }
-  .tier { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 0; align-content: start; }
-  .tier { margin: 0; padding: 0 32px 32px; border-top: 0; border-left: 1px solid var(--grey); }
-  .tier:first-child { padding-left: 0; border-left: 0; }
+  .tiers { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(4, auto); }
+  .tier { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; padding: 32px 32px 8px; }
+  .tier + .tier { border-top: 0; border-left: 1px solid var(--grey); }
+  .tier:first-child { padding-left: 0; }
   .tier:last-child { padding-right: 0; }
 }
-.tier > * { max-width: 30em; }
-.tier-name { font-family: var(--font-sans); font-weight: 600; font-size: clamp(15px, 1.1vw, 18px); line-height: 1.25; }
-.tier-price { margin-top: 20px; font-family: var(--font-sans); font-weight: 400; font-size: clamp(17px, 1.3vw, 21px); line-height: 1.2; color: var(--grey); }
-.tier-desc { margin-top: 4px; font-size: clamp(14px, 1vw, 17px); line-height: 1.4; }
-.tier-cta {
-  position: relative;
+.tier-num {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
-  max-width: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 24px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: rgba(0, 0, 0, .45);
+}
+.tier-tag {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #d6cbec;
+  color: var(--black);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.tier-name {
   margin-top: 28px;
-  padding-top: 28px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(24px, 2vw, 30px);
+  line-height: 1.1;
+  letter-spacing: -.02em;
 }
-/* The rule above the buttons spans the full section width, edge to edge */
-.tier-cta::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: calc(-1 * var(--gap));
-  right: calc(-1 * var(--gap));
-  border-top: 1px solid var(--grey);
+.tier-desc { margin-top: 8px; font-size: clamp(14px, 1vw, 16px); line-height: 1.45; color: rgba(0, 0, 0, .62); }
+.tier-price {
+  align-self: end;
+  margin-top: 40px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(24px, 1.9vw, 30px);
+  line-height: 1.1;
+  letter-spacing: -.02em;
 }
-@media (min-width: 860px) {
-  .tier-cta::before { left: -32px; right: -32px; }
-  .tier:first-child .tier-cta::before { left: 0; }
-  .tier:last-child .tier-cta::before { right: 0; }
-}
-.tier-cta .form-free { margin-top: 0; max-width: none; width: 100%; }
-/* Quieter inputs inside the tier cards */
-.tier-cta .form-free { gap: 8px; }
-.tier-cta .input {
-  padding: 9px 16px;
-  font-size: 14px;
-  border-color: transparent;
-  background: rgba(0, 0, 0, .06);
-  transition: border-color .2s ease, background .2s ease;
-}
-.tier-cta .input::placeholder { color: rgba(0, 0, 0, .38); }
-.tier-cta .input:focus { border-color: rgba(0, 0, 0, .35); background: rgba(0, 0, 0, .04); box-shadow: none; }
-.tier-cta .form-free .button { margin-top: 4px; }
-.tier-inc { margin-top: 36px; }
-.tier-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #7a7a76; margin-bottom: 12px; }
-.tier-list { display: flex; flex-direction: column; gap: 7px; font-size: clamp(13px, .95vw, 15px); line-height: 1.4; color: #3a3a37; }
-.tier-list li { position: relative; padding-left: 1.2em; }
-.tier-list li::before { content: "—"; position: absolute; left: 0; color: var(--grey); }
+@media (max-width: 859px) { .tier-price { align-self: flex-start; } }
+.tier-from { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 400; letter-spacing: 0; color: rgba(0, 0, 0, .55); }
+.tier-cta { margin-top: 28px; padding-bottom: 32px; border-bottom: 1px solid var(--grey); }
+.tier-cta .button { width: 100%; padding: 14px 24px; }
+.tier-ast { margin-left: 2px; font-size: .6em; vertical-align: super; line-height: 0; color: rgba(0, 0, 0, .55); }
+.tier-note { margin-top: auto; padding-top: 24px; font-size: 13px; line-height: 1.4; color: rgba(0, 0, 0, .55); scroll-margin-top: 120px; }
+.tier-inc { display: flex; flex-direction: column; margin-top: 28px; }
+.tier-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(0, 0, 0, .55); margin-bottom: 14px; }
+.tier-list { display: flex; flex-direction: column; gap: 9px; font-size: clamp(14px, .95vw, 15px); line-height: 1.4; color: #2e2e2b; }
+.tier-list li { position: relative; padding-left: 1.3em; }
+.tier-list li::before { content: "—"; position: absolute; left: 0; color: rgba(0, 0, 0, .35); }
 
 /* ---------- Program rows (Mono Space "events" list) ---------- */
 .programs { display: flex; flex-direction: column; padding-bottom: 64px; }
@@ -1326,10 +1360,12 @@ a { color: inherit; text-decoration: none; }
   background: transparent;
   color: currentColor;
   border-color: currentColor;
-  transition: background-color .3s ease, color .3s ease;
+  transition: background-color .3s ease, color .3s ease, opacity .3s ease;
 }
+.tier.-featured .tier-cta .button { background: var(--black); color: var(--off-white); border-color: var(--black); }
 @media (hover: hover) {
   .tier-cta .button:hover { opacity: 1; background: var(--black); color: var(--off-white); border-color: var(--black); }
+  .tier.-featured .tier-cta .button:hover { opacity: .75; }
   .cta-main .button:hover { opacity: 1; background: var(--black); color: #d6cbec; border-color: var(--black); }
 }
 
@@ -1366,11 +1402,13 @@ a { color: inherit; text-decoration: none; }
 .message.is-error { color: var(--error) !important; }
 
 /* ---------- Testimonial ---------- */
+/* Dark, like "Sobre": gives the second half of the page the same rhythm
+   and sets the lilac contact section between two dark bands */
 .testimonial-section {
   position: relative;
   overflow: hidden;
-  border-top: 1px solid var(--grey);
-  color: var(--black);
+  background-color: var(--soft-black);
+  color: var(--off-white);
   padding-bottom: 64px;
 }
 @media (min-width: 860px) {
@@ -1400,9 +1438,9 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 56px;
-  min-height: 35px;
-  margin-bottom: 88px;
+  gap: 20px 40px;
+  min-height: 27px;
+  margin-bottom: 72px;
 }
 .testimonial-logo {
   display: inline-flex;
@@ -1420,16 +1458,16 @@ a { color: inherit; text-decoration: none; }
   display: block;
   height: 16px;
   width: auto;
-  filter: brightness(0);
+  filter: brightness(0) invert(1);
 }
 .testimonial-logo-img--oporto {
-  height: 35px;
+  height: 27px;
 }
 .testimonial-logo-img--softingal {
-  height: 35px;
+  height: 26px;
 }
 .testimonial-logo-img--alviere {
-  height: 30px;
+  height: 22px;
 }
 
 .testimonial-top {
@@ -1437,55 +1475,51 @@ a { color: inherit; text-decoration: none; }
   align-items: flex-start;
   gap: 10px;
 }
-.testimonial-mark {
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: 80px;
-  line-height: 1;
-  color: var(--grey);
-  margin-top: -13px;
-  flex: 0 0 auto;
-}
-.testimonial-slides { flex: 1 1 auto; min-width: 0; display: grid; }
+.testimonial-slides { position: relative; flex: 1 1 auto; min-width: 0; display: grid; }
+/* Slides share one grid cell (sized to the longest); the author sits at the
+   bottom of each so it lines up with the shared counter + arrows. */
 .testimonial-slide {
   grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 1s ease, visibility 1s ease;
 }
 .testimonial-slide.is-active { opacity: 1; visibility: visible; pointer-events: auto; }
-.testimonial-quote {
+/* One strong sentence, big; the full testimonial underneath, quieter */
+/* Paired quotes at text size; the opening one hangs in the margin so the
+   sentence stays aligned on its first letter (editorial hanging punctuation) */
+.testimonial-pull::before { content: "\201C"; position: absolute; transform: translateX(-100%); }
+.testimonial-pull::after { content: "\201D"; }
+.testimonial-pull {
+  position: relative;
+  max-width: 22em;
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(24px, 2.3vw, 34px);
-  line-height: 1.22;
-  letter-spacing: -.02em;
-  max-width: 30em;
+  font-size: clamp(26px, 2.6vw, 40px);
+  line-height: 1.15;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+.testimonial-quote {
+  max-width: 38em;
+  margin-top: 24px;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.6;
+  color: currentColor;
   text-wrap: pretty;
 }
 .testimonial-quote p { margin: 0; }
-.testimonial-quote p + p { margin-top: .5em; }
-.testimonial-author { display: flex; flex-direction: column; margin-top: 48px; }
+.testimonial-quote p + p { margin-top: .7em; }
+.testimonial-author { display: flex; flex-direction: column; margin-top: auto; padding-top: 32px; }
 .testimonial-name { font-family: var(--font-sans); font-weight: 600; font-size: 16px; }
-.testimonial-role { font-size: 14px; color: rgba(0, 0, 0, .55); margin-top: 2px; }
+.testimonial-role { font-size: 14px; color: rgba(238, 238, 234, .6); margin-top: 2px; }
 
-/* Prev/next controls — same hairline-arrow style as the hero's "Saber mais".
-   Sits once, after .testimonial-top (sized to the longest quote), so its
-   position never shifts when switching between testimonials of different
-   lengths. A hidden quote-mark spacer keeps it left-aligned with the quote
-   text (which sits after the mark + gap in .testimonial-top). */
-.testimonial-nav {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 40px;
-}
-.testimonial-nav-spacer { visibility: hidden; line-height: 12px; margin-top: 0; }
-.testimonial-nav-buttons {
-  display: flex;
-  gap: 24px;
-}
+/* Hairline arrows, on the author's line */
+.testimonial-nav { display: flex; align-items: center; gap: 24px; margin-top: 32px; }
+.testimonial-nav-buttons { display: flex; gap: 20px; }
 .testimonial-nav-btn {
   display: inline-flex;
   align-items: center;
@@ -1494,10 +1528,10 @@ a { color: inherit; text-decoration: none; }
   padding: 8px 0;
   margin: -8px 0;
   cursor: pointer;
-  color: var(--black);
+  color: currentColor;
 }
 .testimonial-nav-btn svg {
-  width: 44px;
+  width: 40px;
   height: 12px;
   fill: none;
   stroke: currentColor;
@@ -1506,8 +1540,11 @@ a { color: inherit; text-decoration: none; }
   transition: transform .5s var(--ease);
 }
 @media (hover: hover) {
-  .js-testimonial-prev:hover svg { transform: translateX(-8px); }
-  .js-testimonial-next:hover svg { transform: translateX(8px); }
+  .js-testimonial-prev:hover svg { transform: translateX(-6px); }
+  .js-testimonial-next:hover svg { transform: translateX(6px); }
+}
+@media (min-width: 860px) {
+  .testimonial-nav { position: absolute; right: 0; bottom: 12px; margin-top: 0; }
 }
 
 /* ---------- Footer ---------- */
@@ -1540,7 +1577,7 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  padding: 32px 0;
+  padding: 24px 0;
   border-top: 1px solid rgba(238, 238, 234, .2);
 }
 .footer-guide-text {
@@ -1548,21 +1585,29 @@ a { color: inherit; text-decoration: none; }
   flex-wrap: wrap;
   align-items: baseline;
   gap: 6px 14px;
-  font-size: clamp(17px, 1.4vw, 21px);
-  line-height: 1.3;
-  letter-spacing: -.01em;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.4;
 }
 .footer-guide-kicker { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #d6cbec; }
+/* Same language as the strip's "Receber guia →": a bold underlined link */
 .footer .footer-guide-btn {
   flex: 0 0 auto;
-  background: transparent;
+  padding: 0;
+  border: 0;
+  background: none;
   color: var(--off-white);
-  border-color: rgba(238, 238, 234, .6);
-  transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.1vw, 17px);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  cursor: pointer;
+  transition: color .3s ease;
 }
-@media (hover: hover) { .footer .footer-guide-btn:hover { opacity: 1; background: #d6cbec; border-color: #d6cbec; color: var(--black); } }
+@media (hover: hover) { .footer .footer-guide-btn:hover { color: #d6cbec; text-decoration: none; } }
 @media (min-width: 860px) {
-  .footer-guide { flex-direction: row; align-items: center; justify-content: space-between; padding: 36px 0; }
+  .footer-guide { flex-direction: row; align-items: center; justify-content: space-between; padding: 24px 0; }
 }
 .footer-bottom {
   display: flex;
@@ -1770,3 +1815,187 @@ html.strip-inline.strip-closed .promo-strip { transform: translateY(-100%); tran
 @media (hover: hover) { .modal-success .button:hover { opacity: .75; } }
 @media (min-width: 560px) { .modal-success { padding: 36px 40px 40px; } }
 .modal-form[hidden] { display: none; }
+
+/* ---------- Mobile menu (below 860px) ---------- */
+.nav-burger, .mobile-menu { display: none; }
+@media (max-width: 859px) {
+  .header .nav-right > .lang-switch,
+  .header .nav-right > .nav-link-plain,
+  .header .nav-cta-spacer { display: none; }
+  .nav-cta-fixed { right: calc(var(--gap) + 40px); }
+  .nav-burger {
+    position: fixed;
+    top: calc(var(--strip-h) + var(--nav-extra) + var(--gap) - 7px);
+    right: calc(var(--gap) - 6px);
+    z-index: 21;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 34px; height: 28px;
+    padding: 0 6px;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    transition: color .3s ease, opacity .3s ease;
+  }
+  .nav-burger span { display: block; height: 1.5px; background: currentColor; }
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    padding: var(--gap);
+    background: var(--off-white);
+    color: var(--black);
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity .3s ease, transform .4s var(--ease);
+  }
+  .mobile-menu[hidden] { display: none; }
+  .mobile-menu.is-open { opacity: 1; transform: none; }
+  .mobile-menu-top { display: flex; align-items: center; justify-content: space-between; height: 14px; margin-top: calc(var(--strip-h) + var(--nav-extra)); }
+  .mobile-menu-close { display: grid; place-items: center; width: 34px; height: 34px; margin: -10px -8px -10px 0; border: 0; background: none; color: inherit; cursor: pointer; }
+  .mobile-menu-close svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.4; }
+  .mobile-menu-links { display: flex; flex-direction: column; margin-top: 48px; border-top: 1px solid var(--grey); }
+  .mobile-menu-links a {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--grey);
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -.02em;
+  }
+  .mobile-menu-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: auto; padding-top: 32px; }
+  .mobile-menu-foot .button { padding: 14px 28px; }
+  .mobile-menu-foot .lang-switch { font-size: 13px; }
+}
+
+/* ---------- FAQ (homepage) ----------
+   Same kicker breakout and hairline rows as the rest of the page; answers
+   stay in the HTML (visible to search engines and AI) and open with "+". */
+.faq-section { position: relative; border-top: 1px solid var(--grey); padding-bottom: 64px; }
+.faq-kicker { padding-top: 64px; padding-left: var(--gap); margin-bottom: 16px; }
+@media (min-width: 860px) {
+  .faq-kicker { padding-top: 96px; margin-bottom: 20px; }
+  .faq-section { padding-bottom: 104px; }
+}
+@media (min-width: 1200px) {
+  .faq-kicker { position: absolute; top: 105px; left: var(--gap); padding-top: 0; margin-bottom: 0; }
+  .faq-section .narrow-container { padding-top: 96px; }
+}
+.faq-title {
+  max-width: 16em;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(24px, 2.2vw, 32px);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+.faq-list { margin-top: 28px; border-top: 1px solid var(--grey); }
+@media (min-width: 860px) { .faq-list { margin-top: 36px; } }
+.faq-item { border-bottom: 1px solid var(--grey); }
+.faq-item summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  padding: 16px 0;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.4;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  flex: 0 0 auto;
+  font-size: 1.2em;
+  font-weight: 300;
+  line-height: 1;
+  color: rgba(0, 0, 0, .55);
+  transition: transform .3s var(--ease);
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+@media (hover: hover) { .faq-item summary:hover { opacity: .65; } }
+.faq-answer { max-width: 40em; padding: 0 0 20px; font-size: clamp(14px, 1vw, 16px); line-height: 1.6; color: rgba(0, 0, 0, .72); text-wrap: pretty; }
+.faq-answer p + ol { margin-top: 10px; }
+.faq-answer ol { list-style: none; counter-reset: faqstep; display: flex; flex-direction: column; gap: 8px; }
+.faq-answer ol li { position: relative; padding-left: 32px; counter-increment: faqstep; }
+.faq-answer ol li::before { content: counter(faqstep, decimal-leading-zero); position: absolute; left: 0; top: .2em; font-size: .8em; font-variant-numeric: tabular-nums; color: var(--grey); }
+.faq-answer strong { font-weight: 600; color: var(--black); }
+.faq-answer a { text-decoration: underline; text-underline-offset: 3px; color: var(--black); }
+@media (hover: hover) { .faq-answer a:hover { text-decoration: none; } }
+
+/* ---------- Nav backdrop on scroll ----------
+   A near-opaque band (85%) in the colour of the section underneath, with a
+   light blur and a soft fade at the bottom; main.js sets --nav-bg. */
+.header::before {
+  content: "";
+  position: fixed;
+  top: calc(var(--strip-h) + var(--nav-extra));
+  left: 0; right: 0;
+  z-index: 0;
+  height: calc(14px + var(--gap) * 2 + 28px);
+  background: var(--nav-bg, rgba(238, 238, 234, .85));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  /* Solid blur behind the nav, fading out gradually below it */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 65%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0, #000 65%, transparent 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease, background-color .3s ease;
+}
+@media (min-width: 860px) { .header::before { height: calc(17px + var(--gap) * 2 + 32px); } }
+html.is-scrolled .header::before { opacity: 1; }
+html.nav-away .header::before { opacity: 0; }
+
+/* ---------- Type system: shared roles ----------
+   Three text colours, three running-text sizes, two label styles and one
+   numbering style, applied across sections. */
+:root {
+  --text-2: rgba(0, 0, 0, .62);
+  --text-3: rgba(0, 0, 0, .5);
+  --text-2-inv: rgba(238, 238, 234, .62);
+  --text-3-inv: rgba(238, 238, 234, .5);
+  --fs-lead: clamp(17px, 1.3vw, 20px);
+  --fs-body: 16px;
+  --fs-small: 14px;
+}
+
+/* Running text: lead / body / small */
+.hero-statement, .pains-sub, .impact-sub, .tiers-sub, .cta-sub, .about-copy { font-size: var(--fs-lead); }
+.faq-answer, .testimonial-quote, .modal-sub, .modal-list li { font-size: var(--fs-body); }
+.card-desc, .tier-desc, .tier-list { font-size: var(--fs-small); }
+.faq-item summary { font-size: 17px; }
+
+/* Text colours: primary / secondary / tertiary */
+.card-desc, .tier-desc, .faq-answer, .modal-sub { color: var(--text-2); }
+.tier-list { color: var(--black); }
+.tier-note, .modal-note { color: var(--text-3); }
+.footer-bottom { color: var(--text-3-inv); }
+.footer-email { color: var(--text-2-inv) !important; }
+.testimonial-role { color: var(--text-2-inv); }
+
+/* Component labels: 11px caps, one tracking; section kickers stay 12px */
+.promo-kicker, .tier-label, .tier-tag, .footer-guide-kicker, .cta-field span, .modal-inc-label, .pains-lead {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.tier-label, .cta-field span, .modal-inc-label { color: var(--text-3); }
+
+/* Numbering: 01, 02, 03… */
+.card .h5, .tier-num, .pains-row::before, .faq-answer ol li::before, .modal-list li::before {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-3);
+}
+
+/* One weight for small titles */
+.card-title { font-weight: 400; }

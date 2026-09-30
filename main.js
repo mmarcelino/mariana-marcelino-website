@@ -14,7 +14,7 @@
   // Fixed header: each side turns off-white while it sits over a dark area
   var header = document.querySelector(".header");
   if (header) {
-    var navParts = [header.querySelector(".logo-container"), header.querySelector(".lang-switch"), header.querySelector(".nav-link-plain"), header.querySelector(".nav-cta-fixed")].filter(Boolean);
+    var navParts = [header.querySelector(".logo-container"), header.querySelector(".lang-switch"), header.querySelector(".nav-link-plain"), header.querySelector(".nav-cta-fixed"), header.querySelector(".nav-burger")].filter(Boolean);
     var darkAreas = document.querySelectorAll('[data-nav="dark"]');
     var hideAreas = document.querySelectorAll("[data-nav-hide]");
     var navTicking = false;
@@ -28,6 +28,7 @@
     var promoStrip = document.querySelector(".promo-strip");
     var updateNav = function () {
       navTicking = false;
+      document.documentElement.classList.toggle("is-scrolled", window.scrollY > 4);
       // The strip slides away over the contact section and footer, like the nav
       if (promoStrip) {
         // Inline strip (homepage): flag when it has reached the top and stuck there
@@ -37,13 +38,36 @@
         // Fixed probe point: the strip's own rect moves once it slides away
         promoStrip.classList.toggle("is-away", over(hideAreas, window.innerWidth / 2, promoStrip.offsetHeight / 2));
       }
+      // Once scrolled, the nav sits on a near-opaque band in the colour of the
+      // section underneath (read at the page edge); its text follows that band
+      var scrolled = window.scrollY > 4;
+      var bandDark = null;
+      if (scrolled && navParts[0]) {
+        var lr = navParts[0].getBoundingClientRect();
+        var probe = document.elementsFromPoint(2, lr.top + lr.height / 2);
+        for (var i = 0; i < probe.length; i++) {
+          var el = probe[i];
+          if (el.closest(".header, .promo-strip, .mobile-menu")) continue;
+          var m = getComputedStyle(el).backgroundColor.match(/[\d.]+/g);
+          if (m && (m.length < 4 || parseFloat(m[3]) > 0.5)) {
+            document.documentElement.style.setProperty("--nav-bg", "rgba(" + m[0] + "," + m[1] + "," + m[2] + ",.85)");
+            bandDark = (0.299 * m[0] + 0.587 * m[1] + 0.114 * m[2]) < 128;
+            break;
+          }
+        }
+      }
       navParts.forEach(function (part) {
         var r = part.getBoundingClientRect();
         var x = r.left + r.width / 2;
         var y = r.top + r.height / 2;
-        part.classList.toggle("nav-on-dark", over(darkAreas, x, y));
+        part.classList.toggle("nav-on-dark", bandDark === null ? over(darkAreas, x, y) : bandDark);
         part.classList.toggle("nav-hidden", over(hideAreas, x, y));
       });
+      // The scroll backdrop goes away with the nav over the contact area
+      var logoPart = navParts[0];
+      if (logoPart) {
+        document.documentElement.classList.toggle("nav-away", logoPart.classList.contains("nav-hidden"));
+      }
     };
     var requestNav = function () {
       if (!navTicking) { navTicking = true; requestAnimationFrame(updateNav); }
@@ -368,6 +392,82 @@
     }
   }
 
+  // Mobile menu
+  var mobileMenu = document.querySelector(".js-mobile-menu");
+  var menuOpen = document.querySelector(".js-menu-open");
+  if (mobileMenu && menuOpen) {
+    var closeMenu = function (restoreFocus) {
+      mobileMenu.classList.remove("is-open");
+      menuOpen.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("has-modal");
+      setTimeout(function () { mobileMenu.hidden = true; }, 300);
+      if (restoreFocus) menuOpen.focus();
+    };
+    menuOpen.addEventListener("click", function () {
+      mobileMenu.hidden = false;
+      requestAnimationFrame(function () { mobileMenu.classList.add("is-open"); });
+      menuOpen.setAttribute("aria-expanded", "true");
+      document.body.classList.add("has-modal");
+      mobileMenu.querySelector(".js-menu-close").focus();
+    });
+    mobileMenu.querySelector(".js-menu-close").addEventListener("click", function () { closeMenu(true); });
+    mobileMenu.querySelectorAll(".js-menu-link").forEach(function (a) {
+      a.addEventListener("click", function () { closeMenu(false); });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !mobileMenu.hidden) closeMenu(true);
+    });
+  }
+
+  // Blog: filter by topic chip + free-text search
+  var postList = document.querySelector(".js-post-list");
+  if (postList) {
+    var chips = Array.prototype.slice.call(postList.querySelectorAll(".js-chip"));
+    var postCards = Array.prototype.slice.call(postList.querySelectorAll(".js-post"));
+    var searchBox = postList.querySelector(".js-post-search");
+    var empty = postList.querySelector(".js-posts-empty");
+    var activeCat = "all";
+    var norm = function (s) { return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim(); };
+    var applyFilter = function () {
+      var q = norm(searchBox ? searchBox.value : "");
+      var shown = 0;
+      postCards.forEach(function (card) {
+        var ok = (activeCat === "all" || card.dataset.cat === activeCat) && (!q || card.dataset.text.indexOf(q) !== -1);
+        card.hidden = !ok;
+        if (ok) shown++;
+      });
+      if (empty) empty.hidden = shown > 0;
+    };
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        // Clicking the active topic again goes back to "all"
+        activeCat = (chip.dataset.filter === activeCat && activeCat !== "all") ? "all" : chip.dataset.filter;
+        chips.forEach(function (c) {
+          var on = c.dataset.filter === activeCat;
+          c.classList.toggle("is-active", on);
+          c.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        applyFilter();
+      });
+    });
+    if (searchBox) searchBox.addEventListener("input", applyFilter);
+  }
+
+  // "Se preferir, envie uma mensagem →" reveals the contact form in place
+  document.querySelectorAll(".js-write-toggle").forEach(function (toggle) {
+    var target = document.getElementById(toggle.getAttribute("aria-controls"));
+    if (!target) return;
+    toggle.addEventListener("click", function () {
+      var open = target.hidden;
+      target.hidden = !open;
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) {
+        var first = target.querySelector("input, textarea");
+        if (first) first.focus({ preventScroll: true });
+      }
+    });
+  });
+
   // Contact form ("Prefere escrever?")
   document.querySelectorAll(".js-contact-form").forEach(function (form) {
     var msg = form.querySelector(".js-form-message");
@@ -473,7 +573,7 @@
       var data = new FormData();
       data.append("Email", email);
       data.append("URL", url);
-      data.append("Origem", form.closest(".js-free-modal") ? "Pop-up (Contacto)" : "Card gratuito (Soluções)");
+      data.append("Origem", "Plano gratuito (pop-up)");
       data.append("Idioma", EN ? "EN" : "PT");
       data.append("_subject", "Novo pedido de redesign gratuito — " + url);
       data.append("_replyto", email);

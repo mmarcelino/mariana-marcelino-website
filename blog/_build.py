@@ -12,10 +12,6 @@ VERSION = str(int(time.time()))
 MONTHS = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho",
           "agosto", "setembro", "outubro", "novembro", "dezembro"]
 
-AUTHOR_BIO = ("Redesenho e reconstruo sites para pequenos negócios, com foco em serem "
-              "encontrados no Google e em ferramentas de IA e em transformarem visitas em "
-              "contactos. Trabalho em desenvolvimento de software desde 2018.")
-
 # --------------------------------------------------------------------------
 # Posts (newest first)
 # --------------------------------------------------------------------------
@@ -26,7 +22,7 @@ POSTS = [
 "description": "Cada vez mais clientes pedem recomendações a ferramentas de IA. Saiba o que leva o ChatGPT, o Perplexity e o Google a citar um negócio e como preparar o seu site.",
 "dek": "Cada vez mais pessoas pedem recomendações a uma ferramenta de IA em vez de percorrerem uma página de resultados. Eis o que faz um negócio ser citado nessas respostas e como preparar o seu site.",
 "category": "IA e pesquisa",
-"date": "2026-09-29",
+"date": "2026-08-25",
 "cover": "ia-chatgpt",
 "cover_alt": "Ilustração: uma resposta luminosa ao centro, com órbitas e três fontes citadas em destaque",
 "takeaways": [
@@ -118,7 +114,7 @@ POSTS = [
 "description": "Um site desatualizado custa-lhe contactos todos os dias, mesmo sem dar por isso. Os oito sinais mais comuns e o que fazer com cada um deles.",
 "dek": "Um site raramente avaria de forma visível. Vai simplesmente deixando de funcionar e os contactos diminuem sem que se perceba porquê. Estes são os oito sinais a que deve estar atento.",
 "category": "Redesign",
-"date": "2026-09-22",
+"date": "2026-07-28",
 "cover": "sinais-site",
 "cover_alt": "Ilustração: oito páginas de um site que se afastam e desvanecem da esquerda para a direita",
 "takeaways": [
@@ -179,7 +175,7 @@ POSTS = [
 "description": "Guia prático para pequenos negócios aparecerem no Google Maps e nas pesquisas locais: Perfil da Empresa, avaliações, páginas por localidade e dados estruturados.",
 "dek": "Quem pesquisa “perto de mim” ou junta uma cidade à pesquisa costuma estar pronto para contratar. Este guia mostra como fazer com que o seu negócio seja a resposta.",
 "category": "SEO",
-"date": "2026-09-15",
+"date": "2026-06-23",
 "cover": "seo-local",
 "cover_alt": "Ilustração: mapa topográfico com um local assinalado a verde-água",
 "takeaways": [
@@ -247,7 +243,7 @@ POSTS = [
 "description": "Se as pessoas visitam o seu site mas não entram em contacto, o problema raramente é o tráfego. Sete mudanças práticas para transformar visitas em pedidos.",
 "dek": "Trazer visitas é a parte cara. Perdê-las por falta de clareza ou de confiança é a parte evitável. Sete correções que transformam visitas em pedidos de contacto.",
 "category": "Conversão",
-"date": "2026-09-08",
+"date": "2026-05-26",
 "cover": "visitas-contactos",
 "cover_alt": "Ilustração: muitos pontos a convergir para uma passagem estreita, por onde só alguns atravessam",
 "takeaways": [
@@ -309,7 +305,7 @@ POSTS = [
 "description": "De construtores de sites a agências: o que determina o preço de um site profissional, o que deve estar incluído e como comparar propostas sem surpresas.",
 "dek": "Duas propostas para “o mesmo site” podem ter valores muito diferentes. Este guia explica o que faz variar o preço, o que deve estar incluído e como comparar de forma justa.",
 "category": "Investimento",
-"date": "2026-09-01",
+"date": "2026-04-28",
 "cover": "custo-site",
 "cover_alt": "Ilustração: gráfico de barras crescente, com as últimas barras em lilás",
 "takeaways": [
@@ -380,6 +376,64 @@ POSTS = [
 # --------------------------------------------------------------------------
 # Helpers
 # --------------------------------------------------------------------------
+from _posts_en import POSTS_EN
+
+MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July",
+             "August", "September", "October", "November", "December"]
+X_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg>'
+
+# Interface copy for both languages
+UI = {
+"pt": dict(
+    html_lang="pt-PT", og_locale="pt_PT", m_open="Abrir menu", m_close="Fechar menu", m_l1="O que faço", m_l2="Sobre", m_l3="Planos", m_l5="Contacto", home_label="Mariana Marcelino — página inicial",
+    call="Marcar chamada", lang_label="Idioma",
+    strip_region="Guia gratuito", strip_kicker="Gratuito", guide_title="8 sinais de que o seu site está a afastar clientes", foot_guide="Oito sinais de que o seu site está a afastar clientes",
+    strip_go="Receber guia", close="Fechar",
+    g_kicker="Guia gratuito", g_sub="Um guia prático, com um teste rápido para cada sinal. Em poucos minutos percebe o que pode estar a custar-lhe contactos.",
+    g_inc="O que vai encontrar", g_items=["Os 8 sinais mais comuns, explicados sem jargão", "O que fazer e um teste rápido para cada um", "Uma grelha para decidir o próximo passo"],
+    g_label="Pedido do guia gratuito", g_url="Insira o link para o seu site", g_email="Insira o seu email", g_btn="Receber o guia",
+    g_note="Sem qualquer custo. Os seus dados servem apenas para este pedido.", privacy="Política de Privacidade",
+    g_ok_t="O seu guia está pronto", g_ok_p="Obrigada! Já o pode descarregar.", g_dl="Descarregar o guia", g_file="assets/guia-8-sinais.pdf", g_dl_name="Oito-sinais-de-que-o-seu-site-esta-a-afastar-clientes.pdf",
+    cta_kicker="Contacto", cta_title="Comecemos com uma conversa",
+    cta_sub="Identificamos oportunidades de melhoria no seu site e falamos sobre o caminho que faz sentido. Sem qualquer custo nem compromisso.",
+    cta_write="Se preferir, envie uma mensagem", cta_aria="Formulário de contacto", f_name="Nome", f_msg="Mensagem", f_send="Enviar",
+    foot_aria="Rodapé", legal=[("politica-de-privacidade/", "Privacidade"), ("politica-de-cookies/", "Cookies"), ("termos-e-condicoes/", "Termos e Condições")], privacy_path="politica-de-privacidade/", updated="Última atualização",
+    read="Ler artigo", min_read="min de leitura", role="Web Design, Programação, Conversão",
+    toc="Neste artigo", summary="Em resumo", faq="Perguntas frequentes", faq_id="perguntas-frequentes", more="Continuar a ler", home_crumb="Início",
+    bio=("Redesenho e reconstruo sites para que o seu negócio pareça o que realmente é: moderno e credível. "
+         "Para que seja encontrado por quem o procura. E para que cada visitante tenha um caminho claro até se tornar cliente."),
+    b_title="Vamos falar de presença digital", b_intro="Da ideia à conversão — e tudo o que acontece pelo meio.",
+    b_meta_title="Blog | Mariana Marcelino — Sites, SEO e IA para pequenos negócios",
+    b_meta_desc="Artigos práticos sobre design de sites, SEO, inteligência artificial e conversão, escritos para quem gere um negócio.",
+    f_title="Explorar por tema", f_all="Todos", f_search="Pesquisar artigos", f_topics="Temas", f_empty="Nenhum artigo encontrado. Experimente outro tema ou outra palavra.",
+),
+"en": dict(
+    html_lang="en", og_locale="en_GB", m_open="Open menu", m_close="Close menu", m_l1="What I do", m_l2="About", m_l3="Plans", m_l5="Contact", home_label="Mariana Marcelino — homepage",
+    call="Book a call", lang_label="Language",
+    strip_region="Free guide", strip_kicker="Free", guide_title="8 signs your website is driving clients away", foot_guide="Eight signs your website is driving clients away",
+    strip_go="Get the guide", close="Close",
+    g_kicker="Free guide", g_sub="A practical guide with a quick test for each sign. In a few minutes you’ll see what might be costing you enquiries.",
+    g_inc="What’s inside", g_items=["The 8 most common signs, explained without jargon", "What to do, and a quick test for each one", "A simple way to decide your next step"],
+    g_label="Free guide request", g_url="Enter your website link", g_email="Enter your email", g_btn="Get the guide",
+    g_note="Completely free. Your details are only used for this request.", privacy="Privacy Policy",
+    g_ok_t="Your guide is ready", g_ok_p="Thank you! You can download it now.", g_dl="Download the guide", g_file="assets/guide-8-signs.pdf", g_dl_name="Eight-signs-your-website-is-driving-clients-away.pdf",
+    cta_kicker="Contact", cta_title="Let's start with a conversation",
+    cta_sub="We'll look at where your website could improve and talk about the path that makes sense. No cost, no commitment.",
+    cta_write="If you prefer, send a message", cta_aria="Contact form", f_name="Name", f_msg="Message", f_send="Send",
+    foot_aria="Footer", legal=[("en/privacy-policy/", "Privacy"), ("en/cookie-policy/", "Cookies"), ("en/terms-and-conditions/", "Terms &amp; Conditions")], privacy_path="en/privacy-policy/", updated="Last updated",
+    read="Read article", min_read="min read", role="Web Design, Development, Conversion",
+    toc="In this article", summary="Key takeaways", faq="Frequently asked questions", faq_id="faq", more="Keep reading", home_crumb="Home",
+    bio=("I redesign and rebuild websites so your business looks like what it really is: modern and credible. "
+         "So it gets found by the people looking for it. And so every visitor has a clear path to becoming a client."),
+    b_title="Let’s talk digital presence", b_intro="From idea to conversion — and everything in between.",
+    b_meta_title="Blog | Mariana Marcelino — Websites, SEO and AI for small businesses",
+    b_meta_desc="Practical articles on web design, SEO, artificial intelligence and conversion, written for people who run a business.",
+    f_title="Explore by topic", f_all="All", f_search="Search articles", f_topics="Topics", f_empty="No articles found. Try another topic or word.",
+),
+}
+AVATAR = "assets/mariana-about-lilac.webp"
+
+
 def esc(s):
     return html.escape(s, quote=True)
 
@@ -388,9 +442,13 @@ def slugify(text):
     t = re.sub(r"[^a-zA-Z0-9]+", "-", t).strip("-").lower()
     return re.sub(r"^\d+-", "", t) or "secao"
 
-def pt_date(iso):
+def fmt_date(iso, lang="pt"):
     y, m, d = iso.split("-")
+    if lang == "en":
+        return f"{int(d)} {MONTHS_EN[int(m) - 1]} {y}"
     return f"{int(d)} de {MONTHS[int(m) - 1]} de {y}"
+
+pt_date = fmt_date
 
 def reading_minutes(post):
     text = re.sub(r"<[^>]+>", " ", post["body"]) + " ".join(a for q, a in post["faq"]) + " ".join(post["takeaways"])
@@ -408,126 +466,168 @@ def add_heading_ids(body):
         return f'<h2 id="{sid}">{text}</h2>'
     return re.sub(r"<h2>(.*?)</h2>", repl, body), toc
 
-def header(prefix, current="blog"):
+def home_of(prefix, lang):
+    return prefix + ("en/" if lang == "en" else "")
+
+def lang_switch(lang, alt, label):
+    if lang == "en":
+        return f'''<div class="lang-switch" aria-label="{label}">
+          <a href="{alt}" hreflang="pt-PT" lang="pt-PT" class="lang-link">PT</a>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <span class="lang-current" aria-current="true">EN</span>
+        </div>'''
+    return f'''<div class="lang-switch" aria-label="{label}">
+          <span class="lang-current" aria-current="true">PT</span>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <a href="{alt}" hreflang="en" lang="en" class="lang-link">EN</a>
+        </div>'''
+
+def header(prefix, current="blog", lang="pt", alt=None):
+    u = UI[lang]
+    home = home_of(prefix, lang)
+    if alt is None:
+        alt = prefix if lang == "en" else prefix + "en/"
     return f"""  <!-- Lead magnet strip -->
-  <div class="promo-strip" role="region" aria-label="Guia gratuito">
-    <button type="button" class="promo-link" data-open-modal="guide-modal"><span class="promo-kicker">Gratuito</span><span class="promo-text">8 sinais de que o seu site está a afastar clientes</span><span class="promo-go">Receber guia →</span></button>
-    <button type="button" class="promo-close js-promo-close" aria-label="Fechar"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg></button>
+  <div class="promo-strip" role="region" aria-label="{u['strip_region']}">
+    <button type="button" class="promo-link" data-open-modal="guide-modal"><span class="promo-kicker">{u['strip_kicker']}</span><span class="promo-text">{u['foot_guide']}</span><span class="promo-go">{u['strip_go']} →</span></button>
+    <button type="button" class="promo-close js-promo-close" aria-label="{u['close']}">{X_ICON}</button>
   </div>
 
   <header class="header">
     <nav class="navigation grid-col-t grid-col-b grid-col-l grid-col-r h4">
-      <a href="{prefix}" class="logo-container" aria-label="Mariana Marcelino — página inicial">
+      <a href="{home}" class="logo-container" aria-label="{u['home_label']}">
         <span class="logo">MARIANA MARCELINO</span>
       </a>
       <div class="nav-right">
-        <a href="{prefix}blog/" class="nav-link-plain"{' aria-current="page"' if current == "blog" else ""}>Blog</a>
-        <span class="nav-cta nav-cta-spacer" aria-hidden="true">Marcar chamada</span>
-        <a href="{CALENDLY}" target="_blank" rel="noopener" class="nav-cta nav-cta-fixed">Marcar chamada</a>
+        {lang_switch(lang, alt, u['lang_label'])}
+        <a href="{home}blog/" class="nav-link-plain"{' aria-current="page"' if current == "blog" else ""}>Blog</a>
+        <span class="nav-cta nav-cta-spacer" aria-hidden="true">{u['call']}</span>
+        <a href="{CALENDLY}" target="_blank" rel="noopener" class="nav-cta nav-cta-fixed">{u['call']}</a>
+        <button type="button" class="nav-burger js-menu-open" aria-label="{u['m_open']}" aria-controls="mobile-menu" aria-expanded="false"><span></span><span></span></button>
       </div>
     </nav>
-  </header>"""
+  </header>
 
-def guide_modal(prefix):
+  <!-- Mobile menu -->
+  <div class="mobile-menu js-mobile-menu" id="mobile-menu" hidden>
+    <div class="mobile-menu-top">
+      <span class="logo">MARIANA MARCELINO</span>
+      <button type="button" class="mobile-menu-close js-menu-close" aria-label="{u['m_close']}">{X_ICON}</button>
+    </div>
+    <nav class="mobile-menu-links" aria-label="Menu">
+      <a href="{home}#impact" class="js-menu-link">{u['m_l1']}</a>
+      <a href="{home}#about" class="js-menu-link">{u['m_l2']}</a>
+      <a href="{home}#solutions" class="js-menu-link">{u['m_l3']}</a>
+      <a href="{home}blog/" class="js-menu-link">Blog</a>
+      <a href="{home}#cta" class="js-menu-link">{u['m_l5']}</a>
+    </nav>
+    <div class="mobile-menu-foot">
+      <a href="{CALENDLY}" target="_blank" rel="noopener" class="button">{u['call']}</a>
+      {lang_switch(lang, alt, u['lang_label'])}
+    </div>
+  </div>"""
+
+def guide_modal(prefix, lang="pt"):
+    u = UI[lang]
+    items = "\n".join(f"          <li>{i}</li>" for i in u["g_items"])
     return f"""  <!-- Lead magnet popup -->
   <dialog class="modal js-modal" id="guide-modal" aria-labelledby="guide-modal-title">
     <div class="modal-head">
-      <p class="kicker">Guia gratuito</p>
-      <button type="button" class="modal-close js-close-modal" aria-label="Fechar"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg></button>
+      <p class="kicker">{u['g_kicker']}</p>
+      <button type="button" class="modal-close js-close-modal" aria-label="{u['close']}">{X_ICON}</button>
     </div>
     <div class="modal-body">
-      <h2 id="guide-modal-title" class="modal-title">8 sinais de que o seu site está a afastar clientes</h2>
-      <p class="modal-sub">Um guia prático, com um teste rápido para cada sinal. Em poucos minutos percebe o que pode estar a custar-lhe contactos.</p>
+      <h2 id="guide-modal-title" class="modal-title">{u['foot_guide']}</h2>
+      <p class="modal-sub">{u['g_sub']}</p>
       <div class="modal-inc">
-        <p class="modal-inc-label">O que vai encontrar</p>
+        <p class="modal-inc-label">{u['g_inc']}</p>
         <ol class="modal-list">
-          <li>Os 8 sinais mais comuns, explicados sem jargão</li>
-          <li>O que fazer e um teste rápido para cada um</li>
-          <li>Uma grelha para decidir o próximo passo</li>
+{items}
         </ol>
       </div>
     </div>
-    <form class="js-guide-form form-free modal-form" aria-label="Pedido do guia gratuito" novalidate>
-      <input type="text" name="URL" class="input" placeholder="Insira o link para o seu site" required autocomplete="url">
-      <input type="email" name="Email" class="input" placeholder="Insira o seu email" required autocomplete="email">
-      <button type="submit" class="button">Receber o guia</button>
+    <form class="js-guide-form form-free modal-form" aria-label="{u['g_label']}" novalidate>
+      <input type="text" name="URL" class="input" placeholder="{u['g_url']}" required autocomplete="url">
+      <input type="email" name="Email" class="input" placeholder="{u['g_email']}" required autocomplete="email">
+      <button type="submit" class="button">{u['g_btn']}</button>
       <p class="js-form-message message" role="status"></p>
-      <p class="modal-note">Sem qualquer custo. Os seus dados servem apenas para este pedido. <a href="{prefix}politica-de-privacidade/">Política de Privacidade</a></p>
+      <p class="modal-note">{u['g_note']} <a href="{prefix}{u['privacy_path']}">{u['privacy']}</a></p>
     </form>
     <div class="modal-success js-guide-success" hidden>
-      <p class="modal-success-title">O seu guia está pronto</p>
-      <p>Obrigada! Já o pode descarregar.</p>
-      <a class="button" href="{prefix}assets/guia-8-sinais.pdf" download>Descarregar o guia</a>
+      <p class="modal-success-title">{u['g_ok_t']}</p>
+      <p>{u['g_ok_p']}</p>
+      <a class="button" href="{prefix}{u['g_file']}" download="{u['g_dl_name']}">{u['g_dl']}</a>
     </div>
   </dialog>
 
 """
 
-def cta(prefix):
+def cta(prefix, lang="pt"):
+    u = UI[lang]
     return f"""    <section class="cta-section" data-nav-hide>
-      <p class="kicker cta-kicker">Contacto</p>
+      <p class="kicker cta-kicker">{u['cta_kicker']}</p>
       <div class="narrow-container">
-        <h2 class="cta-title">Comecemos com uma conversa</h2>
-        <p class="cta-sub">Identificamos oportunidades de melhoria no seu site e falamos sobre o caminho que faz sentido. Sem qualquer custo nem compromisso.</p>
+        <h2 class="cta-title">{u['cta_title']}</h2>
+        <p class="cta-sub">{u['cta_sub']}</p>
         <div class="cta-main">
-          <a href="{CALENDLY}" target="_blank" rel="noopener" class="button cta-button">Marcar chamada</a>
+          <a href="{CALENDLY}" target="_blank" rel="noopener" class="button cta-button">{u['call']}</a>
         </div>
-
         <div class="cta-write">
-          <p class="cta-write-label">Prefere escrever?</p>
-          <form class="js-contact-form cta-form" aria-label="Formulário de contacto" novalidate>
-            <input type="text" name="Nome" class="input" placeholder="Nome" autocomplete="name">
-            <input type="email" name="Email" class="input" placeholder="Email" required autocomplete="email">
-            <textarea name="Mensagem" class="input cta-textarea" rows="4" placeholder="Em que posso ajudar?" required></textarea>
+          <button type="button" class="cta-write-toggle js-write-toggle" aria-expanded="false" aria-controls="cta-form"><span class="cta-write-text">{u['cta_write']}</span><span class="cta-write-arrow" aria-hidden="true">→</span></button>
+          <form id="cta-form" class="js-contact-form cta-form" hidden aria-label="{u['cta_aria']}" novalidate>
+            <label class="cta-field"><span>{u['f_name']}</span><input type="text" name="Nome" autocomplete="name"></label>
+            <label class="cta-field"><span>Email</span><input type="email" name="Email" required autocomplete="email"></label>
+            <label class="cta-field -full"><span>{u['f_msg']}</span><textarea name="Mensagem" rows="3" required></textarea></label>
             <div class="cta-form-foot">
-              <button type="submit" class="button">Enviar mensagem</button>
+              <button type="submit" class="button">{u['f_send']}</button>
               <p class="js-form-message message" role="status"></p>
             </div>
           </form>
         </div>
-
-        <p class="cta-alt">
-          <span class="cta-alt-label">Ainda não tem a certeza?</span>
-          <a href="{prefix}#free" class="cta-alt-link">Receba por email uma proposta gratuita</a>
-        </p>
       </div>
     </section>"""
 
-def footer(prefix):
+def footer(prefix, lang="pt", alt=None):
+    u = UI[lang]
+    home = home_of(prefix, lang)
+    if alt is None:
+        alt = prefix if lang == "en" else prefix + "en/"
+    legal = "\n".join(f'        <a href="{prefix}{href}" class="link">{label}</a>' for href, label in u["legal"])
     return f"""  <footer class="footer -bg-black -fg-off-white" data-nav="dark" data-nav-hide>
     <div class="footer-top footer-row">
       <div class="footer-brand">
-        <a href="{prefix}" class="logo footer-logo">MARIANA MARCELINO</a>
+        <a href="{home}" class="logo footer-logo">MARIANA MARCELINO</a>
         <a href="mailto:info@mariana-marcelino.com" class="footer-email">info@mariana-marcelino.com</a>
       </div>
-      <nav class="footer-links" aria-label="Rodapé">
-        <div class="lang-switch" aria-label="Idioma">
-          <span class="lang-current" aria-current="true">PT</span>
-          <span class="lang-sep" aria-hidden="true">|</span>
-          <a href="{prefix}en/" hreflang="en" lang="en" class="lang-link">EN</a>
-        </div>
-        <a href="{prefix}blog/" class="nav-link-plain">Blog</a>
-        <a href="{CALENDLY}" target="_blank" rel="noopener" class="nav-cta">Marcar chamada</a>
+      <nav class="footer-links" aria-label="{u['foot_aria']}">
+        {lang_switch(lang, alt, u['lang_label'])}
+        <a href="{home}blog/" class="nav-link-plain">Blog</a>
+        <a href="{CALENDLY}" target="_blank" rel="noopener" class="nav-cta">{u['call']}</a>
       </nav>
     </div>
     <div class="footer-guide">
-      <p class="footer-guide-text"><span class="footer-guide-kicker">Gratuito</span>8 sinais de que o seu site está a afastar clientes</p>
-      <button type="button" class="button footer-guide-btn" data-open-modal="guide-modal">Receber guia</button>
+      <p class="footer-guide-text"><span class="footer-guide-kicker">{u['strip_kicker']}</span>{u['foot_guide']}</p>
+      <button type="button" class="footer-guide-btn" data-open-modal="guide-modal">{u['strip_go']} →</button>
     </div>
     <div class="footer-bottom">
       <p>© 2026 Mariana Marcelino</p>
       <div class="footer-legal">
-        <a href="{prefix}politica-de-privacidade/" class="link">Privacidade</a>
-        <a href="{prefix}politica-de-cookies/" class="link">Cookies</a>
-        <a href="{prefix}termos-e-condicoes/" class="link">Termos e Condições</a>
+{legal}
       </div>
     </div>
   </footer>"""
 
-def head(title, description, canonical, image, prefix, og_type, jsonld):
+def head(title, description, canonical, image, prefix, og_type, jsonld, lang="pt", alternates=None):
+    u = UI[lang]
     ld = "\n".join(f'  <script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in jsonld)
+    alt_links = ""
+    alt_locale = ""
+    if alternates:
+        alt_locale = f'\n  <meta property="og:locale:alternate" content="{UI["en" if lang == "pt" else "pt"]["og_locale"]}">'
+    if alternates:
+        alt_links = "\n" + "\n".join(f'  <link rel="alternate" hreflang="{hl}" href="{href}">' for hl, href in alternates)
     return f"""<!doctype html>
-<html lang="pt-PT">
+<html lang="{u['html_lang']}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
@@ -535,11 +635,11 @@ def head(title, description, canonical, image, prefix, og_type, jsonld):
   <meta name="description" content="{esc(description)}">
   <meta name="author" content="Mariana Marcelino">
   <meta name="robots" content="index,follow,max-image-preview:large">
-  <link rel="canonical" href="{canonical}">
+  <link rel="canonical" href="{canonical}">{alt_links}
   <link rel="alternate" type="text/plain" title="llms.txt" href="{SITE}/llms.txt">
 
   <meta property="og:type" content="{og_type}">
-  <meta property="og:locale" content="pt_PT">
+  <meta property="og:locale" content="{u['og_locale']}">{alt_locale}
   <meta property="og:site_name" content="Mariana Marcelino">
   <meta property="og:url" content="{canonical}">
   <meta property="og:title" content="{esc(title)}">
@@ -571,7 +671,7 @@ PERSON = {
     "@id": f"{SITE}/#mariana",
     "name": "Mariana Marcelino",
     "url": f"{SITE}/",
-    "image": f"{SITE}/assets/mariana-about.webp",
+    "image": f"{SITE}/{AVATAR}",
     "jobTitle": "Web designer e developer",
     "sameAs": [LINKEDIN],
 }
@@ -583,93 +683,147 @@ PUBLISHER = {
     "logo": {"@type": "ImageObject", "url": f"{SITE}/assets/apple-touch-icon.png"},
 }
 
-def card(post, prefix, feature=False):
-    url = f"{prefix}blog/{post['slug']}/"
-    meta = f"""<p class="post-meta"><span class="post-cat">{esc(post['category'])}</span><time datetime="{post['date']}">{pt_date(post['date'])}</time><span>{reading_minutes(post)} min</span></p>"""
+def posts_for(lang):
+    """Posts in `lang`, each merged with the shared fields (date, cover) and its pair."""
+    out = []
+    for pt, en in zip(POSTS, POSTS_EN):
+        base = pt if lang == "pt" else {**pt, **en}
+        out.append({**base, "pair_pt": pt["slug"], "pair_en": en["slug"]})
+    return out
+
+def search_text(post):
+    t = f"{post['title']} {post['description']} {post['category']}"
+    return unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode().lower()
+
+def card(post, prefix, feature=False, lang="pt"):
+    u = UI[lang]
+    url = f"{home_of(prefix, lang)}blog/{post['slug']}/"
+    data = f' data-cat="{slugify(post["category"])}" data-text="{esc(search_text(post))}"'
+    meta = f"""<p class="post-meta"><span class="post-cat">{esc(post['category'])}</span><time datetime="{post['date']}">{fmt_date(post['date'], lang)}</time><span>{reading_minutes(post)} min</span></p>"""
     img = f"""<img src="{prefix}assets/blog/{post['cover']}{'' if feature else '-sm'}.jpg?v={VERSION}" alt="{esc(post['cover_alt'])}" width="{1400 if feature else 800}" height="{875 if feature else 500}" loading="{'eager' if feature else 'lazy'}" class="fade-on-load">"""
     if feature:
-        return f"""      <article class="post-card post-feature">
+        return f"""      <article class="post-card post-feature js-post"{data}>
         <a href="{url}" class="post-media" tabindex="-1" aria-hidden="true">{img}</a>
         <div class="post-feature-text">
           {meta}
           <h2 class="post-title"><a href="{url}">{esc(post['title'])}</a></h2>
           <p class="post-excerpt">{esc(post['description'])}</p>
-          <a href="{url}" class="more-link">Ler artigo<svg viewBox="0 0 56 12" aria-hidden="true"><path d="M0 6h54M48 1l6 5-6 5"/></svg></a>
+          <a href="{url}" class="more-link">{u['read']}<svg viewBox="0 0 56 12" aria-hidden="true"><path d="M0 6h54M48 1l6 5-6 5"/></svg></a>
         </div>
       </article>"""
-    return f"""        <article class="post-card">
+    return f"""        <article class="post-card js-post"{data}>
           <a href="{url}" class="post-media" tabindex="-1" aria-hidden="true">{img}</a>
           {meta}
           <h3 class="post-title"><a href="{url}">{esc(post['title'])}</a></h3>
           <p class="post-excerpt">{esc(post['description'])}</p>
         </article>"""
 
+def filters(posts, lang):
+    u = UI[lang]
+    cats = []
+    for p in posts:
+        if p["category"] not in cats:
+            cats.append(p["category"])
+    chips = "\n".join(
+        f'        <button type="button" class="chip js-chip" data-filter="{slugify(c)}" aria-pressed="false"><span class="chip-icon" aria-hidden="true"></span>{esc(c)}</button>'
+        for c in cats)
+    return f"""    <section class="blog-filters" aria-label="{u['f_title']}">
+      <div class="filters-head">
+        <h2 class="filters-title">{u['f_title']}</h2>
+        <label class="filters-search">
+          <span class="visually-hidden">{u['f_search']}</span>
+          <input type="search" class="js-post-search" placeholder="{u['f_search']}" autocomplete="off">
+          <span class="filters-search-icon" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg></span>
+        </label>
+      </div>
+      <div class="filters-chips" role="group" aria-label="{u['f_topics']}">
+        <button type="button" class="chip js-chip is-active" data-filter="all" aria-pressed="true">{u['f_all']}</button>
+{chips}
+      </div>
+    </section>"""
+
 # --------------------------------------------------------------------------
 # Blog index
 # --------------------------------------------------------------------------
-def build_index():
-    prefix = "../"
-    canonical = f"{SITE}/blog/"
+def blog_url(lang, slug=None):
+    base = f"{SITE}/blog/" if lang == "pt" else f"{SITE}/en/blog/"
+    return base + (f"{slug}/" if slug else "")
+
+def build_index(lang="pt"):
+    u = UI[lang]
+    posts = posts_for(lang)
+    prefix = "../" if lang == "pt" else "../../"
+    canonical = blog_url(lang)
+    alternates = [("pt-PT", blog_url("pt")), ("en", blog_url("en")), ("x-default", blog_url("pt"))]
+    alt = "../en/blog/" if lang == "pt" else "../../blog/"
     jsonld = [{
         "@context": "https://schema.org",
         "@type": "Blog",
         "@id": canonical,
         "name": "Blog — Mariana Marcelino",
-        "description": "Artigos práticos sobre design de sites, SEO, inteligência artificial e conversão para pequenos negócios.",
+        "description": u["b_meta_desc"],
         "url": canonical,
-        "inLanguage": "pt-PT",
+        "inLanguage": u["html_lang"],
         "author": PERSON,
         "publisher": PUBLISHER,
         "blogPost": [{
             "@type": "BlogPosting",
             "headline": p["title"],
-            "url": f"{SITE}/blog/{p['slug']}/",
+            "url": blog_url(lang, p["slug"]),
             "datePublished": p["date"],
             "image": f"{SITE}/assets/blog/{p['cover']}-og.jpg",
-        } for p in POSTS],
+        } for p in posts],
     }]
-    grid = "\n".join(card(p, prefix) for p in POSTS[1:])
-    page = f"""{head("Blog | Mariana Marcelino — Sites, SEO e IA para pequenos negócios",
-            "Artigos práticos sobre design de sites, SEO, inteligência artificial e conversão, escritos para quem gere um negócio.",
-            canonical, f"{SITE}/assets/blog/{POSTS[0]['cover']}-og.jpg", prefix, "website", jsonld)}
+    grid = "\n".join(card(p, prefix, lang=lang) for p in posts[1:])
+    page = f"""{head(u['b_meta_title'], u['b_meta_desc'], canonical, f"{SITE}/assets/blog/{posts[0]['cover']}-og.jpg", prefix, "website", jsonld, lang, alternates)}
 <body>
 
-{header(prefix)}
+{header(prefix, "blog", lang, alt)}
 
   <main class="blog-main">
     <section class="blog-head">
       <p class="kicker blog-kicker">Blog</p>
       <div class="narrow-container">
-        <h1 class="blog-title">Ideias para ter um site que gera clientes</h1>
-        <p class="blog-intro">Artigos práticos sobre design, SEO, inteligência artificial e conversão, escritos para quem gere um negócio e não para quem programa.</p>
+        <h1 class="blog-title">{u['b_title']}</h1>
+        <p class="blog-intro">{u['b_intro']}</p>
       </div>
     </section>
 
-    <div class="post-list">
-{card(POSTS[0], prefix, feature=True)}
+    <div class="post-list js-post-list">
+{filters(posts, lang)}
+
+{card(posts[0], prefix, feature=True, lang=lang)}
 
       <div class="post-grid">
 {grid}
       </div>
+      <p class="posts-empty js-posts-empty" hidden>{u['f_empty']}</p>
     </div>
 
-{cta(prefix)}
+{cta(prefix, lang)}
   </main>
 
-{footer(prefix)}
+{footer(prefix, lang, alt)}
 
-{guide_modal(prefix)}  <script src="{prefix}main.js?v={VERSION}"></script>
+{guide_modal(prefix, lang)}  <script src="{prefix}main.js?v={VERSION}"></script>
 </body>
 </html>
 """
-    open(os.path.join(ROOT, "blog", "index.html"), "w", encoding="utf-8").write(page)
+    out = os.path.join(ROOT, "blog") if lang == "pt" else os.path.join(ROOT, "en", "blog")
+    os.makedirs(out, exist_ok=True)
+    open(os.path.join(out, "index.html"), "w", encoding="utf-8").write(page)
 
 # --------------------------------------------------------------------------
 # Articles
 # --------------------------------------------------------------------------
-def build_post(i, post):
-    prefix = "../../"
-    canonical = f"{SITE}/blog/{post['slug']}/"
+def build_post(i, post, lang="pt"):
+    u = UI[lang]
+    posts = posts_for(lang)
+    prefix = "../../" if lang == "pt" else "../../../"
+    home = home_of(prefix, lang)
+    canonical = blog_url(lang, post["slug"])
+    alternates = [("pt-PT", blog_url("pt", post["pair_pt"])), ("en", blog_url("en", post["pair_en"])), ("x-default", blog_url("pt", post["pair_pt"]))]
+    alt = f"../../en/blog/{post['pair_en']}/" if lang == "pt" else f"../../../blog/{post['pair_pt']}/"
     image = f"{SITE}/assets/blog/{post['cover']}-og.jpg"
     body, toc = add_heading_ids(post["body"])
     minutes = reading_minutes(post)
@@ -680,11 +834,11 @@ def build_post(i, post):
               <p>{esc(a)}</p>
             </details>""" for q, a in post["faq"])
     toc_html = "\n".join(f'              <li><a href="#{sid}">{esc(t)}</a></li>' for sid, t in toc)
-    toc_html += '\n              <li><a href="#perguntas-frequentes">Perguntas frequentes</a></li>'
+    toc_html += f'\n              <li><a href="#{u["faq_id"]}">{u["faq"]}</a></li>'
 
-    others = [p for p in POSTS if p["slug"] != post["slug"]]
+    others = [p for p in posts if p["slug"] != post["slug"]]
     related = [others[(i) % len(others)], others[(i + 1) % len(others)]]
-    related_html = "\n".join(card(p, prefix) for p in related)
+    related_html = "\n".join(card(p, prefix, lang=lang) for p in related)
 
     jsonld = [
         {
@@ -698,13 +852,13 @@ def build_post(i, post):
             "image": [image, f"{SITE}/assets/blog/{post['cover']}.jpg"],
             "datePublished": post["date"],
             "dateModified": post["date"],
-            "inLanguage": "pt-PT",
+            "inLanguage": u["html_lang"],
             "articleSection": post["category"],
             "wordCount": len(re.sub(r"<[^>]+>", " ", post["body"]).split()),
             "timeRequired": f"PT{minutes}M",
             "author": PERSON,
             "publisher": PUBLISHER,
-            "isPartOf": {"@type": "Blog", "@id": f"{SITE}/blog/"},
+            "isPartOf": {"@type": "Blog", "@id": blog_url(lang)},
         },
         {
             "@context": "https://schema.org",
@@ -719,29 +873,29 @@ def build_post(i, post):
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
-                {"@type": "ListItem", "position": 1, "name": "Início", "item": f"{SITE}/"},
-                {"@type": "ListItem", "position": 2, "name": "Blog", "item": f"{SITE}/blog/"},
+                {"@type": "ListItem", "position": 1, "name": u["home_crumb"], "item": f"{SITE}/" if lang == "pt" else f"{SITE}/en/"},
+                {"@type": "ListItem", "position": 2, "name": "Blog", "item": blog_url(lang)},
                 {"@type": "ListItem", "position": 3, "name": post["title"], "item": canonical},
             ],
         },
     ]
 
-    page = f"""{head(f"{post['title']} | Mariana Marcelino", post["description"], canonical, image, prefix, "article", jsonld)}
+    page = f"""{head(f"{post['title']} | Mariana Marcelino", post["description"], canonical, image, prefix, "article", jsonld, lang, alternates)}
 <body>
 
-{header(prefix)}
+{header(prefix, "blog", lang, alt)}
 
   <main class="blog-main">
     <article>
       <header class="blog-head article-head">
-        <p class="kicker blog-kicker"><a href="{prefix}blog/">← Blog</a></p>
+        <p class="kicker blog-kicker"><a href="{home}blog/">← Blog</a></p>
         <div class="narrow-container">
-          <p class="post-meta"><span class="post-cat">{esc(post['category'])}</span><time datetime="{post['date']}">{pt_date(post['date'])}</time><span>{minutes} min de leitura</span></p>
+          <p class="post-meta"><span class="post-cat">{esc(post['category'])}</span><time datetime="{post['date']}">{fmt_date(post['date'], lang)}</time><span>{minutes} {u['min_read']}</span></p>
           <h1 class="article-title">{esc(post['title'])}</h1>
           <p class="article-dek">{esc(post['dek'])}</p>
           <div class="article-byline">
-            <img src="{prefix}assets/mariana-about.webp" alt="" width="40" height="40">
-            <p>Mariana Marcelino<span>Web design, SEO e conversão</span></p>
+            <img src="{prefix}{AVATAR}" alt="" width="40" height="40">
+            <p>Mariana Marcelino<span>{u['role']}</span></p>
           </div>
           <figure class="article-cover">
             <img src="{prefix}assets/blog/{post['cover']}.jpg?v={VERSION}" alt="{esc(post['cover_alt'])}" width="1400" height="875" fetchpriority="high">
@@ -750,9 +904,9 @@ def build_post(i, post):
       </header>
 
       <div class="article-layout">
-        <aside class="article-toc" aria-label="Neste artigo">
+        <aside class="article-toc" aria-label="{u['toc']}">
           <div class="article-toc-inner">
-            <p class="kicker">Neste artigo</p>
+            <p class="kicker">{u['toc']}</p>
             <ol>
 {toc_html}
             </ol>
@@ -761,8 +915,8 @@ def build_post(i, post):
 
         <div class="narrow-container article-body">
           <div class="prose">
-            <section class="takeaways" aria-label="Em resumo">
-              <p class="kicker">Em resumo</p>
+            <section class="takeaways" aria-label="{u['summary']}">
+              <p class="kicker">{u['summary']}</p>
               <ul>
 {takeaways}
               </ul>
@@ -770,15 +924,15 @@ def build_post(i, post):
 {body.strip()}
 
             <section class="faq">
-              <h2 id="perguntas-frequentes">Perguntas frequentes</h2>
+              <h2 id="{u['faq_id']}">{u['faq']}</h2>
 {faq_html}
             </section>
 
             <aside class="author-box">
-              <img src="{prefix}assets/mariana-about.webp" alt="Mariana Marcelino" width="64" height="64" loading="lazy">
+              <img src="{prefix}{AVATAR}" alt="Mariana Marcelino" width="64" height="64" loading="lazy">
               <div>
                 <p class="author-name">Mariana Marcelino</p>
-                <p>{esc(AUTHOR_BIO)} <a href="{LINKEDIN}" target="_blank" rel="noopener">LinkedIn</a></p>
+                <p>{esc(u['bio'])} <a href="{LINKEDIN}" target="_blank" rel="noopener">LinkedIn</a></p>
               </div>
             </aside>
           </div>
@@ -786,23 +940,24 @@ def build_post(i, post):
       </div>
     </article>
 
-    <section class="post-list related" aria-label="Continuar a ler">
-      <p class="kicker">Continuar a ler</p>
+    <section class="post-list related" aria-label="{u['more']}">
+      <p class="kicker">{u['more']}</p>
       <div class="post-grid">
 {related_html}
       </div>
     </section>
 
-{cta(prefix)}
+{cta(prefix, lang)}
   </main>
 
-{footer(prefix)}
+{footer(prefix, lang, alt)}
 
-{guide_modal(prefix)}  <script src="{prefix}main.js?v={VERSION}"></script>
+{guide_modal(prefix, lang)}  <script src="{prefix}main.js?v={VERSION}"></script>
 </body>
 </html>
 """
-    d = os.path.join(ROOT, "blog", post["slug"])
+    base = os.path.join(ROOT, "blog") if lang == "pt" else os.path.join(ROOT, "en", "blog")
+    d = os.path.join(base, post["slug"])
     os.makedirs(d, exist_ok=True)
     open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(page)
 
@@ -940,23 +1095,30 @@ LEGAL = [
 
 
 def build_legal():
-    prefix = "../"
-    for page in LEGAL:
-        canonical = f"{SITE}/{page['slug']}/"
-        body, _ = add_heading_ids(page["body"])
-        jsonld = [{
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": page["title"],
-            "url": canonical,
-            "inLanguage": "pt-PT",
-            "dateModified": LEGAL_UPDATED,
-            "publisher": PUBLISHER,
-        }]
-        html_page = f"""{head(f"{page['title']} | Mariana Marcelino", page["description"], canonical, f"{SITE}/assets/og-image.png", prefix, "website", jsonld)}
+    from _legal_en import LEGAL_EN
+    for pt, en in zip(LEGAL, LEGAL_EN):
+        pt_url, en_url = f"{SITE}/{pt['slug']}/", f"{SITE}/en/{en['slug']}/"
+        alternates = [("pt-PT", pt_url), ("en", en_url), ("x-default", pt_url)]
+        for lang, page in (("pt", pt), ("en", en)):
+            u = UI[lang]
+            prefix = "../" if lang == "pt" else "../../"
+            alt = f"../en/{en['slug']}/" if lang == "pt" else f"../../{pt['slug']}/"
+            canonical = pt_url if lang == "pt" else en_url
+            body, _ = add_heading_ids(page["body"])
+            jsonld = [{
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": page["title"],
+                "description": page["description"],
+                "url": canonical,
+                "inLanguage": u["html_lang"],
+                "dateModified": LEGAL_UPDATED,
+                "publisher": PUBLISHER,
+            }]
+            html_page = f"""{head(f"{page['title']} | Mariana Marcelino", page["description"], canonical, f"{SITE}/assets/og-image.png", prefix, "website", jsonld, lang, alternates)}
 <body>
 
-{header(prefix, current=None)}
+{header(prefix, None, lang, alt)}
 
   <main class="blog-main">
     <article>
@@ -964,7 +1126,7 @@ def build_legal():
         <p class="kicker blog-kicker">Legal</p>
         <div class="narrow-container">
           <h1 class="article-title">{esc(page['title'])}</h1>
-          <p class="post-meta legal-updated">Última atualização: <time datetime="{LEGAL_UPDATED}">{pt_date(LEGAL_UPDATED)}</time></p>
+          <p class="post-meta legal-updated">{u['updated']}: <time datetime="{LEGAL_UPDATED}">{fmt_date(LEGAL_UPDATED, lang)}</time></p>
         </div>
       </header>
       <div class="narrow-container article-body">
@@ -975,15 +1137,15 @@ def build_legal():
     </article>
   </main>
 
-{footer(prefix)}
+{footer(prefix, lang, alt)}
 
-{guide_modal(prefix)}  <script src="{prefix}main.js?v={VERSION}"></script>
+{guide_modal(prefix, lang)}  <script src="{prefix}main.js?v={VERSION}"></script>
 </body>
 </html>
 """
-        d = os.path.join(ROOT, page["slug"])
-        os.makedirs(d, exist_ok=True)
-        open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(html_page)
+            d = os.path.join(ROOT, page["slug"]) if lang == "pt" else os.path.join(ROOT, "en", page["slug"])
+            os.makedirs(d, exist_ok=True)
+            open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(html_page)
 
 
 # --------------------------------------------------------------------------
@@ -1033,7 +1195,10 @@ def build_seo_files():
     latest = max(p["date"] for p in POSTS)
     urls = [(f"{SITE}/", latest), (f"{SITE}/en/", latest), (f"{SITE}/blog/", latest)]
     urls += [(f"{SITE}/blog/{p['slug']}/", p["date"]) for p in POSTS]
+    urls += [(f"{SITE}/en/blog/", latest)] + [(f"{SITE}/en/blog/{p['slug']}/", p["date"]) for p in posts_for("en")]
+    from _legal_en import LEGAL_EN
     urls += [(f"{SITE}/{l['slug']}/", LEGAL_UPDATED) for l in LEGAL]
+    urls += [(f"{SITE}/en/{l['slug']}/", LEGAL_UPDATED) for l in LEGAL_EN]
     sm = ['<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     sm += [f"  <url><loc>{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls]
@@ -1045,28 +1210,39 @@ def build_seo_files():
         f"Sitemap: {SITE}/sitemap.xml\n")
 
     posts = "\n".join(f"- [{p['title']}]({SITE}/blog/{p['slug']}/): {p['description']}" for p in POSTS)
+    posts_en = "\n".join(f"- [{p['title']}]({SITE}/en/blog/{p['slug']}/): {p['description']}" for p in posts_for("en"))
     llms = f"""# Mariana Marcelino
 
-> Web designer e developer em Portugal. Redesenha e reconstrói sites de pequenos negócios para que tenham uma imagem moderna e credível, sejam encontrados no Google e em ferramentas de IA (ChatGPT, Perplexity) e transformem visitas em contactos.
+> Web designer e developer em Lisboa, Portugal. Redesenha e reconstrói sites de pequenos negócios para que tenham uma imagem moderna e credível, sejam encontrados no Google e em ferramentas de IA (ChatGPT, Perplexity) e transformem visitas em contactos. Trabalha em português e inglês.
 
-Trabalha diretamente com o cliente, sem estrutura de agência. Formação em marketing, em desenvolvimento de software desde 2018 e com negócio próprio.
+Áreas: design, automação e IA aplicados a sites. Trabalha diretamente com o cliente, sem estrutura de agência. Formação em marketing, em desenvolvimento de software desde 2018 e com negócio próprio.
 
-## Serviços e preços
+## Planos
 
 - Redesign da Homepage (gratuito): redesign da homepage, auditoria com pontos de otimização e proposta personalizada por email.
-- Redesign Visual (750€): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
-- Motor de Contactos (a partir de 1 800€): design e estrutura à medida, otimização para Google e ferramentas de IA, marcações automáticas, WhatsApp e chatbot, formulários de captação, integração com gestão de contactos e painel de métricas.
+- Redesign Visual (750€, para sites até 4 páginas): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
+- Motor de Contactos (a partir de 1 800€, o mais popular): design e estrutura à medida, otimização para Google e ferramentas de IA, marcações automáticas, WhatsApp e chatbot, formulários de captação, integração com gestão de contactos e painel de métricas.
+
+## Recursos gratuitos
+
+- Guia "Oito sinais de que o seu site está a afastar clientes" (PT e EN): disponível na página inicial, a troco do email e do link do site.
 
 ## Páginas principais
 
-- [Página inicial]({SITE}/): serviços, soluções, testemunhos e contacto (português).
+- [Página inicial]({SITE}/): o problema, o que faço, sobre, planos, testemunhos e contacto.
 - [Homepage in English]({SITE}/en/)
 - [Blog]({SITE}/blog/)
+- [Blog in English]({SITE}/en/blog/)
 - [Marcar chamada]({CALENDLY}): chamada gratuita de 30 minutos.
+- [Política de Privacidade]({SITE}/politica-de-privacidade/)
 
 ## Artigos
 
 {posts}
+
+## Articles (English)
+
+{posts_en}
 
 ## Contacto
 
@@ -1076,10 +1252,13 @@ Trabalha diretamente com o cliente, sem estrutura de agência. Formação em mar
     open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8").write(llms)
 
 if __name__ == "__main__":
-    build_index()
-    for i, p in enumerate(POSTS):
-        build_post(i, p)
+    for lang in ("pt", "en"):
+        build_index(lang)
+        for i, p in enumerate(posts_for(lang)):
+            build_post(i, p, lang)
     build_legal()
     build_404()
     build_seo_files()
+    import _schema_home
+    _schema_home.run()
     print("built", len(POSTS), "posts")

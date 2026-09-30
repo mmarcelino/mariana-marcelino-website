@@ -1,0 +1,128 @@
+"""English versions of the legal pages. Same order as LEGAL in _build.py:
+LEGAL_EN[i] is the translation of LEGAL[i] (used for the PT ⇄ EN links)."""
+
+LEGAL_EN = [
+{
+"slug": "privacy-policy",
+"title": "Privacy Policy",
+"description": "How your personal data is collected, used and protected on Mariana Marcelino’s website.",
+"body": """
+<p>This policy explains what personal data I collect through this website, what I use it for, who I share it with and what rights you have over it, under the General Data Protection Regulation (GDPR).</p>
+
+<h2>Data controller</h2>
+<p>Mariana Marcelino is the controller of the data collected on this website. For any privacy question, write to <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a>.</p>
+
+<h2>What data I collect</h2>
+<ul>
+  <li><strong>Free redesign request:</strong> your email address and your website link, which you enter in the homepage forms.</li>
+  <li><strong>Free guide request:</strong> your email address and your website link, which you enter to download the guide “Eight signs your website is driving clients away”.</li>
+  <li><strong>Contact form and email:</strong> your name (optional), your email address and whatever information you choose to share in your message.</li>
+  <li><strong>Booking a call:</strong> when you book a call, you are redirected to Calendly, where you enter your name, email and any other information the form asks for.</li>
+  <li><strong>Technical data:</strong> as with any website, your browser automatically sends your IP address and technical information to the hosting server and to the services that load resources on the page, such as fonts.</li>
+</ul>
+<p>I don’t collect special categories of data, and this website is not intended for children under 16.</p>
+
+<h2>What I use your data for</h2>
+<ul>
+  <li>To reply to your request, prepare the free redesign and the proposal you asked for, and provide the free guide. Legal basis: steps taken at your request before entering into a contract (Article 6(1)(b) GDPR).</li>
+  <li>To provide the services you hire and to meet legal obligations, such as invoicing. Legal basis: performance of a contract and compliance with a legal obligation.</li>
+  <li>To keep the website working and secure. Legal basis: legitimate interest.</li>
+</ul>
+<p>I don’t use your data for advertising and I don’t sell it to third parties.</p>
+
+<h2>Who I share your data with</h2>
+<p>For the website to work, I rely on service providers that process data on my behalf or that your browser connects to:</p>
+<ul>
+  <li><strong>FormSubmit</strong> (formsubmit.co): receives the data from the website’s forms (free redesign, free guide and contact: name, email, website link, message and page language) and forwards it to my email. No account is needed and the data isn’t used for any other purpose.</li>
+  <li><strong>Calendly</strong> (calendly.com): handles call bookings. The data you enter on the booking page is processed by Calendly, under its own privacy policy.</li>
+  <li><strong>Google Fonts</strong> (Google): provides the website’s typeface. When the page loads, your browser connects to Google’s servers, which receive your IP address.</li>
+  <li><strong>Email and website hosting providers</strong>: store the messages I receive and serve the website’s pages.</li>
+</ul>
+<p>Some of these providers may process data outside the European Economic Area, particularly in the United States. In those cases, transfers are made with the safeguards provided for in the GDPR, such as the Standard Contractual Clauses approved by the European Commission or the EU–US Data Privacy Framework.</p>
+
+<h2>How long I keep your data</h2>
+<ul>
+  <li>Free redesign requests and enquiries that don’t lead to work: up to 12 months after the last contact.</li>
+  <li>Client data: for the duration of the contract and, after that, for as long as the law requires, for example for tax purposes.</li>
+</ul>
+
+<h2>Your rights</h2>
+<p>You can, at any time, ask to access your data, correct or delete it, restrict or object to its processing, and to receive it in a portable format. Just write to <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a>. I reply within one month at the latest.</p>
+<p>You also have the right to lodge a complaint with the supervisory authority, the Portuguese Data Protection Authority, CNPD (<a href="https://www.cnpd.pt" target="_blank" rel="noopener">www.cnpd.pt</a>).</p>
+
+<h2>Cookies</h2>
+<p>This website doesn’t use its own cookies. You can read the details in the <a href="../cookie-policy/">Cookie Policy</a>.</p>
+
+<h2>Changes to this policy</h2>
+<p>This policy may be updated, for example when new services are added to the website. The date of the last update is always shown at the top of this page.</p>
+""",
+},
+{
+"slug": "cookie-policy",
+"title": "Cookie Policy",
+"description": "Which cookies and similar technologies are used on Mariana Marcelino’s website.",
+"body": """
+<h2>What cookies are</h2>
+<p>Cookies are small text files that a website stores on your device when you visit it. They are used, for example, to remember preferences or measure how a website is used.</p>
+
+<h2>Cookies used on this website</h2>
+<p>This website <strong>doesn’t use its own cookies</strong>, nor any analytics, advertising or tracking tools. That’s why we don’t ask for your consent to cookies.</p>
+
+<h2>Third-party services</h2>
+<ul>
+  <li><strong>Google Fonts:</strong> the website’s typeface is loaded from Google’s servers. This service doesn’t set cookies, but it receives your IP address when the page loads.</li>
+  <li><strong>Calendly:</strong> when you click “Book a call”, you are taken to Calendly’s website, which may use its own cookies under its own policy.</li>
+  <li><strong>LinkedIn:</strong> links to LinkedIn open LinkedIn’s website, which is subject to that service’s cookie policy.</li>
+  <li><strong>FormSubmit:</strong> when you send a form, the data is passed to FormSubmit to be forwarded by email. This doesn’t set any cookies on this website.</li>
+</ul>
+
+<h2>How to manage cookies</h2>
+<p>You can view, block and delete cookies in your browser settings. Check the help pages of the browser you use (Chrome, Safari, Firefox or Edge) to find out how.</p>
+
+<h2>Changes</h2>
+<p>If this website starts using cookies in the future, for example for analytics, this policy will be updated and your consent will be requested before they are switched on, whenever the law requires it.</p>
+""",
+},
+{
+"slug": "terms-and-conditions",
+"title": "Terms & Conditions",
+"description": "Terms of use for Mariana Marcelino’s website and services.",
+"body": """
+<p>By using this website, you accept the terms and conditions set out on this page. If you don’t agree with them, you shouldn’t use the website.</p>
+
+<h2>Who we are</h2>
+<p>This website is run by Mariana Marcelino, who provides website design and development services. Contact: <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a>.</p>
+
+<h2>Information and prices</h2>
+<p>The information published on this website, including service descriptions and prices, is for guidance only. The scope, price and timings of each project are set out in a written proposal, sent before the work starts. Only that proposal, once accepted, is binding on both parties.</p>
+
+<h2>Free redesign</h2>
+<ul>
+  <li>Requesting a free redesign involves no cost and no obligation to hire.</li>
+  <li>The redesign and the audit are a demonstration of your website’s potential. The rights to use the design are only transferred when a service is hired.</li>
+  <li>I may decline requests that don’t fit the services I provide.</li>
+</ul>
+
+<h2>Intellectual property</h2>
+<p>The text, images, illustrations, code and other content on this website belong to Mariana Marcelino or are used with permission, and are protected by copyright. They may not be copied, reproduced or used for commercial purposes without prior written permission. Client logos belong to their respective owners.</p>
+
+<h2>Use of the website</h2>
+<p>You agree to use the website lawfully and not to send, through the forms, content that is false, offensive or infringes the rights of others.</p>
+
+<h2>External links</h2>
+<p>This website contains links to third-party websites, such as Calendly and LinkedIn. I am not responsible for the content or privacy practices of those websites.</p>
+
+<h2>Liability</h2>
+<p>I try to keep the information on this website accurate and up to date, but I don’t guarantee that it is error-free or that the website is always available. To the extent permitted by law, I am not liable for any damage resulting from the use of the website or from being unable to use it.</p>
+
+<h2>Data protection</h2>
+<p>How your personal data is processed is described in the <a href="../privacy-policy/">Privacy Policy</a>.</p>
+
+<h2>Governing law and disputes</h2>
+<p>These terms are governed by Portuguese law. In the event of a consumer dispute, you may turn to an alternative consumer dispute resolution body. More information is available on the Portuguese Consumer Portal (<a href="https://www.consumidor.gov.pt" target="_blank" rel="noopener">www.consumidor.gov.pt</a>). You can also use the <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener">Electronic Complaints Book</a>.</p>
+
+<h2>Changes</h2>
+<p>These terms may be updated at any time. The date of the last update is always shown at the top of this page.</p>
+""",
+},
+]

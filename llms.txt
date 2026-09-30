@@ -1,21 +1,27 @@
 # Mariana Marcelino
 
-> Web designer e developer em Portugal. Redesenha e reconstrói sites de pequenos negócios para que tenham uma imagem moderna e credível, sejam encontrados no Google e em ferramentas de IA (ChatGPT, Perplexity) e transformem visitas em contactos.
+> Web designer e developer em Lisboa, Portugal. Redesenha e reconstrói sites de pequenos negócios para que tenham uma imagem moderna e credível, sejam encontrados no Google e em ferramentas de IA (ChatGPT, Perplexity) e transformem visitas em contactos. Trabalha em português e inglês.
 
-Trabalha diretamente com o cliente, sem estrutura de agência. Formação em marketing, em desenvolvimento de software desde 2018 e com negócio próprio.
+Áreas: design, automação e IA aplicados a sites. Trabalha diretamente com o cliente, sem estrutura de agência. Formação em marketing, em desenvolvimento de software desde 2018 e com negócio próprio.
 
-## Serviços e preços
+## Planos
 
 - Redesign da Homepage (gratuito): redesign da homepage, auditoria com pontos de otimização e proposta personalizada por email.
-- Redesign Visual (750€): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
-- Motor de Contactos (a partir de 1 800€): design e estrutura à medida, otimização para Google e ferramentas de IA, marcações automáticas, WhatsApp e chatbot, formulários de captação, integração com gestão de contactos e painel de métricas.
+- Redesign Visual (750€, para sites até 4 páginas): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
+- Motor de Contactos (a partir de 1 800€, o mais popular): design e estrutura à medida, otimização para Google e ferramentas de IA, marcações automáticas, WhatsApp e chatbot, formulários de captação, integração com gestão de contactos e painel de métricas.
+
+## Recursos gratuitos
+
+- Guia "Oito sinais de que o seu site está a afastar clientes" (PT e EN): disponível na página inicial, a troco do email e do link do site.
 
 ## Páginas principais
 
-- [Página inicial](https://www.mariana-marcelino.com/): serviços, soluções, testemunhos e contacto (português).
+- [Página inicial](https://www.mariana-marcelino.com/): o problema, o que faço, sobre, planos, testemunhos e contacto.
 - [Homepage in English](https://www.mariana-marcelino.com/en/)
 - [Blog](https://www.mariana-marcelino.com/blog/)
+- [Blog in English](https://www.mariana-marcelino.com/en/blog/)
 - [Marcar chamada](https://calendly.com/marianacmarcelino/30min): chamada gratuita de 30 minutos.
+- [Política de Privacidade](https://www.mariana-marcelino.com/politica-de-privacidade/)
 
 ## Artigos
 
@@ -24,6 +30,14 @@ Trabalha diretamente com o cliente, sem estrutura de agência. Formação em mar
 - [SEO local: como ser encontrado por clientes na sua zona](https://www.mariana-marcelino.com/blog/seo-local-para-pequenos-negocios/): Guia prático para pequenos negócios aparecerem no Google Maps e nas pesquisas locais: Perfil da Empresa, avaliações, páginas por localidade e dados estruturados.
 - [Tem visitas mas não recebe contactos? 7 correções para o seu site](https://www.mariana-marcelino.com/blog/site-com-visitas-mas-sem-contactos/): Se as pessoas visitam o seu site mas não entram em contacto, o problema raramente é o tráfego. Sete mudanças práticas para transformar visitas em pedidos.
 - [Quanto custa um site profissional? O que influencia o preço](https://www.mariana-marcelino.com/blog/quanto-custa-um-site-profissional/): De construtores de sites a agências: o que determina o preço de um site profissional, o que deve estar incluído e como comparar propostas sem surpresas.
+
+## Articles (English)
+
+- [How to get your business into ChatGPT’s answers](https://www.mariana-marcelino.com/en/blog/how-to-appear-in-chatgpt-answers/): More and more clients ask AI tools for recommendations. Learn what makes ChatGPT, Perplexity and Google cite a business, and how to prepare your website.
+- [8 signs your website is driving clients away](https://www.mariana-marcelino.com/en/blog/signs-your-website-is-driving-clients-away/): An outdated website costs you enquiries every day, even if you don’t notice. The eight most common signs, and what to do about each one.
+- [Local SEO: how to be found by clients in your area](https://www.mariana-marcelino.com/en/blog/local-seo-for-small-businesses/): A practical guide for small businesses to show up on Google Maps and in local searches: Business Profile, reviews, location pages and structured data.
+- [Getting visitors but no enquiries? 7 fixes for your website](https://www.mariana-marcelino.com/en/blog/website-visitors-but-no-enquiries/): If people visit your website but don’t get in touch, the problem is rarely traffic. Seven practical changes to turn visits into enquiries.
+- [How much does a professional website cost? What drives the price](https://www.mariana-marcelino.com/en/blog/how-much-does-a-professional-website-cost/): From website builders to agencies: what determines the price of a professional website, what should be included and how to compare quotes without surprises.
 
 ## Contacto
 

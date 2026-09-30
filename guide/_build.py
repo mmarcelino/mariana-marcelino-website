@@ -13,9 +13,9 @@ T = {
 "pt": dict(
   lang="pt-PT", file="guia-pt.html",
   kicker="Guia gratuito",
-  title="8 sinais de que o seu site está a afastar clientes",
+  title="Oito sinais de que o seu site está a afastar clientes",
   subtitle="E o que fazer com cada um, sem jargão técnico.",
-  author="Mariana Marcelino", role="Web design, SEO e conversão",
+  author="Mariana Marcelino", role="Web Design, Programação, Conversão",
   intro_k="Antes de começar",
   intro_h="Um site raramente avaria de forma visível",
   intro_p=["Vai simplesmente deixando de funcionar: as visitas continuam a chegar, mas os pedidos de contacto diminuem sem se perceber porquê.",
@@ -70,9 +70,9 @@ T = {
 "en": dict(
   lang="en", file="guide-en.html",
   kicker="Free guide",
-  title="8 signs your website is driving clients away",
+  title="Eight signs your website is driving clients away",
   subtitle="And what to do about each one, without the jargon.",
-  author="Mariana Marcelino", role="Web design, SEO and conversion",
+  author="Mariana Marcelino", role="Web Design, Development, Conversion",
   intro_k="Before you start",
   intro_h="A website rarely breaks in a visible way",
   intro_p=["It simply stops working: visitors keep coming, but enquiries drop and nobody quite knows why.",
