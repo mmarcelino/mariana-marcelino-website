@@ -104,7 +104,7 @@
   gap: 56px;
   margin-top: 72px;
 }
-.post-grid .post-card { padding-top: 24px; border-top: 1px solid var(--grey); }
+.post-grid .post-card { padding-top: 0; }
 .post-grid .post-media { margin-bottom: 20px; }
 .post-grid .post-title { font-size: clamp(21px, 1.7vw, 26px); line-height: 1.2; margin-top: 12px; }
 .post-grid .post-excerpt { margin-top: 10px; font-size: clamp(14px, 1vw, 16px); }
@@ -411,3 +411,28 @@
 .post-grid .post-excerpt { font-size: var(--fs-body); }
 .post-meta { font-size: 11px; font-weight: 600; letter-spacing: .06em; color: var(--text-3); }
 .post-excerpt, .blog-intro, .article-dek { color: var(--text-2); }
+
+/* Filters: pills on the left (wrapping to new rows), search in its own
+   column on the right with a fixed gap, so the two never crowd each other */
+.blog-filters .filters-title { margin-bottom: 24px; }
+.filters-row { display: flex; flex-direction: column-reverse; gap: 16px; }
+.filters-row .filters-chips { margin-top: 0; }
+.filters-row .filters-search { max-width: none; }
+@media (max-width: 859px) {
+  /* Pills scroll sideways on one line instead of stacking */
+  .filters-row .filters-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: 0 calc(-1 * var(--gap));
+    padding: 0 var(--gap) 4px;
+    scrollbar-width: none;
+  }
+  .filters-row .filters-chips::-webkit-scrollbar { display: none; }
+  .chip { flex: 0 0 auto; }
+}
+@media (min-width: 860px) {
+  .blog-filters .filters-title { margin-bottom: 28px; }
+  .filters-row { display: grid; grid-template-columns: minmax(0, 1fr) 320px; column-gap: 64px; align-items: start; }
+}
+.filters-row .filters-search input { padding-top: 10px; padding-bottom: 10px; }
+.filters-row .filters-search-icon { width: 32px; height: 32px; right: 4px; }

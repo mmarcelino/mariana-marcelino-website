@@ -4,6 +4,75 @@
   var CONTACT_EMAIL = "info@mariana-marcelino.com";
   var FORM_ENDPOINT = "https://formsubmit.co/ajax/" + CONTACT_EMAIL;
   var EN = /^en/i.test(document.documentElement.lang);
+  var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Smooth scrolling (Lenis, self-hosted). Wheel/trackpad only: touch keeps the
+  // native feel. Popups and the mobile menu scroll natively and pause it.
+  var lenis = null;
+  if (window.Lenis && !REDUCED) {
+    lenis = new Lenis({
+      lerp: 0.07,
+      wheelMultiplier: 0.9,
+      autoRaf: true,
+      // In-page links glide with a fixed duration and a soft ease in/out
+      anchors: {
+        duration: 1.5,
+        easing: function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+      },
+      prevent: function (node) { return node.closest && node.closest("dialog, .mobile-menu, [data-lenis-prevent]"); }
+    });
+    new MutationObserver(function () {
+      if (document.body.classList.contains("has-modal")) lenis.stop(); else lenis.start();
+    }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+  }
+
+  // Page transitions between internal pages: fade out, then navigate
+  if (!REDUCED) {
+    document.addEventListener("click", function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest("a[href]");
+      if (!a || a.target === "_blank" || a.hasAttribute("download")) return;
+      var url = new URL(a.href, location.href);
+      if (url.origin !== location.origin || !/^https?:$/.test(url.protocol)) return;
+      // Same page (anchor links) is handled by the smooth scroll
+      if (url.pathname === location.pathname && url.search === location.search) return;
+      e.preventDefault();
+      try { sessionStorage.setItem("pt", "1"); } catch (err) {}
+      document.documentElement.classList.add("pt-out");
+      setTimeout(function () { location.href = url.href; }, 430);
+    });
+    // Coming back through the browser history: show the page again
+    window.addEventListener("pageshow", function (e) {
+      if (e.persisted) document.documentElement.classList.remove("pt-out");
+    });
+    // Warm up the next page while the pointer rests on a link
+    var warmed = {};
+    document.addEventListener("pointerover", function (e) {
+      var a = e.target.closest && e.target.closest("a[href]");
+      if (!a) return;
+      var url = new URL(a.href, location.href);
+      if (url.origin !== location.origin || url.pathname === location.pathname || warmed[url.pathname]) return;
+      warmed[url.pathname] = true;
+      var l = document.createElement("link");
+      l.rel = "prefetch"; l.href = url.pathname;
+      document.head.appendChild(l);
+    });
+  }
+
+  // Buttons: on hover the label rolls up and a copy rolls in from below
+  document.querySelectorAll(".button").forEach(function (btn) {
+    var label = btn.textContent.trim();
+    if (!label || btn.children.length) return;
+    btn.textContent = "";
+    var roll = document.createElement("span");
+    roll.className = "btn-roll";
+    var a = document.createElement("span");
+    var b = document.createElement("span");
+    a.textContent = b.textContent = label;
+    b.setAttribute("aria-hidden", "true");
+    roll.appendChild(a); roll.appendChild(b);
+    btn.appendChild(roll);
+  });
 
   // Image fade-on-load
   document.querySelectorAll("img.fade-on-load").forEach(function (img) {
@@ -17,6 +86,8 @@
     var navParts = [header.querySelector(".logo-container"), header.querySelector(".lang-switch"), header.querySelector(".nav-link-plain"), header.querySelector(".nav-cta-fixed"), header.querySelector(".nav-burger")].filter(Boolean);
     var darkAreas = document.querySelectorAll('[data-nav="dark"]');
     var hideAreas = document.querySelectorAll("[data-nav-hide]");
+    // The guide strip stays up over the contact section and only leaves over the footer
+    var stripHideAreas = document.querySelectorAll("footer[data-nav-hide]");
     var navTicking = false;
     var over = function (areas, x, y) {
       for (var i = 0; i < areas.length; i++) {
@@ -26,43 +97,48 @@
       return false;
     };
     var promoStrip = document.querySelector(".promo-strip");
+    var curtain = document.querySelector(".hero-curtain");
+    var curtainNav = document.querySelectorAll(".header .lang-switch, .header .nav-link-plain");
+    if (curtain) document.documentElement.classList.add("has-curtain");
+    var curtainStart = 0;
+    var measureCurtain = function () { if (curtain) curtainStart = curtain.getBoundingClientRect().top + window.scrollY; };
+    measureCurtain();
+    window.addEventListener("resize", measureCurtain);
     var updateNav = function () {
       navTicking = false;
       document.documentElement.classList.toggle("is-scrolled", window.scrollY > 4);
-      // The strip slides away over the contact section and footer, like the nav
+      // The strip slides away over the footer
       if (promoStrip) {
         // Inline strip (homepage): flag when it has reached the top and stuck there
         if (document.documentElement.classList.contains("strip-inline")) {
           document.documentElement.classList.toggle("strip-stuck", window.scrollY > 0 && promoStrip.getBoundingClientRect().top <= 1);
         }
         // Fixed probe point: the strip's own rect moves once it slides away
-        promoStrip.classList.toggle("is-away", over(hideAreas, window.innerWidth / 2, promoStrip.offsetHeight / 2));
-      }
-      // Once scrolled, the nav sits on a near-opaque band in the colour of the
-      // section underneath (read at the page edge); its text follows that band
-      var scrolled = window.scrollY > 4;
-      var bandDark = null;
-      if (scrolled && navParts[0]) {
-        var lr = navParts[0].getBoundingClientRect();
-        var probe = document.elementsFromPoint(2, lr.top + lr.height / 2);
-        for (var i = 0; i < probe.length; i++) {
-          var el = probe[i];
-          if (el.closest(".header, .promo-strip, .mobile-menu")) continue;
-          var m = getComputedStyle(el).backgroundColor.match(/[\d.]+/g);
-          if (m && (m.length < 4 || parseFloat(m[3]) > 0.5)) {
-            document.documentElement.style.setProperty("--nav-bg", "rgba(" + m[0] + "," + m[1] + "," + m[2] + ",.85)");
-            bandDark = (0.299 * m[0] + 0.587 * m[1] + 0.114 * m[2]) < 128;
-            break;
-          }
-        }
+        promoStrip.classList.toggle("is-away", over(stripHideAreas, window.innerWidth / 2, promoStrip.offsetHeight / 2));
       }
       navParts.forEach(function (part) {
         var r = part.getBoundingClientRect();
         var x = r.left + r.width / 2;
         var y = r.top + r.height / 2;
-        part.classList.toggle("nav-on-dark", bandDark === null ? over(darkAreas, x, y) : bandDark);
+        part.classList.toggle("nav-on-dark", over(darkAreas, x, y));
         part.classList.toggle("nav-hidden", over(hideAreas, x, y));
       });
+      // Homepage curtain: language switch and Blog get covered by the rising
+      // curtain (clipped from the bottom) instead of fading out
+      if (curtain) {
+        var ct = curtain.getBoundingClientRect().top;
+        curtainNav.forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          var cut = Math.max(0, Math.min(r.height + 2, r.bottom - ct));
+          el.style.clipPath = cut > 0 ? "inset(-2px -2px " + cut + "px -2px)" : "";
+          el.style.visibility = cut >= r.height ? "hidden" : "";
+        });
+        // Widen the panel to full width as it travels up to the top
+        var cp = Math.min(1, Math.max(0, window.scrollY / ((curtainStart || 1) * 0.5)));
+        curtain.style.setProperty("--cp", cp.toFixed(3));
+        var bandBottom = navParts[0] ? navParts[0].getBoundingClientRect().bottom + 40 : 0;
+        document.documentElement.classList.toggle("hero-pinned", ct > bandBottom);
+      }
       // The scroll backdrop goes away with the nav over the contact area
       var logoPart = navParts[0];
       if (logoPart) {
@@ -172,7 +248,9 @@
       return l;
     }
     var timers = [];
-    var at = function (ms, fn) { timers.push(setTimeout(fn, ms)); };
+    // PACE < 1 plays the whole story faster (the streak CSS is tuned to match)
+    var PACE = 0.72;
+    var at = function (ms, fn) { timers.push(setTimeout(fn, ms * PACE)); };
     var mobile = function () { return window.innerWidth < 560; };
     var maxRows = function () { return mobile() ? 3 : 4; };
 
@@ -317,10 +395,16 @@
       showFinal();
     } else {
       reset();
-      var running = false;
+      var running = false, started = false;
       new IntersectionObserver(function (entries) {
         var visible = entries[0].isIntersecting;
-        if (visible && !running) { running = true; cycle(); }
+        if (visible && !running) {
+          running = true;
+          // First time: wait until the panel has faded in, so nobody misses the start
+          var wait = started ? 0 : (parseInt(getComputedStyle(visual).getPropertyValue("--reveal-delay"), 10) || 0) + 300;
+          started = true;
+          timers.push(setTimeout(cycle, wait));
+        }
         if (!visible && running) { running = false; showFinal(); }
       }).observe(visual);
     }
@@ -390,6 +474,81 @@
         }
       }).observe(stripAnchor);
     }
+  }
+
+  // Section entrances: in each section the kicker, title and subtitle come
+  // in first, one after the other, then the content follows in sequence
+  if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var HEAD = ".kicker, .hero-title, .hero-statement, .pains-statement, .pains-sub, .impact-title, .impact-sub, .about-title, .tiers-intro, .tiers-sub, .faq-title, .cta-title, .cta-sub, .blog-title, .blog-intro, .filters-title";
+    var BODY = ".hero-actions, .hero-visual, .pains-lead, .pains-row, .card, .about-grid > *, .tier, .faq-item, .testimonial-logos, .testimonial-top, .cta-main, .cta-write, .filters-search, .filters-chips, .post-card";
+    // Scroll speed (px/ms): when flicking through the page, things appear at
+    // once instead of waiting for their staggered turn
+    var lastY = window.scrollY, lastT = performance.now(), speed = 0;
+    window.addEventListener("scroll", function () {
+      var now = performance.now();
+      var v = Math.abs(window.scrollY - lastY) / Math.max(1, now - lastT);
+      speed = speed * 0.6 + v * 0.4;
+      lastY = window.scrollY; lastT = now;
+    }, { passive: true });
+    var revealIo = new IntersectionObserver(function (entries) {
+      var fast = speed > 1.2;
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        // Flicking fast, or already scrolled past it: show it right away
+        if (fast || entry.boundingClientRect.top < 0) entry.target.classList.add("reveal-fast");
+        entry.target.classList.add("is-in");
+        revealIo.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -6% 0px" });
+    // Big titles get their own entrance: each word rises out of a mask
+    var TITLES = ".hero-title, .pains-statement, .impact-title, .about-title, .tiers-intro, .faq-title, .cta-title, .blog-title, .filters-title";
+    var splitWords = function (el) {
+      var n = 0;
+      Array.prototype.slice.call(el.childNodes).forEach(function (node) {
+        if (node.nodeType !== 3) return;
+        var frag = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach(function (part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          var outer = document.createElement("span");
+          var inner = document.createElement("span");
+          outer.className = "tw";
+          inner.className = "tw-in";
+          inner.style.setProperty("--w", n++);
+          inner.textContent = part;
+          outer.appendChild(inner);
+          frag.appendChild(outer);
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+    };
+    var prep = function (el, delay) {
+      if (el.classList.contains("js-animate") || el.classList.contains("reveal") || el.classList.contains("title-reveal")) return;
+      if (el.matches(TITLES)) {
+        splitWords(el);
+        el.classList.add("title-reveal");
+      } else {
+        el.classList.add("reveal");
+      }
+      el.style.setProperty("--reveal-delay", delay + "ms");
+      revealIo.observe(el);
+    };
+    document.querySelectorAll("main > section, main > .blog-head, main .blog-filters, main .post-list").forEach(function (section) {
+      var heads = section.querySelectorAll(HEAD);
+      var t = 0;
+      heads.forEach(function (el) {
+        prep(el, t);
+        // The subtitle follows once most of the title's words are on their way up
+        t += el.classList.contains("title-reveal") ? 220 + el.querySelectorAll(".tw").length * 35 : 90;
+      });
+      var start = t + 40;
+      // Grid rules draw themselves in just before the cards arrive
+      section.querySelectorAll(".cards").forEach(function (el) {
+        el.style.setProperty("--reveal-delay", Math.max(0, start - 150) + "ms");
+        revealIo.observe(el);
+      });
+      section.querySelectorAll(BODY).forEach(function (el, i) { prep(el, start + Math.min(i, 6) * 70); });
+    });
   }
 
   // Mobile menu

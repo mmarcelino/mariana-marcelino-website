@@ -385,12 +385,12 @@ X_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3
 # Interface copy for both languages
 UI = {
 "pt": dict(
-    html_lang="pt-PT", og_locale="pt_PT", m_open="Abrir menu", m_close="Fechar menu", m_l1="O que faço", m_l2="Sobre", m_l3="Planos", m_l5="Contacto", home_label="Mariana Marcelino — página inicial",
+    html_lang="pt-PT", og_locale="pt_PT", m_open="Abrir menu", m_close="Fechar menu", m_l1="Soluções", m_l2="Sobre", m_l3="Planos", m_l5="Contacto", home_label="Mariana Marcelino — página inicial",
     call="Marcar chamada", lang_label="Idioma",
     strip_region="Guia gratuito", strip_kicker="Gratuito", guide_title="8 sinais de que o seu site está a afastar clientes", foot_guide="Oito sinais de que o seu site está a afastar clientes",
     strip_go="Receber guia", close="Fechar",
     g_kicker="Guia gratuito", g_sub="Um guia prático, com um teste rápido para cada sinal. Em poucos minutos percebe o que pode estar a custar-lhe contactos.",
-    g_inc="O que vai encontrar", g_items=["Os 8 sinais mais comuns, explicados sem jargão", "O que fazer e um teste rápido para cada um", "Uma grelha para decidir o próximo passo"],
+    g_inc="O que vai encontrar", g_items=["Os oito sinais mais comuns, explicados sem jargão", "O que fazer e um teste rápido para cada um", "Uma grelha para decidir o próximo passo"],
     g_label="Pedido do guia gratuito", g_url="Insira o link para o seu site", g_email="Insira o seu email", g_btn="Receber o guia",
     g_note="Sem qualquer custo. Os seus dados servem apenas para este pedido.", privacy="Política de Privacidade",
     g_ok_t="O seu guia está pronto", g_ok_p="Obrigada! Já o pode descarregar.", g_dl="Descarregar o guia", g_file="assets/guia-8-sinais.pdf", g_dl_name="Oito-sinais-de-que-o-seu-site-esta-a-afastar-clientes.pdf",
@@ -408,12 +408,12 @@ UI = {
     f_title="Explorar por tema", f_all="Todos", f_search="Pesquisar artigos", f_topics="Temas", f_empty="Nenhum artigo encontrado. Experimente outro tema ou outra palavra.",
 ),
 "en": dict(
-    html_lang="en", og_locale="en_GB", m_open="Open menu", m_close="Close menu", m_l1="What I do", m_l2="About", m_l3="Plans", m_l5="Contact", home_label="Mariana Marcelino — homepage",
+    html_lang="en", og_locale="en_GB", m_open="Open menu", m_close="Close menu", m_l1="Solutions", m_l2="About", m_l3="Plans", m_l5="Contact", home_label="Mariana Marcelino — homepage",
     call="Book a call", lang_label="Language",
     strip_region="Free guide", strip_kicker="Free", guide_title="8 signs your website is driving clients away", foot_guide="Eight signs your website is driving clients away",
     strip_go="Get the guide", close="Close",
     g_kicker="Free guide", g_sub="A practical guide with a quick test for each sign. In a few minutes you’ll see what might be costing you enquiries.",
-    g_inc="What’s inside", g_items=["The 8 most common signs, explained without jargon", "What to do, and a quick test for each one", "A simple way to decide your next step"],
+    g_inc="What’s inside", g_items=["The eight most common signs, explained without jargon", "What to do, and a quick test for each one", "A simple way to decide your next step"],
     g_label="Free guide request", g_url="Enter your website link", g_email="Enter your email", g_btn="Get the guide",
     g_note="Completely free. Your details are only used for this request.", privacy="Privacy Policy",
     g_ok_t="Your guide is ready", g_ok_p="Thank you! You can download it now.", g_dl="Download the guide", g_file="assets/guide-8-signs.pdf", g_dl_name="Eight-signs-your-website-is-driving-clients-away.pdf",
@@ -489,7 +489,7 @@ def header(prefix, current="blog", lang="pt", alt=None):
         alt = prefix if lang == "en" else prefix + "en/"
     return f"""  <!-- Lead magnet strip -->
   <div class="promo-strip" role="region" aria-label="{u['strip_region']}">
-    <button type="button" class="promo-link" data-open-modal="guide-modal"><span class="promo-kicker">{u['strip_kicker']}</span><span class="promo-text">{u['foot_guide']}</span><span class="promo-go">{u['strip_go']} →</span></button>
+    <button type="button" class="promo-link" data-open-modal="guide-modal"><span class="promo-text">{u['foot_guide']}</span><span class="promo-go"><span class="ul">{u['strip_go']}</span> <span class="arrow">→</span></span></button>
     <button type="button" class="promo-close js-promo-close" aria-label="{u['close']}">{X_ICON}</button>
   </div>
 
@@ -533,7 +533,7 @@ def guide_modal(prefix, lang="pt"):
     return f"""  <!-- Lead magnet popup -->
   <dialog class="modal js-modal" id="guide-modal" aria-labelledby="guide-modal-title">
     <div class="modal-head">
-      <p class="kicker">{u['g_kicker']}</p>
+      <p class="kicker modal-pill">{u['g_kicker']}</p>
       <button type="button" class="modal-close js-close-modal" aria-label="{u['close']}">{X_ICON}</button>
     </div>
     <div class="modal-body">
@@ -605,10 +605,6 @@ def footer(prefix, lang="pt", alt=None):
         <a href="{CALENDLY}" target="_blank" rel="noopener" class="nav-cta">{u['call']}</a>
       </nav>
     </div>
-    <div class="footer-guide">
-      <p class="footer-guide-text"><span class="footer-guide-kicker">{u['strip_kicker']}</span>{u['foot_guide']}</p>
-      <button type="button" class="footer-guide-btn" data-open-modal="guide-modal">{u['strip_go']} →</button>
-    </div>
     <div class="footer-bottom">
       <p>© 2026 Mariana Marcelino</p>
       <div class="footer-legal">
@@ -630,6 +626,7 @@ def head(title, description, canonical, image, prefix, og_type, jsonld, lang="pt
 <html lang="{u['html_lang']}">
 <head>
   <meta charset="utf-8">
+  <script>try{{if(sessionStorage.getItem("pt")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("pt-enter");sessionStorage.removeItem("pt")}}catch(e){{}}</script>
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(description)}">
@@ -725,20 +722,20 @@ def filters(posts, lang):
         if p["category"] not in cats:
             cats.append(p["category"])
     chips = "\n".join(
-        f'        <button type="button" class="chip js-chip" data-filter="{slugify(c)}" aria-pressed="false"><span class="chip-icon" aria-hidden="true"></span>{esc(c)}</button>'
+        f'          <button type="button" class="chip js-chip" data-filter="{slugify(c)}" aria-pressed="false"><span class="chip-icon" aria-hidden="true"></span>{esc(c)}</button>'
         for c in cats)
     return f"""    <section class="blog-filters" aria-label="{u['f_title']}">
-      <div class="filters-head">
-        <h2 class="filters-title">{u['f_title']}</h2>
+      <h2 class="filters-title">{u['f_title']}</h2>
+      <div class="filters-row">
+        <div class="filters-chips" role="group" aria-label="{u['f_topics']}">
+          <button type="button" class="chip js-chip is-active" data-filter="all" aria-pressed="true">{u['f_all']}</button>
+{chips}
+        </div>
         <label class="filters-search">
           <span class="visually-hidden">{u['f_search']}</span>
           <input type="search" class="js-post-search" placeholder="{u['f_search']}" autocomplete="off">
           <span class="filters-search-icon" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg></span>
         </label>
-      </div>
-      <div class="filters-chips" role="group" aria-label="{u['f_topics']}">
-        <button type="button" class="chip js-chip is-active" data-filter="all" aria-pressed="true">{u['f_all']}</button>
-{chips}
       </div>
     </section>"""
 
@@ -805,7 +802,8 @@ def build_index(lang="pt"):
 
 {footer(prefix, lang, alt)}
 
-{guide_modal(prefix, lang)}  <script src="{prefix}main.js?v={VERSION}"></script>
+{guide_modal(prefix, lang)}  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
+  <script src="{prefix}main.js?v={VERSION}"></script>
 </body>
 </html>
 """
@@ -952,7 +950,8 @@ def build_post(i, post, lang="pt"):
 
 {footer(prefix, lang, alt)}
 
-{guide_modal(prefix, lang)}  <script src="{prefix}main.js?v={VERSION}"></script>
+{guide_modal(prefix, lang)}  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
+  <script src="{prefix}main.js?v={VERSION}"></script>
 </body>
 </html>
 """
@@ -1139,7 +1138,8 @@ def build_legal():
 
 {footer(prefix, lang, alt)}
 
-{guide_modal(prefix, lang)}  <script src="{prefix}main.js?v={VERSION}"></script>
+{guide_modal(prefix, lang)}  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
+  <script src="{prefix}main.js?v={VERSION}"></script>
 </body>
 </html>
 """
@@ -1181,7 +1181,8 @@ def build_404():
     </section>
   </main>
 
-{guide_modal(prefix)}  <script src="{prefix}main.js?v={VERSION}"></script>
+{guide_modal(prefix)}  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
+  <script src="{prefix}main.js?v={VERSION}"></script>
 </body>
 </html>
 """
