@@ -1265,6 +1265,16 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
   padding: 28px 0 48px;
 }
 .tier + .tier { border-top: 1px solid var(--grey); }
+/* Mobile: each plan is its own outlined card, with space between them */
+@media (max-width: 859px) {
+  .tiers { gap: 16px; }
+  .tier, .tier + .tier { padding: 24px 24px 32px; border: 1px solid var(--grey); }
+  /* The most popular plan: a lilac frame, same weight as the others */
+  .tier.-featured { border-color: #c4b4ea; }
+  /* Same outline button in every card on mobile */
+  .tiers .tier.-featured .tier-cta .button { background: transparent; color: var(--black); border-color: var(--black); }
+  @media (hover: hover) { .tiers .tier.-featured .tier-cta .button:hover { background: var(--black); color: var(--off-white); } }
+}
 @media (min-width: 860px) {
   .tiers { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(4, auto); }
   .tier { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; padding: 32px 32px 8px; }
@@ -1591,10 +1601,11 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
 }
 .footer-guide-title { font-size: 14px; line-height: 1.4; color: var(--off-white); }
 .footer-guide .ul { display: inline; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; padding-bottom: 2px; transition: background-size .5s cubic-bezier(.65, 0, .35, 1); }
-.footer-guide .arrow { display: inline-block; transition: transform .35s var(--ease); }
+/* Inline (not inline-block) so the arrow never wraps onto a line of its own */
+.footer-guide .arrow { position: relative; left: 0; transition: left .35s var(--ease); }
 @media (hover: hover) {
   .footer-guide:hover .ul { background-size: 100% 1px; }
-  .footer-guide:hover .arrow { transform: translateX(4px); }
+  .footer-guide:hover .arrow { left: 4px; }
 }
 /* Desktop: centred in the top row, between the brand and the links */
 @media (min-width: 1100px) {
@@ -1620,6 +1631,17 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
 }
 .footer-bottom a { color: inherit; }
 .footer-legal { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+/* Mobile: identity, then the two actions stacked, then the guide on its own
+   under a hairline; legal links above the copyright at the very bottom */
+@media (max-width: 859px) {
+  .footer-top { gap: 0; padding: 48px 0 40px; }
+  .footer-links { flex-direction: column; align-items: flex-start; gap: 16px; margin-top: 36px; }
+  .footer-links .nav-cta { order: 1; font-size: 16px; }
+  .footer-links .nav-link-plain { order: 2; font-size: 16px; }
+  .footer-links .lang-switch { order: 3; margin-top: 8px; font-size: 13px; }
+  .footer-guide { order: 3; width: 100%; margin-top: 40px; padding-top: 28px; border-top: 1px solid rgba(238, 238, 234, .14); }
+  .footer-bottom { flex-direction: column-reverse; gap: 14px; padding: 24px 0 32px; }
+}
 @media (min-width: 860px) {
   .footer-top { flex-direction: row; justify-content: space-between; align-items: flex-start; padding: 80px 0; }
   .footer-logo { font-size: 20px; line-height: 1; }
@@ -1822,8 +1844,8 @@ html.strip-inline.strip-closed .promo-strip { transform: translateY(-100%); tran
 @media (max-width: 859px) {
   .header .nav-right > .lang-switch,
   .header .nav-right > .nav-link-plain,
-  .header .nav-cta-spacer { display: none; }
-  .nav-cta-fixed { right: calc(var(--gap) + 40px); }
+  .header .nav-cta-spacer,
+  .header .nav-cta-fixed { display: none; }
   .nav-burger {
     position: fixed;
     top: calc(var(--strip-h) + var(--nav-extra) + var(--gap) - 7px);
@@ -1868,9 +1890,13 @@ html.strip-inline.strip-closed .promo-strip { transform: translateY(-100%); tran
     line-height: 1.15;
     letter-spacing: -.02em;
   }
-  .mobile-menu-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: auto; padding-top: 32px; }
-  .mobile-menu-foot .button { padding: 14px 28px; }
-  .mobile-menu-foot .lang-switch { font-size: 13px; }
+  /* The call stands apart from the links: a full-width solid button */
+  /* The call: underlined, with an up-right arrow (it opens the booking page) */
+  .mobile-menu-cta { display: inline-flex; align-items: baseline; gap: 8px; align-self: flex-start; margin-top: 32px; font-size: 22px; font-weight: 600; letter-spacing: -.01em; }
+  .mobile-menu-cta .ul { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1.5px; }
+  .mobile-menu-cta .arrow { font-weight: 400; }
+  .mobile-menu-foot { margin-top: 48px; }
+  .mobile-menu-foot .lang-switch { font-size: 14px; }
 }
 
 /* ---------- FAQ (homepage) ----------

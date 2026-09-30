@@ -385,7 +385,7 @@ X_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3
 # Interface copy for both languages
 UI = {
 "pt": dict(
-    html_lang="pt-PT", og_locale="pt_PT", m_open="Abrir menu", m_close="Fechar menu", m_l1="Soluções", m_l2="Sobre", m_l3="Planos", m_l5="Contacto", home_label="Mariana Marcelino — página inicial",
+    html_lang="pt-PT", og_locale="pt_PT", m_open="Abrir menu", m_close="Fechar menu", m_l1="Soluções", m_l2="Sobre", m_l3="Planos", m_l5="Contactos", home_label="Mariana Marcelino — página inicial",
     call="Marcar chamada", lang_label="Idioma",
     strip_region="Guia gratuito", strip_kicker="Gratuito", guide_title="8 sinais de que o seu site está a afastar clientes", foot_guide="Oito sinais de que o seu site está a afastar clientes",
     strip_go="Receber guia", close="Fechar",
@@ -515,14 +515,12 @@ def header(prefix, current="blog", lang="pt", alt=None):
       <button type="button" class="mobile-menu-close js-menu-close" aria-label="{u['m_close']}">{X_ICON}</button>
     </div>
     <nav class="mobile-menu-links" aria-label="Menu">
-      <a href="{home}#impact" class="js-menu-link">{u['m_l1']}</a>
+      <a href="{home}#solutions" class="js-menu-link">{u['m_l1']}</a>
       <a href="{home}#about" class="js-menu-link">{u['m_l2']}</a>
-      <a href="{home}#solutions" class="js-menu-link">{u['m_l3']}</a>
-      <a href="{home}blog/" class="js-menu-link">Blog</a>
       <a href="{home}#cta" class="js-menu-link">{u['m_l5']}</a>
     </nav>
+    <a href="{CALENDLY}" target="_blank" rel="noopener" class="mobile-menu-cta"><span class="ul">{u['call']}</span> <span class="arrow" aria-hidden="true">↗</span></a>
     <div class="mobile-menu-foot">
-      <a href="{CALENDLY}" target="_blank" rel="noopener" class="button">{u['call']}</a>
       {lang_switch(lang, alt, u['lang_label'])}
     </div>
   </div>"""
@@ -600,7 +598,7 @@ def footer(prefix, lang="pt", alt=None):
         <a href="{home}" class="logo footer-logo">MARIANA MARCELINO</a>
         <a href="mailto:info@mariana-marcelino.com" class="footer-email">info@mariana-marcelino.com</a>
       </div>
-      <button type="button" class="footer-guide" data-open-modal="guide-modal"><span class="footer-guide-label">{'Guia' if lang == 'pt' else 'Guide'}</span><span class="footer-guide-title"><span class="ul">{u['foot_guide']}</span> <span class="arrow" aria-hidden="true">→</span></span></button>
+      <button type="button" class="footer-guide" data-open-modal="guide-modal"><span class="footer-guide-label">{'Guia' if lang == 'pt' else 'Guide'}</span><span class="footer-guide-title"><span class="ul">{u['foot_guide']}</span>&nbsp;<span class="arrow" aria-hidden="true">→</span></span></button>
       <nav class="footer-links" aria-label="{u['foot_aria']}">
         {lang_switch(lang, alt, u['lang_label'])}
         <a href="{home}blog/" class="nav-link-plain">Blog</a>
