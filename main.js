@@ -754,7 +754,7 @@
         change();
         requestAnimationFrame(function () { arriving.forEach(function (el) { el.classList.add("is-in"); }); });
         setTimeout(done, 700);
-      }, 450);
+      }, 350);
       return;
     }
     setTimeout(function () {
@@ -924,8 +924,23 @@
           box: form.closest("dialog") || form.parentNode,
           inPlace: true,
           leaving: Array.prototype.slice.call(form.children),
-          // The note fills the exact space the form had, centred, so the popup doesn't resize
-          change: function () { success.style.minHeight = formHeight + "px"; form.hidden = true; success.hidden = false; },
+          // The note appears centred in the space the form had; then that space
+          // eases closed around it, so the popup settles to its new size
+          change: function () {
+            success.style.minHeight = formHeight + "px";
+            form.hidden = true;
+            success.hidden = false;
+            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { success.style.minHeight = ""; return; }
+            requestAnimationFrame(function () {
+              success.style.minHeight = "0px";
+              var natural = success.offsetHeight;
+              success.style.minHeight = formHeight + "px";
+              success.offsetHeight;
+              success.style.transition = "min-height .7s cubic-bezier(.3, 0, .15, 1)";
+              success.style.minHeight = natural + "px";
+              setTimeout(function () { success.style.transition = ""; success.style.minHeight = ""; }, 750);
+            });
+          },
           arriving: Array.prototype.slice.call(success.children),
           focus: success.querySelector("a")
         });

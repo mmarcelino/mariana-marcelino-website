@@ -46,7 +46,7 @@ const COPY = {
       subject: "Obrigada pelo pedido de redesign",
       hello: (n) => (n ? `Olá, ${n}!` : "Olá!"),
       blocks: [
-        { p: "Obrigada pelo interesse em ver como o posso ajudar a renovar o seu site. Já recebi o seu pedido e o próximo passo está do meu lado: vou analisar o seu site atual e nos próximos dias vou enviar-lhe:" },
+        { p: "Obrigada pelo interesse em ver como o posso ajudar a renovar o seu site. Já recebi o seu pedido e o próximo passo está do meu lado – vou analisar o site atual e nos próximos dias vou enviar-lhe:" },
         { ul: [
           "— Uma proposta visual de redesign para a sua nova homepage.",
           "— Um relatório com os principais pontos de melhoria (além do design) para o ajudar a converter mais visitantes em clientes."
@@ -94,7 +94,7 @@ const COPY = {
       subject: "Thank you for your redesign request",
       hello: (n) => (n ? `Hi, ${n}!` : "Hi!"),
       blocks: [
-        { p: "Thank you for your interest in seeing how I can help you refresh your website. I've received your request and the next step is on me: I'll review your current website and, over the next few days, send you:" },
+        { p: "Thank you for your interest in seeing how I can help you refresh your website. I've received your request and the next step is on me – I'll review your current website and, over the next few days, send you:" },
         { ul: [
           "— A visual redesign proposal for your new homepage.",
           "— A report with the main points for improvement (beyond design) to help you turn more visitors into clients."
