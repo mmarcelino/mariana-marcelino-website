@@ -188,9 +188,9 @@
     mail.noValidate = true;
     // Nothing to fix: the box offers the result and the guide, not a "report"
     var good = !R.weakAll.length; // site in good shape, or no site yet
-    mail.appendChild(el("p", "quiz-mail-title", good ? U.mailTitleGood : U.mailTitle));
+    mail.appendChild(el("p", "quiz-mail-title", good ? U.mailTitleGood : R.weakAll.length === 1 ? U.mailTitleOne : U.mailTitle));
     var mt = el("p", "quiz-mail-text");
-    var parts = (R.noSite ? U.mailTextNoSite : good ? U.mailTextGood : U.mailText).split("{guide}");
+    var parts = (R.noSite ? U.mailTextNoSite : good ? U.mailTextGood : R.score >= 80 ? U.mailTextMinor : U.mailText).split("{guide}");
     mt.appendChild(document.createTextNode(parts[0]));
     mt.appendChild(el("strong", "quiz-mail-guide", U.mailGuide));
     mt.appendChild(document.createTextNode(parts[1] || ""));

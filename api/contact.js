@@ -34,6 +34,7 @@ const COPY = {
   pt: {
     contact: {
       subject: "Obrigada pela sua mensagem",
+      eyebrow: "Mensagem recebida",
       hello: (n) => (n ? `Olá, ${n}!` : "Olá!"),
       blocks: [
         { p: "Obrigada pela mensagem, volto ao seu contacto muito em breve." },
@@ -47,6 +48,7 @@ const COPY = {
     },
     redesign: {
       subject: "Obrigada pelo pedido de redesign",
+      eyebrow: "Redesign gratuito",
       hello: (n) => (n ? `Olá, ${n}!` : "Olá!"),
       blocks: [
         { p: "Obrigada pelo interesse em ver como posso ajudar a renovar o seu site. Já recebi o seu pedido e o próximo passo está do meu lado – vou analisar o site atual e nos próximos dias vou enviar-lhe:" },
@@ -62,6 +64,7 @@ const COPY = {
     },
     guide: {
       subject: "O seu guia: Oito sinais de que o seu site está a afastar clientes",
+      eyebrow: "Guia gratuito",
       hello: (n) => (n ? `Olá, ${n},` : "Olá,"),
       blocks: [
         { p: "Como prometido, aqui tem o link para descarregar o guia: ", link: "Oito sinais de que o seu site está a afastar clientes", href: `${SITE}/assets/guia-8-sinais.pdf` },
@@ -82,6 +85,7 @@ const COPY = {
   en: {
     contact: {
       subject: "Thank you for your message",
+      eyebrow: "Message received",
       hello: (n) => (n ? `Hi, ${n}!` : "Hi!"),
       blocks: [
         { p: "Thank you for your message, I'll get back to you very soon." },
@@ -95,6 +99,7 @@ const COPY = {
     },
     redesign: {
       subject: "Thank you for your redesign request",
+      eyebrow: "Free redesign",
       hello: (n) => (n ? `Hi, ${n}!` : "Hi!"),
       blocks: [
         { p: "Thank you for your interest in seeing how I can help you refresh your website. I've received your request and the next step is on me – I'll review your current website and, over the next few days, send you:" },
@@ -110,6 +115,7 @@ const COPY = {
     },
     guide: {
       subject: "Your guide: Eight signs your website is driving clients away",
+      eyebrow: "Free guide",
       hello: (n) => (n ? `Hi, ${n},` : "Hi,"),
       blocks: [
         { p: "As promised, here's the link to download the guide: ", link: "Eight signs your website is driving clients away", href: `${SITE}/assets/guide-8-signs.pdf` },
@@ -132,22 +138,28 @@ const COPY = {
 // ---------- Diagnosis report (built from the answers, never from free text) ----------
 function quizCopy(lang, q) {
   const D = QUIZ[lang], R = q.result, T = D.report, P = D.plans[R.plan];
-  const blocks = [{ p: R.noSite ? T.introNoSite : !R.weakAll.length ? T.introGood : T.intro }];
-  if (R.noSite) {
-    blocks.push({ label: D.ui.noSiteTitle }, { p: D.ui.noSiteText });
-  } else {
-    blocks.push({ score: T.scoreLine.replace("{score}", R.score).replace("{band}", R.band.title) }, { p: R.band.text });
-    if (R.weakAll.length) {
-      blocks.push({ label: T.weakTitle });
-      R.weakAll.forEach((id) => blocks.push({ item: D.weak[id].title, text: D.weak[id].line, todo: T.doLabel + D.weak[id].todo }));
-    }
-  }
-  blocks.push({ label: T.planTitle }, { item: P.name, text: (R.noSite && P.lineNoSite ? P.lineNoSite : P.line) + (P.note ? " " + P.note : "") + (R.alsoEngine && P.also ? " " + P.also : "") });
   const abs = (h) => (h.startsWith("/") ? SITE + h : h);
-  blocks.push({ cta: P.cta.t, href: abs(P.cta.href) }, { p: T.free });
-  blocks.push({ p: T.guide, link: T.guideLink, href: T.guideHref });
+  const blocks = [{ p: R.noSite ? T.introNoSite : !R.weakAll.length ? T.introGood : T.intro }];
+  // No site: the intro already says it, so there's no result card
+  if (!R.noSite) blocks.push({ scorecard: { score: R.score, label: D.ui.scoreLabel, title: R.band.title, text: R.band.text } });
+  if (!R.noSite && R.weakAll.length) {
+    blocks.push({ label: T.weakTitle });
+    R.weakAll.forEach((id, i) => blocks.push({ item: D.weak[id].title, n: i + 1, text: D.weak[id].line, todoLabel: T.doLabel.replace(/:\s*$/, ""), todo: D.weak[id].todo }));
+  }
+  // The email's button is always the call when the plan offers one
+  const call = [P.cta, P.cta2].find((c) => /calendly\.com/.test(c.href));
+  const cta = call || P.cta;
+  blocks.push({ plan: {
+    label: T.planTitle, name: P.name,
+    text: (R.noSite && P.lineNoSite ? P.lineNoSite : P.line) + (R.alsoEngine && P.also ? " " + P.also : ""),
+    cta: cta.t, href: abs(cta.href), note: call ? T.free : ""
+  } });
+  blocks.push(R.noSite
+    ? { p: T.guideNoSite, link: T.guideLink, href: T.guideHref, after: T.guideAfterNoSite }
+    : { p: T.guide, link: T.guideLink, href: T.guideHref });
   return {
     subject: R.noSite ? T.subjectNoSite : T.subject.replace("{score}", R.score).replace("{band}", R.band.title),
+    eyebrow: lang === "en" ? "Website diagnosis" : "Diagnóstico do site",
     hello: () => (lang === "en" ? "Hi," : "Olá,"),
     blocks,
     recap: null
@@ -155,57 +167,78 @@ function quizCopy(lang, q) {
 }
 
 // ---------- Visitor email (on brand) ----------
+// Quiet, editorial layout: off-white page, a soft card, Inter-like system type,
+// a lilac pill naming the email, black pill buttons and a monogram signature.
+const MUTED = "#6b6b66", BODY = "#2c2c29", LINE = "#e6e5df", TINT = "#f3f0fa", DEEP = "#5b46b5";
+const FONT = "Inter,-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif";
+
 function visitorEmail(type, lang, data) {
   const L = COPY[lang];
   const c = type === "quiz" ? quizCopy(lang, data.quiz) : L[type];
   const first = (data.Nome || "").split(/\s+/)[0];
   const home = `${SITE}${lang === "en" ? "/en/" : "/"}`;
-  const P = (t) => `<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:${INK}">${esc(t)}</p>`;
+  const P = (t, extra) => `<p style="margin:0 0 18px;font-size:16px;line-height:1.65;color:${BODY}${extra || ""}">${t}</p>`;
+  const A = (t, href) => `<a href="${href}" style="color:${INK};font-weight:600;text-decoration:underline;text-underline-offset:3px">${esc(t)}</a>`;
+  const button = (t, href) => `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:6px 0 22px"><tr><td style="background:${INK};border-radius:999px"><a href="${href}" style="display:inline-block;padding:14px 28px;font-family:${FONT};font-size:15px;font-weight:500;letter-spacing:.01em;color:#ffffff;text-decoration:none">${esc(t)}</a></td></tr></table>`;
   const blockHtml = (b) => {
-    if (b.p && b.link) return `<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:${INK}">${esc(b.p)}<a href="${b.href}" style="color:${INK};font-weight:600;text-decoration:underline;text-underline-offset:3px">${esc(b.link)}</a></p>`;
-    if (b.p) return P(b.p);
-    if (b.link) return `<p style="margin:0 0 20px;font-size:16px;line-height:1.6"><a href="${b.href}" style="color:${INK};font-weight:600;text-decoration:underline;text-underline-offset:3px">${esc(b.link)}</a></p>`;
-    if (b.label) return `<p style="margin:12px 0 10px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6b6b69">${esc(b.label)}</p>`;
-    if (b.score) return `<p style="margin:0 0 8px;font-size:22px;line-height:1.3;letter-spacing:-.01em;color:${INK}">${esc(b.score)}</p>`;
-    if (b.item) return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 14px;border-top:1px solid #e3e3df"><tr><td style="padding-top:12px"><p style="margin:0;font-size:16px;font-weight:600;color:${INK}">${esc(b.item)}</p><p style="margin:4px 0 0;font-size:15px;line-height:1.55;color:${INK}">${esc(b.text)}</p>${b.todo ? `<p style="margin:6px 0 0;font-size:15px;line-height:1.55;color:#55554f">${esc(b.todo)}</p>` : ""}</td></tr></table>`;
-    if (b.ul) return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px">${b.ul.map((li) => `<tr><td style="padding:4px 0;font-size:16px;line-height:1.55;color:${INK}">${esc(li)}</td></tr>`).join("")}</table>`;
-    if (b.cta) {
-      const bg = b.secondary ? "#ffffff" : INK, fg = b.secondary ? INK : "#ffffff";
-      return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 20px"><tr><td style="background:${bg};border:1px solid ${INK};border-radius:44px"><a href="${b.href}" style="display:inline-block;padding:13px 26px;font-size:15px;color:${fg};text-decoration:none">${esc(b.cta)}</a></td></tr></table>`;
+    if (b.scorecard) {
+      const sc = b.scorecard;
+      const num = sc.score == null ? "" : `<td width="112" valign="middle" style="padding-right:20px"><p style="margin:0;font-size:52px;line-height:1;font-weight:300;letter-spacing:-.04em;color:${INK}">${sc.score}<span style="font-size:15px;letter-spacing:0;color:${MUTED}">/100</span></p></td>`;
+      return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:4px 0 26px;background:${TINT};border-radius:16px"><tr><td style="padding:24px 26px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${num}<td valign="middle">${sc.label ? `<p style="margin:0 0 4px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:${MUTED}">${esc(sc.label)}</p>` : ""}<p style="margin:0;font-size:21px;line-height:1.25;letter-spacing:-.01em;color:${INK}">${esc(sc.title)}</p><p style="margin:6px 0 0;font-size:14.5px;line-height:1.55;color:${BODY}">${esc(sc.text)}</p></td></tr></table></td></tr></table>`;
     }
+    if (b.plan) {
+      const pl = b.plan;
+      return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:10px 0 26px;background:${LILAC};border-radius:16px"><tr><td style="padding:26px 28px 6px"><p style="margin:0 0 6px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#4a4560">${esc(pl.label)}</p><p style="margin:0 0 8px;font-size:22px;line-height:1.25;letter-spacing:-.015em;color:${INK}">${esc(pl.name)}</p><p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:${INK}">${esc(pl.text)}</p>${button(pl.cta, pl.href)}${pl.note ? `<p style="margin:-8px 0 20px;font-size:13px;line-height:1.55;color:#4a4560">${esc(pl.note)}</p>` : ""}</td></tr></table>`;
+    }
+    if (b.label) return `<p style="margin:8px 0 12px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:${MUTED}">${esc(b.label)}</p>`;
+    if (b.item) {
+      return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0;border-top:1px solid ${LINE}"><tr>${b.n ? `<td width="34" valign="top" style="padding:16px 0 18px;font-size:12px;line-height:22px;color:${MUTED};font-variant-numeric:tabular-nums">${String(b.n).padStart(2, "0")}</td>` : ""}<td valign="top" style="padding:16px 0 18px"><p style="margin:0;font-size:16px;line-height:22px;font-weight:600;color:${INK}">${esc(b.item)}</p><p style="margin:4px 0 0;font-size:15px;line-height:1.6;color:${BODY}">${esc(b.text)}</p>${b.todo ? `<p style="margin:10px 0 0;font-size:14.5px;line-height:1.6;color:${BODY}"><span style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:${DEEP}">${esc(b.todoLabel)}</span><br>${esc(b.todo)}</p>` : ""}</td></tr></table>`;
+    }
+    if (b.p && b.link) return P(esc(b.p) + A(b.link, b.href) + esc(b.after || ""));
+    if (b.p) return P(esc(b.p));
+    if (b.link) return P(A(b.link, b.href));
+    if (b.ul) return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 20px">${b.ul.map((li) => `<tr><td valign="top" width="22" style="padding:6px 0;font-size:16px;line-height:1.6;color:${DEEP}">—</td><td style="padding:6px 0;font-size:16px;line-height:1.6;color:${BODY}">${esc(li.replace(/^—\s*/, ""))}</td></tr>`).join("")}</table>`;
+    if (b.cta) return button(b.cta, b.href);
     return "";
   };
   const recapRows = c.recap
     ? Object.keys(L.fields)
         .filter((k) => data[k] && k !== "Email")
-        .map((k) => `<tr><td valign="top" style="padding:6px 16px 6px 0;font-size:12px;line-height:22px;letter-spacing:.06em;text-transform:uppercase;color:#6b6b69;vertical-align:top;width:90px;white-space:nowrap">${esc(L.fields[k])}</td><td valign="top" style="padding:6px 0;font-size:15px;line-height:22px;color:${INK};vertical-align:top;white-space:pre-wrap">${esc(data[k])}</td></tr>`)
+        .map((k) => `<tr><td valign="top" style="padding:7px 18px 7px 0;font-size:11px;line-height:22px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:${MUTED};width:90px;white-space:nowrap">${esc(L.fields[k])}</td><td valign="top" style="padding:7px 0;font-size:15px;line-height:22px;color:${INK};white-space:pre-wrap">${esc(data[k])}</td></tr>`)
         .join("")
     : "";
-  // The recap sits at the very end, below a line under the signature
   const recap = recapRows
-    ? `<tr><td style="padding:0 40px 36px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #d4d4cf"><tr><td style="padding-top:24px"><p style="margin:0 0 8px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6b6b69">${esc(c.recap)}</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${recapRows}</table></td></tr></table></td></tr>`
+    ? `<tr><td class="px" style="padding:0 44px 40px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f6f5f1;border-radius:14px"><tr><td style="padding:20px 22px"><p style="margin:0 0 8px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:${MUTED}">${esc(c.recap)}</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${recapRows}</table></td></tr></table></td></tr>`
     : "";
-  const html = `<!doctype html><html lang="${lang === "en" ? "en" : "pt-PT"}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(c.subject)}</title></head>
-<body style="margin:0;padding:0;background:${PAPER};font-family:Inter,-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;color:${INK}">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAPER}"><tr><td align="center" style="padding:32px 16px">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff">
-<tr><td style="height:6px;background:${LILAC};font-size:0;line-height:0">&nbsp;</td></tr>
-<tr><td style="padding:32px 40px 8px"><a href="${home}" style="font-size:15px;font-weight:600;letter-spacing:.02em;color:${INK};text-decoration:none">MARIANA MARCELINO</a></td></tr>
-<tr><td style="padding:28px 40px 0">
-${P(c.hello(first))}
+  const html = `<!doctype html><html lang="${lang === "en" ? "en" : "pt-PT"}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><style>@media (max-width:520px){.px{padding-left:24px!important;padding-right:24px!important}.nm,.eb{display:block!important;width:auto!important}.eb{text-align:left!important;padding-top:12px!important}}</style><title>${esc(c.subject)}</title></head>
+<body style="margin:0;padding:0;background:${PAPER};font-family:${FONT};color:${INK};-webkit-font-smoothing:antialiased">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAPER}"><tr><td align="center" style="padding:40px 14px 32px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:580px;background:#fbfbf9;border:1px solid ${LINE};border-radius:20px">
+<tr><td class="px" style="padding:26px 44px 22px;border-bottom:1px solid ${LINE}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+<td class="nm" valign="middle"><a href="${home}" style="font-size:12px;font-weight:600;letter-spacing:.14em;white-space:nowrap;color:${INK};text-decoration:none">MARIANA MARCELINO</a></td>
+<td class="eb" valign="middle" align="right">${c.eyebrow ? `<span style="display:inline-block;padding:5px 10px;border-radius:999px;background:${LILAC};font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;color:${INK}">${esc(c.eyebrow)}</span>` : ""}</td>
+</tr></table></td></tr>
+<tr><td class="px" style="padding:36px 44px 8px">
+<p style="margin:0 0 18px;font-size:17px;line-height:1.5;color:${INK}">${esc(c.hello(first))}</p>
 ${c.blocks.map(blockHtml).join("\n")}
 </td></tr>
-<tr><td style="padding:8px 40px 32px">
-<p style="margin:0;font-size:16px;line-height:1.6;color:${INK}">${esc(c.sign || L.sign)}</p>
-<p style="margin:12px 0 0;font-size:16px;line-height:1.4;color:${INK}">${esc(L.name)}</p>
-<p style="margin:4px 0 0;font-size:14px;line-height:1.5;color:#6b6b69">${esc(L.role)}</p>
-<p style="margin:0;font-size:14px;line-height:1.5"><a href="${home}" style="color:#6b6b69">mariana-marcelino.com</a></p>
-</td></tr>
+<tr><td class="px" style="padding:6px 44px 38px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid ${LINE}"><tr><td style="padding-top:24px">
+<p style="margin:0 0 16px;font-size:16px;line-height:1.5;color:${BODY}">${esc(c.sign || L.sign)}</p>
+<table role="presentation" cellpadding="0" cellspacing="0"><tr>
+<td valign="middle" style="padding-right:14px"><div style="width:40px;height:40px;border-radius:50%;background:${LILAC};text-align:center;line-height:40px;font-size:16px;font-weight:600;color:${INK}">M</div></td>
+<td valign="middle"><p style="margin:0;font-size:15px;line-height:1.4;font-weight:600;color:${INK}">${esc(L.name)}</p><p style="margin:2px 0 0;font-size:13px;line-height:1.5;color:${MUTED}">${esc(L.role)} · <a href="${home}" style="color:${MUTED};text-decoration:underline;text-underline-offset:2px">mariana-marcelino.com</a></p></td>
+</tr></table>
+</td></tr></table></td></tr>
 ${recap}
 </table>
-<p style="max-width:560px;margin:16px auto 0;font-size:12px;line-height:1.5;color:#8a8a86">${esc(L.footer)}</p>
+<p style="max-width:520px;margin:20px auto 0;font-size:12px;line-height:1.6;color:#8a8a84;text-align:center">${esc(L.footer)}</p>
 </td></tr></table></body></html>`;
-  const textBlocks = c.blocks.map((b) => b.label ? b.label.toUpperCase() : b.score ? b.score : b.item ? [b.item, b.text, b.todo].filter(Boolean).join("\n") : b.p && b.link ? `${b.p}${b.link} (${b.href})` : b.p ? b.p : b.ul ? b.ul.join("\n") : `${b.cta || b.link}: ${b.href}`);
+  const textBlocks = c.blocks.map((b) =>
+    b.scorecard ? [b.scorecard.score != null ? `${b.scorecard.label}: ${b.scorecard.score}/100 · ${b.scorecard.title}` : b.scorecard.title, b.scorecard.text].join("\n")
+    : b.plan ? [b.plan.label.toUpperCase(), b.plan.name, b.plan.text, `${b.plan.cta}: ${b.plan.href}`, b.plan.note].filter(Boolean).join("\n")
+    : b.label ? b.label.toUpperCase()
+    : b.item ? [(b.n ? String(b.n).padStart(2, "0") + " " : "") + b.item, b.text, b.todo ? `${b.todoLabel}: ${b.todo}` : ""].filter(Boolean).join("\n")
+    : b.p && b.link ? `${b.p}${b.link} (${b.href})${b.after || ""}` : b.p ? b.p : b.ul ? b.ul.join("\n") : `${b.cta || b.link}: ${b.href}`);
   const text = [c.hello(first), "", ...textBlocks.flatMap((t) => [t, ""]), c.sign || L.sign, "", L.name, L.role, home,
     ...(recapRows ? ["", "———", c.recap + ":", ...Object.keys(L.fields).filter((k) => data[k] && k !== "Email").map((k) => `${L.fields[k]}: ${data[k]}`)] : [])].join("\n");
   return { subject: c.subject, html, text };

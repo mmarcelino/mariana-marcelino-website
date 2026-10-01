@@ -2489,6 +2489,9 @@ a.promo-link, a.footer-guide { text-decoration: none; color: inherit; }
 .quiz-mail-row .input { flex: 1 1 220px; padding: 13px 18px; border: 1px solid rgba(0, 0, 0, .16); border-radius: 44px; background: var(--off-white); font-size: 15px; }
 .quiz-mail-row .input:focus { border-color: rgba(0, 0, 0, .45); box-shadow: none; }
 .quiz-mail-row .button { padding: 12px 22px; font-size: 15px; }
+/* Outlined, so the plan's "book a call" stays the one solid button */
+.quiz-mail-row .button { background: transparent; color: var(--black); border-color: var(--black); }
+@media (hover: hover) { .quiz-mail-row .button:hover { opacity: 1; background: var(--black); color: var(--off-white); } }
 .quiz-mail-msg { margin-top: 10px; font-size: 15px; }
 .quiz-mail-msg:empty { display: none; }
 .quiz-mail-msg.is-ok { color: #0b7a4e; }
