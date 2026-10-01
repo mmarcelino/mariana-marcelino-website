@@ -1853,10 +1853,10 @@ html.strip-inline.strip-closed .promo-strip { transform: translateY(-100%); tran
 }
 .promo-close:hover { background: rgba(0, 0, 0, .08); }
 .promo-close svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.6; }
-/* Phones: one line (a taller strip ends up under Safari's address bar on
-   iOS 26), with the short link text so the whole question can be read */
+/* Phones: one line, left-aligned (same layout as before the iOS 26 issue),
+   with the short link text so the whole question can be read */
 @media (max-width: 559px) {
-  .promo-strip { padding: 0 16px; }
+  .promo-strip { padding: 0 40px 0 16px; justify-content: flex-start; }
   .promo-kicker { display: none; }
   .promo-link { font-size: 12.5px; gap: 8px; }
   .promo-more { display: none; }
