@@ -390,7 +390,7 @@ UI = {
     call="Marcar chamada", lang_label="Idioma",
     strip_region="Guia gratuito", strip_kicker="Gratuito", guide_title="8 sinais de que o seu site está a afastar clientes", foot_guide="Oito sinais de que o seu site está a afastar clientes",
     strip_go="Receber guia", close="Fechar",
-    q_path="diagnostico/", q_strip="O seu site está a afastar clientes?", q_strip_go="Faça o teste em 2 minutos", q_foot_label="Diagnóstico gratuito", q_foot="O seu site está a afastar clientes? Faça o teste em 2 minutos", q_404="Fazer o diagnóstico do meu site",
+    q_path="diagnostico/", q_strip="O seu site está a afastar clientes?", q_strip_go='Faça o teste<span class="promo-more"> em 2 minutos</span>', q_foot_label="Diagnóstico gratuito", q_foot="O seu site está a afastar clientes? Faça o teste em 2 minutos", q_404="Fazer o diagnóstico do meu site",
     g_kicker="Guia gratuito", g_sub="Um guia prático, com um teste rápido para cada sinal. Em poucos minutos percebe o que pode estar a custar-lhe contactos.",
     g_inc="O que vai encontrar", g_items=["Os oito sinais mais comuns, explicados sem jargão", "O que fazer e um teste rápido para cada um", "Uma grelha para decidir o próximo passo"],
     g_label="Pedido do guia gratuito", g_nosite="Ainda não tenho site", g_yes="Já tenho site", g_site_q="Tem site?", g_url="Insira o link para o seu site", g_email="Insira o seu email", g_btn="Receber o guia",
@@ -414,7 +414,7 @@ UI = {
     call="Book a call", lang_label="Language",
     strip_region="Free guide", strip_kicker="Free", guide_title="8 signs your website is driving clients away", foot_guide="Eight signs your website is driving clients away",
     strip_go="Get the guide", close="Close",
-    q_path="en/diagnosis/", q_strip="Is your website driving clients away?", q_strip_go="Take the 2-minute test", q_foot_label="Free diagnosis", q_foot="Is your website driving clients away? Take the 2-minute test", q_404="Diagnose my website",
+    q_path="en/diagnosis/", q_strip="Is your website driving clients away?", q_strip_go='Take the <span class="promo-more">2-minute </span>test', q_foot_label="Free diagnosis", q_foot="Is your website driving clients away? Take the 2-minute test", q_404="Diagnose my website",
     g_kicker="Free guide", g_sub="A practical guide with a quick test for each sign. In a few minutes you’ll see what might be costing you enquiries.",
     g_inc="What’s inside", g_items=["The eight most common signs, explained without jargon", "What to do, and a quick test for each one", "A simple way to decide your next step"],
     g_label="Free guide request", g_nosite="I don't have one yet", g_yes="I have a website", g_site_q="Do you have a website?", g_url="Enter your website link", g_email="Enter your email", g_btn="Get the guide",
@@ -523,6 +523,7 @@ def header(prefix, current="blog", lang="pt", alt=None, strip=True):
       <a href="{home}#solutions" class="js-menu-link">{u['m_l1']}</a>
       <a href="{home}#about" class="js-menu-link">{u['m_l2']}</a>
       <a href="{home}#cta" class="js-menu-link">{u['m_l5']}</a>
+      <a href="{home}blog/" class="js-menu-link">Blog</a>
     </nav>
     <a href="{CALENDLY}" target="_blank" rel="noopener" class="mobile-menu-cta"><span class="ul">{u['call']}</span> <span class="arrow"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5"/></svg></span></a>
     <div class="mobile-menu-foot">
