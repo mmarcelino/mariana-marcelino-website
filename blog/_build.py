@@ -664,9 +664,9 @@ def head(title, description, canonical, image, prefix, og_type, jsonld, lang="pt
   <meta name="twitter:description" content="{esc(description)}">
   <meta name="twitter:image" content="{image}">
 
-  <link rel="icon" href="{prefix}favicon.ico" sizes="any">
-  <link rel="icon" href="{prefix}assets/favicon-32.png" type="image/png" sizes="32x32">
-  <link rel="icon" href="{prefix}assets/favicon-16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="{prefix}favicon.ico?v=2" sizes="any">
+  <link rel="icon" href="{prefix}assets/favicon-32.png?v=2" type="image/png" sizes="32x32">
+  <link rel="icon" href="{prefix}assets/favicon-16.png?v=2" type="image/png" sizes="16x16">
   <link rel="apple-touch-icon" href="{prefix}assets/apple-touch-icon.png">
   <link rel="manifest" href="{prefix}site.webmanifest">
 
