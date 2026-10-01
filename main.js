@@ -814,6 +814,16 @@
     });
   });
 
+  // Footer legal links: a dropdown on phones (always shown on desktop)
+  var legalToggle = document.querySelector(".js-legal-toggle");
+  if (legalToggle) {
+    legalToggle.addEventListener("click", function () {
+      var open = legalToggle.getAttribute("aria-expanded") !== "true";
+      legalToggle.setAttribute("aria-expanded", String(open));
+      legalToggle.parentNode.classList.toggle("is-open", open);
+    });
+  }
+
   // Lead-magnet strip: closing hides it until the top of the page (hero, or
   // the page head on blog/legal pages) leaves the viewport and comes back
   var promoClose = document.querySelector(".js-promo-close");

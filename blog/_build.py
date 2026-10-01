@@ -399,7 +399,7 @@ UI = {
     cta_kicker="Contacto", cta_title="Comecemos com uma conversa",
     cta_sub="Identificamos oportunidades de melhoria no seu site e falamos sobre o caminho que faz sentido. Sem qualquer custo nem compromisso.",
     cta_write="Se preferir, envie uma mensagem", cta_aria="Formulário de contacto", f_name="Nome", f_msg="Mensagem", f_send="Enviar",
-    foot_aria="Rodapé", legal=[("politica-de-privacidade/", "Privacidade"), ("politica-de-cookies/", "Cookies"), ("termos-e-condicoes/", "Termos e Condições")], privacy_path="politica-de-privacidade/", updated="Última atualização",
+    foot_aria="Rodapé", legal_label="Informação legal", legal=[("politica-de-privacidade/", "Privacidade"), ("politica-de-cookies/", "Cookies"), ("termos-e-condicoes/", "Termos e Condições")], privacy_path="politica-de-privacidade/", updated="Última atualização",
     read="Ler artigo", min_read="min de leitura", role="Web Design, Programação, Conversão",
     toc="Neste artigo", summary="Em resumo", faq="Perguntas frequentes", faq_id="perguntas-frequentes", more="Continuar a ler", home_crumb="Início",
     bio=("Redesenho e reconstruo sites para que o seu negócio pareça o que realmente é: moderno e credível. "
@@ -423,7 +423,7 @@ UI = {
     cta_kicker="Contact", cta_title="Let's start with a conversation",
     cta_sub="We'll look at where your website could improve and talk about the path that makes sense. No cost, no commitment.",
     cta_write="If you prefer, send a message", cta_aria="Contact form", f_name="Name", f_msg="Message", f_send="Send",
-    foot_aria="Footer", legal=[("en/privacy-policy/", "Privacy"), ("en/cookie-policy/", "Cookies"), ("en/terms-and-conditions/", "Terms &amp; Conditions")], privacy_path="en/privacy-policy/", updated="Last updated",
+    foot_aria="Footer", legal_label="Legal", legal=[("en/privacy-policy/", "Privacy"), ("en/cookie-policy/", "Cookies"), ("en/terms-and-conditions/", "Terms &amp; Conditions")], privacy_path="en/privacy-policy/", updated="Last updated",
     read="Read article", min_read="min read", role="Web Design, Development, Conversion",
     toc="In this article", summary="Key takeaways", faq="Frequently asked questions", faq_id="faq", more="Keep reading", home_crumb="Home",
     bio=("I redesign and rebuild websites so your business looks like what it really is: modern and credible. "
@@ -485,17 +485,19 @@ def lang_switch(lang, alt, label):
           <a href="{alt}" hreflang="en" lang="en" class="lang-link">EN</a>
         </div>'''
 
-def header(prefix, current="blog", lang="pt", alt=None):
+def header(prefix, current="blog", lang="pt", alt=None, strip=True):
     u = UI[lang]
     home = home_of(prefix, lang)
     if alt is None:
         alt = prefix if lang == "en" else prefix + "en/"
-    return f"""  <a class="skip-link" href="#main">{u['skip']}</a>
-  <!-- Lead magnet strip -->
+    # The diagnosis page itself has no strip (it would link to itself)
+    promo = f"""  <!-- Lead magnet strip -->
   <div class="promo-strip" role="region" aria-label="{u['q_foot_label']}">
     <a class="promo-link" href="{prefix}{u['q_path']}"><span class="promo-text">{u['q_strip']}</span><span class="promo-go"><span class="ul">{u['q_strip_go']}</span> <span class="arrow">→</span></span></a>
   </div>
-
+""" if strip else ""
+    return f"""  <a class="skip-link" href="#main">{u['skip']}</a>
+{promo}
   <header class="header">
     <nav class="navigation grid-col-t grid-col-b grid-col-l grid-col-r h4">
       <a href="{home}" class="logo-container" aria-label="{u['home_label']}">
@@ -590,19 +592,21 @@ def cta(prefix, lang="pt"):
       </div>
     </section>"""
 
-def footer(prefix, lang="pt", alt=None):
+def footer(prefix, lang="pt", alt=None, guide=True):
     u = UI[lang]
     home = home_of(prefix, lang)
     if alt is None:
         alt = prefix if lang == "en" else prefix + "en/"
     legal = "\n".join(f'        <a href="{prefix}{href}" class="link">{label}</a>' for href, label in u["legal"])
+    # Left out on the diagnosis page itself (it would link to itself)
+    guide_link = f"""
+      <a class="footer-guide" href="{prefix}{u['q_path']}"><span class="footer-guide-label">{u['q_foot_label']}</span><span class="footer-guide-title"><span class="ul">{u['q_foot']}</span>&nbsp;<span class="arrow" aria-hidden="true">→</span></span></a>""" if guide else ""
     return f"""  <footer class="footer -bg-black -fg-off-white" data-nav="dark" data-nav-hide>
     <div class="footer-top footer-row">
       <div class="footer-brand">
         <a href="{home}" class="logo footer-logo">MARIANA MARCELINO</a>
         <a href="mailto:info@mariana-marcelino.com" class="footer-email">info@mariana-marcelino.com</a>
-      </div>
-      <a class="footer-guide" href="{prefix}{u['q_path']}"><span class="footer-guide-label">{u['q_foot_label']}</span><span class="footer-guide-title"><span class="ul">{u['q_foot']}</span>&nbsp;<span class="arrow" aria-hidden="true">→</span></span></a>
+      </div>{guide_link}
       <nav class="footer-links" aria-label="{u['foot_aria']}">
         {lang_switch(lang, alt, u['lang_label'])}
         <a href="{home}blog/" class="nav-link-plain">Blog</a>
@@ -612,7 +616,10 @@ def footer(prefix, lang="pt", alt=None):
     <div class="footer-bottom">
       <p>© 2026 Mariana Marcelino</p>
       <div class="footer-legal">
+        <button type="button" class="footer-legal-toggle js-legal-toggle" aria-expanded="false" aria-controls="footer-legal-links">{u['legal_label']} <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+        <div class="footer-legal-links" id="footer-legal-links"><div>
 {legal}
+        </div></div>
       </div>
     </div>
   </footer>"""
@@ -1189,7 +1196,7 @@ def build_quiz():
         page = f"""{head(m['title'], m['desc'], canonical, f"{SITE}/assets/og-image.png", prefix, "website", jsonld, lang, alternates)}
 <body>
 
-{header(prefix, None, lang, alt)}
+{header(prefix, None, lang, alt, strip=False)}
 
   <main class="blog-main quiz-main" id="main">
     <section class="blog-head quiz-section">
@@ -1209,7 +1216,7 @@ def build_quiz():
     </section>
   </main>
 
-{footer(prefix, lang, alt)}
+{footer(prefix, lang, alt, guide=False)}
 
   <script type="application/json" id="quiz-data">{_quiz.client_json(lang)}</script>
   <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
@@ -1219,6 +1226,8 @@ def build_quiz():
 </body>
 </html>
 """
+        tag = '<html lang="%s">' % u["html_lang"]
+        page = page.replace(tag, tag[:-1] + ' class="no-strip">', 1)
         d = os.path.join(ROOT, "diagnostico") if lang == "pt" else os.path.join(ROOT, "en", "diagnosis")
         os.makedirs(d, exist_ok=True)
         open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(page)
