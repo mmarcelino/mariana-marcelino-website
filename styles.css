@@ -1649,12 +1649,12 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
 /* Mobile: identity, then language, Blog and call on one line, then the guide on its own
    under a hairline; legal links above the copyright at the very bottom */
 @media (max-width: 859px) {
-  .footer-top { gap: 0; padding: 48px 0 40px; }
+  .footer-top { gap: 0; padding: 48px 0 28px; }
   .footer-links { flex-wrap: nowrap; width: 100%; gap: 24px; margin-top: 36px; }
   .footer-links .lang-switch { margin-right: auto; }
   .footer-links .nav-cta, .footer-links .nav-link-plain { font-size: 15px; }
   .footer-links .lang-switch { font-size: 13px; }
-  .footer-guide { order: 3; width: 100%; margin-top: 40px; padding-top: 28px; border-top: 1px solid rgba(238, 238, 234, .14); }
+  .footer-guide { order: 3; width: 100%; margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(238, 238, 234, .14); }
   /* Bottom room so the chat button doesn't cover the legal links */
   .footer-bottom { flex-direction: column-reverse; gap: 14px; padding: 24px 0 72px; }
   .footer-legal { width: 100%; }
@@ -1853,13 +1853,13 @@ html.strip-inline.strip-closed .promo-strip { transform: translateY(-100%); tran
 }
 .promo-close:hover { background: rgba(0, 0, 0, .08); }
 .promo-close svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.6; }
-/* Phones: question on top, link below, so the whole line can be read */
+/* Phones: one line (a taller strip ends up under Safari's address bar on
+   iOS 26), with the short link text so the whole question can be read */
 @media (max-width: 559px) {
-  :root { --strip-size: 52px; --strip-h: 52px; }
   .promo-strip { padding: 0 16px; }
   .promo-kicker { display: none; }
-  .promo-link { flex-direction: column; gap: 3px; font-size: 13px; text-align: center; }
-  .promo-text { white-space: normal; }
+  .promo-link { font-size: 12.5px; gap: 8px; }
+  .promo-more { display: none; }
 }
 @media (min-width: 1200px) { .promo-close { right: calc(var(--gap) * 2 - 8px); } }
 
