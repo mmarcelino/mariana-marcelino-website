@@ -34,6 +34,8 @@
       .then(function (res) { return res.json().catch(function () { return {}; }); })
       .then(function (d) { if (!d || d.success !== true) throw new Error((d && d.message) || "send failed"); return d; });
   };
+  // Shared with the diagnosis quiz (assets/quiz.js)
+  window.siteForms = { formData: formData, submit: function (f, p, w) { return submit(f, p, w); } };
   var EN = /^en/i.test(document.documentElement.lang);
   var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -150,7 +152,7 @@
     you: "You", bot: "Assistant"
   } : {
     open: "Abrir chat", close: "Fechar chat", title: "Vamos falar", status: "Assistente virtual · Online", label: "Assistente virtual da Mariana",
-    hello: "Olá, como posso ajudar? Posso responder às suas dúvidas sobre os serviços, planos e preços, ou sugerir qual o próximo passo que faz mais sentido para o seu negócio.",
+    hello: "Olá, como posso ajudar? Posso responder às suas dúvidas sobre os serviços, planos e preços, ou sugerir o próximo passo que faz mais sentido para o seu negócio.",
     placeholder: "Escreva a sua pergunta…", send: "Enviar",
     chips: ["Quanto custa um site?", "Como funciona o redesign gratuito?", "Quanto tempo demora?"],
     call: "Marcar chamada", mail: "Enviar conversa por email",
@@ -786,9 +788,7 @@
     if (typeof modal.showModal !== "function") return;
     var opener = null;
     var closeModal = function () { modal.close(); };
-    document.querySelectorAll('[data-open-modal="' + modal.id + '"]').forEach(function (trigger) {
-      trigger.addEventListener("click", function (e) {
-        e.preventDefault();
+    var openModal = function (trigger) {
         opener = trigger;
         modal.showModal();
         document.body.classList.add("has-modal");
@@ -796,8 +796,16 @@
         var first = modal.querySelector("input:not([hidden])");
         if (first && first.offsetParent && !window.matchMedia("(pointer: coarse)").matches) first.focus({ preventScroll: true });
         else modal.focus({ preventScroll: true });
-      });
+    };
+    document.querySelectorAll('[data-open-modal="' + modal.id + '"]').forEach(function (trigger) {
+      trigger.addEventListener("click", function (e) { e.preventDefault(); openModal(trigger); });
     });
+    // Links from other pages (e.g. the diagnosis result) can open the free
+    // redesign popup with #pedir-redesign
+    if (modal.id === "free-modal" && location.hash === "#pedir-redesign") {
+      history.replaceState(null, "", location.pathname + location.search);
+      setTimeout(function () { openModal(null); }, 400);
+    }
     modal.querySelectorAll(".js-close-modal").forEach(function (btn) { btn.addEventListener("click", closeModal); });
     modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
     modal.addEventListener("close", function () {

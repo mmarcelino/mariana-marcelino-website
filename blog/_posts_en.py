@@ -140,6 +140,7 @@ POSTS_EN = [
 
 <h2>Redesign or tweaks?</h2>
 <p>If you spotted one or two signs, targeted tweaks will probably be enough. If you spotted four or more, or if the website’s structure no longer reflects what your business does today, a redesign tends to be more effective, and cheaper, than one patch after another.</p>
+<p>Not sure how many signs your website has? <a href="../../diagnosis/">Take the free diagnosis</a>: in 2 minutes you’ll know where the website is losing out and the next step that makes most sense.</p>
 <p>If you’d like a concrete opinion, I can <a href="../../#free">redesign your homepage for free</a> so you can see the potential before you decide.</p>
 """,
 "faq": [
@@ -329,7 +330,7 @@ POSTS_EN = [
 <p>To give you a concrete reference, these are the three ways to work with me:</p>
 <ul>
   <li><strong>Homepage Redesign, free</strong>: I redesign your website’s homepage and send an audit with points for improvement, so you can see the potential before investing.</li>
-  <li><strong>Visual Redesign, €750</strong>: a new design keeping your current structure and content, optimised for mobile and published.</li>
+  <li><strong>New Look, €750</strong>: a new design keeping your current structure and content, optimised for mobile and published.</li>
   <li><strong>Enquiry Engine, from €1,800</strong>: a new custom design and structure, optimisation for Google and AI tools, bookings, WhatsApp, chatbot and a metrics dashboard.</li>
 </ul>
 <p>You can see the details of each option on the <a href="../../#solutions">solutions page</a>.</p>

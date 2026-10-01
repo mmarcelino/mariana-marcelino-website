@@ -158,6 +158,7 @@ POSTS = [
 
 <h2>Redesign ou ajustes?</h2>
 <p>Se identificou um ou dois sinais, provavelmente bastam ajustes pontuais. Se identificou quatro ou mais, ou se a estrutura do site já não reflete o que o seu negócio faz hoje, um redesign tende a ser mais eficaz e mais económico do que remendos sucessivos.</p>
+<p>Não tem a certeza de quantos sinais tem o seu site? <a href="../../diagnostico/">Faça o diagnóstico gratuito</a>: em 2 minutos fica a saber onde o site está a perder e qual o próximo passo que faz mais sentido.</p>
 <p>Se quiser uma opinião concreta, posso <a href="../../#free">redesenhar a homepage do seu site gratuitamente</a> para que veja o potencial antes de decidir.</p>
 """,
 "faq": [
@@ -353,7 +354,7 @@ POSTS = [
 <p>Para dar uma referência concreta, estas são as três formas de trabalhar comigo:</p>
 <ul>
   <li><strong>Redesign da Homepage, gratuito</strong>: redesenho a homepage do seu site e envio uma auditoria com pontos de melhoria, para ver o potencial antes de investir.</li>
-  <li><strong>Redesign Visual, 750€</strong>: novo design mantendo a estrutura e os conteúdos atuais, otimizado para mobile e publicado.</li>
+  <li><strong>Nova Imagem, 750€</strong>: novo design mantendo a estrutura e os conteúdos atuais, otimizado para mobile e publicado.</li>
   <li><strong>Motor de Contactos, a partir de 1 800€</strong>: novo design e estrutura à medida, otimização para Google e ferramentas de IA, marcações, WhatsApp, chatbot e painel de métricas.</li>
 </ul>
 <p>Pode ver o detalhe de cada opção na <a href="../../#solutions">página de soluções</a>.</p>
@@ -389,6 +390,7 @@ UI = {
     call="Marcar chamada", lang_label="Idioma",
     strip_region="Guia gratuito", strip_kicker="Gratuito", guide_title="8 sinais de que o seu site está a afastar clientes", foot_guide="Oito sinais de que o seu site está a afastar clientes",
     strip_go="Receber guia", close="Fechar",
+    q_path="diagnostico/", q_strip="O seu site está a afastar clientes?", q_strip_go="Faça o teste em 2 minutos", q_foot_label="Diagnóstico gratuito", q_foot="O seu site está a trabalhar por si? Faça o teste", q_404="Fazer o diagnóstico do meu site",
     g_kicker="Guia gratuito", g_sub="Um guia prático, com um teste rápido para cada sinal. Em poucos minutos percebe o que pode estar a custar-lhe contactos.",
     g_inc="O que vai encontrar", g_items=["Os oito sinais mais comuns, explicados sem jargão", "O que fazer e um teste rápido para cada um", "Uma grelha para decidir o próximo passo"],
     g_label="Pedido do guia gratuito", g_nosite="Ainda não tenho site", g_yes="Já tenho site", g_site_q="Tem site?", g_url="Insira o link para o seu site", g_email="Insira o seu email", g_btn="Receber o guia",
@@ -412,6 +414,7 @@ UI = {
     call="Book a call", lang_label="Language",
     strip_region="Free guide", strip_kicker="Free", guide_title="8 signs your website is driving clients away", foot_guide="Eight signs your website is driving clients away",
     strip_go="Get the guide", close="Close",
+    q_path="en/diagnosis/", q_strip="Is your website driving clients away?", q_strip_go="Take the 2-minute test", q_foot_label="Free diagnosis", q_foot="Is your website working for you? Take the test", q_404="Diagnose my website",
     g_kicker="Free guide", g_sub="A practical guide with a quick test for each sign. In a few minutes you’ll see what might be costing you enquiries.",
     g_inc="What’s inside", g_items=["The eight most common signs, explained without jargon", "What to do, and a quick test for each one", "A simple way to decide your next step"],
     g_label="Free guide request", g_nosite="I don't have one yet", g_yes="I have a website", g_site_q="Do you have a website?", g_url="Enter your website link", g_email="Enter your email", g_btn="Get the guide",
@@ -489,8 +492,8 @@ def header(prefix, current="blog", lang="pt", alt=None):
         alt = prefix if lang == "en" else prefix + "en/"
     return f"""  <a class="skip-link" href="#main">{u['skip']}</a>
   <!-- Lead magnet strip -->
-  <div class="promo-strip" role="region" aria-label="{u['strip_region']}">
-    <button type="button" class="promo-link" data-open-modal="guide-modal"><span class="promo-text">{u['foot_guide']}</span><span class="promo-go"><span class="ul">{u['strip_go']}</span> <span class="arrow">→</span></span></button>
+  <div class="promo-strip" role="region" aria-label="{u['q_foot_label']}">
+    <a class="promo-link" href="{prefix}{u['q_path']}"><span class="promo-text">{u['q_strip']}</span><span class="promo-go"><span class="ul">{u['q_strip_go']}</span> <span class="arrow">→</span></span></a>
   </div>
 
   <header class="header">
@@ -599,7 +602,7 @@ def footer(prefix, lang="pt", alt=None):
         <a href="{home}" class="logo footer-logo">MARIANA MARCELINO</a>
         <a href="mailto:info@mariana-marcelino.com" class="footer-email">info@mariana-marcelino.com</a>
       </div>
-      <button type="button" class="footer-guide" data-open-modal="guide-modal"><span class="footer-guide-label">{'Guia' if lang == 'pt' else 'Guide'}</span><span class="footer-guide-title"><span class="ul">{u['foot_guide']}</span>&nbsp;<span class="arrow" aria-hidden="true">→</span></span></button>
+      <a class="footer-guide" href="{prefix}{u['q_path']}"><span class="footer-guide-label">{u['q_foot_label']}</span><span class="footer-guide-title"><span class="ul">{u['q_foot']}</span>&nbsp;<span class="arrow" aria-hidden="true">→</span></span></a>
       <nav class="footer-links" aria-label="{u['foot_aria']}">
         {lang_switch(lang, alt, u['lang_label'])}
         <a href="{home}blog/" class="nav-link-plain">Blog</a>
@@ -808,7 +811,7 @@ def build_index(lang="pt"):
 
 {footer(prefix, lang, alt)}
 
-{guide_modal(prefix, lang)}  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
+  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
   <script src="{prefix}main.js?v={VERSION}"></script>
 </body>
 </html>
@@ -956,7 +959,7 @@ def build_post(i, post, lang="pt"):
 
 {footer(prefix, lang, alt)}
 
-{guide_modal(prefix, lang)}  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
+  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
   <script src="{prefix}main.js?v={VERSION}"></script>
 </body>
 </html>
@@ -986,7 +989,7 @@ LEGAL = [
 <h2>Que dados recolho</h2>
 <ul>
   <li><strong>Pedido de redesign gratuito:</strong> o endereço de email e o link do seu site, que indica nos formulários da homepage.</li>
-  <li><strong>Pedido do guia gratuito:</strong> o endereço de email e o link do seu site, que indica para descarregar o guia “8 sinais de que o seu site está a afastar clientes”.</li>
+  <li><strong>Diagnóstico do site:</strong> as respostas que dá ao diagnóstico gratuito e, se pedir o relatório completo, o seu endereço de email.</li>
   <li><strong>Formulário de contacto e email:</strong> o seu nome (opcional), o endereço de email e a informação que decidir partilhar na mensagem.</li>
   <li><strong>Chat:</strong> se usar o assistente de chat do site, as mensagens que escreve. A conversa fica guardada apenas no seu browser enquanto o separador estiver aberto. Se escolher “Enviar conversa por email”, recebo a conversa e o email que indicar.</li>
   <li><strong>Marcação de chamadas:</strong> quando clica em “Marcar chamada”, o calendário do Calendly abre numa janela dentro deste site, onde indica o seu nome, email e outras informações que o formulário de marcação pedir.</li>
@@ -996,7 +999,7 @@ LEGAL = [
 
 <h2>Para que uso os seus dados</h2>
 <ul>
-  <li>Responder ao seu pedido, preparar o redesign gratuito e a proposta que solicitou e disponibilizar o guia gratuito. Fundamento: diligências pré-contratuais a seu pedido (artigo 6.º, n.º 1, alínea b) do RGPD).</li>
+  <li>Responder ao seu pedido, preparar o redesign gratuito e a proposta que solicitou e enviar o relatório do diagnóstico. Fundamento: diligências pré-contratuais a seu pedido (artigo 6.º, n.º 1, alínea b) do RGPD).</li>
   <li>Prestar os serviços contratados e cumprir obrigações legais, como a faturação. Fundamento: execução de contrato e cumprimento de obrigação legal.</li>
   <li>Garantir o funcionamento e a segurança do site e medir as visitas de forma anónima, para o melhorar. Fundamento: interesse legítimo.</li>
 </ul>
@@ -1005,7 +1008,7 @@ LEGAL = [
 <h2>Com quem partilho os seus dados</h2>
 <p>Para que o site funcione, recorro a prestadores de serviços que tratam dados em meu nome ou que são contactados pelo seu browser:</p>
 <ul>
-  <li><strong>Resend</strong> (resend.com): envia os emails gerados pelos formulários do site (redesign gratuito, guia gratuito e contacto: nome, email, link do site, mensagem e idioma da página), ou seja, a notificação que recebo e a confirmação que lhe é enviada. Os dados não são usados para outros fins.</li>
+  <li><strong>Resend</strong> (resend.com): envia os emails gerados pelos formulários do site (redesign gratuito, diagnóstico e contacto: nome, email, link do site, mensagem e idioma da página), ou seja, a notificação que recebo e a confirmação que lhe é enviada. Os dados não são usados para outros fins.</li>
   <li><strong>Web3Forms</strong> (web3forms.com): serviço alternativo que entrega os formulários por email caso o anterior não esteja disponível. Os dados não são usados para outros fins.</li>
   <li><strong>Vercel Web Analytics</strong> (vercel.com): mede de forma agregada e anónima as visitas ao site (páginas vistas, origem da visita, país, tipo de dispositivo e browser). Não usa cookies, não guarda o endereço IP e não permite identificar nem seguir visitantes entre sites.</li>
   <li><strong>Anthropic</strong> (anthropic.com): gera as respostas do assistente de chat do site, através do modelo de IA Claude. Recebe apenas as mensagens da conversa, para responder, e não as usa para treinar os seus modelos. O chat não pede nem guarda dados pessoais, a menos que decida enviar a conversa por email.</li>
@@ -1147,7 +1150,7 @@ def build_legal():
 
 {footer(prefix, lang, alt)}
 
-{guide_modal(prefix, lang)}  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
+  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
   <script src="{prefix}main.js?v={VERSION}"></script>
 </body>
 </html>
@@ -1158,6 +1161,71 @@ def build_legal():
 
 
 # --------------------------------------------------------------------------
+# Diagnosis quiz (/diagnostico/ and /en/diagnosis/): content in blog/_quiz.py
+# --------------------------------------------------------------------------
+QUIZ_META = {
+    "pt": dict(title="Diagnóstico gratuito: o seu site está a trabalhar por si? | Mariana Marcelino",
+               desc="Responda a 9 perguntas e descubra em 2 minutos o que está a funcionar no seu site, o que pode estar a afastar clientes e qual o próximo passo certo."),
+    "en": dict(title="Free diagnosis: is your website working for you? | Mariana Marcelino",
+               desc="Answer 9 questions and find out in 2 minutes what's working on your website, what might be driving clients away and the right next step."),
+}
+
+
+def build_quiz():
+    import _quiz
+    pt_url, en_url = f"{SITE}/diagnostico/", f"{SITE}/en/diagnosis/"
+    alternates = [("pt-PT", pt_url), ("en", en_url), ("x-default", pt_url)]
+    for lang in ("pt", "en"):
+        u = UI[lang]
+        Q = _quiz.QUIZ[lang]["ui"]
+        prefix = "../" if lang == "pt" else "../../"
+        alt = "../en/diagnosis/" if lang == "pt" else "../../diagnostico/"
+        canonical = pt_url if lang == "pt" else en_url
+        m = QUIZ_META[lang]
+        jsonld = [{
+            "@context": "https://schema.org", "@type": "WebPage", "name": Q["title"], "description": m["desc"],
+            "url": canonical, "inLanguage": u["html_lang"], "publisher": PUBLISHER,
+        }]
+        page = f"""{head(m['title'], m['desc'], canonical, f"{SITE}/assets/og-image.png", prefix, "website", jsonld, lang, alternates)}
+<body>
+
+{header(prefix, None, lang, alt)}
+
+  <main class="blog-main quiz-main" id="main">
+    <section class="blog-head quiz-section">
+      <div class="narrow-container">
+        <div class="quiz-stage js-quiz" aria-live="polite">
+          <div class="quiz-screen quiz-intro is-active">
+            <p class="kicker quiz-kicker">{esc(Q['kicker'])}</p>
+            <h1 class="blog-title quiz-title">{esc(Q['title'])}</h1>
+            <p class="blog-intro quiz-intro-text">{esc(Q['intro'])}</p>
+            <div class="quiz-start-row">
+              <button type="button" class="button quiz-start js-quiz-start">{esc(Q['start'])}</button>
+              <p class="quiz-note">{esc(Q['note'])}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+{footer(prefix, lang, alt)}
+
+  <script type="application/json" id="quiz-data">{_quiz.client_json(lang)}</script>
+  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
+  <script src="{prefix}main.js?v={VERSION}"></script>
+  <script src="{prefix}assets/quiz-logic.js?v={VERSION}"></script>
+  <script src="{prefix}assets/quiz.js?v={VERSION}"></script>
+</body>
+</html>
+"""
+        d = os.path.join(ROOT, "diagnostico") if lang == "pt" else os.path.join(ROOT, "en", "diagnosis")
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(page)
+    _quiz.run()
+
+
+# --------------------------------------------------------------------------
 # 404 (served for any missing URL, so every path is root-absolute)
 # --------------------------------------------------------------------------
 def build_404():
@@ -1165,7 +1233,7 @@ def build_404():
     links = [
         ("/", "Voltar à página inicial", ""),
         ("/blog/", "Ler o blog", ""),
-        ("#", "Descobrir os outros 7 sinais", ' data-open-modal="guide-modal"'),
+        ("/diagnostico/", "Fazer o diagnóstico do meu site", ""),
         (CALENDLY, "Marcar uma chamada", ' target="_blank" rel="noopener"'),
     ]
     rows = "\n".join(
@@ -1190,7 +1258,7 @@ def build_404():
     </section>
   </main>
 
-{guide_modal(prefix)}  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
+  <script src="{prefix}assets/vendor/lenis.min.js?v=1.3.26"></script>
   <script src="{prefix}main.js?v={VERSION}"></script>
 </body>
 </html>
@@ -1209,6 +1277,7 @@ def build_seo_files():
     from _legal_en import LEGAL_EN
     urls += [(f"{SITE}/{l['slug']}/", LEGAL_UPDATED) for l in LEGAL]
     urls += [(f"{SITE}/en/{l['slug']}/", LEGAL_UPDATED) for l in LEGAL_EN]
+    urls += [(f"{SITE}/diagnostico/", latest), (f"{SITE}/en/diagnosis/", latest)]
     sm = ['<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     sm += [f"  <url><loc>{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls]
@@ -1232,7 +1301,7 @@ def build_seo_files():
 ## Planos
 
 - Redesign da Homepage (gratuito): redesign da homepage, auditoria com pontos de otimização e proposta personalizada por email.
-- Redesign Visual (750€, para sites até 4 páginas): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
+- Nova Imagem (750€, para sites até 4 páginas): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
 - Motor de Contactos (a partir de 1 800€, o mais popular): novo design e estrutura à medida, integração dos conteúdos do cliente, otimização para Google, ChatGPT e outras ferramentas de IA, percurso do utilizador e chamadas à ação pensados para gerar contactos, formulários e captação de contactos, gestão automática de contactos e automação de follow-ups, agendamento e marcações automatizados, WhatsApp e chatbot, painel de métricas, otimização para mobile e publicação.
 
 Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, prazo e valor fechado.
@@ -1248,14 +1317,14 @@ Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, pra
 
 ## Como funciona
 
-- Prazos: o redesign gratuito da homepage fica pronto em 2 dias; o Redesign Visual demora cerca de 1 semana; no Motor de Contactos o prazo depende da complexidade e fica definido na proposta.
+- Prazos: o redesign gratuito da homepage fica pronto em 2 dias; o Nova Imagem demora cerca de 1 semana; no Motor de Contactos o prazo depende da complexidade e fica definido na proposta.
 - Processo: conversa inicial de 30 minutos, proposta escrita, design aprovado pelo cliente (com duas rondas de revisões), construção, testes e publicação, entrega dos acessos com uma pequena formação.
 - Depois da publicação: o site é do cliente, que o pode gerir de forma autónoma; a manutenção é opcional e definida caso a caso.
 - Onde trabalha: remotamente, com negócios de todo o país e do estrangeiro, por videochamada, email e mensagens.
 
 ## Recursos gratuitos
 
-- Guia "Oito sinais de que o seu site está a afastar clientes" (PT e EN): disponível na página inicial, a troco do email e do link do site.
+- [Diagnóstico gratuito do site]({SITE}/diagnostico/): 9 perguntas, resultado imediato com pontuação, pontos fracos e o plano recomendado. Relatório completo por email, com o guia "Oito sinais de que o seu site está a afastar clientes". [In English]({SITE}/en/diagnosis/)
 
 ## Páginas principais
 
@@ -1287,6 +1356,7 @@ if __name__ == "__main__":
         for i, p in enumerate(posts_for(lang)):
             build_post(i, p, lang)
     build_legal()
+    build_quiz()
     build_404()
     build_seo_files()
     import _schema_home

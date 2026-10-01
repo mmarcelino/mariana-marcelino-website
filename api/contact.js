@@ -15,6 +15,9 @@ const LILAC = "#d6cbec";
 const INK = "#171715";
 const PAPER = "#eeeeea";
 
+const QUIZ = require("./quiz-data.js");
+const evaluateQuiz = require("../assets/quiz-logic.js");
+
 const esc = (s) => String(s == null ? "" : s)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const clip = (s, n) => String(s == null ? "" : s).trim().slice(0, n);
@@ -126,10 +129,35 @@ const COPY = {
   }
 };
 
+// ---------- Diagnosis report (built from the answers, never from free text) ----------
+function quizCopy(lang, q) {
+  const D = QUIZ[lang], R = q.result, T = D.report, P = D.plans[R.plan];
+  const blocks = [{ p: R.noSite ? T.introNoSite : !R.weakAll.length ? T.introGood : T.intro }];
+  if (R.noSite) {
+    blocks.push({ label: D.ui.noSiteTitle }, { p: D.ui.noSiteText });
+  } else {
+    blocks.push({ score: T.scoreLine.replace("{score}", R.score).replace("{band}", R.band.title) }, { p: R.band.text });
+    if (R.weakAll.length) {
+      blocks.push({ label: T.weakTitle });
+      R.weakAll.forEach((id) => blocks.push({ item: D.weak[id].title, text: D.weak[id].line, todo: T.doLabel + D.weak[id].todo }));
+    }
+  }
+  blocks.push({ label: T.planTitle }, { item: P.name, text: (R.noSite && P.lineNoSite ? P.lineNoSite : P.line) + (P.note ? " " + P.note : "") + (R.alsoEngine && P.also ? " " + P.also : "") });
+  const abs = (h) => (h.startsWith("/") ? SITE + h : h);
+  blocks.push({ cta: P.cta.t, href: abs(P.cta.href) }, { p: T.free });
+  blocks.push({ p: T.guide, link: T.guideLink, href: T.guideHref });
+  return {
+    subject: R.noSite ? T.subjectNoSite : T.subject.replace("{score}", R.score).replace("{band}", R.band.title),
+    hello: () => (lang === "en" ? "Hi," : "Olá,"),
+    blocks,
+    recap: null
+  };
+}
+
 // ---------- Visitor email (on brand) ----------
 function visitorEmail(type, lang, data) {
   const L = COPY[lang];
-  const c = L[type];
+  const c = type === "quiz" ? quizCopy(lang, data.quiz) : L[type];
   const first = (data.Nome || "").split(/\s+/)[0];
   const home = `${SITE}${lang === "en" ? "/en/" : "/"}`;
   const P = (t) => `<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:${INK}">${esc(t)}</p>`;
@@ -137,6 +165,9 @@ function visitorEmail(type, lang, data) {
     if (b.p && b.link) return `<p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:${INK}">${esc(b.p)}<a href="${b.href}" style="color:${INK};font-weight:600;text-decoration:underline;text-underline-offset:3px">${esc(b.link)}</a></p>`;
     if (b.p) return P(b.p);
     if (b.link) return `<p style="margin:0 0 20px;font-size:16px;line-height:1.6"><a href="${b.href}" style="color:${INK};font-weight:600;text-decoration:underline;text-underline-offset:3px">${esc(b.link)}</a></p>`;
+    if (b.label) return `<p style="margin:12px 0 10px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6b6b69">${esc(b.label)}</p>`;
+    if (b.score) return `<p style="margin:0 0 8px;font-size:22px;line-height:1.3;letter-spacing:-.01em;color:${INK}">${esc(b.score)}</p>`;
+    if (b.item) return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 14px;border-top:1px solid #e3e3df"><tr><td style="padding-top:12px"><p style="margin:0;font-size:16px;font-weight:600;color:${INK}">${esc(b.item)}</p><p style="margin:4px 0 0;font-size:15px;line-height:1.55;color:${INK}">${esc(b.text)}</p>${b.todo ? `<p style="margin:6px 0 0;font-size:15px;line-height:1.55;color:#55554f">${esc(b.todo)}</p>` : ""}</td></tr></table>`;
     if (b.ul) return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px">${b.ul.map((li) => `<tr><td style="padding:4px 0;font-size:16px;line-height:1.55;color:${INK}">${esc(li)}</td></tr>`).join("")}</table>`;
     if (b.cta) {
       const bg = b.secondary ? "#ffffff" : INK, fg = b.secondary ? INK : "#ffffff";
@@ -174,7 +205,7 @@ ${recap}
 </table>
 <p style="max-width:560px;margin:16px auto 0;font-size:12px;line-height:1.5;color:#8a8a86">${esc(L.footer)}</p>
 </td></tr></table></body></html>`;
-  const textBlocks = c.blocks.map((b) => b.p && b.link ? `${b.p}${b.link} (${b.href})` : b.p ? b.p : b.ul ? b.ul.join("\n") : `${b.cta || b.link}: ${b.href}`);
+  const textBlocks = c.blocks.map((b) => b.label ? b.label.toUpperCase() : b.score ? b.score : b.item ? [b.item, b.text, b.todo].filter(Boolean).join("\n") : b.p && b.link ? `${b.p}${b.link} (${b.href})` : b.p ? b.p : b.ul ? b.ul.join("\n") : `${b.cta || b.link}: ${b.href}`);
   const text = [c.hello(first), "", ...textBlocks.flatMap((t) => [t, ""]), c.sign || L.sign, "", L.name, L.role, home,
     ...(recapRows ? ["", "———", c.recap + ":", ...Object.keys(L.fields).filter((k) => data[k] && k !== "Email").map((k) => `${L.fields[k]}: ${data[k]}`)] : [])].join("\n");
   return { subject: c.subject, html, text };
@@ -182,7 +213,7 @@ ${recap}
 
 // ---------- Notification to Mariana ----------
 function notification(type, lang, data) {
-  const label = { contact: "Formulário: nova mensagem", redesign: "Redesign: novo pedido", guide: "Guia: novo download", chat: "Chat: novo contacto" }[type];
+  const label = { contact: "Formulário: nova mensagem", redesign: "Redesign: novo pedido", guide: "Guia: novo download", chat: "Chat: novo contacto", quiz: "Diagnóstico: novo resultado" }[type];
   const subject = label;
   const rows = [["Tipo", label], ["Idioma", lang.toUpperCase()], ["Nome", data.Nome], ["Email", data.Email], ["Site", data.URL], ["Mensagem", data.Mensagem]]
     .filter(([, v]) => v)
@@ -217,7 +248,7 @@ module.exports = async function handler(req, res) {
   // Honeypot: real visitors never fill this hidden field
   if (body.company) return res.status(200).json({ success: true });
 
-  const type = ["contact", "redesign", "guide", "chat"].includes(body.type) ? body.type : "contact";
+  const type = ["contact", "redesign", "guide", "chat", "quiz"].includes(body.type) ? body.type : "contact";
   const lang = body.lang === "en" ? "en" : "pt";
   const data = {
     Nome: clip(body.name, 120),
@@ -226,6 +257,22 @@ module.exports = async function handler(req, res) {
     Mensagem: clip(body.message, type === "chat" ? 12000 : 5000)
   };
   if (!isEmail(data.Email)) return res.status(400).json({ success: false, message: "Invalid email" });
+  // Diagnosis: score and plan are recomputed here from the answers
+  if (type === "quiz") {
+    const D = QUIZ[lang];
+    const raw = Array.isArray(body.answers) ? body.answers.slice(0, D.questions.length) : [];
+    const answers = D.questions.map((q, i) => (Number.isInteger(raw[i]) && raw[i] >= 0 && raw[i] < q.options.length ? raw[i] : null));
+    if (answers[0] == null || answers[D.questions.length - 1] == null) return res.status(400).json({ success: false, message: "Incomplete" });
+    const result = evaluateQuiz(D, answers);
+    data.quiz = { result, answers };
+    const pt = QUIZ.pt;
+    data.Mensagem = [
+      result.noSite ? "Sem site (começar do zero)" : `Saúde do site: ${result.score}/100 · ${pt.bands.find((b) => result.score >= b.min).title}`,
+      `Plano recomendado: ${pt.plans[result.plan].name}`,
+      "",
+      ...pt.questions.map((q, i) => (answers[i] == null ? null : `${q.q}\n— ${q.options[answers[i]].t}`)).filter(Boolean)
+    ].join("\n");
+  }
   if ((type === "contact" || type === "chat") && !data.Mensagem) return res.status(400).json({ success: false, message: "Missing message" });
   // The guide can be requested by someone who doesn't have a website yet
   if (type === "guide" && body.noSite === true) data.URL = "Ainda não tem site";
