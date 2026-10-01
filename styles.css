@@ -30,7 +30,7 @@
   --nav-extra: 0px;
 }
 @media (min-width: 860px) { :root { --strip-size: 40px; --strip-h: 40px; } }
-html.strip-closed { --strip-h: 0px; }
+html.strip-closed, html.no-strip { --strip-h: 0px; }
 /* Registered so the strip, the nav and the page slide together when it opens/closes */
 @property --strip-h { syntax: "<length>"; inherits: true; initial-value: 0px; }
 @property --nav-extra { syntax: "<length>"; inherits: true; initial-value: 0px; }
@@ -870,8 +870,11 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
   font-family: var(--font-sans);
   font-size: clamp(15px, 1.1vw, 17px);
   font-weight: 600;
+  text-align: left;
   cursor: pointer;
 }
+/* Narrow phones: keep "send a message" on one line */
+@media (max-width: 359px) { .cta-write-toggle { font-size: 14px; } }
 .cta-write-arrow { display: inline-block; transition: transform .3s var(--ease); }
 .cta-write-toggle[aria-expanded="true"] .cta-write-arrow { transform: rotate(90deg); }
 .cta-form { margin-top: 32px; animation: cta-form-in .4s var(--ease); }
@@ -1639,23 +1642,41 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
   color: rgba(238, 238, 234, .5);
 }
 .footer-bottom a { color: inherit; }
-.footer-legal { display: flex; flex-wrap: wrap; gap: 8px 24px; }
-/* Mobile: identity, then the two actions stacked, then the guide on its own
+.footer-legal-links > div { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+/* Legal links: inline on desktop, a dropdown with a turning chevron on phones */
+.footer-legal-toggle { display: none; }
+.footer-legal-toggle svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .35s var(--ease); }
+/* Mobile: identity, then language, Blog and call on one line, then the guide on its own
    under a hairline; legal links above the copyright at the very bottom */
 @media (max-width: 859px) {
   .footer-top { gap: 0; padding: 48px 0 40px; }
-  .footer-links { flex-direction: column; align-items: flex-start; gap: 16px; margin-top: 36px; }
-  .footer-links .nav-cta { order: 1; font-size: 16px; }
-  .footer-links .nav-link-plain { order: 2; font-size: 16px; }
-  .footer-links .lang-switch { order: 3; margin-top: 8px; font-size: 13px; }
+  .footer-links { flex-wrap: nowrap; width: 100%; gap: 24px; margin-top: 36px; }
+  .footer-links .lang-switch { margin-right: auto; }
+  .footer-links .nav-cta, .footer-links .nav-link-plain { font-size: 15px; }
+  .footer-links .lang-switch { font-size: 13px; }
   .footer-guide { order: 3; width: 100%; margin-top: 40px; padding-top: 28px; border-top: 1px solid rgba(238, 238, 234, .14); }
-  .footer-bottom { flex-direction: column-reverse; gap: 14px; padding: 24px 0 32px; }
+  /* Bottom room so the chat button doesn't cover the legal links */
+  .footer-bottom { flex-direction: column-reverse; gap: 14px; padding: 24px 0 72px; }
+  .footer-legal { width: 100%; }
+  .footer-legal-toggle { display: inline-flex; align-items: center; gap: 8px; padding: 6px 0; border: 0; background: none; color: inherit; font-family: var(--font-sans); font-size: 13px; cursor: pointer; }
+  .footer-legal-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .footer-legal-links { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s var(--ease); }
+  /* nowrap: while the height animates, a wrapping column would spill the links to the right */
+  .footer-legal-links > div { min-height: 0; overflow: hidden; flex-direction: column; flex-wrap: nowrap; gap: 12px; opacity: 0; transform: translateY(-4px); transition: opacity .3s ease, transform .45s var(--ease), visibility 0s .45s; }
+  .footer-legal-links > div > a { font-size: 13px; }
+  .footer-legal-links > div > a:first-child { margin-top: 10px; }
+  .footer-legal-links > div > a:last-child { margin-bottom: 4px; }
+  .footer-legal.is-open .footer-legal-links { grid-template-rows: 1fr; }
+  .footer-legal.is-open .footer-legal-links > div { opacity: 1; transform: none; transition: opacity .35s ease .08s, transform .45s var(--ease), visibility 0s; }
+  /* Closed links can't be reached by keyboard */
+  .footer-legal:not(.is-open) .footer-legal-links > div { visibility: hidden; }
 }
 @media (min-width: 860px) {
   .footer-top { flex-direction: row; justify-content: space-between; align-items: flex-start; padding: 80px 0; }
   .footer-logo { font-size: 20px; line-height: 1; }
   .footer-links { min-height: 20px; }
-  .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; }
+  /* Right room so the chat button doesn't cover the last legal link */
+  .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; padding-right: 76px; }
 }
 
 /* ---------- Image fade (Mono Space fade-on-load) ---------- */
@@ -1832,10 +1853,13 @@ html.strip-inline.strip-closed .promo-strip { transform: translateY(-100%); tran
 }
 .promo-close:hover { background: rgba(0, 0, 0, .08); }
 .promo-close svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+/* Phones: question on top, link below, so the whole line can be read */
 @media (max-width: 559px) {
-  .promo-strip { padding: 0 40px 0 16px; justify-content: flex-start; }
+  :root { --strip-size: 52px; --strip-h: 52px; }
+  .promo-strip { padding: 0 16px; }
   .promo-kicker { display: none; }
-  .promo-link { font-size: 12.5px; gap: 8px; }
+  .promo-link { flex-direction: column; gap: 3px; font-size: 13px; text-align: center; }
+  .promo-text { white-space: normal; }
 }
 @media (min-width: 1200px) { .promo-close { right: calc(var(--gap) * 2 - 8px); } }
 
