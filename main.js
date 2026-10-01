@@ -39,10 +39,11 @@
   var EN = /^en/i.test(document.documentElement.lang);
   var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Smooth scrolling (Lenis, self-hosted). Wheel/trackpad only: touch keeps the
-  // native feel. Popups and the mobile menu scroll natively and pause it.
+  // Smooth scrolling (Lenis, self-hosted). Mouse/trackpad devices only: touch
+  // keeps native scrolling. Popups and the mobile menu scroll natively and
+  // pause it.
   var lenis = null;
-  if (window.Lenis && !REDUCED) {
+  if (window.Lenis && !REDUCED && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
     lenis = new Lenis({
       lerp: 0.07,
       wheelMultiplier: 0.9,
