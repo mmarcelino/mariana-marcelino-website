@@ -40,7 +40,8 @@
   var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Smooth scrolling (Lenis, self-hosted). Mouse/trackpad devices only: touch
-  // keeps native scrolling. Popups and the mobile menu scroll natively and
+  // keeps native scrolling (on iOS 26 Safari, Lenis made the fixed strip slide
+  // under the address bar). Popups and the mobile menu scroll natively and
   // pause it.
   var lenis = null;
   if (window.Lenis && !REDUCED && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
