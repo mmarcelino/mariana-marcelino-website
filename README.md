@@ -63,3 +63,15 @@ Limits: 20 messages per visitor per hour, last 16 messages sent, 800
 characters per message, short replies. "Email this conversation" goes through
 `api/contact.js` (type `chat`), arriving as "Chat: novo contacto".
 Without the key the chat shows a polite fallback (book a call / email).
+
+## Diagnosis quiz (lead magnet)
+
+Pages `/diagnostico/` and `/en/diagnosis/`, built by `blog/_build.py`.
+- Questions, results copy, plans and report text: `blog/_quiz.py` (edit here,
+  then run `python3 blog/_build.py`). It also writes `api/quiz-data.js`.
+- Scoring and plan logic: `assets/quiz-logic.js` (shared by the page and the
+  report email). Interface: `assets/quiz.js`.
+- "Receive the full report by email" goes to `api/contact.js` (type `quiz`):
+  the visitor gets a personalised report with the eight-signs guide linked,
+  Mariana gets "Diagnóstico: novo resultado" with every answer.
+- `/#pedir-redesign` on either homepage opens the free redesign popup.

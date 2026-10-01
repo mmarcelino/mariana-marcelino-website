@@ -58,11 +58,11 @@ def knowledge(lang):
     title("Contactos e próximos passos" if lang == "pt" else "Contact and next steps")
     if lang == "pt":
         L.append("Marcar chamada gratuita de 30 minutos (botão “Marcar chamada” no site). Pedir o redesign gratuito da homepage (plano gratuito, na secção Planos). "
-                 "Guia gratuito “Oito sinais de que o seu site está a afastar clientes” (faixa no topo do site). Email: info@mariana-marcelino.com. "
+                 "Diagnóstico gratuito do site, com 9 perguntas e resultado imediato com o plano recomendado: https://www.mariana-marcelino.com/diagnostico/ (útil para quem não sabe que plano escolher). Email: info@mariana-marcelino.com. "
                  "Trabalho remoto, com negócios de todo o país e do estrangeiro, em português ou inglês.")
     else:
         L.append("Book a free 30-minute call (“Book a call” button on the website). Request the free homepage redesign (free plan, in the Plans section). "
-                 "Free guide “Eight signs your website is driving clients away” (strip at the top of the website). Email: info@mariana-marcelino.com. "
+                 "Free website diagnosis, 9 questions with an instant result and the recommended plan: https://www.mariana-marcelino.com/en/diagnosis/ (useful for anyone unsure which plan to choose). Email: info@mariana-marcelino.com. "
                  "Works remotely with businesses across Portugal and abroad, in Portuguese or English.")
 
     blog_index = open(os.path.join(ROOT, "blog/index.html" if lang == "pt" else "en/blog/index.html"), encoding="utf-8").read()

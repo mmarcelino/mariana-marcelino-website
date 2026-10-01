@@ -9,7 +9,7 @@
 ## Planos
 
 - Redesign da Homepage (gratuito): redesign da homepage, auditoria com pontos de otimização e proposta personalizada por email.
-- Redesign Visual (750€, para sites até 4 páginas): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
+- Nova Imagem (750€, para sites até 4 páginas): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
 - Motor de Contactos (a partir de 1 800€, o mais popular): novo design e estrutura à medida, integração dos conteúdos do cliente, otimização para Google, ChatGPT e outras ferramentas de IA, percurso do utilizador e chamadas à ação pensados para gerar contactos, formulários e captação de contactos, gestão automática de contactos e automação de follow-ups, agendamento e marcações automatizados, WhatsApp e chatbot, painel de métricas, otimização para mobile e publicação.
 
 Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, prazo e valor fechado.
@@ -25,14 +25,14 @@ Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, pra
 
 ## Como funciona
 
-- Prazos: o redesign gratuito da homepage fica pronto em 2 dias; o Redesign Visual demora cerca de 1 semana; no Motor de Contactos o prazo depende da complexidade e fica definido na proposta.
+- Prazos: o redesign gratuito da homepage fica pronto em 2 dias; o Nova Imagem demora cerca de 1 semana; no Motor de Contactos o prazo depende da complexidade e fica definido na proposta.
 - Processo: conversa inicial de 30 minutos, proposta escrita, design aprovado pelo cliente (com duas rondas de revisões), construção, testes e publicação, entrega dos acessos com uma pequena formação.
 - Depois da publicação: o site é do cliente, que o pode gerir de forma autónoma; a manutenção é opcional e definida caso a caso.
 - Onde trabalha: remotamente, com negócios de todo o país e do estrangeiro, por videochamada, email e mensagens.
 
 ## Recursos gratuitos
 
-- Guia "Oito sinais de que o seu site está a afastar clientes" (PT e EN): disponível na página inicial, a troco do email e do link do site.
+- [Diagnóstico gratuito do site](https://www.mariana-marcelino.com/diagnostico/): 9 perguntas, resultado imediato com pontuação, pontos fracos e o plano recomendado. Relatório completo por email, com o guia "Oito sinais de que o seu site está a afastar clientes". [In English](https://www.mariana-marcelino.com/en/diagnosis/)
 
 ## Páginas principais
 
