@@ -135,7 +135,7 @@
   (function () {
   var CHAT_T = EN ? {
     open: "Open chat", close: "Close chat", title: "Let's talk", status: "Virtual assistant · Online", label: "Mariana's virtual assistant",
-    hello: "Hi! I'm Mariana's assistant. How can I help? I can answer your questions, explain the services or help you work out what might make sense for your business.",
+    hello: "Hi, how can I help? I can answer your questions about the services, plans and prices, or suggest the next step that makes most sense for your business.",
     placeholder: "Write your question…", send: "Send",
     chips: ["How much does a website cost?", "How does the free redesign work?", "How long does it take?"],
     call: "Book a call", mail: "Email this conversation",
@@ -149,8 +149,8 @@
     fail: "Sorry, I can't answer right now. You can book a call or write to info@mariana-marcelino.com.",
     you: "You", bot: "Assistant"
   } : {
-    open: "Abrir chat", close: "Fechar chat", title: "Fale connosco", status: "Assistente virtual · Online", label: "Assistente virtual da Mariana",
-    hello: "Olá! Sou a assistente da Mariana. Como posso ajudar? Posso responder às suas dúvidas, explicar os serviços ou ajudar a perceber o que pode fazer sentido para o seu negócio.",
+    open: "Abrir chat", close: "Fechar chat", title: "Vamos falar", status: "Assistente virtual · Online", label: "Assistente virtual da Mariana",
+    hello: "Olá, como posso ajudar? Posso responder às suas dúvidas sobre os serviços, planos e preços, ou sugerir qual o próximo passo que faz mais sentido para o seu negócio.",
     placeholder: "Escreva a sua pergunta…", send: "Enviar",
     chips: ["Quanto custa um site?", "Como funciona o redesign gratuito?", "Quanto tempo demora?"],
     call: "Marcar chamada", mail: "Enviar conversa por email",
