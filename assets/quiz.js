@@ -13,8 +13,9 @@
   var LAST = QS.length - 1;
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var answers = [];
-  var path = []; // indices of the questions shown, for "Back"
+  var path = []; // steps shown (question indices, or "url"), for "Back"
   var current = -1;
+  var site = ""; // optional website address, asked after "I have a website"
 
   var el = function (tag, cls, text) {
     var e = document.createElement(tag);
@@ -80,10 +81,65 @@
     if (path.length) {
       var back = el("button", "quiz-back", "← " + U.back);
       back.type = "button";
-      back.addEventListener("click", function () { renderQuestion(path.pop()); });
+      back.addEventListener("click", function () { go(path.pop()); });
       s.appendChild(back);
     }
     show(s, h);
+  };
+
+  var go = function (step) { return step === "url" ? renderUrl() : renderQuestion(step); };
+
+  // "exemplo.pt", "https://www.exemplo.pt/" → "exemplo.pt"
+  var cleanUrl = function (v) { return v.trim().toLowerCase().replace(/^https?:\/\//i, "").replace(/^www\./i, "").replace(/\/+$/, ""); };
+
+  // Optional step between question 1 and 2; not counted as a question
+  var renderUrl = function () {
+    var s = el("div", "quiz-screen quiz-q quiz-url");
+    var bar = el("div", "quiz-progress");
+    var fill = el("span");
+    fill.style.width = Math.round((1 / total()) * 100) + "%";
+    bar.appendChild(fill);
+    bar.setAttribute("aria-hidden", "true");
+    s.appendChild(bar);
+    s.appendChild(el("p", "quiz-count", U.urlLabel));
+    var h = el("h2", "quiz-question", U.urlQ);
+    h.tabIndex = -1;
+    h.id = "quiz-url-q";
+    s.appendChild(h);
+    var form = el("form", "quiz-url-form");
+    form.noValidate = true;
+    var inp = el("input", "input");
+    inp.type = "text"; inp.name = "url"; inp.inputMode = "url"; inp.autocomplete = "url";
+    inp.autocapitalize = "none"; inp.spellcheck = false;
+    inp.placeholder = U.urlPlaceholder;
+    inp.value = site;
+    inp.setAttribute("aria-labelledby", "quiz-url-q");
+    var ok = el("button", "button", U.urlNext);
+    ok.type = "submit";
+    form.appendChild(inp);
+    form.appendChild(ok);
+    s.appendChild(form);
+    var msg = el("p", "quiz-url-msg");
+    msg.setAttribute("role", "status");
+    s.appendChild(msg);
+    var proceed = function () { path.push("url"); renderQuestion(1); };
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = cleanUrl(inp.value);
+      if (v && !/^[^\s\/.]+(\.[^\s\/.]+)*\.[a-z]{2,}(\/\S*)?$/i.test(v)) { msg.textContent = U.urlInvalid; inp.focus(); return; }
+      site = v.slice(0, 200);
+      proceed();
+    });
+    var skip = el("button", "quiz-url-skip", U.urlSkip);
+    skip.type = "button";
+    skip.addEventListener("click", function () { site = ""; proceed(); });
+    s.appendChild(skip);
+    var back = el("button", "quiz-back", "← " + U.back);
+    back.type = "button";
+    back.addEventListener("click", function () { go(path.pop()); });
+    s.appendChild(back);
+    // No autofocus on touch screens: the keyboard would cover the question
+    show(s, window.matchMedia("(pointer: coarse)").matches ? h : inp);
   };
 
   var next = function (i) {
@@ -91,8 +147,10 @@
     var o = QS[i].options[answers[i]];
     if (i === 0 && o.skip) {
       for (var k = 1; k < LAST; k++) answers[k] = null;
+      site = "";
       return renderQuestion(LAST);
     }
+    if (i === 0) return renderUrl();
     if (i < LAST) return renderQuestion(i + 1);
     renderResult();
   };
@@ -136,7 +194,7 @@
     } else {
       head.appendChild(ring(R.score));
       var bt = el("div", "quiz-band-wrap");
-      bt.appendChild(el("p", "quiz-score-label", U.scoreLabel));
+      bt.appendChild(el("p", "quiz-score-label", U.scoreLabel + (site ? " · " + site : "")));
       h = el("h2", "quiz-band", R.band.title);
       bt.appendChild(h);
       bt.appendChild(el("p", "quiz-band-text", R.band.text));
@@ -225,11 +283,12 @@
       if (!/^\S+@\S+\.\S+$/.test(email)) { inp.focus(); return; }
       send.disabled = true;
       var F = window.siteForms;
-      var summary = (R.noSite ? U.noSiteTitle : U.scoreLabel + ": " + R.score + "/100 · " + R.band.title) + "\n" + P.name + "\n\n" +
+      var summary = (site ? site + "\n" : "") + (R.noSite ? U.noSiteTitle : U.scoreLabel + ": " + R.score + "/100 · " + R.band.title) + "\n" + P.name + "\n\n" +
         QS.map(function (q, i) { return answers[i] == null ? "" : q.q + "\n— " + q.options[answers[i]].t; }).filter(Boolean).join("\n\n");
-      var payload = { type: "quiz", email: email, answers: answers, message: summary };
+      var payload = { type: "quiz", email: email, answers: answers, url: site, message: summary };
       var w3 = F.formData("Diagnóstico: novo resultado", email);
       w3.append("Email", email);
+      if (site) w3.append("Site", site);
       w3.append("Mensagem", summary);
       w3.append("Origem", "Diagnóstico do site");
       w3.append("Idioma", EN ? "EN" : "PT");
@@ -247,7 +306,7 @@
 
     var again = el("button", "quiz-back quiz-restart", "↺ " + U.restart);
     again.type = "button";
-    again.addEventListener("click", function () { answers = []; path = []; renderQuestion(0); });
+    again.addEventListener("click", function () { answers = []; path = []; site = ""; renderQuestion(0); });
     s.appendChild(again);
     show(s, h);
   };

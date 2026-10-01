@@ -23,6 +23,12 @@ QUIZ = {
     "note": "Sem registo. Resultado imediato.",
     "progress": "Pergunta {n} de {t}",
     "back": "Voltar",
+    "urlLabel": "Opcional",
+    "urlQ": "Qual é o endereço do seu site?",
+    "urlPlaceholder": "exemplo.pt",
+    "urlNext": "Continuar",
+    "urlSkip": "Prefiro não dizer",
+    "urlInvalid": "Confirme o endereço (por exemplo, exemplo.pt).",
     "resultKicker": "O seu resultado",
     "scoreLabel": "Saúde do site",
     "weakTitle": "Onde o site está a perder",
@@ -92,7 +98,7 @@ QUIZ = {
            "todo": "No topo da página: o que faz, para quem e um botão de contacto visível. Teste com alguém que não conheça o negócio."}
   },
   "plans": {
-    "engine": {"name": "Motor de Contactos", "line": "O seu site precisa de mais do que uma nova imagem: de ser encontrado e de transformar visitas em contactos.",
+    "engine": {"name": "Motor de Contactos", "line": "O seu site precisa de mais do que uma nova imagem: precisa também de ser encontrado e de transformar visitas em contactos.",
                "lineNoSite": "Começar do zero é a melhor altura para fazer um site que trabalha pelo negócio desde o primeiro dia.",
                "cta": {"t": "Marcar chamada", "href": CALENDLY}, "cta2": {"t": "Ver o que inclui", "href": "/#solutions"}},
     "visual": {"name": "Nova Imagem", "line": "A estrutura serve, mas a imagem está a afastar quem visita. Um novo design resolve o essencial.",
@@ -105,6 +111,7 @@ QUIZ = {
   },
   "report": {
     "subject": "O seu diagnóstico: {score}/100 · {band}",
+    "subjectSite": "Diagnóstico de {site}: {score}/100 · {band}",
     "subjectNoSite": "O seu diagnóstico: começar do zero",
     "intro": "Obrigada por fazer o diagnóstico. Aqui está o seu resultado completo, com cada ponto explicado e por onde começar.",
     "introNoSite": "Obrigada por fazer o diagnóstico. Como ainda não tem site, não há nada a corrigir: há tudo por construir, e da forma certa desde o início.",
@@ -131,6 +138,12 @@ QUIZ = {
     "note": "No sign-up. Instant result.",
     "progress": "Question {n} of {t}",
     "back": "Back",
+    "urlLabel": "Optional",
+    "urlQ": "What's your website address?",
+    "urlPlaceholder": "example.com",
+    "urlNext": "Continue",
+    "urlSkip": "I'd rather not say",
+    "urlInvalid": "Check the address (for example, example.com).",
     "resultKicker": "Your result",
     "scoreLabel": "Website health",
     "weakTitle": "Where the website is losing out",
@@ -200,7 +213,7 @@ QUIZ = {
            "todo": "At the top of the page: what you do, for whom and a visible contact button. Test it with someone who doesn't know the business."}
   },
   "plans": {
-    "engine": {"name": "Enquiry Engine", "line": "Your website needs more than a new look: it needs to be found and to turn visits into enquiries.",
+    "engine": {"name": "Enquiry Engine", "line": "Your website needs more than a new look: it also needs to be found and to turn visits into enquiries.",
                "lineNoSite": "Starting from scratch is the best moment to build a website that works for your business from day one.",
                "cta": {"t": "Book a call", "href": CALENDLY}, "cta2": {"t": "See what's included", "href": "/en/#solutions"}},
     "visual": {"name": "New Look", "line": "The structure works, but the look is turning visitors away. A new design fixes the essentials.",
@@ -213,6 +226,7 @@ QUIZ = {
   },
   "report": {
     "subject": "Your diagnosis: {score}/100 · {band}",
+    "subjectSite": "Diagnosis for {site}: {score}/100 · {band}",
     "subjectNoSite": "Your diagnosis: starting from scratch",
     "intro": "Thank you for taking the diagnosis. Here's your full result, with each point explained and where to start.",
     "introNoSite": "Thank you for taking the diagnosis. As you don't have a website yet, there's nothing to fix: there's everything to build, and the right way from the start.",

@@ -141,7 +141,7 @@ function quizCopy(lang, q) {
   const abs = (h) => (h.startsWith("/") ? SITE + h : h);
   const blocks = [{ p: R.noSite ? T.introNoSite : !R.weakAll.length ? T.introGood : T.intro }];
   // No site: the intro already says it, so there's no result card
-  if (!R.noSite) blocks.push({ scorecard: { score: R.score, label: D.ui.scoreLabel, title: R.band.title, text: R.band.text } });
+  if (!R.noSite) blocks.push({ scorecard: { score: R.score, label: D.ui.scoreLabel + (q.site ? " · " + q.site : ""), title: R.band.title, text: R.band.text } });
   if (!R.noSite && R.weakAll.length) {
     blocks.push({ label: T.weakTitle });
     R.weakAll.forEach((id, i) => blocks.push({ item: D.weak[id].title, n: i + 1, text: D.weak[id].line, todoLabel: T.doLabel.replace(/:\s*$/, ""), todo: D.weak[id].todo }));
@@ -158,7 +158,7 @@ function quizCopy(lang, q) {
     ? { p: T.guideNoSite, link: T.guideLink, href: T.guideHref, after: T.guideAfterNoSite }
     : { p: T.guide, link: T.guideLink, href: T.guideHref });
   return {
-    subject: R.noSite ? T.subjectNoSite : T.subject.replace("{score}", R.score).replace("{band}", R.band.title),
+    subject: R.noSite ? T.subjectNoSite : (q.site ? T.subjectSite.replace("{site}", q.site) : T.subject).replace("{score}", R.score).replace("{band}", R.band.title),
     eyebrow: lang === "en" ? "Website diagnosis" : "Diagnóstico do site",
     hello: () => (lang === "en" ? "Hi," : "Olá,"),
     blocks,
@@ -245,15 +245,79 @@ ${recap}
 }
 
 // ---------- Notification to Mariana ----------
+// Same look as the visitor emails, laid out to be read at a glance: who it is,
+// quick actions, then the content (score and answers, message or chat).
+const DOT = ["#5f9e7f", "#d49a3a", "#c4553f"]; // answer points: fine / could be better / problem
 function notification(type, lang, data) {
   const label = { contact: "Formulário: nova mensagem", redesign: "Redesign: novo pedido", guide: "Guia: novo download", chat: "Chat: novo contacto", quiz: "Diagnóstico: novo resultado" }[type];
-  const subject = label;
-  const rows = [["Tipo", label], ["Idioma", lang.toUpperCase()], ["Nome", data.Nome], ["Email", data.Email], ["Site", data.URL], ["Mensagem", data.Mensagem]]
-    .filter(([, v]) => v)
-    .map(([k, v]) => `<tr><td style="padding:8px 12px 8px 0;font-size:12px;color:#6b6b69;text-transform:uppercase;letter-spacing:.06em;vertical-align:top">${esc(k)}</td><td style="padding:8px 0;font-size:15px;color:${INK};white-space:pre-wrap">${esc(v)}</td></tr>`)
-    .join("");
-  const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;max-width:560px"><p style="font-size:16px;margin:0 0 12px">${esc(label)}</p><table cellpadding="0" cellspacing="0" style="border-top:1px solid #ddd">${rows}</table><p style="font-size:13px;color:#888;margin-top:16px">Responda diretamente a este email para responder a ${esc(data.Email)}.</p></div>`;
-  const text = [label, "", ...[["Idioma", lang.toUpperCase()], ["Nome", data.Nome], ["Email", data.Email], ["Site", data.URL], ["Mensagem", data.Mensagem]].filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`)].join("\n");
+  const pill = { contact: "Formulário", redesign: "Redesign gratuito", guide: "Guia", chat: "Chat", quiz: "Diagnóstico" }[type];
+  const site = data.URL && data.URL !== "Ainda não tem site" ? data.URL : "";
+  const siteHref = site ? (/^https?:\/\//i.test(site) ? site : "https://" + site) : "";
+  const R = data.quiz && data.quiz.result;
+  const pt = QUIZ.pt;
+  const detail = R ? [site || data.Email, R.noSite ? "sem site" : `${R.score}/100`, pt.plans[R.plan].name].join(" · ")
+    : type === "redesign" ? site : data.Nome || data.Email;
+  const subject = detail ? `${label} · ${detail}` : label;
+
+  const cap = (t) => `<p style="margin:0 0 10px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:${MUTED}">${esc(t)}</p>`;
+  const lines = (t) => esc(t).replace(/\n/g, "<br>");
+  const btn = (t, href, solid) => `<td style="padding:0 8px 8px 0"><a href="${esc(href)}" style="display:inline-block;padding:11px 20px;border-radius:999px;border:1px solid ${INK};background:${solid ? INK : "transparent"};font-size:14px;font-weight:500;color:${solid ? "#ffffff" : INK};text-decoration:none">${esc(t)}</a></td>`;
+  const fact = (k, v) => `<tr><td valign="top" style="padding:6px 16px 6px 0;width:72px;font-size:11px;line-height:20px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:${MUTED};white-space:nowrap">${esc(k)}</td><td valign="top" style="padding:6px 0;font-size:15px;line-height:20px;color:${INK}">${v}</td></tr>`;
+
+  const who = data.Nome || data.Email;
+  const facts = [
+    data.Nome ? fact("Email", `<a href="mailto:${esc(data.Email)}" style="color:${INK}">${esc(data.Email)}</a>`) : "",
+    site ? fact("Site", `<a href="${esc(siteHref)}" style="color:${INK}">${esc(site)}</a>`) : data.URL ? fact("Site", esc(data.URL)) : "",
+    fact("Idioma", lang === "en" ? "Inglês" : "Português")
+  ].join("");
+  const actions = `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:18px 0 4px"><tr>${btn("Responder", "mailto:" + data.Email, true)}${siteHref ? btn("Abrir site", siteHref) : ""}</tr></table>`;
+
+  let content = "";
+  if (R) {
+    const answers = data.quiz.answers;
+    const top = R.noSite
+      ? `<p style="margin:0;font-size:21px;line-height:1.25;color:${INK}">Ainda não tem site</p><p style="margin:6px 0 0;font-size:14.5px;line-height:1.5;color:${BODY}">Começar do zero</p>`
+      : `<table role="presentation" cellpadding="0" cellspacing="0"><tr><td valign="middle" style="padding-right:18px"><p style="margin:0;font-size:48px;line-height:1;font-weight:300;letter-spacing:-.04em;color:${INK}">${R.score}<span style="font-size:14px;letter-spacing:0;color:${MUTED}">/100</span></p></td><td valign="middle"><p style="margin:0;font-size:19px;line-height:1.25;color:${INK}">${esc(pt.bands.find((b) => R.score >= b.min).title)}</p></td></tr></table>`;
+    const points = (id) => { const i = pt.questions.findIndex((q) => q.id === id); return pt.questions[i].options[answers[i]].p; };
+    const goal = pt.questions[pt.questions.length - 1].options[answers[answers.length - 1]].t;
+    const plan = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:18px;border-top:1px solid rgba(23,23,21,.1)"><tr><td style="padding-top:14px">${fact("Plano", `<b style="font-weight:600">${esc(pt.plans[R.plan].name)}</b>${R.alsoEngine ? " <span style=\"color:" + MUTED + "\">(+ nota Motor de Contactos)</span>" : ""}`)}${fact("Objetivo", esc(goal))}</td></tr></table>`;
+    const weak = R.weakAll.length
+      ? `<div style="margin:26px 0 0">${cap("Pontos a melhorar")}<p style="margin:0;line-height:2">${R.weakAll.map((id) => `<span style="display:inline-block;margin:0 6px 6px 0;padding:4px 12px;border-radius:999px;background:${points(id) === 2 ? "#f6dcd5" : "#f5e8cf"};font-size:13px;line-height:20px;color:${INK}">${esc(pt.weak[id].title)}</span>`).join("")}</p></div>`
+      : "";
+    const rows = pt.questions.map((q, i) => {
+      if (answers[i] == null) return "";
+      const o = q.options[answers[i]];
+      const dot = q.cat ? DOT[o.p] : "#b9b8b2";
+      return `<tr><td valign="top" width="20" style="padding:12px 0;border-top:1px solid ${LINE}"><div style="width:9px;height:9px;margin-top:5px;border-radius:50%;background:${dot}"></div></td><td valign="top" style="padding:12px 0;border-top:1px solid ${LINE}"><p style="margin:0;font-size:13px;line-height:1.45;color:${MUTED}">${esc(q.q)}</p><p style="margin:3px 0 0;font-size:15px;line-height:1.45;color:${INK}">${esc(o.t)}</p></td></tr>`;
+    }).join("");
+    const legend = `<p style="margin:10px 0 0;font-size:12px;color:${MUTED}">${[["Bem", 0], ["Pode melhorar", 1], ["Problema", 2]].map(([t, k]) => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${DOT[k]};margin:0 5px 0 0"></span>${t}`).join("&nbsp;&nbsp;&nbsp;")}</p>`;
+    content = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:26px;background:${TINT};border-radius:16px"><tr><td style="padding:22px 24px">${cap(site ? "Saúde do site · " + site : "Resultado")}${top}${plan}</td></tr></table>${weak}<div style="margin:26px 0 0">${cap("Respostas")}<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>${legend}</div>`;
+  } else if (type === "chat") {
+    const turns = (data.Mensagem || "").split(/\n{2,}/).map((t) => {
+      const m = t.match(/^(Eu|You|Assistente|Assistant):\s*([\s\S]*)$/);
+      const mine = m && (m[1] === "Eu" || m[1] === "You");
+      const body = m ? m[2] : t;
+      return `<tr><td align="${mine ? "right" : "left"}" style="padding:4px 0"><table role="presentation" cellpadding="0" cellspacing="0" style="max-width:85%"><tr><td style="padding:10px 14px;border-radius:14px;background:${mine ? LILAC : "#f1f0ec"};font-size:14.5px;line-height:1.5;color:${INK};text-align:left">${m ? `<span style="display:block;margin-bottom:2px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:${MUTED}">${mine ? "Visitante" : "Assistente"}</span>` : ""}${lines(body)}</td></tr></table></td></tr>`;
+    }).join("");
+    content = `<div style="margin-top:26px">${cap("Conversa")}<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${turns}</table></div>`;
+  } else if (data.Mensagem) {
+    content = `<div style="margin-top:26px">${cap("Mensagem")}<div style="padding:18px 20px;border-radius:14px;background:#f6f5f1;font-size:15.5px;line-height:1.6;color:${INK}">${lines(data.Mensagem)}</div></div>`;
+  }
+
+  const html = `<!doctype html><html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><style>@media (max-width:520px){.px{padding-left:22px!important;padding-right:22px!important}}</style><title>${esc(subject)}</title></head>
+<body style="margin:0;padding:0;background:${PAPER};font-family:${FONT};color:${INK};-webkit-font-smoothing:antialiased">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAPER}"><tr><td align="center" style="padding:32px 12px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#fbfbf9;border:1px solid ${LINE};border-radius:20px">
+<tr><td class="px" style="padding:30px 40px 34px">
+<span style="display:inline-block;padding:5px 10px;border-radius:999px;background:${LILAC};font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:${INK}">${esc(pill)}</span>
+<p style="margin:14px 0 10px;font-size:24px;line-height:1.2;letter-spacing:-.015em;color:${INK}">${esc(who)}</p>
+<table role="presentation" cellpadding="0" cellspacing="0">${facts}</table>
+${actions}
+${content}
+</td></tr></table>
+<p style="margin:16px 0 0;font-size:12px;color:#8a8a84">Responder a este email responde diretamente a ${esc(data.Email)}.</p>
+</td></tr></table></body></html>`;
+  const text = [label, "", ...[["Nome", data.Nome], ["Email", data.Email], ["Site", data.URL], ["Idioma", lang.toUpperCase()], ["Mensagem", data.Mensagem]].filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`)].join("\n");
   return { subject, html, text };
 }
 
@@ -297,7 +361,10 @@ module.exports = async function handler(req, res) {
     const answers = D.questions.map((q, i) => (Number.isInteger(raw[i]) && raw[i] >= 0 && raw[i] < q.options.length ? raw[i] : null));
     if (answers[0] == null || answers[D.questions.length - 1] == null) return res.status(400).json({ success: false, message: "Incomplete" });
     const result = evaluateQuiz(D, answers);
-    data.quiz = { result, answers };
+    // Optional website address: kept only when it looks like a domain
+    const site = data.URL.toLowerCase().replace(/^https?:\/\//i, "").replace(/^www\./i, "").replace(/\/+$/, "").slice(0, 200);
+    data.URL = !result.noSite && /^[^\s\/.]+(\.[^\s\/.]+)*\.[a-z]{2,}(\/\S*)?$/i.test(site) ? site : "";
+    data.quiz = { result, answers, site: data.URL };
     const pt = QUIZ.pt;
     data.Mensagem = [
       result.noSite ? "Sem site (começar do zero)" : `Saúde do site: ${result.score}/100 · ${pt.bands.find((b) => result.score >= b.min).title}`,

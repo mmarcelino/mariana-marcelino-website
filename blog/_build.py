@@ -989,7 +989,7 @@ LEGAL = [
 <h2>Que dados recolho</h2>
 <ul>
   <li><strong>Pedido de redesign gratuito:</strong> o endereço de email e o link do seu site, que indica nos formulários da homepage.</li>
-  <li><strong>Diagnóstico do site:</strong> as respostas que dá ao diagnóstico gratuito e, se pedir o relatório completo, o seu endereço de email.</li>
+  <li><strong>Diagnóstico do site:</strong> as respostas que dá ao diagnóstico gratuito, o endereço do seu site (se o indicar) e, se pedir o relatório completo, o seu endereço de email.</li>
   <li><strong>Formulário de contacto e email:</strong> o seu nome (opcional), o endereço de email e a informação que decidir partilhar na mensagem.</li>
   <li><strong>Chat:</strong> se usar o assistente de chat do site, as mensagens que escreve. A conversa fica guardada apenas no seu browser enquanto o separador estiver aberto. Se escolher “Enviar conversa por email”, recebo a conversa e o email que indicar.</li>
   <li><strong>Marcação de chamadas:</strong> quando clica em “Marcar chamada”, o calendário do Calendly abre numa janela dentro deste site, onde indica o seu nome, email e outras informações que o formulário de marcação pedir.</li>

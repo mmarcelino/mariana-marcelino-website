@@ -15,7 +15,7 @@ T = {
   kicker="Guia gratuito",
   title="Oito sinais de que o seu site está a afastar clientes",
   subtitle="E o que fazer com cada um, sem jargão técnico.",
-  author="Mariana Marcelino", role="Web Design, Programação, Conversão",
+  author="Mariana Marcelino", role="Web Design · Automação · IA",
   intro_k="Antes de começar",
   intro_h="Um site raramente avaria de forma visível",
   intro_p=["Vai simplesmente deixando de funcionar: as visitas continuam a chegar, mas os pedidos de contacto diminuem sem se perceber porquê.",
@@ -72,7 +72,7 @@ T = {
   kicker="Free guide",
   title="Eight signs your website is driving clients away",
   subtitle="And what to do about each one, without the jargon.",
-  author="Mariana Marcelino", role="Web Design, Development, Conversion",
+  author="Mariana Marcelino", role="Web Design · Automation · AI",
   intro_k="Before you start",
   intro_h="A website rarely breaks in a visible way",
   intro_p=["It simply stops working: visitors keep coming, but enquiries drop and nobody quite knows why.",
@@ -141,14 +141,17 @@ body { font-family: "Inter", Helvetica, Arial, sans-serif; color: var(--ink); -w
 .foot { margin-top: auto; display: flex; justify-content: space-between; padding-top: 5mm; border-top: 1px solid var(--line); font-size: 7.5pt; color: var(--soft); }
 
 /* Cover */
-.cover { padding: 0; }
-.cover-art { height: 128mm; background: #e7e6e0 center / cover no-repeat; border-bottom: 1px solid var(--line); }
-.cover-body { flex: 1; display: flex; flex-direction: column; padding: 14mm 18mm 16mm; }
-.cover h1 { margin-top: 6mm; font-size: 40pt; line-height: 1.02; letter-spacing: -.035em; font-weight: 400; max-width: 15ch; }
-.cover .sub { margin-top: 6mm; font-size: 13pt; line-height: 1.4; color: var(--soft); max-width: 30em; }
-.byline { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; padding-top: 6mm; border-top: 1px solid var(--line); font-size: 9pt; line-height: 1.4; }
+/* Full-bleed dark cover: the site's 3D form fades into the page colour */
+.cover { padding: 0; background: #17121e; color: var(--paper); }
+.cover-art { position: absolute; inset: 0; background: #17121e center top / 100% auto no-repeat; }
+.cover-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,18,30,.35) 0%, rgba(23,18,30,0) 15%, rgba(23,18,30,0) 36%, #17121e 70%); }
+.cover-body { position: relative; flex: 1; display: flex; flex-direction: column; padding: 16mm 18mm 16mm; }
+.cover .brand span:last-child { color: var(--ink); background: var(--lilac); padding: 1.6mm 3.6mm; border-radius: 20mm; }
+.cover h1 { margin-top: auto; font-size: 44pt; line-height: 1.02; letter-spacing: -.035em; font-weight: 400; max-width: 14ch; }
+.cover .sub { margin-top: 6mm; font-size: 13pt; line-height: 1.4; color: rgba(238,238,234,.72); max-width: 30em; }
+.byline { margin-top: 16mm; display: flex; justify-content: space-between; align-items: flex-end; padding-top: 6mm; border-top: 1px solid rgba(238,238,234,.22); font-size: 9pt; line-height: 1.4; }
 .byline b { font-weight: 600; display: block; }
-.byline .url { color: var(--soft); }
+.byline .url { color: rgba(238,238,234,.62); }
 
 /* Intro */
 .intro h2, .score h2 { margin-top: 20mm; font-size: 28pt; line-height: 1.05; letter-spacing: -.03em; font-weight: 400; max-width: 16ch; }
@@ -210,7 +213,7 @@ def build(code):
     # 1. Cover
     pages.append(f"""
 <section class="page cover">
-  <div class="cover-art" style="background-image:url('../assets/blog/sinais-site.jpg')"></div>
+  <div class="cover-art" style="background-image:url('../assets/hero-form-color.webp')"></div>
   <div class="cover-body">
     <div class="brand"><span>Mariana Marcelino</span><span>{e(t['kicker'])}</span></div>
     <h1>{e(t['title'])}</h1>

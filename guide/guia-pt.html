@@ -19,14 +19,17 @@ body { font-family: "Inter", Helvetica, Arial, sans-serif; color: var(--ink); -w
 .foot { margin-top: auto; display: flex; justify-content: space-between; padding-top: 5mm; border-top: 1px solid var(--line); font-size: 7.5pt; color: var(--soft); }
 
 /* Cover */
-.cover { padding: 0; }
-.cover-art { height: 128mm; background: #e7e6e0 center / cover no-repeat; border-bottom: 1px solid var(--line); }
-.cover-body { flex: 1; display: flex; flex-direction: column; padding: 14mm 18mm 16mm; }
-.cover h1 { margin-top: 6mm; font-size: 40pt; line-height: 1.02; letter-spacing: -.035em; font-weight: 400; max-width: 15ch; }
-.cover .sub { margin-top: 6mm; font-size: 13pt; line-height: 1.4; color: var(--soft); max-width: 30em; }
-.byline { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; padding-top: 6mm; border-top: 1px solid var(--line); font-size: 9pt; line-height: 1.4; }
+/* Full-bleed dark cover: the site's 3D form fades into the page colour */
+.cover { padding: 0; background: #17121e; color: var(--paper); }
+.cover-art { position: absolute; inset: 0; background: #17121e center top / 100% auto no-repeat; }
+.cover-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,18,30,.35) 0%, rgba(23,18,30,0) 15%, rgba(23,18,30,0) 36%, #17121e 70%); }
+.cover-body { position: relative; flex: 1; display: flex; flex-direction: column; padding: 16mm 18mm 16mm; }
+.cover .brand span:last-child { color: var(--ink); background: var(--lilac); padding: 1.6mm 3.6mm; border-radius: 20mm; }
+.cover h1 { margin-top: auto; font-size: 44pt; line-height: 1.02; letter-spacing: -.035em; font-weight: 400; max-width: 14ch; }
+.cover .sub { margin-top: 6mm; font-size: 13pt; line-height: 1.4; color: rgba(238,238,234,.72); max-width: 30em; }
+.byline { margin-top: 16mm; display: flex; justify-content: space-between; align-items: flex-end; padding-top: 6mm; border-top: 1px solid rgba(238,238,234,.22); font-size: 9pt; line-height: 1.4; }
 .byline b { font-weight: 600; display: block; }
-.byline .url { color: var(--soft); }
+.byline .url { color: rgba(238,238,234,.62); }
 
 /* Intro */
 .intro h2, .score h2 { margin-top: 20mm; font-size: 28pt; line-height: 1.05; letter-spacing: -.03em; font-weight: 400; max-width: 16ch; }
@@ -71,17 +74,16 @@ body { font-family: "Inter", Helvetica, Arial, sans-serif; color: var(--ink); -w
 .cta .contact { margin-top: 7mm; padding-top: 4mm; border-top: 1px solid rgba(238,238,234,.2); font-size: 8.5pt; color: rgba(238,238,234,.6); display: flex; justify-content: space-between; }
 .cta .contact a { border: 0; padding: 0; font-size: 8.5pt; color: rgba(238,238,234,.85); }
 </style>
-  <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>
 <body>
 
 <section class="page cover">
-  <div class="cover-art" style="background-image:url('../assets/blog/sinais-site.jpg')"></div>
+  <div class="cover-art" style="background-image:url('../assets/hero-form-color.webp')"></div>
   <div class="cover-body">
     <div class="brand"><span>Mariana Marcelino</span><span>Guia gratuito</span></div>
     <h1>Oito sinais de que o seu site está a afastar clientes</h1>
     <p class="sub">E o que fazer com cada um, sem jargão técnico.</p>
-    <div class="byline"><div><b>Mariana Marcelino</b><span class="url">Web Design, Programação, Conversão</span></div><span class="url">mariana-marcelino.com</span></div>
+    <div class="byline"><div><b>Mariana Marcelino</b><span class="url">Web Design · Automação · IA</span></div><span class="url">mariana-marcelino.com</span></div>
   </div>
 </section>
 <section class="page intro">

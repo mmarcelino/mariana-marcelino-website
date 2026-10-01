@@ -15,7 +15,7 @@ LEGAL_EN = [
 <h2>What data I collect</h2>
 <ul>
   <li><strong>Free redesign request:</strong> your email address and your website link, which you enter in the homepage forms.</li>
-  <li><strong>Website diagnosis:</strong> your answers to the free diagnosis and, if you ask for the full report, your email address.</li>
+  <li><strong>Website diagnosis:</strong> your answers to the free diagnosis, your website address (if you give it) and, if you ask for the full report, your email address.</li>
   <li><strong>Contact form and email:</strong> your name (optional), your email address and whatever information you choose to share in your message.</li>
   <li><strong>Chat:</strong> if you use the website’s chat assistant, the messages you write. The conversation is only kept in your browser while the tab is open. If you choose “Email this conversation”, I receive the conversation and the email you enter.</li>
   <li><strong>Booking a call:</strong> when you click “Book a call”, Calendly’s calendar opens in a window on this website, where you enter your name, email and any other information the booking form asks for.</li>
