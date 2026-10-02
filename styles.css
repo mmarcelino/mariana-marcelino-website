@@ -1510,6 +1510,8 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
 .testimonial-logo-img--softingal { height: 23px; }
 .testimonial-logo-img--alviere { height: 16px; }
 @media (min-width: 860px) { .testimonial-logos { margin-bottom: 72px; } }
+/* Phones: no logos, the arrows alone move between testimonials */
+@media (max-width: 559px) { .testimonial-logos { display: none; } }
 
 /* The whole testimonial, read at once, fairly large; the opening quote mark
    hangs in the margin so the text stays aligned on its first letter */

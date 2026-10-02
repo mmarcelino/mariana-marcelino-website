@@ -56,6 +56,8 @@
       },
       prevent: function (node) { return node.closest && node.closest("dialog, .mobile-menu, [data-lenis-prevent]"); }
     });
+    // Shared with the hero reel (assets/hero-reel.js), which holds the page still for one loop
+    window.siteLenis = lenis;
     new MutationObserver(function () {
       if (document.body.classList.contains("has-modal")) lenis.stop(); else lenis.start();
     }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
@@ -551,7 +553,7 @@
 
   // Hero flow: one visitor fills in the form, another chats with the bot → each time a streak runs down and the lead lands in the dashboard
   var visual = document.querySelector(".js-hero-visual");
-  if (visual) {
+  if (visual && visual.querySelector(".js-flow")) {
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var flow = visual.querySelector(".js-flow");
     var fields = {
