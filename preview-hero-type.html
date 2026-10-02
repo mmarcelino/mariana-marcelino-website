@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Hero type preview</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { background: var(--off-white); }
+    .pv-head { padding: 72px var(--gap) 0; max-width: 1100px; }
+    .pv-head h1 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(44px, 6.4vw, 96px); line-height: 1; letter-spacing: -.035em; margin: 0; }
+    .pv-head p { max-width: 36em; margin: 24px 0 0; font-size: clamp(16px, 1.3vw, 20px); color: #555; }
+    @media (min-width: 1200px) { .pv-head { padding: 96px calc(var(--gap) * 2) 0 calc(var(--gap) * 2 + 240px); } }
+    .pv-note { padding: 0 var(--gap) 64px; font-size: 13px; color: #777; }
+    @media (min-width: 1200px) { .pv-note { padding-left: calc(var(--gap) * 2); } }
+
+    /* ---------- Panel ---------- */
+    .ht {
+      --bg: #0b0b0a; --fg: #eeeeea; --lilac: #d6cbec; --pad: 16px;
+      position: relative;
+      margin: 56px var(--gap) 96px;
+      height: 640px;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-sans);
+      isolation: isolate;
+      -webkit-font-smoothing: antialiased;
+    }
+    @media (min-width: 560px) { .ht { --pad: 24px; } }
+    @media (min-width: 860px) { .ht { margin-top: 80px; height: clamp(560px, 46vw, 760px); --pad: 28px; } }
+    @media (min-width: 1200px) { .ht { margin-left: calc(var(--gap) * 2); margin-right: calc(var(--gap) * 2); --pad: 36px; } }
+
+    /* 12-column grid, drawn */
+    .ht-grid { position: absolute; inset: 0 var(--pad); display: grid; grid-template-columns: repeat(12, 1fr); pointer-events: none; }
+    .ht-grid i { border-left: 1px solid var(--fg); opacity: .08; transform-origin: 50% 0; }
+    .ht-grid i:last-child { border-right: 1px solid var(--fg); }
+    @media (max-width: 559px) { .ht-grid { grid-template-columns: repeat(4, 1fr); } .ht-grid i:nth-child(n+5) { display: none; } .ht-grid i:nth-child(4) { border-right: 1px solid var(--fg); } }
+    /* Crop marks */
+    .ht-mark { position: absolute; width: 11px; height: 11px; }
+    .ht-mark::before, .ht-mark::after { content: ""; position: absolute; background: var(--fg); }
+    .ht-mark::before { left: 5px; top: 0; width: 1px; height: 11px; }
+    .ht-mark::after { left: 0; top: 5px; width: 11px; height: 1px; }
+    .ht-mark.-tl { left: calc(var(--pad) - 5px); top: calc(var(--pad) - 5px); }
+    .ht-mark.-tr { right: calc(var(--pad) - 5px); top: calc(var(--pad) - 5px); }
+    .ht-mark.-bl { left: calc(var(--pad) - 5px); bottom: calc(var(--pad) - 5px); }
+    .ht-mark.-br { right: calc(var(--pad) - 5px); bottom: calc(var(--pad) - 5px); }
+
+    /* Small print around the edges */
+    .ht-meta { position: absolute; left: calc(var(--pad) + 14px); right: calc(var(--pad) + 14px); display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-variant-numeric: tabular-nums; z-index: 2; }
+    .ht-meta.-top { top: var(--pad); }
+    .ht-meta.-bottom { bottom: var(--pad); }
+    .ht-idx b { font-weight: 500; }
+    .ht-idx span { opacity: .45; }
+    .ht-ticks { display: flex; gap: 6px; }
+    .ht-ticks i { width: 28px; height: 2px; background: var(--fg); opacity: .2; }
+    .ht-ticks i.is-on { opacity: 1; }
+    .ht-ticks i.is-done { opacity: .6; }
+    .ht-tc { opacity: .45; }
+    @media (max-width: 559px) { .ht-tc { display: none; } .ht-meta { font-size: 10px; } .ht-ticks i { width: 18px; } }
+
+    /* The phrase: huge, set tight, lines rising out of masks */
+    .ht-type {
+      position: absolute; left: var(--pad); bottom: calc(var(--pad) + 26px); z-index: 1;
+      margin: 0; font-weight: 400; letter-spacing: -.058em; line-height: .86;
+      font-size: clamp(60px, 15.5vw, 92px);
+      padding-left: .04em;
+    }
+    @media (min-width: 560px) { .ht-type { font-size: clamp(80px, 11vw, 150px); } }
+    @media (min-width: 1200px) { .ht-type { font-size: clamp(120px, 10.4vw, 190px); } }
+    .ht-line { display: block; overflow: hidden; padding: 0 .06em .07em 0; margin-bottom: -.07em; }
+    .ht-line i { display: block; font-style: normal; white-space: nowrap; }
+    .ht-line em { font-style: normal; color: var(--lilac); }
+    .ht-word { position: absolute; left: 0; bottom: 0; }
+
+    /* The visual for each beat sits top right (top on phones) */
+    .ht-vis { position: absolute; z-index: 1; right: var(--pad); top: calc(var(--pad) + 44px); width: calc(100% - var(--pad) * 2); }
+    @media (min-width: 860px) { .ht-vis { width: 41.66%; } }
+    .ht-beat { position: absolute; left: 0; right: 0; top: 0; }
+    .ht-label { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; opacity: .55; margin-bottom: 12px; display: flex; justify-content: space-between; }
+
+    /* 1 · search */
+    .ht-search { display: flex; align-items: center; gap: 12px; height: 54px; padding: 0 16px; border: 1px solid var(--fg); font-size: 16px; }
+    .ht-search svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; flex: none; }
+    .ht-search span { white-space: nowrap; overflow: hidden; }
+    .ht-caret { width: 1.5px; height: 20px; background: var(--fg); margin-left: -10px; flex: none; }
+    .ht-answer { margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(238, 238, 234, .2); font-size: 18px; line-height: 1.35; letter-spacing: -.01em; }
+    .ht-answer u { text-decoration: none; position: relative; white-space: nowrap; }
+    .ht-answer u::after { content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 3px; background: var(--lilac); transform-origin: 0 50%; transform: scaleX(var(--u, 0)); }
+    .ht-src { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-size: 12px; letter-spacing: .04em; opacity: .7; }
+    .ht-src b { display: grid; place-items: center; width: 22px; height: 22px; background: var(--fg); color: var(--bg); font-size: 9px; font-weight: 600; letter-spacing: .04em; }
+
+    /* 2 · before / after */
+    .ht-frame { position: relative; aspect-ratio: 16 / 10.5; border: 1px solid var(--fg); overflow: hidden; }
+    @media (max-width: 559px) { .ht-frame { aspect-ratio: 16 / 11; } }
+    .ht-old, .ht-new { position: absolute; inset: 0; }
+    .ht-old { background: #fdf6d8; color: #1a1aa6; font-family: "Times New Roman", Times, serif; text-align: center; padding: 6% 6% 0; }
+    .ht-old h4 { margin: 0; font-size: clamp(15px, 1.9vw, 26px); color: #b3121b; font-weight: 700; text-shadow: 2px 2px 0 #ffd84a; }
+    .ht-old nav { margin-top: 3%; font-size: clamp(10px, 1vw, 13px); text-decoration: underline; }
+    .ht-old .img { margin: 5% auto 0; width: 46%; aspect-ratio: 4 / 2.4; background: repeating-linear-gradient(45deg, #c9c9c9 0 6px, #e6e6e6 6px 12px); border: 3px ridge #999; display: grid; place-items: center; color: #555; font-size: 11px; }
+    .ht-old p { margin: 4% 0 0; font-size: clamp(10px, .95vw, 13px); color: #333; }
+    .ht-old .badge { position: absolute; right: 5%; bottom: 6%; padding: 4px 8px; background: #ff3b30; color: #fff; font: 700 10px/1 Arial, sans-serif; transform: rotate(-8deg); }
+    .ht-new { background: #f3f2ee; color: #111; padding: 5% 5.5%; display: grid; grid-template-columns: 1.1fr 1fr; grid-template-rows: auto 1fr; gap: 6% 6%; }
+    .ht-new nav { grid-column: 1 / -1; display: flex; align-items: center; gap: 4%; font-size: clamp(8px, .75vw, 11px); color: #555; }
+    .ht-new nav b { color: #111; letter-spacing: .16em; font-weight: 600; margin-right: auto; }
+    .ht-new nav em { font-style: normal; background: #111; color: #f3f2ee; padding: 4px 9px; border-radius: 12px; }
+    .ht-new h4 { margin: 8% 0 0; font-weight: 400; font-size: clamp(16px, 2.2vw, 32px); line-height: 1.02; letter-spacing: -.04em; }
+    .ht-new p { margin: 6% 0 0; font-size: clamp(8px, .75vw, 11px); color: #666; line-height: 1.5; }
+    .ht-new .btn { display: inline-block; margin-top: 7%; padding: 5px 11px; border-radius: 14px; background: #111; color: #f3f2ee; font-size: clamp(8px, .75vw, 11px); }
+    .ht-new .pic { background: var(--lilac) url("assets/mini-site-building.svg") center / cover no-repeat; border-radius: 4px; }
+    .ht-wipe { position: absolute; top: 0; bottom: 0; width: 14%; margin-left: -7%; background: var(--lilac); }
+
+    /* 3 · enquiries */
+    .ht-list { position: relative; height: 290px; }
+    @media (max-width: 559px) { .ht-list { height: 250px; } }
+    .ht-row { position: absolute; left: 0; right: 0; top: 0; display: grid; grid-template-columns: 10px 1fr auto; align-items: center; gap: 14px; height: 52px; padding: 0 16px; border: 1px solid rgba(238, 238, 234, .28); font-size: 14px; background: var(--bg); }
+    .ht-row::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--lilac); }
+    .ht-row small { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; opacity: .55; }
+    .ht-row.is-new { border-color: var(--fg); }
+
+    /* 4 · growth */
+    .ht-big { display: flex; align-items: flex-start; gap: 18px; }
+    .ht-num { display: flex; align-items: flex-start; font-size: clamp(120px, 21vw, 300px); line-height: .8; letter-spacing: -.07em; font-weight: 400; height: .8em; overflow: hidden; font-variant-numeric: tabular-nums; }
+    @media (max-width: 559px) { .ht-num { font-size: 150px; } }
+    .ht-digit { display: flex; flex-direction: column; flex: none; }
+    .ht-digit span { display: block; height: .8em; line-height: .8; flex: none; }
+    .ht-delta { margin-top: .4em; font-size: 14px; }
+    .ht-delta b { display: block; font-weight: 500; font-size: 22px; letter-spacing: -.02em; }
+    .ht-delta span { opacity: .6; }
+    .ht-bars { display: flex; align-items: flex-end; gap: 6px; height: 64px; margin-top: 22px; }
+    .ht-bars i { flex: 1; height: 100%; background: var(--fg); transform-origin: 50% 100%; }
+
+    /* Full-panel lilac transitions */
+    .ht-sweep { position: absolute; inset: 0; z-index: 3; background: var(--lilac); pointer-events: none; }
+  </style>
+</head>
+<body>
+  <div class="pv-head">
+    <h1>Sites que fazem negócios crescer</h1>
+    <p>O seu site não devia apenas estar online — devia trabalhar por si. Transformo sites para atrair mais visitas, gerar mais contactos e apoiar a próxima fase do seu negócio.</p>
+  </div>
+
+  <div class="ht js-ht" aria-hidden="true">
+    <div class="ht-grid js-grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <i class="ht-mark -tl"></i><i class="ht-mark -tr"></i><i class="ht-mark -bl"></i><i class="ht-mark -br"></i>
+
+    <div class="ht-meta -top">
+      <span class="ht-idx"><b class="js-idx">01</b><span> / 04</span></span>
+      <span class="ht-tc js-tc">00:00:00</span>
+    </div>
+    <div class="ht-meta -bottom">
+      <span class="js-service">Pesquisa · IA</span>
+      <span class="ht-ticks"><i class="js-tick"></i><i class="js-tick"></i><i class="js-tick"></i><i class="js-tick"></i></span>
+    </div>
+
+    <div class="ht-vis">
+      <!-- 1 · found -->
+      <div class="ht-beat js-beat">
+        <div class="ht-label"><span>Pesquisa</span><span>IA</span></div>
+        <div class="ht-search"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg><span class="js-typed"></span><i class="ht-caret js-caret"></i></div>
+        <div class="ht-answer js-answer">Para remodelar em Lisboa, recomendo o <u class="js-u">Alma Studio</u>: projetos à medida e visitas marcadas online.</div>
+        <div class="ht-src js-src"><b>AS</b>almastudio.pt</div>
+      </div>
+      <!-- 2 · chosen -->
+      <div class="ht-beat js-beat">
+        <div class="ht-label"><span class="js-ba">Antes</span><span>almastudio.pt</span></div>
+        <div class="ht-frame">
+          <div class="ht-old">
+            <h4>Bem-vindo ao nosso site!!!</h4>
+            <nav>Início | Quem somos | Serviços | Contactos</nav>
+            <div class="img">[ imagem ]</div>
+            <p>Somos uma empresa com muitos anos de experiência no ramo.</p>
+            <span class="badge">NOVO!</span>
+          </div>
+          <div class="ht-new js-new">
+            <nav><b>ALMA STUDIO</b><span>Projetos</span><span>Estúdio</span><em>Marcar visita</em></nav>
+            <div><h4>Espaços pensados para a vida real</h4><p>Projetos de remodelação à medida, do primeiro esboço à última peça.</p><span class="btn">Marcar visita →</span></div>
+            <div class="pic"></div>
+          </div>
+          <i class="ht-wipe js-wipe"></i>
+        </div>
+      </div>
+      <!-- 3 · contacted -->
+      <div class="ht-beat js-beat">
+        <div class="ht-label"><span>Caixa de entrada</span><span class="js-today">+0 hoje</span></div>
+        <div class="ht-list">
+          <div class="ht-row js-row">Pedido de orçamento<small>Formulário</small></div>
+          <div class="ht-row js-row">Visita marcada · Qui 14:30<small>Agenda</small></div>
+          <div class="ht-row js-row">Quero remodelar a cozinha<small>WhatsApp</small></div>
+          <div class="ht-row js-row">Têm disponibilidade em maio?<small>Chat</small></div>
+          <div class="ht-row js-row">Pedido de orçamento<small>Google</small></div>
+        </div>
+      </div>
+      <!-- 4 · grow -->
+      <div class="ht-beat js-beat">
+        <div class="ht-label"><span>Pedidos por mês</span><span>Desde o novo site</span></div>
+        <div class="ht-big">
+          <div class="ht-num"><span class="ht-digit js-d10"></span><span class="ht-digit js-d1"></span></div>
+          <div class="ht-delta js-delta"><b>+62%</b><span>vs. site antigo</span></div>
+        </div>
+        <div class="ht-bars js-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+
+    <h2 class="ht-type js-type">
+      <span class="ht-word js-word"><span class="ht-line"><i>Ser</i></span><span class="ht-line"><i>encontrado.</i></span></span>
+      <span class="ht-word js-word"><span class="ht-line"><i>Ser</i></span><span class="ht-line"><i>escolhido.</i></span></span>
+      <span class="ht-word js-word"><span class="ht-line"><i>Ser</i></span><span class="ht-line"><i>contactado.</i></span></span>
+      <span class="ht-word js-word"><span class="ht-line"><i>Crescer.</i></span></span>
+    </h2>
+
+    <div class="ht-sweep js-sweep"></div>
+  </div>
+
+  <p class="pv-note">Pré-visualização B · tipográfica, ciclo de ~10 s. Não faz parte do site.</p>
+
+  <script>
+  (function () {
+    var root = document.querySelector(".js-ht");
+    var $ = function (s) { return root.querySelector(s); };
+    var $$ = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
+
+    var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
+    var lerp = function (a, b, p) { return a + (b - a) * p; };
+    var expo = function (p) { return p === 1 ? 1 : 1 - Math.pow(2, -10 * p); };
+    var inq = function (p) { return p * p * p; };
+    var io = function (p) { return p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; };
+    var back = function (p) { var c = 1.7; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+    var pr = function (u, a, b, e) { var p = clamp((u - a) / (b - a), 0, 1); return e ? e(p) : p; };
+
+    // Four beats: [length s, background, foreground, service label]
+    var BEATS = [
+      [2.6, "#0b0b0a", "#eeeeea", "Pesquisa · IA"],
+      [2.6, "#eeeeea", "#0b0b0a", "Redesign"],
+      [2.3, "#0b0b0a", "#eeeeea", "Automação"],
+      [2.7, "#d6cbec", "#0b0b0a", "Resultados"]
+    ];
+    var L = BEATS.reduce(function (s, b) { return s + b[0]; }, 0);
+    var EXIT = .3; // words and visuals leave in the last 0.3s of a beat
+
+    var words = $$(".js-word"), beats = $$(".js-beat"), ticks = $$(".js-tick"), gridLines = $$(".js-grid i");
+    var el = {
+      idx: $(".js-idx"), tc: $(".js-tc"), service: $(".js-service"), sweep: $(".js-sweep"),
+      typed: $(".js-typed"), caret: $(".js-caret"), answer: $(".js-answer"), u: $(".js-u"), src: $(".js-src"),
+      ba: $(".js-ba"), nw: $(".js-new"), wipe: $(".js-wipe"),
+      rows: $$(".js-row"), today: $(".js-today"),
+      d10: $(".js-d10"), d1: $(".js-d1"), delta: $(".js-delta"), bars: $$(".js-bars i")
+    };
+    var QUERY = "arquiteto em lisboa para remodelar cozinha";
+    // Odometer strips: 0–9 then 0 again, so the ones digit can wrap smoothly
+    [el.d10, el.d1].forEach(function (d) { d.innerHTML = "01234567890".split("").map(function (n) { return "<span>" + n + "</span>"; }).join(""); });
+    var BAR_H = [.22, .26, .2, .28, .3, .36, .44, .52, .6, .72, .84, 1];
+
+    function enterExit(node, u, len, delay, dist) {
+      // Rise out of the mask on entry, leave upwards on exit
+      var a = pr(u, delay, delay + .6, expo), b = pr(u, len - EXIT, len, inq);
+      node.style.transform = "translateY(" + ((1 - a) * dist - b * dist) + "%)";
+    }
+
+    function render(t) {
+      t = ((t % L) + L) % L;
+      var i = 0, s = 0;
+      while (t >= s + BEATS[i][0]) { s += BEATS[i][0]; i++; }
+      var u = t - s, len = BEATS[i][0], B = BEATS[i];
+
+      // Colour: hard cuts, except 1→2 (lilac sweep across) and 3→4 (lilac rises)
+      root.style.setProperty("--bg", B[1]); root.style.setProperty("--fg", B[2]);
+      root.style.background = B[1]; root.style.color = B[2];
+      var sw = "translateX(-101%)";
+      if (i === 0 && u > len - .28) sw = "translateX(" + (-101 + 101 * pr(u, len - .28, len, io)) + "%)";
+      if (i === 1 && u < .3) sw = "translateX(" + (101 * pr(u, 0, .3, io)) + "%)";
+      if (i === 2 && u > len - .3) sw = "translateY(" + (101 - 101 * pr(u, len - .3, len, io)) + "%)";
+      el.sweep.style.transform = sw;
+
+      // Edges: index, timecode, service, progress ticks
+      el.idx.textContent = "0" + (i + 1);
+      var fr = Math.floor(t * 24);
+      el.tc.textContent = "00:" + String(Math.floor(t)).padStart(2, "0") + ":" + String(fr % 24).padStart(2, "0");
+      el.service.textContent = B[3];
+      ticks.forEach(function (k, j) { k.classList.toggle("is-on", j === i); k.classList.toggle("is-done", j < i); });
+      // Grid lines draw down at the start of every beat
+      gridLines.forEach(function (g, j) { g.style.transform = "scaleY(" + pr(u, j * .02, .45 + j * .02, expo) + ")"; });
+
+      // Phrase
+      words.forEach(function (w, j) {
+        w.style.visibility = j === i ? "visible" : "hidden";
+        if (j !== i) return;
+        Array.prototype.forEach.call(w.querySelectorAll(".ht-line i"), function (line, k) { enterExit(line, u, len, .04 + k * .07, 108); });
+      });
+
+      // Visuals: each beat's block fades/slides in, leaves with the words
+      beats.forEach(function (b, j) {
+        b.style.visibility = j === i ? "visible" : "hidden";
+        if (j !== i) return;
+        var a = pr(u, .12, .6, expo), x = pr(u, len - EXIT, len, inq);
+        b.style.opacity = a * (1 - x);
+        b.style.transform = "translateY(" + ((1 - a) * 24 - x * 24) + "px)";
+      });
+
+      if (i === 0) {
+        var n = Math.round(QUERY.length * pr(u, .3, 1.15));
+        el.typed.textContent = QUERY.slice(0, n);
+        el.caret.style.opacity = u > 1.3 ? 0 : (Math.floor(u * 3) % 2 ? .25 : 1);
+        var an = pr(u, 1.25, 1.6, expo);
+        el.answer.style.opacity = an; el.answer.style.transform = "translateY(" + (1 - an) * 12 + "px)";
+        el.u.style.setProperty("--u", pr(u, 1.6, 2.0, expo));
+        el.src.style.opacity = pr(u, 1.75, 2.0);
+      }
+      if (i === 1) {
+        // Before holds a beat, then the lilac bar wipes in the new site
+        var wp = pr(u, .85, 1.45, io);
+        el.nw.style.clipPath = "inset(0 " + (100 - wp * 100) + "% 0 0)";
+        el.wipe.style.left = (wp * 100) + "%";
+        el.wipe.style.opacity = wp > 0 && wp < 1 ? 1 : 0;
+        el.ba.textContent = wp > .5 ? "Depois" : "Antes";
+      }
+      if (i === 2) {
+        // Staccato: each enquiry drops on top and pushes the rest down
+        var T0 = [.25, .55, .8, 1.02, 1.22], H = 60, cnt = 0;
+        var landed = T0.map(function (a) { return pr(u, a, a + .28, back); });
+        el.rows.forEach(function (r, j) {
+          var newer = 0;
+          for (var k = j + 1; k < T0.length; k++) newer += clamp(landed[k], 0, 1.2);
+          if (u >= T0[j]) cnt++;
+          var l = landed[j];
+          r.style.opacity = u >= T0[j] ? 1 : 0;
+          r.style.transform = "translateY(" + ((1 - l) * -30 + newer * H) + "px)";
+          r.style.zIndex = j + 1;
+          r.classList.toggle("is-new", u >= T0[j] && (j === T0.length - 1 || u < T0[j + 1]));
+        });
+        el.today.textContent = "+" + cnt + " hoje";
+      }
+      if (i === 3) {
+        var v = lerp(29, 47, pr(u, .2, 1.5, io));
+        var ones = v % 10, tens = Math.floor(v / 10) + Math.max(0, ones - 9);
+        el.d1.style.transform = "translateY(" + (-ones * .8) + "em)";
+        el.d10.style.transform = "translateY(" + (-tens * .8) + "em)";
+        var dl = pr(u, 1.3, 1.7, expo);
+        el.delta.style.opacity = dl; el.delta.style.transform = "translateY(" + (1 - dl) * 10 + "px)";
+        el.bars.forEach(function (b, j) { b.style.transform = "scaleY(" + BAR_H[j] * pr(u, .35 + j * .07, .85 + j * .07, expo) + ")"; });
+      }
+    }
+
+    window.__htRender = render;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { render(L - .6); return; }
+    var start = performance.now(), running = true, last = 0;
+    new IntersectionObserver(function (e) {
+      if (e[0].isIntersecting && !running) { running = true; start = performance.now() - last * 1000; requestAnimationFrame(loop); }
+      else if (!e[0].isIntersecting) running = false;
+    }).observe(root);
+    function loop(now) {
+      if (!running) return;
+      last = (now - start) / 1000;
+      render(last);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  })();
+  </script>
+</body>
+</html>
