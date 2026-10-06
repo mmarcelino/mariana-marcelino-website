@@ -24,7 +24,7 @@
     var band = data.bands.filter(function (b) { return score >= b.min; })[0];
     // Strongest problems first, keeping the questions' order within each level
     var weakAll = scored.filter(function (w) { return w.p === 2; }).concat(scored.filter(function (w) { return w.p === 1; }));
-    // The goal leads: "image" gets the New Look unless visibility and enquiries
+    // The goal leads: "image" gets the Fresh Look unless visibility and enquiries
     // are badly off (5+ of 8 points); with some problems there (3–4), the
     // result also mentions the Enquiry Engine
     var plan, alsoEngine = false;

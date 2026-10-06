@@ -351,13 +351,12 @@ POSTS = [
 <p>Além do valor inicial, um site tem custos anuais: o domínio, o alojamento, eventuais licenças ou plugins e, se optar por isso, um serviço de manutenção. Peça que estes valores fiquem claros desde o início.</p>
 
 <h2>Como organizo os meus preços</h2>
-<p>Para dar uma referência concreta, estas são as três formas de trabalhar comigo:</p>
+<p>Para dar uma referência concreta, é assim que organizo os meus preços:</p>
 <ul>
-  <li><strong>Redesign da Homepage, gratuito</strong>: redesenho a homepage do seu site e envio uma auditoria com pontos de melhoria, para ver o potencial antes de investir.</li>
-  <li><strong>Nova Imagem, 750€</strong>: novo design mantendo a estrutura e os conteúdos atuais, otimizado para mobile e publicado.</li>
+  <li><strong>Nova Imagem, 750€</strong>: novo design mantendo a estrutura e os conteúdos atuais, otimizado para mobile e publicado. Para sites até 4 páginas; sites maiores, valor sob consulta.</li>
   <li><strong>Motor de Contactos, a partir de 1 800€</strong>: novo design e estrutura à medida, otimização para Google e ferramentas de IA, marcações, WhatsApp, chatbot e painel de métricas.</li>
 </ul>
-<p>Pode ver o detalhe de cada opção na <a href="../../#solutions">página de soluções</a>.</p>
+<p>Ainda não tem a certeza? Posso <a href="../../#free">fazer o redesign da sua homepage gratuitamente</a> e enviar-lhe por email um relatório personalizado com pontos a otimizar, para ver o potencial antes de investir. Encontra o detalhe de cada plano na <a href="../../#solutions">secção de planos</a>.</p>
 
 <h2>Custo ou investimento?</h2>
 <p>A melhor forma de avaliar um site é compará-lo com o que pode gerar. Se um cliente novo vale, em média, 500€ para o seu negócio, um site de 1 800€ paga-se com quatro clientes. A partir daí, cada contacto que o site traz é retorno.</p>
@@ -419,15 +418,15 @@ UI = {
     g_inc="What’s inside", g_items=["The eight most common signs, explained without jargon", "What to do, and a quick test for each one", "A simple way to decide your next step"],
     g_label="Free guide request", g_nosite="I don't have one yet", g_yes="I have a website", g_site_q="Do you have a website?", g_url="Enter your website link", g_email="Enter your email", g_btn="Get the guide",
     g_note="Completely free. Your details are only used for this request.", privacy="Privacy Policy",
-    g_ok_t="Thank you, you can now", g_dl="download the guide", g_file="assets/guide-8-signs.pdf", g_dl_name="Eight-signs-your-website-is-driving-clients-away.pdf",
+    g_ok_t="Thanks! You can now", g_dl="download the guide", g_file="assets/guide-8-signs.pdf", g_dl_name="Eight-signs-your-website-is-driving-clients-away.pdf",
     cta_kicker="Contact", cta_title="Let's start with a conversation",
-    cta_sub="We'll look at where your website could improve and talk about the path that makes sense. No cost, no commitment.",
-    cta_write="If you prefer, send a message", cta_aria="Contact form", f_name="Name", f_msg="Message", f_send="Send",
+    cta_sub="We'll look at where your website could do better and talk through the right next step. No cost, no commitment.",
+    cta_write="Prefer to write? Send a message", cta_aria="Contact form", f_name="Name", f_msg="Message", f_send="Send",
     foot_aria="Footer", legal_label="Legal", legal=[("en/privacy-policy/", "Privacy"), ("en/cookie-policy/", "Cookies"), ("en/terms-and-conditions/", "Terms &amp; Conditions")], privacy_path="en/privacy-policy/", updated="Last updated",
     read="Read article", min_read="min read", role="Web Design, Development, Conversion",
     toc="In this article", summary="Key takeaways", faq="Frequently asked questions", faq_id="faq", more="Keep reading", home_crumb="Home",
-    bio=("I redesign and rebuild websites so your business looks like what it really is: modern and credible. "
-         "So it gets found by the people looking for it. And so every visitor has a clear path to becoming a client."),
+    bio=("I redesign and rebuild websites so your business looks the way it really is: modern and credible. "
+         "So the people looking for it can find it. And so every visitor has a clear path to becoming a client."),
     b_title="Let’s talk digital presence", b_intro="From idea to conversion — and everything in between.",
     b_meta_title="Blog | Mariana Marcelino — Websites, SEO and AI for small businesses",
     b_meta_desc="Practical articles on web design, SEO, artificial intelligence and conversion, written for people who run a business.",
@@ -1085,7 +1084,7 @@ LEGAL = [
 <h2>Redesign gratuito</h2>
 <ul>
   <li>O pedido de redesign gratuito não implica qualquer custo nem compromisso de contratação.</li>
-  <li>O redesign e a auditoria são uma demonstração do potencial do seu site. Os direitos de utilização do design só são transmitidos mediante a contratação de um serviço.</li>
+  <li>O redesign e o relatório são uma demonstração do potencial do seu site. Os direitos de utilização do design só são transmitidos mediante a contratação de um serviço.</li>
   <li>Posso recusar pedidos que não se enquadrem nos serviços que presto.</li>
 </ul>
 
@@ -1176,7 +1175,7 @@ QUIZ_META = {
     "pt": dict(title="Diagnóstico gratuito: o seu site está a trabalhar por si? | Mariana Marcelino",
                desc="Responda a 9 perguntas e descubra em 2 minutos o que está a funcionar no seu site, o que pode estar a afastar clientes e qual o próximo passo certo."),
     "en": dict(title="Free diagnosis: is your website working for you? | Mariana Marcelino",
-               desc="Answer 9 questions and find out in 2 minutes what's working on your website, what might be driving clients away and the right next step."),
+               desc="Answer 9 questions and, in 2 minutes, find out what's working on your website, what might be driving clients away and the best next step."),
 }
 
 
@@ -1311,9 +1310,10 @@ def build_seo_files():
 
 ## Planos
 
-- Redesign da Homepage (gratuito): redesign da homepage, auditoria com pontos de otimização e proposta personalizada por email.
-- Nova Imagem (750€, para sites até 4 páginas): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
+- Nova Imagem (750€, para sites até 4 páginas; mais páginas sob consulta): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
 - Motor de Contactos (a partir de 1 800€, o mais popular): novo design e estrutura à medida, integração dos conteúdos do cliente, otimização para Google, ChatGPT e outras ferramentas de IA, percurso do utilizador e chamadas à ação pensados para gerar contactos, formulários e captação de contactos, gestão automática de contactos e automação de follow-ups, agendamento e marcações automatizados, WhatsApp e chatbot, painel de métricas, otimização para mobile e publicação.
+
+Além dos planos (não é um plano): para quem ainda não tem a certeza e quer ver o potencial antes de investir, o Redesign da Homepage gratuito — redesign da homepage e relatório personalizado com pontos a otimizar, enviado por email.
 
 Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, prazo e valor fechado.
 
