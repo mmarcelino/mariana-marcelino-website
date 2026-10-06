@@ -57,7 +57,9 @@ def graph(page, lang):
     } for i, (t, d) in enumerate(cards, 1)]
 
     # Plans
-    names = [text(n) for n in re.findall(r'<h3 class="tier-name">(.*?)</h3>', page)]
+    # The free redesign (its own block under the plans) comes first, then the paid plans
+    free = re.search(r'<article id="free".*?<span class="tier-name">(.*?)</span>', page, re.S)
+    names = [text(free.group(1))] + [text(n) for n in re.findall(r'<h3 class="tier-name">(.*?)</h3>', page)]
     prices = ["0", "750", "1800"]
     offers = [{
         "@type": "Offer",
@@ -111,7 +113,7 @@ def graph(page, lang):
         "@id": person_id,
         "name": "Mariana Marcelino",
         "jobTitle": c["job"],
-        "image": f"{SITE}/assets/mariana-about-lilac.webp",
+        "image": f"{SITE}/assets/mariana-about.webp",
         "url": c["url"] + "#about",
         "worksFor": {"@id": biz_id},
         "sameAs": [LINKEDIN],

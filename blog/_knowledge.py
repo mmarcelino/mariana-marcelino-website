@@ -49,6 +49,15 @@ def knowledge(lang):
         head = f"— {name}" + (f" ({text(price.group(1))})" if price else "") + (f": {text(desc.group(1))}" if desc else "")
         note = re.search(r'<p class="tier-note"[^>]*>(.*?)</p>', block, re.S)
         L.append(head + (". " + ("Inclui" if lang == "pt" else "Includes") + ": " + "; ".join(items) if items else "") + (f" ({text(note.group(1))})" if note else ""))
+    # The free redesign isn't a plan: it sits under the plans as an option for
+    # anyone not sure yet, and is offered whenever plans come up
+    free = re.search(r'<article id="free".*?</article>', tiers, re.S)
+    if free:
+        pick = lambda pat: text(re.search(pat, free.group(0), re.S).group(1))
+        lead = ("Além dos planos (não é um plano): para quem ainda não tem a certeza e quer ver o potencial antes de investir"
+                if lang == "pt" else
+                "Besides the plans (not a plan): for anyone not sure yet who wants to see the potential before investing")
+        L.append(f"{lead} — {pick(r'<span class=.tier-name.>(.*?)</span>')} ({pick(r'<span class=.tier-price.>(.*?)</span>')}): {pick(r'<p class=.tier-desc.>(.*?)</p>')}")
 
     faq = section(page, "faq-section")
     title("Perguntas frequentes" if lang == "pt" else "Frequently asked questions")
@@ -57,11 +66,11 @@ def knowledge(lang):
 
     title("Contactos e próximos passos" if lang == "pt" else "Contact and next steps")
     if lang == "pt":
-        L.append("Marcar chamada gratuita de 30 minutos (botão “Marcar chamada” no site). Pedir o redesign gratuito da homepage (plano gratuito, na secção Planos). "
+        L.append("Marcar chamada gratuita de 30 minutos (botão “Marcar chamada” no site). Pedir o redesign gratuito da homepage (oferta gratuita, por baixo dos planos). "
                  "Diagnóstico gratuito do site, com 9 perguntas e resultado imediato com o plano recomendado: https://www.mariana-marcelino.com/diagnostico/ (útil para quem não sabe que plano escolher). Email: info@mariana-marcelino.com. "
                  "Trabalho remoto, com negócios de todo o país e do estrangeiro, em português ou inglês.")
     else:
-        L.append("Book a free 30-minute call (“Book a call” button on the website). Request the free homepage redesign (free plan, in the Plans section). "
+        L.append("Book a free 30-minute call (“Book a call” button on the website). Request the free homepage redesign (free offer, below the plans). "
                  "Free website diagnosis, 9 questions with an instant result and the recommended plan: https://www.mariana-marcelino.com/en/diagnosis/ (useful for anyone unsure which plan to choose). Email: info@mariana-marcelino.com. "
                  "Works remotely with businesses across Portugal and abroad, in Portuguese or English.")
 

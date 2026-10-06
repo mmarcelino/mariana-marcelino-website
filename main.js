@@ -931,11 +931,6 @@
         t += el.classList.contains("title-reveal") ? 220 + el.querySelectorAll(".tw").length * 35 : 90;
       });
       var start = t + 40;
-      // Grid rules draw themselves in just before the cards arrive
-      section.querySelectorAll(".cards").forEach(function (el) {
-        el.style.setProperty("--reveal-delay", Math.max(0, start - 150) + "ms");
-        revealIo.observe(el);
-      });
       section.querySelectorAll(BODY).forEach(function (el, i) { prep(el, start + Math.min(i, 6) * 70); });
     });
     // Settle the hidden starting state now, so elements already on screen at
