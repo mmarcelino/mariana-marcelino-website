@@ -4,8 +4,8 @@
 // booking) → results (an analytics dashboard).
 //
 // When it first reaches the middle of the screen (scrolling down) the page
-// holds still for one full loop, then scrolling is released and the reel
-// keeps looping. Reduced motion: a still frame, no hold.
+// holds still until the end of the first beat, then scrolling is released and
+// the reel keeps looping. Reduced motion: a still frame, no hold.
 (function () {
   var root = document.querySelector(".js-hero-reel");
   if (!root) return;
@@ -181,7 +181,7 @@
   // [length, background, foreground]
   var DARK = "#0b0b0a", INK = "#eeeeea";
   var BEATS = [[3.8, DARK, INK], [3.0, DARK, INK], [3.0, DARK, INK], [3.0, DARK, INK]];
-  var HOLD = BEATS[0][0] + BEATS[1][0]; // the page holds still until the end of the second beat
+  var HOLD = BEATS[0][0]; // the page holds still until the end of the first beat
   var L = BEATS.reduce(function (s, b) { return s + b[0]; }, 0);
   var OUT = .55; // each beat eases out over its last ~half second
 
@@ -470,19 +470,44 @@
 
   // ---------- the hold ----------
   // Scrolling down, the first time the reel's middle reaches the middle of the
-  // screen: centre it and stop the page until the end of the second beat.
+  // screen: centre it and stop the page until the end of the first beat.
   var html = document.documentElement;
   var keys = { " ": 1, PageDown: 1, PageUp: 1, ArrowDown: 1, ArrowUp: 1, Home: 1, End: 1 };
-  var block = function (e) { e.preventDefault(); };
-  var blockKeys = function (e) { if (keys[e.key]) e.preventDefault(); };
+  // Someone who keeps trying to scroll is let go early, on their second
+  // deliberate attempt. The gesture that brought the reel to the middle (and
+  // its trackpad momentum) doesn't count. A new attempt is a scroll after a
+  // pause, or one that clearly speeds up again while the last swipe is still
+  // dying down. Speeds are smoothed, since a trackpad's deltas jitter from one
+  // event to the next, and attempts are at least 400ms apart, so a single
+  // swipe can never count twice.
+  var ATTEMPTS = 2, attempts = 0, lastEvent = 0, lastAttempt = 0, speed = 0, peak = 0, trough = 0;
+  var push = function (size) {
+    var now = performance.now();
+    var paused = now - lastEvent > 250;
+    speed = paused ? size : speed * .65 + size * .35;
+    lastEvent = now;
+    if (speed > peak) { peak = speed; trough = speed; } else if (speed < trough) trough = speed;
+    var again = paused || (trough < peak * .6 && speed > trough * 2 + 10);
+    if (again && now - lastAttempt > 400) {
+      attempts++;
+      lastAttempt = now;
+      peak = trough = speed;
+      if (attempts >= ATTEMPTS) release();
+    }
+  };
+  var block = function (e) { e.preventDefault(); push(Math.abs(e.deltaY || 0)); };
+  var blockKeys = function (e) { if (keys[e.key]) { e.preventDefault(); push(0); } };
   function centreY() { var r = root.getBoundingClientRect(); return window.scrollY + r.top + r.height / 2 - window.innerHeight / 2; }
   function start() { if (started) return; started = true; clock = 0; play(); }
   function hold() {
     held = true;
+    // Whatever scrolling is under way now is the gesture that got here, not an attempt
+    lastEvent = lastAttempt = performance.now();
+    speed = peak = trough = 0;
     start();
     // The reel keeps running from the first scroll (no restart). The hold lasts to the
-    // end of the second beat, or a little longer if that's already gone by
-    holdUntil = Math.max(HOLD, clock + 2.5);
+    // end of the first beat, or just a beat of a second if that's already gone by
+    holdUntil = Math.max(HOLD, clock + 1);
     var y = centreY(), lenis = window.siteLenis;
     if (lenis) { lenis.scrollTo(y, { immediate: true, force: true }); lenis.stop(); }
     else window.scrollTo(0, y);
