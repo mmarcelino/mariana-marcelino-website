@@ -1579,7 +1579,8 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
   .footer-links .lang-switch { font-size: 13px; }
   .footer-guide { order: 3; width: 100%; margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(238, 238, 234, .14); }
   /* Bottom room so the chat button doesn't cover the legal links */
-  .footer-bottom { flex-direction: column-reverse; gap: 14px; padding: 24px 0 72px; }
+  /* Same space below the copyright as above the logo at the top of the footer */
+  .footer-bottom { flex-direction: column-reverse; gap: 14px; padding: 24px 0 48px; }
   .footer-legal { width: 100%; }
   .footer-legal-toggle { display: inline-flex; align-items: center; gap: 8px; padding: 6px 0; border: 0; background: none; color: inherit; font-family: var(--font-sans); font-size: 13px; cursor: pointer; }
   .footer-legal-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
@@ -1836,6 +1837,21 @@ html.strip-inline.strip-closed .promo-strip { transform: translateY(-100%); tran
   .mobile-menu[hidden] { display: none; }
   .mobile-menu.is-open { opacity: 1; transform: none; }
   .mobile-menu-top { display: flex; align-items: center; justify-content: space-between; height: 14px; margin-top: calc(var(--strip-h) + var(--nav-extra)); }
+  /* The diagnosis strip, kept at the top of the open menu: same look as the page strip,
+     pulled out to the edges; the logo then sits where it does under the page strip */
+  .menu-strip {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    height: var(--strip-size);
+    margin: calc(-1 * var(--gap)) calc(-1 * var(--gap)) 0;
+    padding: 0 16px;
+    background: #d6cbec;
+    color: var(--black);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1);
+  }
+  .menu-strip + .mobile-menu-top { margin-top: var(--gap); }
   .mobile-menu-close { display: grid; place-items: center; width: 34px; height: 34px; margin: -10px -8px -10px 0; border: 0; background: none; color: inherit; cursor: pointer; }
   .mobile-menu-close svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.4; }
   .mobile-menu-links { display: flex; flex-direction: column; margin-top: 48px; border-top: 1px solid var(--grey); }

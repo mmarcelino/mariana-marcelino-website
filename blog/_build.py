@@ -495,6 +495,9 @@ def header(prefix, current="blog", lang="pt", alt=None, strip=True):
     <a class="promo-link" href="{prefix}{u['q_path']}"><span class="promo-text">{u['q_strip']}</span><span class="promo-go"><span class="ul">{u['q_strip_go']}</span> <span class="arrow">→</span></span></a>
   </div>
 """ if strip else ""
+    # The same strip stays at the top of the open mobile menu, so the test is always one tap away
+    menu_strip = f"""    <div class="menu-strip"><a class="promo-link js-menu-link" href="{prefix}{u['q_path']}"><span class="promo-text">{u['q_strip']}</span><span class="promo-go"><span class="ul">{u['q_strip_go']}</span> <span class="arrow">→</span></span></a></div>
+""" if strip else ""
     return f"""  <a class="skip-link" href="#main">{u['skip']}</a>
 {promo}
   <header class="header">
@@ -514,7 +517,7 @@ def header(prefix, current="blog", lang="pt", alt=None, strip=True):
 
   <!-- Mobile menu -->
   <div class="mobile-menu js-mobile-menu" id="mobile-menu" hidden>
-    <div class="mobile-menu-top">
+{menu_strip}    <div class="mobile-menu-top">
       <span class="logo">MARIANA MARCELINO</span>
       <button type="button" class="mobile-menu-close js-menu-close" aria-label="{u['m_close']}">{X_ICON}</button>
     </div>
