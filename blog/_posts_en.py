@@ -329,13 +329,13 @@ POSTS_EN = [
 <h2>How I price my work</h2>
 <p>To give you a concrete reference, here’s how I price my own work:</p>
 <ul>
-  <li><strong>Fresh Look, €750</strong>: a new design that keeps your current structure and content, optimised for mobile and launched. For websites of up to 4 pages; larger websites on request.</li>
-  <li><strong>Enquiry Engine, from €1,800</strong>: custom design and structure, optimisation for Google and AI tools, bookings, WhatsApp, chatbot and a metrics dashboard.</li>
+  <li><strong>Fresh Look, 750€</strong>: a new design that keeps your current structure and content, optimised for mobile and launched. For websites of up to 4 pages; larger websites on request.</li>
+  <li><strong>Enquiry Engine, from 1 800€</strong>: custom design and structure, optimisation for Google and AI tools, forms and quizzes, automatic follow-up, WhatsApp and a metrics dashboard. The final price depends on the extras you choose, such as an AI chatbot or online payments.</li>
 </ul>
 <p>Not sure yet? I can <a href="../../#free">redesign your homepage for free</a> and email you a personalised report on what to improve, so you can see the potential before you invest. You’ll find the details of each plan in the <a href="../../#solutions">plans section</a>.</p>
 
 <h2>Cost or investment?</h2>
-<p>The best way to judge a website is to compare it with what it can bring in. If a new client is worth €500 to your business on average, an €1,800 website pays for itself after four clients. After that, every enquiry it brings in is pure return.</p>
+<p>The best way to judge a website is to compare it with what it can bring in. If a new client is worth 500€ to your business on average, a 1 800€ website pays for itself after four clients. After that, every enquiry it brings in is pure return.</p>
 <p>Do the maths with your own numbers: it helps you decide how much to invest and what to expect from the website in return.</p>
 """,
 "faq": [
