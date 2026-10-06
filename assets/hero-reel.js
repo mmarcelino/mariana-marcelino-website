@@ -12,13 +12,14 @@
 
   var EN = /^en/i.test(document.documentElement.lang);
   var COPY = EN ? {
-    words: [["Be", "found."], ["Be", "trusted."], ["Be", "contacted."], ["See", "results."]],
+    words: [["More", "visibility."], ["More", "trust."], ["More", "enquiries."], ["More", "results."]],
     labels: ["Visibility on Google & AI", "Website redesign", "Contact automation", "Results"],
     query: "architect in lisbon to renovate kitchen", newSearch: "New search", searchSuffix: " - Search",
     tabs: ["All", "AI Mode", "Images", "Maps", "News", "Videos"], aiTitle: "AI Overview",
-    aiText: 'For a kitchen renovation in Lisbon, <mark>Alma Studio</mark> is one of the most recommended options: bespoke interior projects, a 4.9 rating from 120 reviews and online visit booking.',
-    sources: "Sources", src: [["Alma Studio — Interiors in Lisbon", "almastudio.pt"], ["How to choose an architect for a renovation", "home-guide.com"], ["Renovating your kitchen: costs and timings", "build-magazine.com"]],
-    you: "Your site", resTitle: "Alma Studio — Interior architecture in Lisbon", resText: "Bespoke renovations, from the first sketch to the last piece. Book a visit online.",
+    aiText: 'To renovate your kitchen in Lisbon with an architect, <mark>Alma Studio</mark> is one of the most recommended studios: bespoke interior projects, from the 3D design to the finished build.',
+    chip: "almastudio +1", aiHead: "Architecture Studios and Renovation Companies in Lisbon",
+    aiItem: "Alma Studio", aiSub: ["Services:", "Interior design, kitchen and bathroom renovations, project management."], more: "Show more",
+    you: "Your site", resUrl: "https://almastudio.pt › renovations", resTitle: "Kitchen Renovation in Lisbon | Alma Studio", resText: "Bespoke interior projects in Lisbon. Kitchen renovations from the 3D design to the finished build. Book a visit online.",
     rating: "4.9 · 120 reviews", links: ["Projects", "Book a visit", "Contact"],
     before: "Before", after: "After",
     old: { top: ["☎ +351 21 345 6789", "✉ info@almastudio.pt", "Mon–Fri 9am–6pm"], social: "Facebook · Instagram · LinkedIn &nbsp;|&nbsp; PT · EN", tagline: "Architecture • Design • Renovations • Decoration • Building",
@@ -42,13 +43,15 @@
       chart: "Enquiries per month", newSite: "New site", tip: "47 enquiries", months: ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
       sources: "Where enquiries come from", src: [["Google", 38], ["AI assistants", 21], ["Direct", 24], ["Social", 17]] }
   } : {
-    words: [["Ser", "encontrado."], ["Ser", "credível."], ["Ser", "contactado."], ["Ver", "resultados."]],
+    words: [["Mais", "visibilidade."], ["Mais", "confiança."], ["Mais", "contactos."], ["Mais", "resultados."]],
     labels: ["Visibilidade no Google e IA", "Redesign do site", "Automação de contactos", "Resultados"],
     query: "arquiteto em lisboa para remodelar cozinha", newSearch: "Nova pesquisa", searchSuffix: " - Pesquisa",
-    tabs: ["Tudo", "Modo IA", "Imagens", "Mapas", "Notícias", "Vídeos"], aiTitle: "Visão geral de IA",
-    aiText: 'Para remodelar uma cozinha em Lisboa, o <mark>Alma Studio</mark> é uma das opções mais recomendadas: faz projetos de interiores à medida, tem uma avaliação de 4,9 em 120 opiniões e permite marcar visitas online.',
-    sources: "Fontes", src: [["Alma Studio — Interiores em Lisboa", "almastudio.pt"], ["Como escolher um arquiteto para remodelar", "guia-casa.pt"], ["Remodelar a cozinha: custos e prazos", "revista-obras.pt"]],
-    you: "O seu site", resTitle: "Alma Studio — Arquitetura de interiores em Lisboa", resText: "Remodelações à medida, do primeiro esboço à última peça. Marque uma visita online.",
+    // Google's interface as it shows up in Portugal: content in Portuguese, labels in English
+    tabs: ["All", "AI Mode", "Images", "Maps", "News", "Videos"], aiTitle: "AI Overview",
+    aiText: 'Para remodelar a sua cozinha em Lisboa com acompanhamento de arquitetura, o <mark>Alma Studio</mark> é um dos gabinetes mais recomendados: projetos de interiores à medida, do desenho 3D à execução da obra.',
+    chip: "almastudio +1", aiHead: "Gabinetes de Arquitetura e Empresas de Remodelação em Lisboa",
+    aiItem: "Alma Studio", aiSub: ["Serviços:", "Projeto de interiores, remodelação de cozinhas e casas de banho, gestão de obra."], more: "Show more",
+    you: "O seu site", resUrl: "https://almastudio.pt › remodelacoes", resTitle: "Remodelação de Cozinhas em Lisboa | Alma Studio", resText: "Projetos de interiores à medida em Lisboa. Remodelação de cozinhas, do desenho 3D à execução da obra. Marque uma visita online.",
     rating: "4,9 · 120 avaliações", links: ["Projetos", "Marcar visita", "Contacto"],
     before: "Antes", after: "Depois",
     old: { top: ["☎ 21 345 6789", "✉ geral@almastudio.pt", "Seg–Sex 9h–18h"], social: "Facebook · Instagram · LinkedIn &nbsp;|&nbsp; PT · EN", tagline: "Arquitetura • Design • Remodelações • Decoração • Obras",
@@ -87,13 +90,19 @@
         '<div class="sp-page">' +
           '<div class="sp-box">' + SEARCH_ICON + '<span class="js-q"></span><i class="sp-caret js-caret"></i></div>' +
           '<div class="js-results"><div class="sp-tabs">' + map(C.tabs, function (t, k) { return '<span' + (k ? "" : ' class="on"') + ">" + t + "</span>"; }) + '</div>' +
-          '<div class="sp-main"><div>' +
-            '<div class="sp-ai"><div class="sp-ai-h"><i>✦</i>' + C.aiTitle + '</div><div class="sp-skel js-skel"><i style="width:96%"></i><i style="width:88%"></i><i style="width:64%"></i></div><p class="sp-text js-aitext">' + C.aiText + '</p></div>' +
-            '<div class="sp-res js-res"><span class="sp-you js-you">' + C.you + '</span><div class="sp-site"><em>A</em><div>Alma Studio<small>https://almastudio.pt</small></div></div>' +
-              '<h5>' + C.resTitle + '</h5><p>' + C.resText + '</p><div class="sp-rate"><b>★★★★★</b> ' + C.rating + '</div><div class="sp-links">' + map(C.links, function (l) { return "<span>" + l + "</span>"; }) + '</div></div>' +
-          '</div><div class="sp-srcs"><small>' + C.sources + '</small>' +
-            map(C.src, function (s, k) { return '<div class="sp-src js-srcc"><div><b>' + s[0] + '</b><span><em>' + s[1][0].toUpperCase() + '</em>' + s[1] + '</span></div><div class="th' + (k ? "" : " -photo") + '"></div></div>'; }) +
-          '</div></div></div>' +
+          '<div class="sp-main">' +
+            '<div class="sp-ai">' +
+              '<div class="sp-ai-h"><svg viewBox="0 0 24 24"><defs><linearGradient id="hr-gem" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f8df5"/><stop offset="1" stop-color="#2f5fd8"/></linearGradient></defs><path d="M12 0c.6 6.4 5.6 11.4 12 12-6.4.6-11.4 5.6-12 12-.6-6.4-5.6-11.4-12-12C6.4 11.4 11.4 6.4 12 0Z" fill="url(#hr-gem)"/></svg>' + C.aiTitle + '</div>' +
+              '<div class="sp-ai-top"><div class="sp-ai-copy"><div class="sp-skel js-skel"><i style="width:96%"></i><i style="width:90%"></i><i style="width:70%"></i></div>' +
+                '<p class="sp-text js-aitext">' + C.aiText + '</p><span class="sp-chip js-chip"><em>A</em>' + C.chip + '</span></div>' +
+                '<div class="sp-thumb js-thumb"></div></div>' +
+              '<div class="js-aimore"><h6 class="sp-ai-h2">' + C.aiHead + '</h6>' +
+                '<ul class="sp-ai-list"><li><u class="js-aiitem">' + C.aiItem + '</u><ul><li><b>' + C.aiSub[0] + '</b> ' + C.aiSub[1] + '</li></ul></li></ul>' +
+                '<span class="sp-more">' + C.more + ' <i>⌄</i></span></div>' +
+            '</div>' +
+            '<div class="sp-res js-res"><span class="sp-you js-you">' + C.you + '</span><div class="sp-site"><em>A</em><div>Alma Studio<small>' + C.resUrl + '</small></div></div>' +
+              '<h5>' + C.resTitle + '</h5><p>' + C.resText + '</p><div class="sp-rate"><b>★★★★★</b> ' + C.rating + '</div></div>' +
+          '</div></div>' +
         '</div>' +
       '</div></div></div></div>' +
       // 2 · chosen
@@ -171,7 +180,7 @@
 
   // [length, background, foreground]
   var DARK = "#0b0b0a", INK = "#eeeeea";
-  var BEATS = [[3.4, DARK, INK], [2.7, DARK, INK], [3.0, DARK, INK], [3.0, DARK, INK]];
+  var BEATS = [[3.8, DARK, INK], [3.0, DARK, INK], [3.0, DARK, INK], [3.0, DARK, INK]];
   var HOLD = BEATS[0][0] + BEATS[1][0]; // the page holds still until the end of the second beat
   var L = BEATS.reduce(function (s, b) { return s + b[0]; }, 0);
   var OUT = .55; // each beat eases out over its last ~half second
@@ -186,7 +195,7 @@
     beats: $$(".js-beat"), light: $(".js-light"), grain: $(".js-grain"),
     sec: $(".js-section"), secN: $(".js-sec-n"), secT: $(".js-sec-t"), secLine: $(".js-sec-line"),
     sframe: $(".js-sframe"), sp: $(".js-sp"), tabq: $(".js-tabq"), omni: $(".js-omni"), q: $(".js-q"), caret: $(".js-caret"),
-    results: $(".js-results"), you: $(".js-you"), skel: $(".js-skel"), aitext: $(".js-aitext"), mark: $(".js-aitext mark"), res: $(".js-res"), srcc: $$(".js-srcc"),
+    results: $(".js-results"), you: $(".js-you"), skel: $(".js-skel"), aitext: $(".js-aitext"), mark: $(".js-aitext mark"), res: $(".js-res"), aiitem: $(".js-aiitem"), chip: $(".js-chip"), thumb: $(".js-thumb"), aimore: $(".js-aimore"),
     frame: $(".js-frame"), after: $(".js-after"), edge: $(".js-edge"), baA: $(".js-ba-a"), baB: $(".js-ba-b"),
     iframe: $(".js-iframe"), ib: $(".js-ib"), ibrows: $$(".js-ibrow"), ibcount: $(".js-ibcount"), ibread: $(".js-ibread"), ibauto: $(".js-ibauto"), ibbook: $(".js-ibbook"),
     light2: $(".js-light2"),
@@ -199,9 +208,8 @@
     Array.prototype.slice.call(node.childNodes).forEach(function (n) {
       if (n.nodeType === 3) {
         var f = document.createDocumentFragment();
-        n.textContent.split(/(\s+)/).forEach(function (w) {
-          if (!w) return;
-          if (/^\s+$/.test(w)) { f.appendChild(document.createTextNode(w)); return; }
+        // each word carries its following space, so the highlight runs on unbroken
+        (n.textContent.match(/\s*\S+\s*/g) || []).forEach(function (w) {
           var sp = document.createElement("span"); sp.textContent = w; f.appendChild(sp);
         });
         node.replaceChild(f, n);
@@ -226,7 +234,7 @@
     var room = narrow ? H - pad - wordH - 20 - top : H - pad - bigH - 22 - top;
     var slotW = narrow ? W - pad * 2 : (W - pad * 2) * 2 / 3;
     // Search page and dashboard are laid out at a real size, then scaled into their frames
-    var sw = narrow ? 430 : 1024, sh = narrow ? 560 : 660;
+    var sw = narrow ? 430 : 1024, sh = narrow ? 560 : 720;
     el.sp.classList.toggle("-m", narrow);
     el.sp.style.width = sw + "px"; el.sp.style.height = sh + "px";
     el.sframe.style.aspectRatio = sw + " / " + sh;
@@ -273,6 +281,12 @@
     var i = 0, s = 0;
     while (t >= s + BEATS[i][0]) { s += BEATS[i][0]; i++; }
     var u = t - s, len = BEATS[i][0], B = BEATS[i], frame = Math.floor(t * 24);
+    // On the very first pass the page already shows beat 1 laid out (the poster), so
+    // its entrance is skipped: only the search starts typing
+    if (i > 0) intro = false;
+    var ent = intro && i === 0 ? 99 : u;
+    // ...except the words, which rise in once they're on screen themselves
+    var went = intro && i === 0 ? (wordT === null ? 0 : (performance.now() - wordT) / 1000) : u;
 
     root.style.setProperty("--bg", B[1]); root.style.setProperty("--fg", B[2]);
     root.style.background = B[1];
@@ -288,19 +302,19 @@
     el.sec.style.color = B[2];
     el.secN.textContent = "0" + (i + 1);
     el.secT.textContent = C.labels[i];
-    el.secLine.style.transform = "scaleX(" + (pr(u, .05, .6, expo) * (1 - pr(u, len - OUT, len - .1, io))) + ")";
-    el.secT.style.transform = "translateY(" + ((1 - pr(u, .15, .7, expo)) * 110 - pr(u, len - OUT + .1, len, io) * 110) + "%)";
-    el.secN.style.opacity = .5 * pr(u, .05, .3);
+    el.secLine.style.transform = "scaleX(" + (pr(ent, .05, .6, expo) * (1 - pr(u, len - OUT, len - .1, io))) + ")";
+    el.secT.style.transform = "translateY(" + ((1 - pr(ent, .15, .7, expo)) * 110 - pr(u, len - OUT + .1, len, io) * 110) + "%)";
+    el.secN.style.opacity = .5 * pr(ent, .05, .3);
 
     // The word: letters rise in one after another, and leave the same way, upwards
     // through their mask; a word wider than the panel drifts left
     words.forEach(function (w, j) {
       w.el.style.visibility = j === i ? "visible" : "hidden";
       if (j !== i) return;
-      if (w.ser) w.ser.style.transform = "translateY(" + ((1 - pr(u, .08, .6, expo)) * 105 - pr(u, len - OUT, len - .25, io) * 105) + "%)";
+      if (w.ser) w.ser.style.transform = "translateY(" + ((1 - pr(went, .08, .6, expo)) * 105 - pr(u, len - OUT, len - .25, io) * 105) + "%)";
       var step = Math.min(.025, .25 / w.letters.length);
       w.letters.forEach(function (c, k) {
-        var inP = pr(u, .12 + k * .03, .7 + k * .03, expo), outP = pr(u, len - OUT + k * step, len - .25 + k * step, io);
+        var inP = pr(went, .12 + k * .03, .7 + k * .03, expo), outP = pr(u, len - OUT + k * step, len - .25 + k * step, io);
         c.style.transform = "translateY(" + ((1 - inP) * 105 - outP * 105) + "%)";
       });
       var over = Math.max(0, w.big.scrollWidth - W + 40);
@@ -310,7 +324,7 @@
     // Visuals
     el.beats.forEach(function (b, j) { b.style.display = j === i ? "block" : "none"; });
     // Visuals come into focus and leave softly: fade, a touch of blur and lift
-    var vin = pr(u, .05, .75, expo), vout = pr(u, len - OUT, len - .05, io);
+    var vin = pr(ent, .05, .75, expo), vout = pr(u, len - OUT, len - .05, io);
     var slot = el.beats[i].querySelector(".hr-slot");
     slot.style.opacity = vin * (1 - vout);
     slot.style.filter = vin < 1 || vout > 0 ? "blur(" + ((1 - vin) * 10 + vout * 8).toFixed(2) + "px)" : "";
@@ -326,17 +340,26 @@
       el.caret.style.opacity = loaded ? 0 : (Math.floor(u * 3) % 2 ? .25 : 1);
       var rl = pr(u, .78, 1.05, expo);
       el.results.style.opacity = rl; el.results.style.transform = "translateY(" + (1 - rl) * 10 + "px)";
-      var thinking = u < 1.25;
+      // AI overview: a shimmering placeholder, then the answer streams in (Alma Studio named first),
+      // its source chip and picture, the list with Alma Studio on top; then Alma Studio's own
+      // result, first in the organic results, lights up
+      var thinking = u < 1.2;
       el.skel.style.display = thinking ? "block" : "none";
       Array.prototype.forEach.call(el.skel.children, function (b) { b.style.backgroundPosition = (100 - (u * 160) % 200) + "% 0"; });
       el.aitext.style.display = thinking ? "none" : "block";
-      var wp = pr(u, 1.25, 2.1);
+      var wp = pr(u, 1.2, 1.95);
       aiWords.forEach(function (w, k) { w.style.opacity = clamp(wp * aiWords.length - k, 0, 1); });
-      el.mark.style.setProperty("--m", pr(u, 2.15, 2.5, expo));
-      el.srcc.forEach(function (c, k) { var p = pr(u, 1.45 + k * .12, 1.8 + k * .12, expo); c.style.opacity = p; c.style.transform = "translateY(" + (1 - p) * 8 + "px)"; });
-      var rp = pr(u, 2.0, 2.35, expo);
+      var cp = pr(u, 1.9, 2.15, expo);
+      el.chip.style.opacity = cp;
+      el.thumb.style.opacity = pr(u, 1.3, 1.7, expo);
+      var mp = pr(u, 2.0, 2.35, expo);
+      el.aimore.style.opacity = mp; el.aimore.style.transform = "translateY(" + (1 - mp) * 8 + "px)";
+      var rp = pr(u, 2.3, 2.6, expo);
       el.res.style.opacity = rp; el.res.style.transform = "translateY(" + (1 - rp) * 10 + "px)";
-      var hl = pr(u, 2.45, 2.8, expo);
+      // Lilac highlight wherever Alma Studio shows up: in the AI answer, in its list, in the results
+      el.mark.style.setProperty("--m", pr(u, 1.95, 2.25, expo));
+      el.aiitem.style.setProperty("--m", pr(u, 2.3, 2.6, expo));
+      var hl = pr(u, 2.75, 3.1, expo);
       el.res.style.setProperty("--hl", hl);
       el.you.style.opacity = hl; el.you.style.transform = "translateY(" + (1 - hl) * 6 + "px)";
     }
@@ -405,22 +428,37 @@
   window.addEventListener("resize", function () { layout(); render(clock); });
   window.__heroReelRender = function (t) { clock = t; render(t); }; // frame-by-frame rendering (video export, checks)
 
-  var clock = 0;
+  var clock = 0, intro = true, wordT = null;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { render(L - .9); return; }
-  // Until the visitor scrolls, the reel shows the first slide complete (a poster)
-  // (before the first beat starts easing out, so nothing is mid-transition)
-  var POSTER = BEATS[0][0] - OUT - .05;
-  render(POSTER);
+  // Until the visitor scrolls, the reel shows the first slide laid out with the
+  // search box still empty; scrolling starts the typing and the rest of the story
+  render(0);
+  // The first word rises in when it comes on screen (on load, if it's already there)
+  function wordCheck() {
+    if (wordT !== null || !intro) return;
+    var r = words[0].el.getBoundingClientRect();
+    if (r.top >= 0 && r.top + r.height * .6 <= window.innerHeight) {
+      wordT = performance.now();
+      var until = wordT + 1600;
+      (function frame(now) { render(clock); if (!playing && now < until) requestAnimationFrame(frame); })(wordT);
+    }
+  }
+  wordCheck();
+  window.addEventListener("scroll", wordCheck, { passive: true });
 
   // ---------- playback ----------
   // Starts from the beginning on the first scroll down; then plays while on screen.
-  var dwell = 0, playing = false, started = false, held = false, done = false, last = 0, holdUntil = HOLD;
+  var playing = false, started = false, held = false, done = false, last = 0, holdUntil = HOLD;
   function tick(now) {
     if (!playing) return;
     var dt = last ? Math.min(.1, (now - last) / 1000) : 0;
-    if (dwell > 0) dwell -= dt; else clock += dt;
+    clock += dt;
+    // First pass: beat 1 doesn't start leaving until its words have been on screen a while
+    var exitAt = BEATS[0][0] - OUT - .01;
+    if (intro && clock > exitAt && (wordT === null || now - wordT < 1800)) clock = exitAt;
     last = now;
     if (held && clock >= holdUntil) release();
+    wordCheck();
     render(clock);
     requestAnimationFrame(tick);
   }
@@ -438,9 +476,7 @@
   var block = function (e) { e.preventDefault(); };
   var blockKeys = function (e) { if (keys[e.key]) e.preventDefault(); };
   function centreY() { var r = root.getBoundingClientRect(); return window.scrollY + r.top + r.height / 2 - window.innerHeight / 2; }
-  // Picks up from the poster (no jump back to an empty first slide): it stays
-  // for a beat, then eases out into the second. Beat 1 plays in full on the loop.
-  function start() { if (started) return; started = true; clock = POSTER; dwell = 1.8; play(); }
+  function start() { if (started) return; started = true; clock = 0; play(); }
   function hold() {
     held = true;
     start();
@@ -487,9 +523,10 @@
     lastY = y;
     viewing();
     if (!down || !touched) return;
-    start();
-    if (done || held) return;
+    // It starts as soon as the reel is on screen
     var r = root.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) start();
+    if (done || held) return;
     if (r.top + r.height / 2 <= window.innerHeight / 2) hold();
   }, { passive: true });
 })();
