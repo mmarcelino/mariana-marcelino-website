@@ -25,13 +25,13 @@ COPY = {
                job="Web designer e developer",
                plan_desc=["Redesign da homepage e relatório personalizado com pontos a otimizar, enviado por email.",
                           "Novo design mantendo a estrutura e os conteúdos atuais, para sites até 4 páginas.",
-                          "Design e estrutura à medida, otimização para Google e IA, marcações, WhatsApp, chatbot e painel de métricas."]),
+                          "Design e estrutura à medida, otimização para Google e IA, formulários e questionários, follow-ups automáticos, WhatsApp e painel de métricas. Extras como chatbot com IA à parte."]),
     "en": dict(url=f"{SITE}/en/", lang="en", plans="Plans", services="Services",
                desc="Website redesign and development for small businesses: design, automation and AI to attract visitors and generate enquiries.",
                job="Web designer and developer",
                plan_desc=["Homepage redesign and a personalised report on what to improve, sent by email.",
                           "New design keeping the current structure and content, for websites of up to 4 pages.",
-                          "Custom design and structure, optimisation for Google and AI, bookings, WhatsApp, chatbot and a metrics dashboard."]),
+                          "Custom design and structure, optimisation for Google and AI, forms and quizzes, automatic follow-up, WhatsApp and a metrics dashboard. Extras such as an AI chatbot on top."]),
 }
 
 

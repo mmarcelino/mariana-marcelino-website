@@ -354,7 +354,7 @@ POSTS = [
 <p>Para dar uma referência concreta, é assim que organizo os meus preços:</p>
 <ul>
   <li><strong>Nova Imagem, 750€</strong>: novo design mantendo a estrutura e os conteúdos atuais, otimizado para mobile e publicado. Para sites até 4 páginas; sites maiores, valor sob consulta.</li>
-  <li><strong>Motor de Contactos, a partir de 1 800€</strong>: novo design e estrutura à medida, otimização para Google e ferramentas de IA, marcações, WhatsApp, chatbot e painel de métricas.</li>
+  <li><strong>Motor de Contactos, a partir de 1 800€</strong>: design e estrutura à medida, otimização para Google e ferramentas de IA, formulários e questionários, follow-ups automáticos, WhatsApp e painel de métricas. O valor final depende dos extras que escolher, como um chatbot com IA ou pagamentos online.</li>
 </ul>
 <p>Ainda não tem a certeza? Posso <a href="../../#free">fazer o redesign da sua homepage gratuitamente</a> e enviar-lhe por email um relatório personalizado com pontos a otimizar, para ver o potencial antes de investir. Encontra o detalhe de cada plano na <a href="../../#solutions">secção de planos</a>.</p>
 
@@ -1314,7 +1314,7 @@ def build_seo_files():
 ## Planos
 
 - Nova Imagem (750€, para sites até 4 páginas; mais páginas sob consulta): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
-- Motor de Contactos (a partir de 1 800€, o mais popular): novo design e estrutura à medida, integração dos conteúdos do cliente, otimização para Google, ChatGPT e outras ferramentas de IA, percurso do utilizador e chamadas à ação pensados para gerar contactos, formulários e captação de contactos, gestão automática de contactos e automação de follow-ups, agendamento e marcações automatizados, WhatsApp e chatbot, painel de métricas, otimização para mobile e publicação.
+- Motor de Contactos (1 800€ de valor base, o mais popular): novo design e estrutura à medida, integração dos conteúdos do cliente, otimização para Google, ChatGPT e outras ferramentas de IA, percurso e chamadas à ação que convertem visitas, formulários e questionários que captam contactos, follow-ups automáticos a cada novo pedido, integração com WhatsApp, painel de métricas, otimização para mobile e publicação. Extras à medida, pagos à parte: chatbot com IA treinado no negócio, sistemas de agendamento automático, blog editável para ser encontrado no Google e IA, páginas e idiomas adicionais, pagamentos online e manutenção regular.
 
 Além dos planos (não é um plano): para quem ainda não tem a certeza e quer ver o potencial antes de investir, o Redesign da Homepage gratuito — redesign da homepage e relatório personalizado com pontos a otimizar, enviado por email.
 

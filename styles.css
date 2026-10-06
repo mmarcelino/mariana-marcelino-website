@@ -1205,18 +1205,23 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
 @media (min-width: 860px) { .tiers-sub { font-size: clamp(17px, 1.3vw, 20px); } }
 
 /* Two paid plans in the same centred column as the title. No boxes and no
-   vertical rules: each plan has its own top rule, like the Soluções cards
-   (black on the recommended plan). From 860px they share rows (subgrid), so
-   prices, buttons and lists line up across both columns. */
+   vertical rules: each plan has its own grey top rule, like the Soluções
+   cards. From 860px they share rows (subgrid): price, note, button and list
+   each get their own row, so prices, notes and buttons line up across both. */
 .tiers-head { padding-bottom: 56px; }
 @media (min-width: 860px) { .tiers-head { padding-bottom: 72px; } }
 .tiers { display: grid; grid-template-columns: 1fr; row-gap: 48px; }
 .tier { display: flex; flex-direction: column; padding-top: 24px; border-top: 1px solid var(--grey); }
-.tier.-featured { border-top-color: var(--black); }
 @media (min-width: 860px) {
-  .tiers { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(5, auto); column-gap: 48px; }
-  .tier { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 0; }
-  .tier-pricing { align-self: end; }
+  .tiers { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(6, auto); column-gap: 48px; }
+  .tier { display: grid; grid-row: span 6; grid-template-rows: subgrid; row-gap: 0; }
+  /* Price and note become rows of their own; the price sits at the bottom of its
+     row, so both numbers share a baseline */
+  .tier-pricing { display: contents; }
+  .tier-price { grid-row: 3; align-self: end; margin-top: 32px; }
+  .tier-note { grid-row: 4; }
+  .tier-cta { grid-row: 5; }
+  .tier-inc { grid-row: 6; }
 }
 .tier-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 26px; }
 .tier-tag {
@@ -1234,7 +1239,6 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
 .tiers .tier-desc { margin-top: 8px; font-size: var(--fs-body); line-height: 1.45; }
 .tier-pricing { margin-top: 32px; }
 .tier-price { font-family: var(--font-sans); font-weight: 400; font-size: clamp(30px, 2.6vw, 40px); line-height: 1; letter-spacing: -.03em; }
-.tier-from { display: block; margin-bottom: 8px; font-size: 13px; letter-spacing: 0; color: var(--text-3); }
 .tier-note { max-width: 26em; margin-top: 8px; font-size: 13px; line-height: 1.4; }
 .tier-cta { margin-top: 24px; }
 .tier-inc { margin-top: 32px; }
@@ -1242,6 +1246,10 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
 .tier-list { display: flex; flex-direction: column; gap: 9px; line-height: 1.4; }
 .tier-list li { position: relative; padding-left: 1.3em; }
 .tier-list li::before { content: "—"; position: absolute; left: 0; color: rgba(0, 0, 0, .35); }
+/* Optional extras: lighter text and a "+" marker, so they read as add-ons to the base price */
+.tier-extras-label { margin-top: 28px; }
+.tier-list.-extras li { color: var(--text-2); }
+.tier-list.-extras li::before { content: "+"; }
 
 /* Free redesign: an invitation under the plans, not a third plan */
 .tier-free {

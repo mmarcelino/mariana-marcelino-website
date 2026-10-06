@@ -45,10 +45,15 @@ def knowledge(lang):
         name = text(re.search(r'<h3 class="tier-name">(.*?)</h3>', block, re.S).group(1))
         desc = re.search(r'<p class="tier-desc">(.*?)</p>', block, re.S)
         price = re.search(r'<p class="tier-price">(.*?)</p>', block, re.S)
-        items = [text(i) for i in re.findall(r"<li>(.*?)</li>", block, re.S)]
+        # Included items come from the main list; optional extras (paid on top) are listed apart
+        main = re.search(r'<ul class="tier-list">(.*?)</ul>', block, re.S)
+        items = [text(i) for i in re.findall(r"<li>(.*?)</li>", main.group(1) if main else "", re.S)]
+        extras_ul = re.search(r'<ul class="tier-list -extras">(.*?)</ul>', block, re.S)
+        extras = [text(i) for i in re.findall(r"<li>(.*?)</li>", extras_ul.group(1), re.S)] if extras_ul else []
         head = f"— {name}" + (f" ({text(price.group(1))})" if price else "") + (f": {text(desc.group(1))}" if desc else "")
         note = re.search(r'<p class="tier-note"[^>]*>(.*?)</p>', block, re.S)
-        L.append(head + (". " + ("Inclui" if lang == "pt" else "Includes") + ": " + "; ".join(items) if items else "") + (f" ({text(note.group(1))})" if note else ""))
+        extras_txt = (". " + ("Extras opcionais, pagos à parte e não incluídos no preço base" if lang == "pt" else "Optional extras, paid on top and not included in the base price") + ": " + "; ".join(extras)) if extras else ""
+        L.append(head + (". " + ("Inclui" if lang == "pt" else "Includes") + ": " + "; ".join(items) if items else "") + (f" ({text(note.group(1))})" if note else "") + extras_txt)
     # The free redesign isn't a plan: it sits under the plans as an option for
     # anyone not sure yet, and is offered whenever plans come up
     free = re.search(r'<article id="free".*?</article>', tiers, re.S)
