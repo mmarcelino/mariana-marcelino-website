@@ -1,6 +1,2 @@
 # macOS
 .DS_Store
-
-# Design explorations kept locally, not part of the live site
-versions/
-preview-v1.html
