@@ -343,7 +343,7 @@ module.exports = {
     "ui": {
       "kicker": "Free diagnosis",
       "title": "Is your website working for you?",
-      "intro": "Answer 9 quick questions and find out, in 2 minutes, what's working, what might be driving clients away and the next step that makes most sense for your business.",
+      "intro": "Answer 9 quick questions and, in 2 minutes, find out what's working, what might be driving clients away and the best next step for your business.",
       "start": "Start the diagnosis",
       "note": "No sign-up. Instant result.",
       "progress": "Question {n} of {t}",
@@ -356,27 +356,27 @@ module.exports = {
       "urlInvalid": "Check the address (for example, example.com).",
       "resultKicker": "Your result",
       "scoreLabel": "Website health",
-      "weakTitle": "Where the website is losing out",
-      "noWeak": "We didn't find any major weak points. The website does what it should.",
+      "weakTitle": "Where your website is falling short",
+      "noWeak": "No major weak spots. Your website is doing its job.",
       "planTitle": "Recommended next step",
-      "mailTitle": "Find out exactly how to fix each point",
-      "mailTitleOne": "Find out exactly how to fix this point",
-      "mailTextMinor": "The summary above shows what could still be improved. The full report shows how. Find out which concrete steps you can take right away to get even more out of your website. It also includes the guide {guide}.",
-      "mailText": "The summary above shows where your website is falling short. The full report shows how to fix it. Find out which concrete steps you can take right away to see results sooner. It also includes the guide {guide}.",
+      "mailTitle": "Find out exactly how to fix each one",
+      "mailTitleOne": "Find out exactly how to fix it",
+      "mailTextMinor": "The summary above shows what could still be better. The full report shows you how, with concrete steps you can take right away to get even more from your website. It also includes the guide {guide}.",
+      "mailText": "The summary above shows where your website is falling short. The full report shows you how to fix it, with concrete steps you can take right away to see results sooner. It also includes the guide {guide}.",
       "mailGuide": "8 signs your website is driving clients away",
       "mailTitleGood": "Get your result and the guide by email",
-      "mailTextGood": "Keep your diagnosis and get the guide {guide}, to keep it in good shape going forward.",
+      "mailTextGood": "Save your diagnosis and get the guide {guide} to keep your website in good shape.",
       "mailSendGood": "Send",
-      "mailTextNoSite": "Keep your diagnosis and get the guide {guide}, to build your website without falling into the most common mistakes.",
+      "mailTextNoSite": "Save your diagnosis and get the guide {guide} to build your website without the most common mistakes.",
       "mailNoteGood": "Your details are only used to send the result and the guide. Privacy Policy",
       "mailPlaceholder": "Your email",
       "mailSend": "Get the report",
       "mailOk": "Sent! Check your inbox in the next few minutes.",
-      "mailFail": "It couldn't be sent right now. You can write to info@mariana-marcelino.com.",
+      "mailFail": "Something went wrong and it couldn't be sent. You can email info@mariana-marcelino.com instead.",
       "mailNote": "Your details are only used to send the report. Privacy Policy",
       "restart": "Take the diagnosis again",
       "noSiteTitle": "Starting from scratch",
-      "noSiteText": "You don't have a website yet, so there's nothing to fix: there's everything to build, and the right way from the start."
+      "noSiteText": "You don't have a website yet, so there's nothing to fix, just a website to build the right way from day one."
     },
     "questions": [
       {
@@ -397,7 +397,7 @@ module.exports = {
       {
         "id": "q2",
         "cat": "image",
-        "q": "How long ago was the website built or redesigned?",
+        "q": "When was your website built or last redesigned?",
         "options": [
           {
             "t": "Less than 2 years ago",
@@ -416,7 +416,7 @@ module.exports = {
       {
         "id": "q3",
         "cat": "image",
-        "q": "How does the website work on a phone?",
+        "q": "How does your website work on a phone?",
         "options": [
           {
             "t": "It works and looks good",
@@ -435,7 +435,7 @@ module.exports = {
       {
         "id": "q4",
         "cat": "image",
-        "q": "Does the website reflect how your business looks today?",
+        "q": "Does your website reflect your business as it is today?",
         "options": [
           {
             "t": "Yes, it represents it well",
@@ -492,7 +492,7 @@ module.exports = {
       {
         "id": "q7",
         "cat": "leads",
-        "q": "How many enquiries or bookings come through the website?",
+        "q": "How many enquiries or bookings come through your website?",
         "options": [
           {
             "t": "Several a month",
@@ -511,7 +511,7 @@ module.exports = {
       {
         "id": "q8",
         "cat": "leads",
-        "q": "Do visitors understand right away what you do and how to contact you?",
+        "q": "Can visitors tell straight away what you do and how to contact you?",
         "options": [
           {
             "t": "Yes, within seconds",
@@ -560,12 +560,12 @@ module.exports = {
       {
         "min": 50,
         "title": "Room to grow",
-        "text": "The website does the job, but it's losing enquiries along the way in a few places."
+        "text": "Your website does the job, but it's losing enquiries in a few places."
       },
       {
         "min": 0,
         "title": "Missing opportunities",
-        "text": "In several places the website is turning away the people looking for you. The good news: it's all fixable."
+        "text": "Your website is turning away people who are looking for you. The good news: it's all fixable."
       }
     ],
     "weak": {
@@ -582,7 +582,7 @@ module.exports = {
       "q4": {
         "title": "Image",
         "line": "Visitors judge the business by its website in seconds. Right now, it isn't doing it justice.",
-        "todo": "Align the website with how you position yourself: typography, real photos and a clear message at the top of the page."
+        "todo": "Bring the website in line with how you want to be seen: typography, real photos and a clear message at the top of the page."
       },
       "q5": {
         "title": "Google",
@@ -591,12 +591,12 @@ module.exports = {
       },
       "q6": {
         "title": "AI",
-        "line": "More and more people ask ChatGPT for recommendations. A website ready for it gets cited.",
+        "line": "More and more people ask ChatGPT for recommendations. Websites that are ready for it get cited.",
         "todo": "Answer your clients' questions directly, make clear what you do, for whom and where, and allow AI tools' crawlers to access the site."
       },
       "q7": {
         "title": "Enquiries",
-        "line": "Visitors without enquiries mean the website isn't guiding people to the next step.",
+        "line": "Visitors but no enquiries means the website isn't guiding people to the next step.",
         "todo": "Give every page a clear next step (book, ask for a quote, chat on WhatsApp) and cut form fields down to the essentials."
       },
       "q8": {
@@ -620,7 +620,7 @@ module.exports = {
         }
       },
       "visual": {
-        "name": "New Look",
+        "name": "Fresh Look",
         "line": "The structure works, but the look is turning visitors away. A new design fixes the essentials.",
         "also": "If you'd also like to be found by more people and get more enquiries, the Enquiry Engine covers that too.",
         "cta": {
@@ -633,7 +633,7 @@ module.exports = {
         }
       },
       "call": {
-        "name": "A no-strings conversation",
+        "name": "A no-strings chat",
         "line": "Your website is in good shape. In a 30-minute call, we'll look together at what could still be improved.",
         "cta": {
           "t": "Book a call",
@@ -646,7 +646,7 @@ module.exports = {
       },
       "free": {
         "name": "Homepage Redesign (free)",
-        "line": "As you're still exploring, see, with no commitment, what your website could look like.",
+        "line": "Since you're still exploring, see what your website could look like, with no commitment.",
         "cta": {
           "t": "Request a free redesign",
           "href": "/en/#pedir-redesign"
@@ -661,19 +661,19 @@ module.exports = {
       "subject": "Your diagnosis: {score}/100 · {band}",
       "subjectSite": "Diagnosis for {site}: {score}/100 · {band}",
       "subjectNoSite": "Your diagnosis: starting from scratch",
-      "intro": "Thank you for taking the diagnosis. Here's your full result, with each point explained and where to start.",
-      "introNoSite": "Thank you for taking the diagnosis. As you don't have a website yet, there's nothing to fix: there's everything to build, and the right way from the start.",
-      "introGood": "Thank you for taking the diagnosis. Your website is in good shape, so here's your result to keep, with the guide to keep it that way.",
+      "intro": "Thanks for taking the diagnosis. Here's your full result, with each point explained and where to start.",
+      "introNoSite": "Thanks for taking the diagnosis. You don't have a website yet, so there's nothing to fix, just a website to build the right way from day one.",
+      "introGood": "Thanks for taking the diagnosis. Your website is in good shape: here's your result, plus the guide to help keep it that way.",
       "scoreLine": "Website health: {score}/100 · {band}",
       "weakTitle": "Points to improve",
       "doLabel": "What to do: ",
       "planTitle": "Recommended next step",
       "guide": "And, as promised, the full guide: ",
       "guideNoSite": "And, as promised, here's the full guide ",
-      "guideAfterNoSite": " – to build your website without falling into the most common mistakes.",
+      "guideAfterNoSite": " – to build your website without the most common mistakes.",
       "guideLink": "Eight signs your website is driving clients away",
       "guideHref": "https://www.mariana-marcelino.com/assets/guide-8-signs.pdf",
-      "free": "The call is free and comes with no commitment – it's a chance to look at your case together."
+      "free": "The call is free, with no commitment – a chance to look at your situation together."
     }
   }
 };

@@ -70,7 +70,7 @@ LEGAL_EN = [
 
 <h2>Cookies used on this website</h2>
 <p>This website <strong>doesn’t use its own cookies</strong>, nor any advertising or tracking tools. To measure visits it uses Vercel Web Analytics, which works without cookies and anonymously.</p>
-<p>The chat assistant doesn’t use cookies: it keeps the conversation only in your browser’s temporary storage, which is cleared when you close the tab. The only exception is Calendly’s booking calendar. It only loads when you click “Book a call”, and from then on Calendly may set cookies to show availability and complete the booking, under its own <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener">privacy notice</a>. Where required in your country, Calendly asks for your consent inside the calendar. If you’d rather not use Calendly, write to <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a> and we’ll arrange the call by email.</p>
+<p>The chat assistant doesn’t use cookies: it keeps the conversation only in your browser’s temporary storage, which is cleared when you close the tab. The only exception is Calendly’s booking calendar. It only loads when you click “Book a call”, and from then on Calendly may set cookies to show availability and complete the booking, under its own <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener">privacy notice</a>. Where required in your country, Calendly asks for your consent inside the calendar. If you’d rather not use Calendly, write to <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a> and I’ll arrange the call by email.</p>
 
 <h2>Third-party services</h2>
 <ul>
@@ -93,7 +93,7 @@ LEGAL_EN = [
 "body": """
 <p>By using this website, you accept the terms and conditions set out on this page. If you don’t agree with them, you shouldn’t use the website.</p>
 
-<h2>Who we are</h2>
+<h2>Who runs this website</h2>
 <p>This website is run by Mariana Marcelino, who provides website design and development services. Contact: <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a>.</p>
 
 <h2>Information and prices</h2>
@@ -102,7 +102,7 @@ LEGAL_EN = [
 <h2>Free redesign</h2>
 <ul>
   <li>Requesting a free redesign involves no cost and no obligation to hire.</li>
-  <li>The redesign and the audit are a demonstration of your website’s potential. The rights to use the design are only transferred when a service is hired.</li>
+  <li>The redesign and the report are a demonstration of your website’s potential. The rights to use the design are only transferred when a service is hired.</li>
   <li>I may decline requests that don’t fit the services I provide.</li>
 </ul>
 

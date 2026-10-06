@@ -18,7 +18,7 @@ POSTS_EN = [
 "body": """
 <h2>Search has changed shape</h2>
 <p>For years, being online meant climbing Google’s rankings. Today, many clients ask an AI tool the full question, something like <em>“which interior design studio in Bristol is good with small flats?”</em>, and get a short answer with a handful of names.</p>
-<p>If your business isn’t among those names, for that client it simply doesn’t exist. Traditional SEO still matters, not least because these tools rely on search indexes, but the goal shifts: it’s no longer enough to rank well, you need to be <strong>cited</strong>.</p>
+<p>If your business isn’t among those names, for that client it simply doesn’t exist. Traditional SEO still matters, not least because these tools rely on search indexes, but the goal has shifted: ranking well is no longer enough. You need to be <strong>cited</strong>.</p>
 
 <h2>How AI decides who to recommend</h2>
 <p>There’s no public formula, but there is a clear pattern. The tools tend to recommend businesses that meet three conditions:</p>
@@ -57,8 +57,8 @@ POSTS_EN = [
 <div class="callout"><b>Tip</b>To find the right questions, reread the emails and messages from the last few months. The questions that keep coming up are the ones your website should answer.</div>
 
 <h2>4. Use structured data</h2>
-<p>Structured data (<em>schema.org</em>) are small blocks of code, invisible to visitors, that describe your business unambiguously: name, address, opening hours, services, service area and reviews.</p>
-<p>The most useful for a small business are <code>LocalBusiness</code> (or the more specific type for your sector), <code>Service</code> and <code>FAQPage</code>. They don’t change how your website looks, but they remove any doubt about who you are and what you do.</p>
+<p>Structured data (<em>schema.org</em>) is code, invisible to visitors, that describes your business without any ambiguity: name, address, opening hours, services, service area and reviews.</p>
+<p>For a small business, the most useful types are <code>LocalBusiness</code> (or the more specific type for your sector), <code>Service</code> and <code>FAQPage</code>. None of them change how your website looks, but together they remove any doubt about who you are and what you do.</p>
 
 <h2>5. Build trust beyond your website</h2>
 <p>An AI tool won’t recommend a business just because its own website says it’s the best. It looks for confirmation elsewhere:</p>
@@ -70,7 +70,7 @@ POSTS_EN = [
 </ul>
 
 <h2>What about llms.txt?</h2>
-<p><code>llms.txt</code> is a recent proposal: a plain text file at the root of your website that summarises the business and points to its most important pages, written with language models in mind. It isn’t a standard yet and it guarantees nothing, but it’s quick to create. It’s worth having, as long as the five points above come first.</p>
+<p><code>llms.txt</code> is a recent proposal: a plain text file at the root of your website that summarises the business and points to its most important pages, written with language models in mind. It isn’t a standard yet and it guarantees nothing, but it only takes minutes to create. Worth having, as long as the five points above come first.</p>
 
 <h2>Where to start</h2>
 <ol>
@@ -115,11 +115,11 @@ POSTS_EN = [
 <p><strong>What to do:</strong> test your website with Google’s PageSpeed Insights. Compressing images and removing what you don’t use usually brings immediate improvements.</p>
 
 <h2>3. It’s not clear what you do within five seconds</h2>
-<p>If the first thing visitors see is a generic slogan or an image without context, you’re making them search. Most don’t: they leave.</p>
+<p>If the first thing visitors see is a generic slogan or an image without context, you’re making them work for it. Most won’t: they’ll leave.</p>
 <p><strong>What to do:</strong> make sure the top of your homepage says, in one sentence, what you do, for whom and what the next step is.</p>
 
 <h2>4. There’s no clear next step</h2>
-<p>An interested visitor needs to know what to do next: request a quote, book a call, make a reservation. With five options at the same level, or none, the decision gets postponed.</p>
+<p>An interested visitor needs to know what to do next: request a quote, book a call, make a reservation. Give them five equally weighted options, or none at all, and they’ll put the decision off.</p>
 <p><strong>What to do:</strong> choose one main action per page and make it obvious, with a button visible without scrolling.</p>
 
 <h2>5. The design looks dated</h2>
@@ -131,16 +131,16 @@ POSTS_EN = [
 <p><strong>What to do:</strong> cut the form down to the essentials and offer alternatives, like WhatsApp, online booking or chat, for people who prefer another channel.</p>
 
 <h2>7. People can’t find you on Google or AI tools</h2>
-<p>A beautiful website nobody finds doesn’t bring enquiries. Search for your service and your town: if your business doesn’t show up, your competitors are getting those clients.</p>
-<p><strong>What to do:</strong> review the titles, descriptions and content of each page, and complete your Google Business Profile. In this article we explain <a href="../how-to-appear-in-chatgpt-answers/">how to show up in ChatGPT’s answers too</a>.</p>
+<p>A beautiful website that nobody finds won’t bring in enquiries. Search for your service and your town: if your business doesn’t show up, your competitors are getting those clients.</p>
+<p><strong>What to do:</strong> review the titles, descriptions and content of each page, and complete your Google Business Profile. I explain <a href="../how-to-appear-in-chatgpt-answers/">how to show up in ChatGPT’s answers too</a> in a separate article.</p>
 
 <h2>8. You can’t update it yourself</h2>
 <p>If changing a price or adding a project means asking for help and waiting days, the website ends up out of date. And an out-of-date website looks careless.</p>
 <p><strong>What to do:</strong> make sure you have the access and autonomy to edit day-to-day content.</p>
 
 <h2>Redesign or tweaks?</h2>
-<p>If you spotted one or two signs, targeted tweaks will probably be enough. If you spotted four or more, or if the website’s structure no longer reflects what your business does today, a redesign tends to be more effective, and cheaper, than one patch after another.</p>
-<p>Not sure how many signs your website has? <a href="../../diagnosis/">Take the free diagnosis</a>: in 2 minutes you’ll know where the website is losing out and the next step that makes most sense.</p>
+<p>If you spotted one or two signs, targeted tweaks will probably be enough. If you spotted four or more, or if the website’s structure no longer reflects what your business does today, a redesign tends to be more effective, and cheaper, than patching it again and again.</p>
+<p>Not sure how many signs your website has? <a href="../../diagnosis/">Take the free diagnosis</a>: in 2 minutes you’ll know where your website is falling short and the best next step.</p>
 <p>If you’d like a concrete opinion, I can <a href="../../#free">redesign your homepage for free</a> so you can see the potential before you decide.</p>
 """,
 "faq": [
@@ -171,7 +171,7 @@ POSTS_EN = [
 <p>For businesses serving clients in a region, such as clinics, studios, restaurants, builders or practices, it’s often the most cost-effective way to win new enquiries.</p>
 
 <h2>1. Create and complete your Google Business Profile</h2>
-<p>Your Google Business Profile (formerly Google My Business) is what appears on the map and in the side panel of the results. It’s free and it’s probably the single most impactful action in this guide.</p>
+<p>Your Google Business Profile (formerly Google My Business) is what appears on the map and in the side panel of the results. It’s free, and it’s probably the single most effective step in this guide.</p>
 <ul>
   <li>Choose your main category carefully: it should describe what you do, not what you’d like to do.</li>
   <li>Add secondary categories, services, opening hours and service area.</li>
@@ -184,7 +184,7 @@ POSTS_EN = [
 <p>Pick one exact version and use it everywhere, down to how you write the street name.</p>
 
 <h2>3. Ask for reviews and reply to all of them</h2>
-<p>Reviews influence rankings and, above all, the client’s decision. The most valuable ones are recent, detailed and mention the service and the location.</p>
+<p>Reviews influence your rankings and, above all, whether a client picks you. The most valuable ones are recent, detailed and mention the service and the location.</p>
 <ul>
   <li>Ask for the review right after a successful job, while the experience is fresh.</li>
   <li>Send a direct link, so leaving the review takes seconds.</li>
@@ -207,7 +207,7 @@ POSTS_EN = [
 <p>Many local searches happen on phones, often on the street or on the way somewhere. Your website must open quickly and let people call, get directions or send a message with one tap.</p>
 
 <h2>How to measure results</h2>
-<p>In your Business Profile you can track calls, direction requests and clicks to your website. In Google Search Console, see which searches with place names bring visits. These numbers, not just your position on the map, show whether local SEO is bringing in business.</p>
+<p>In your Business Profile you can track calls, direction requests and clicks to your website. In Google Search Console, see which searches with place names bring visits. These numbers, more than your position on the map, show whether local SEO is actually bringing in business.</p>
 """,
 "faq": [
   ("Do I need a physical address to appear on Google Maps?",
@@ -256,14 +256,14 @@ POSTS_EN = [
 
 <h2>5. Show real proof</h2>
 <p>Before getting in touch, visitors want to know they can trust you. Named testimonials with context, client logos, photos of real projects and concrete numbers from your work are worth more than any adjective.</p>
-<div class="callout"><b>Tip</b>Put a testimonial near your contact button. That’s the moment the “is it worth it?” doubt weighs most.</div>
+<div class="callout"><b>Tip</b>Put a testimonial near your contact button. That’s exactly when the “is it worth it?” doubt is strongest.</div>
 
 <h2>6. Answer objections before they come up</h2>
-<p>Price, timings, service area, how the process works: if these questions go unanswered, many visitors would rather not ask and go and look at your competitors.</p>
+<p>Price, timings, service area, how the process works: if these questions go unanswered, many visitors won’t ask. They’ll just go and check out your competitors.</p>
 <p>A price range (“from…”), a simple explanation of the process and an FAQ section remove much of the hesitation.</p>
 
 <h2>7. Measure what happens</h2>
-<p>Without data, improvements are guesses. Set up an analytics tool, such as Google Analytics or a privacy-focused alternative, and track the important actions: clicks on contact buttons, form submissions, WhatsApp clicks and bookings.</p>
+<p>Without data, every improvement is a guess. Set up an analytics tool, such as Google Analytics or a privacy-focused alternative, and track the important actions: clicks on contact buttons, form submissions, WhatsApp clicks and bookings.</p>
 <p>Then see where people drop off, and start there.</p>
 
 <h2>Where to start</h2>
@@ -296,7 +296,7 @@ POSTS_EN = [
 <h3>Website builders</h3>
 <p>Platforms like Wix or Squarespace let you build a website yourself from templates. The direct cost is low, but the real investment is your time, and the result depends heavily on your experience with design, writing and SEO.</p>
 <h3>Freelancer</h3>
-<p>A professional takes care of design and development, with direct contact and without the layers of a bigger structure. For small businesses it’s often the best balance of quality, closeness and cost.</p>
+<p>A professional takes care of design and development, with direct contact and without the layers of a bigger structure. For small businesses it’s often the best balance of quality, personal attention and cost.</p>
 <h3>Agency</h3>
 <p>An agency brings together several people (project management, design, development, content), which makes sense for large or complex projects. That structure is reflected in the price.</p>
 
@@ -323,21 +323,20 @@ POSTS_EN = [
   <li>Support after launch: what’s included and for how long.</li>
 </ul>
 
-<h2>Running costs not to forget</h2>
-<p>On top of the initial price, a website has yearly costs: the domain, hosting, any licences or plugins and, if you choose it, a maintenance service. Ask for these figures to be clear from the start.</p>
+<h2>Running costs to budget for</h2>
+<p>On top of the initial price, a website has yearly costs: the domain, hosting, any licences or plugins and, if you choose it, a maintenance service. Ask for these figures up front.</p>
 
 <h2>How I price my work</h2>
-<p>To give you a concrete reference, these are the three ways to work with me:</p>
+<p>To give you a concrete reference, here’s how I price my own work:</p>
 <ul>
-  <li><strong>Homepage Redesign, free</strong>: I redesign your website’s homepage and send an audit with points for improvement, so you can see the potential before investing.</li>
-  <li><strong>New Look, €750</strong>: a new design keeping your current structure and content, optimised for mobile and published.</li>
-  <li><strong>Enquiry Engine, from €1,800</strong>: a new custom design and structure, optimisation for Google and AI tools, bookings, WhatsApp, chatbot and a metrics dashboard.</li>
+  <li><strong>Fresh Look, €750</strong>: a new design that keeps your current structure and content, optimised for mobile and launched. For websites of up to 4 pages; larger websites on request.</li>
+  <li><strong>Enquiry Engine, from €1,800</strong>: custom design and structure, optimisation for Google and AI tools, bookings, WhatsApp, chatbot and a metrics dashboard.</li>
 </ul>
-<p>You can see the details of each option on the <a href="../../#solutions">solutions page</a>.</p>
+<p>Not sure yet? I can <a href="../../#free">redesign your homepage for free</a> and email you a personalised report on what to improve, so you can see the potential before you invest. You’ll find the details of each plan in the <a href="../../#solutions">plans section</a>.</p>
 
 <h2>Cost or investment?</h2>
-<p>The best way to judge a website is to compare it with what it can bring in. If a new client is worth €500 to your business on average, an €1,800 website pays for itself with four clients. From then on, every enquiry the website brings is return.</p>
-<p>Run this sum with your own business’s numbers: it helps you decide how much it makes sense to invest and what to ask of the website in return.</p>
+<p>The best way to judge a website is to compare it with what it can bring in. If a new client is worth €500 to your business on average, an €1,800 website pays for itself after four clients. After that, every enquiry it brings in is pure return.</p>
+<p>Do the maths with your own numbers: it helps you decide how much to invest and what to expect from the website in return.</p>
 """,
 "faq": [
   ("Why are quotes for the same website so different?",

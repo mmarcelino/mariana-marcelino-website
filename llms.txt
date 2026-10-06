@@ -8,9 +8,10 @@
 
 ## Planos
 
-- Redesign da Homepage (gratuito): redesign da homepage, auditoria com pontos de otimização e proposta personalizada por email.
-- Nova Imagem (750€, para sites até 4 páginas): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
+- Nova Imagem (750€, para sites até 4 páginas; mais páginas sob consulta): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
 - Motor de Contactos (a partir de 1 800€, o mais popular): novo design e estrutura à medida, integração dos conteúdos do cliente, otimização para Google, ChatGPT e outras ferramentas de IA, percurso do utilizador e chamadas à ação pensados para gerar contactos, formulários e captação de contactos, gestão automática de contactos e automação de follow-ups, agendamento e marcações automatizados, WhatsApp e chatbot, painel de métricas, otimização para mobile e publicação.
+
+Além dos planos (não é um plano): para quem ainda não tem a certeza e quer ver o potencial antes de investir, o Redesign da Homepage gratuito — redesign da homepage e relatório personalizado com pontos a otimizar, enviado por email.
 
 Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, prazo e valor fechado.
 
