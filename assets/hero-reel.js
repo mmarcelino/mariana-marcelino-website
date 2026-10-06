@@ -499,6 +499,7 @@
   var blockKeys = function (e) { if (keys[e.key]) { e.preventDefault(); push(0); } };
   function centreY() { var r = root.getBoundingClientRect(); return window.scrollY + r.top + r.height / 2 - window.innerHeight / 2; }
   function start() { if (started) return; started = true; clock = 0; play(); }
+  var touchHold = window.matchMedia("(hover: none), (pointer: coarse)").matches;
   function hold() {
     held = true;
     // Whatever scrolling is under way now is the gesture that got here, not an attempt
@@ -511,7 +512,11 @@
     var y = centreY(), lenis = window.siteLenis;
     if (lenis) { lenis.scrollTo(y, { immediate: true, force: true }); lenis.stop(); }
     else window.scrollTo(0, y);
-    html.style.overflow = "hidden";
+    // Mouse and trackpad: lock the page. Touch screens skip the overflow lock:
+    // blocking the swipes below already holds the page, and on iPhone Safari
+    // toggling overflow on the root leaves the sticky strip out of place until
+    // the visitor scrolls back up
+    if (!touchHold) html.style.overflow = "hidden";
     window.addEventListener("wheel", block, { passive: false });
     window.addEventListener("touchmove", block, { passive: false });
     window.addEventListener("keydown", blockKeys);
@@ -520,7 +525,7 @@
   }
   function release() {
     held = false; done = true;
-    html.style.overflow = "";
+    if (!touchHold) html.style.overflow = "";
     window.removeEventListener("wheel", block);
     window.removeEventListener("touchmove", block);
     window.removeEventListener("keydown", blockKeys);
