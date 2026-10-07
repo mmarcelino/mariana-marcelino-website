@@ -39,6 +39,9 @@ html { transition: --strip-h .45s var(--ease), --nav-extra .45s var(--ease); }
    gets there; only then do the fixed logo and CTA step down to make room. */
 html.strip-inline { --strip-h: 0px; scroll-padding-top: var(--strip-size); }
 html.strip-inline.strip-stuck:not(.strip-closed) { --nav-extra: var(--strip-size); }
+/* While the strip has slid away (over the contact section and footer), the nav
+   moves up into its place instead of leaving a gap */
+html.strip-away, html.strip-inline.strip-stuck.strip-away:not(.strip-closed) { --nav-extra: calc(-1 * var(--strip-h)); }
 
 @media (min-width: 1200px) {
   :root { --gap-half: 16px; }
@@ -1212,6 +1215,8 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
 @media (min-width: 860px) { .tiers-head { padding-bottom: 72px; } }
 .tiers { display: grid; grid-template-columns: 1fr; row-gap: 48px; }
 .tier { display: flex; flex-direction: column; padding-top: 24px; border-top: 1px solid var(--grey); }
+/* Links straight to a plan (from the diagnosis result) land just below the nav */
+.tier, .tier-free { scroll-margin-top: 72px; }
 @media (min-width: 860px) {
   .tiers { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(6, auto); column-gap: 48px; }
   .tier { display: grid; grid-row: span 6; grid-template-rows: subgrid; row-gap: 0; }
@@ -2078,7 +2083,9 @@ html.pt-out :is(main, footer, .promo-strip) {
   transform: translateY(-12px);
   transition: opacity .45s cubic-bezier(.4, 0, .2, 1), transform .45s cubic-bezier(.4, 0, .2, 1);
 }
-html.pt-enter :is(main, footer, .promo-strip) { animation: pt-in 1s cubic-bezier(.22, 1, .36, 1) both; }
+/* Fill backwards only: once it ends, nothing is left on these elements. A transform kept on
+   main or the strip (fill: both) made the sticky strip skip on iPhone Safari */
+html.pt-enter :is(main, footer, .promo-strip) { animation: pt-in 1s cubic-bezier(.22, 1, .36, 1) backwards; }
 @keyframes pt-in { from { opacity: 0; transform: translateY(16px); } }
 
 /* ---------- Micro-interactions ---------- */
