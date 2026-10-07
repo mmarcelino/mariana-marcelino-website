@@ -119,11 +119,11 @@ module.exports = {
         "q": "Quando alguém procura o seu serviço na sua zona, o seu negócio aparece no Google?",
         "options": [
           {
-            "t": "Sim, na primeira página",
+            "t": "Sim, entre os primeiros resultados",
             "p": 0
           },
           {
-            "t": "Às vezes, ou mais abaixo",
+            "t": "Sim, mas mais abaixo nos resultados",
             "p": 1
           },
           {
@@ -278,7 +278,7 @@ module.exports = {
         },
         "cta2": {
           "t": "Ver o que inclui",
-          "href": "/#solutions"
+          "href": "/#motor-de-contactos"
         }
       },
       "visual": {
@@ -290,8 +290,8 @@ module.exports = {
           "href": "/#pedir-redesign"
         },
         "cta2": {
-          "t": "Marcar chamada",
-          "href": "https://calendly.com/marianacmarcelino/30min"
+          "t": "Ver o que inclui",
+          "href": "/#nova-imagem"
         }
       },
       "call": {
@@ -314,8 +314,8 @@ module.exports = {
           "href": "/#pedir-redesign"
         },
         "cta2": {
-          "t": "Ver os planos",
-          "href": "/#solutions"
+          "t": "Ver o que inclui",
+          "href": "/#free"
         }
       }
     },
@@ -457,11 +457,11 @@ module.exports = {
         "q": "When someone searches for your service in your area, does your business show up on Google?",
         "options": [
           {
-            "t": "Yes, on the first page",
+            "t": "Yes, among the top results",
             "p": 0
           },
           {
-            "t": "Sometimes, or further down",
+            "t": "Yes, but further down the results",
             "p": 1
           },
           {
@@ -616,7 +616,7 @@ module.exports = {
         },
         "cta2": {
           "t": "See what's included",
-          "href": "/en/#solutions"
+          "href": "/en/#motor-de-contactos"
         }
       },
       "visual": {
@@ -628,8 +628,8 @@ module.exports = {
           "href": "/en/#pedir-redesign"
         },
         "cta2": {
-          "t": "Book a call",
-          "href": "https://calendly.com/marianacmarcelino/30min"
+          "t": "See what's included",
+          "href": "/en/#nova-imagem"
         }
       },
       "call": {
@@ -652,8 +652,8 @@ module.exports = {
           "href": "/en/#pedir-redesign"
         },
         "cta2": {
-          "t": "See the plans",
-          "href": "/en/#solutions"
+          "t": "See what's included",
+          "href": "/en/#free"
         }
       }
     },

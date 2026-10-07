@@ -22,6 +22,7 @@ POSTS = [
 "description": "Cada vez mais clientes pedem recomendações a ferramentas de IA. Saiba o que leva o ChatGPT, o Perplexity e o Google a citar um negócio e como preparar o seu site.",
 "dek": "Cada vez mais pessoas pedem recomendações a uma ferramenta de IA em vez de percorrerem uma página de resultados. Eis o que faz um negócio ser citado nessas respostas e como preparar o seu site.",
 "category": "IA e pesquisa",
+"topics": ["IA e pesquisa", "SEO"],
 "date": "2026-08-25",
 "cover": "ia-chatgpt",
 "cover_alt": "Ilustração: uma resposta luminosa ao centro, com órbitas e três fontes citadas em destaque",
@@ -114,6 +115,7 @@ POSTS = [
 "description": "Um site desatualizado custa-lhe contactos todos os dias, mesmo sem dar por isso. Os oito sinais mais comuns e o que fazer com cada um deles.",
 "dek": "Um site raramente avaria de forma visível. Vai simplesmente deixando de funcionar e os contactos diminuem sem que se perceba porquê. Estes são os oito sinais a que deve estar atento.",
 "category": "Redesign",
+"topics": ["Redesign", "Conversão", "SEO"],
 "date": "2026-07-28",
 "cover": "sinais-site",
 "cover_alt": "Ilustração: oito páginas de um site que se afastam e desvanecem da esquerda para a direita",
@@ -176,6 +178,7 @@ POSTS = [
 "description": "Guia prático para pequenos negócios aparecerem no Google Maps e nas pesquisas locais: Perfil da Empresa, avaliações, páginas por localidade e dados estruturados.",
 "dek": "Quem pesquisa “perto de mim” ou junta uma cidade à pesquisa costuma estar pronto para contratar. Este guia mostra como fazer com que o seu negócio seja a resposta.",
 "category": "SEO",
+"topics": ["SEO", "IA e pesquisa"],
 "date": "2026-06-23",
 "cover": "seo-local",
 "cover_alt": "Ilustração: mapa topográfico com um local assinalado a verde-água",
@@ -244,6 +247,7 @@ POSTS = [
 "description": "Se as pessoas visitam o seu site mas não entram em contacto, o problema raramente é o tráfego. Sete mudanças práticas para transformar visitas em pedidos.",
 "dek": "Trazer visitas é a parte cara. Perdê-las por falta de clareza ou de confiança é a parte evitável. Sete correções que transformam visitas em pedidos de contacto.",
 "category": "Conversão",
+"topics": ["Conversão"],
 "date": "2026-05-26",
 "cover": "visitas-contactos",
 "cover_alt": "Ilustração: muitos pontos a convergir para uma passagem estreita, por onde só alguns atravessam",
@@ -306,6 +310,7 @@ POSTS = [
 "description": "De construtores de sites a agências: o que determina o preço de um site profissional, o que deve estar incluído e como comparar propostas sem surpresas.",
 "dek": "Duas propostas para “o mesmo site” podem ter valores muito diferentes. Este guia explica o que faz variar o preço, o que deve estar incluído e como comparar de forma justa.",
 "category": "Investimento",
+"topics": ["Investimento", "Redesign"],
 "date": "2026-04-28",
 "cover": "custo-site",
 "cover_alt": "Ilustração: gráfico de barras crescente, com as últimas barras em lilás",
@@ -570,7 +575,7 @@ def guide_modal(prefix, lang="pt"):
 
 def cta(prefix, lang="pt"):
     u = UI[lang]
-    return f"""    <section class="cta-section" data-nav-hide>
+    return f"""    <section class="cta-section" data-strip-hide>
       <div class="cta-panel">
         <div class="cta-inner">
         <h2 class="cta-title">{u['cta_title']}</h2>
@@ -713,7 +718,7 @@ def search_text(post):
 def card(post, prefix, feature=False, lang="pt"):
     u = UI[lang]
     url = f"{home_of(prefix, lang)}blog/{post['slug']}/"
-    data = f' data-cat="{slugify(post["category"])}" data-text="{esc(search_text(post))}"'
+    data = f' data-cats="{" ".join(slugify(t) for t in topics_of(post))}" data-text="{esc(search_text(post))}"'
     meta = f"""<p class="post-meta"><span class="post-cat">{esc(post['category'])}</span><time datetime="{post['date']}">{fmt_date(post['date'], lang)}</time><span>{reading_minutes(post)} min</span></p>"""
     base = f"{prefix}assets/blog/{post['cover']}"
     sizes = "(min-width: 860px) 56vw, 100vw" if feature else "(min-width: 860px) 46vw, 100vw"
@@ -735,12 +740,18 @@ def card(post, prefix, feature=False, lang="pt"):
           <p class="post-excerpt">{esc(post['description'])}</p>
         </article>"""
 
+def topics_of(post):
+    """The article's topics for the blog filters: its category first, then any extra topics."""
+    return [post["category"]] + [t for t in post.get("topics", []) if t != post["category"]]
+
+
 def filters(posts, lang):
     u = UI[lang]
     cats = []
     for p in posts:
-        if p["category"] not in cats:
-            cats.append(p["category"])
+        for t in topics_of(p):
+            if t not in cats:
+                cats.append(t)
     chips = "\n".join(
         f'          <button type="button" class="chip js-chip" data-filter="{slugify(c)}" aria-pressed="false"><span class="chip-icon" aria-hidden="true"></span>{esc(c)}</button>'
         for c in cats)

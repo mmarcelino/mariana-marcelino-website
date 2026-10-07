@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <script>if("IntersectionObserver"in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("js-reveal")</script>
+  <script>try{if(sessionStorage.getItem("pt")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("pt-enter");sessionStorage.removeItem("pt")}catch(e){}</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <title>Como fazer o seu negócio aparecer nas respostas do ChatGPT</title>
+  <meta name="description" content="Cada vez mais clientes pedem recomendações a ferramentas de IA. Saiba o que leva o ChatGPT, o Perplexity e o Google a citar um negócio e como preparar o seu site.">
+  <meta name="author" content="Mariana Marcelino">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://www.mariana-marcelino.com/blog/como-aparecer-no-chatgpt/">
+  <link rel="alternate" hreflang="pt-PT" href="https://www.mariana-marcelino.com/blog/como-aparecer-no-chatgpt/">
+  <link rel="alternate" hreflang="en" href="https://www.mariana-marcelino.com/en/blog/how-to-appear-in-chatgpt-answers/">
+  <link rel="alternate" hreflang="x-default" href="https://www.mariana-marcelino.com/blog/como-aparecer-no-chatgpt/">
+  <link rel="alternate" type="text/plain" title="llms.txt" href="https://www.mariana-marcelino.com/llms.txt">
+
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="pt_PT">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:site_name" content="Mariana Marcelino">
+  <meta property="og:url" content="https://www.mariana-marcelino.com/blog/como-aparecer-no-chatgpt/">
+  <meta property="og:title" content="Como fazer o seu negócio aparecer nas respostas do ChatGPT">
+  <meta property="og:description" content="Cada vez mais clientes pedem recomendações a ferramentas de IA. Saiba o que leva o ChatGPT, o Perplexity e o Google a citar um negócio e como preparar o seu site.">
+  <meta property="og:image" content="https://www.mariana-marcelino.com/assets/blog/ia-chatgpt-og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Como fazer o seu negócio aparecer nas respostas do ChatGPT">
+  <meta name="twitter:description" content="Cada vez mais clientes pedem recomendações a ferramentas de IA. Saiba o que leva o ChatGPT, o Perplexity e o Google a citar um negócio e como preparar o seu site.">
+  <meta name="twitter:image" content="https://www.mariana-marcelino.com/assets/blog/ia-chatgpt-og.jpg">
+
+  <link rel="icon" href="../../favicon.ico?v=2" sizes="any">
+  <link rel="icon" href="../../assets/favicon-32.png?v=2" type="image/png" sizes="32x32">
+  <link rel="icon" href="../../assets/favicon-16.png?v=2" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
+  <link rel="manifest" href="../../site.webmanifest">
+
+  <link rel="preload" href="../../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../styles.css?v=1790872287">
+  <link rel="stylesheet" href="../../blog/blog.css?v=1790872287">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "@id": "https://www.mariana-marcelino.com/blog/como-aparecer-no-chatgpt/#article", "mainEntityOfPage": "https://www.mariana-marcelino.com/blog/como-aparecer-no-chatgpt/", "headline": "Como fazer o seu negócio aparecer nas respostas do ChatGPT", "description": "Cada vez mais clientes pedem recomendações a ferramentas de IA. Saiba o que leva o ChatGPT, o Perplexity e o Google a citar um negócio e como preparar o seu site.", "abstract": "As ferramentas de IA recomendam negócios que conseguem ler, perceber e confirmar noutras fontes. O seu site tem de estar acessível aos robôs de pesquisa e dizer claramente o que faz, para quem e onde. Respostas diretas a perguntas reais, como numa secção de perguntas frequentes, são o formato mais fácil de citar. Avaliações, menções noutros sites e um Perfil da Empresa no Google completo reforçam a confiança.", "image": ["https://www.mariana-marcelino.com/assets/blog/ia-chatgpt-og.jpg", "https://www.mariana-marcelino.com/assets/blog/ia-chatgpt.jpg"], "datePublished": "2026-08-25", "dateModified": "2026-08-25", "inLanguage": "pt-PT", "articleSection": "IA e pesquisa", "wordCount": 781, "timeRequired": "PT5M", "author": {"@type": "Person", "@id": "https://www.mariana-marcelino.com/#mariana", "name": "Mariana Marcelino", "url": "https://www.mariana-marcelino.com/", "image": "https://www.mariana-marcelino.com/assets/mariana-about-lilac.webp", "jobTitle": "Web designer e developer", "sameAs": ["https://www.linkedin.com/in/marianamarcelino-frontend-engineer/"]}, "publisher": {"@type": "Organization", "@id": "https://www.mariana-marcelino.com/#business", "name": "Mariana Marcelino", "url": "https://www.mariana-marcelino.com/", "logo": {"@type": "ImageObject", "url": "https://www.mariana-marcelino.com/assets/apple-touch-icon.png"}}, "isPartOf": {"@type": "Blog", "@id": "https://www.mariana-marcelino.com/blog/"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "É preciso pagar para aparecer nas respostas do ChatGPT?", "acceptedAnswer": {"@type": "Answer", "text": "Não. As recomendações orgânicas não se compram: dependem da informação que as ferramentas encontram e conseguem confirmar sobre o seu negócio."}}, {"@type": "Question", "name": "SEO e otimização para IA são coisas diferentes?", "acceptedAnswer": {"@type": "Answer", "text": "Partilham a mesma base: um site acessível, rápido e com conteúdo claro. A otimização para IA dá mais peso a respostas diretas, a dados estruturados e à confirmação da sua reputação noutras fontes."}}, {"@type": "Question", "name": "Quanto tempo demora a ver resultados?", "acceptedAnswer": {"@type": "Answer", "text": "As correções técnicas, como desbloquear robôs ou enviar o sitemap, produzem efeito em semanas. A reputação fora do site, com avaliações e menções, constrói-se ao longo de meses."}}, {"@type": "Question", "name": "Como sei se o meu negócio já aparece?", "acceptedAnswer": {"@type": "Answer", "text": "Faça às ferramentas as perguntas que os seus clientes fariam, com várias formulações, e registe os resultados. Nas estatísticas do site, veja também se recebe visitas vindas de chatgpt.com ou perplexity.ai."}}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Início", "item": "https://www.mariana-marcelino.com/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.mariana-marcelino.com/blog/"}, {"@type": "ListItem", "position": 3, "name": "Como fazer o seu negócio aparecer nas respostas do ChatGPT", "item": "https://www.mariana-marcelino.com/blog/como-aparecer-no-chatgpt/"}]}</script>
+  <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Saltar para o conteúdo</a>
+  <!-- Lead magnet strip -->
+  <div class="promo-strip" role="region" aria-label="Diagnóstico gratuito">
+    <a class="promo-link" href="../../diagnostico/"><span class="promo-text">O seu site está a afastar clientes?</span><span class="promo-go"><span class="ul">Faça o teste<span class="promo-more"> em 2 minutos</span></span> <span class="arrow">→</span></span></a>
+  </div>
+
+  <header class="header">
+    <nav class="navigation grid-col-t grid-col-b grid-col-l grid-col-r h4">
+      <a href="../../" class="logo-container" aria-label="Mariana Marcelino — página inicial">
+        <span class="logo">MARIANA MARCELINO</span>
+      </a>
+      <div class="nav-right">
+        <div class="lang-switch" aria-label="Idioma">
+          <span class="lang-current" aria-current="true">PT</span>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <a href="../../en/blog/how-to-appear-in-chatgpt-answers/" hreflang="en" lang="en" class="lang-link">EN</a>
+        </div>
+        <a href="../../blog/" class="nav-link-plain" aria-current="page">Blog</a>
+        <span class="nav-cta nav-cta-spacer" aria-hidden="true">Marcar chamada</span>
+        <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="nav-cta nav-cta-fixed">Marcar chamada</a>
+        <button type="button" class="nav-burger js-menu-open" aria-label="Abrir menu" aria-controls="mobile-menu" aria-expanded="false"><span></span><span></span></button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu js-mobile-menu" id="mobile-menu" hidden>
+    <div class="mobile-menu-top">
+      <span class="logo">MARIANA MARCELINO</span>
+      <button type="button" class="mobile-menu-close js-menu-close" aria-label="Fechar menu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg></button>
+    </div>
+    <nav class="mobile-menu-links" aria-label="Menu">
+      <a href="../../#solutions" class="js-menu-link">Soluções</a>
+      <a href="../../#about" class="js-menu-link">Sobre</a>
+      <a href="../../#cta" class="js-menu-link">Contactos</a>
+      <a href="../../blog/" class="js-menu-link">Blog</a>
+    </nav>
+    <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="mobile-menu-cta"><span class="ul">Marcar chamada</span> <span class="arrow"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 9 9 3M4 3h5v5"/></svg></span></a>
+    <div class="mobile-menu-foot">
+      <div class="lang-switch" aria-label="Idioma">
+          <span class="lang-current" aria-current="true">PT</span>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <a href="../../en/blog/how-to-appear-in-chatgpt-answers/" hreflang="en" lang="en" class="lang-link">EN</a>
+        </div>
+    </div>
+  </div>
+
+  <main class="blog-main" id="main">
+    <article>
+      <header class="blog-head article-head">
+        <p class="kicker blog-kicker"><a href="../../blog/">← Blog</a></p>
+        <div class="narrow-container">
+          <p class="post-meta"><span class="post-cat">IA e pesquisa</span><time datetime="2026-08-25">25 de agosto de 2026</time><span>5 min de leitura</span></p>
+          <h1 class="article-title">Como fazer o seu negócio aparecer nas respostas do ChatGPT</h1>
+          <p class="article-dek">Cada vez mais pessoas pedem recomendações a uma ferramenta de IA em vez de percorrerem uma página de resultados. Eis o que faz um negócio ser citado nessas respostas e como preparar o seu site.</p>
+          <div class="article-byline">
+            <img src="../../assets/mariana-avatar.webp" alt="" width="40" height="40">
+            <p>Mariana Marcelino<span>Web Design, Programação, Conversão</span></p>
+          </div>
+          <figure class="article-cover">
+            <img src="../../assets/blog/ia-chatgpt.webp?v=1790872287" srcset="../../assets/blog/ia-chatgpt-sm.webp?v=1790872287 800w, ../../assets/blog/ia-chatgpt.webp?v=1790872287 1400w" sizes="(min-width: 1200px) 60vw, 100vw" alt="Ilustração: uma resposta luminosa ao centro, com órbitas e três fontes citadas em destaque" width="1400" height="875" fetchpriority="high" decoding="async">
+          </figure>
+        </div>
+      </header>
+
+      <div class="article-layout">
+        <aside class="article-toc" aria-label="Neste artigo">
+          <div class="article-toc-inner">
+            <p class="kicker">Neste artigo</p>
+            <ol>
+              <li><a href="#a-pesquisa-mudou-de-forma">A pesquisa mudou de forma</a></li>
+              <li><a href="#como-e-que-a-ia-escolhe-quem-recomendar">Como é que a IA escolhe quem recomendar</a></li>
+              <li><a href="#garanta-que-os-robos-conseguem-ler-o-seu-site">1. Garanta que os robôs conseguem ler o seu site</a></li>
+              <li><a href="#diga-claramente-o-que-faz-para-quem-e-onde">2. Diga claramente o que faz, para quem e onde</a></li>
+              <li><a href="#responda-as-perguntas-que-os-seus-clientes-fazem">3. Responda às perguntas que os seus clientes fazem</a></li>
+              <li><a href="#use-dados-estruturados">4. Use dados estruturados</a></li>
+              <li><a href="#construa-confianca-fora-do-seu-site">5. Construa confiança fora do seu site</a></li>
+              <li><a href="#e-o-ficheiro-llms-txt">E o ficheiro llms.txt?</a></li>
+              <li><a href="#por-onde-comecar">Por onde começar</a></li>
+              <li><a href="#perguntas-frequentes">Perguntas frequentes</a></li>
+            </ol>
+          </div>
+        </aside>
+
+        <div class="narrow-container article-body">
+          <div class="prose">
+            <section class="takeaways" aria-label="Em resumo">
+              <p class="kicker">Em resumo</p>
+              <ul>
+              <li>As ferramentas de IA recomendam negócios que conseguem ler, perceber e confirmar noutras fontes.</li>
+              <li>O seu site tem de estar acessível aos robôs de pesquisa e dizer claramente o que faz, para quem e onde.</li>
+              <li>Respostas diretas a perguntas reais, como numa secção de perguntas frequentes, são o formato mais fácil de citar.</li>
+              <li>Avaliações, menções noutros sites e um Perfil da Empresa no Google completo reforçam a confiança.</li>
+              </ul>
+            </section>
+<h2 id="a-pesquisa-mudou-de-forma">A pesquisa mudou de forma</h2>
+<p>Durante anos, aparecer online significava subir posições no Google. Hoje, muitos clientes fazem a pergunta completa a uma ferramenta de IA, algo como <em>“que estúdio de interiores em Braga trabalha bem apartamentos pequenos?”</em>, e recebem uma resposta curta com meia dúzia de nomes.</p>
+<p>Se o seu negócio não está entre esses nomes, para aquele cliente simplesmente não existe. O SEO tradicional continua a contar, até porque estas ferramentas se apoiam em índices de pesquisa, mas o objetivo muda: já não basta ficar bem posicionado, é preciso ser <strong>citado</strong>.</p>
+
+<h2 id="como-e-que-a-ia-escolhe-quem-recomendar">Como é que a IA escolhe quem recomendar</h2>
+<p>Não existe uma fórmula pública, mas há um padrão claro. As ferramentas tendem a recomendar negócios que cumprem três condições:</p>
+<ol>
+  <li><strong>Conseguem aceder ao conteúdo</strong>: o site não bloqueia os robôs que recolhem informação.</li>
+  <li><strong>Percebem o que o negócio faz</strong>: a informação é explícita, estruturada e sem ambiguidades.</li>
+  <li><strong>Encontram confirmação noutros sítios</strong>: avaliações, diretórios, imprensa e dados consistentes.</li>
+</ol>
+<p>Os cinco passos seguintes trabalham exatamente estas três condições.</p>
+
+<h2 id="garanta-que-os-robos-conseguem-ler-o-seu-site">1. Garanta que os robôs conseguem ler o seu site</h2>
+<p>Parece óbvio, mas é o erro mais comum. Há sites que bloqueiam, sem o saber, os robôs de pesquisa através do ficheiro <code>robots.txt</code>, de um plugin de segurança ou de uma definição do alojamento.</p>
+<ul>
+  <li>Confirme que o <code>robots.txt</code> não bloqueia o Googlebot, o Bingbot nem os robôs das ferramentas de IA, como o OAI-SearchBot (pesquisa do ChatGPT) e o PerplexityBot.</li>
+  <li>Registe o site no Google Search Console e no Bing Webmaster Tools e envie o seu sitemap. Várias ferramentas de IA apoiam-se em índices de pesquisa existentes, e o do Bing é um deles.</li>
+  <li>Garanta que o texto importante está em texto, e não apenas dentro de imagens, vídeos ou PDFs.</li>
+</ul>
+
+<h2 id="diga-claramente-o-que-faz-para-quem-e-onde">2. Diga claramente o que faz, para quem e onde</h2>
+<p>Slogans bonitos mas vagos são difíceis de interpretar, tanto para pessoas como para máquinas. A primeira frase da sua homepage deve responder a três perguntas: o que faz, para quem e onde.</p>
+<div class="compare">
+  <p class="-bad"><b>Vago</b>Soluções à medida para transformar o seu espaço.</p>
+  <p class="-good"><b>Claro</b>Estúdio de arquitetura de interiores em Braga, especializado na remodelação de apartamentos e pequenos espaços comerciais.</p>
+</div>
+<p>Dê também a cada serviço a sua própria página, com um título que o nomeie tal como os clientes o procuram.</p>
+
+<h2 id="responda-as-perguntas-que-os-seus-clientes-fazem">3. Responda às perguntas que os seus clientes fazem</h2>
+<p>As ferramentas de IA existem para responder a perguntas. Quanto mais o seu site responder diretamente às perguntas reais dos seus clientes, mais fácil é ser usado como fonte.</p>
+<ul>
+  <li>Quanto custa, em média, o seu serviço?</li>
+  <li>Quanto tempo demora?</li>
+  <li>Em que zonas trabalha?</li>
+  <li>Como funciona o processo, do primeiro contacto ao fim?</li>
+</ul>
+<p>Escreva a resposta logo na primeira frase e desenvolva a seguir. Uma secção de perguntas frequentes em cada página de serviço é uma excelente forma de o fazer.</p>
+<div class="callout"><b>Dica</b>Para descobrir as perguntas certas, releia os emails e as mensagens de WhatsApp dos últimos meses. As perguntas que se repetem são as que deve responder no site.</div>
+
+<h2 id="use-dados-estruturados">4. Use dados estruturados</h2>
+<p>Os dados estruturados (<em>schema.org</em>) são pequenos blocos de código invisíveis para os visitantes, que descrevem o seu negócio de forma inequívoca: nome, morada, horário, serviços, zona de atuação e avaliações.</p>
+<p>Os mais úteis para um pequeno negócio são <code>LocalBusiness</code> (ou o tipo mais específico do seu setor), <code>Service</code> e <code>FAQPage</code>. Não mudam o aspeto do site, mas eliminam dúvidas sobre quem é e o que faz.</p>
+
+<h2 id="construa-confianca-fora-do-seu-site">5. Construa confiança fora do seu site</h2>
+<p>Uma ferramenta de IA não recomenda um negócio só porque o próprio site diz que é o melhor. Procura confirmação noutros sítios:</p>
+<ul>
+  <li>Um Perfil da Empresa no Google completo, com fotografias reais e informação atualizada.</li>
+  <li>Avaliações recentes e detalhadas, que mencionem o serviço e a localidade.</li>
+  <li>Nome, morada e telefone iguais em todos os diretórios e redes sociais.</li>
+  <li>Menções em imprensa local, associações do setor e sites de parceiros.</li>
+</ul>
+
+<h2 id="e-o-ficheiro-llms-txt">E o ficheiro llms.txt?</h2>
+<p>O <code>llms.txt</code> é uma proposta recente: um ficheiro de texto simples, na raiz do site, que resume o negócio e aponta para as páginas mais importantes, a pensar nos modelos de linguagem. Ainda não é um padrão, nem garante nada, mas é rápido de criar. Vale a pena tê-lo, desde que os cinco pontos anteriores estejam resolvidos primeiro.</p>
+
+<h2 id="por-onde-comecar">Por onde começar</h2>
+<ol>
+  <li>Pergunte ao ChatGPT e ao Perplexity o que os seus clientes perguntariam e registe quem aparece.</li>
+  <li>Verifique o <code>robots.txt</code> e registe o site no Search Console e no Bing Webmaster Tools.</li>
+  <li>Reescreva a primeira frase da homepage para dizer o que faz, para quem e onde.</li>
+  <li>Acrescente perguntas frequentes às páginas de serviço.</li>
+  <li>Complete o Perfil da Empresa no Google e peça avaliações aos últimos clientes.</li>
+</ol>
+
+            <section class="faq">
+              <h2 id="perguntas-frequentes">Perguntas frequentes</h2>
+            <details>
+              <summary>É preciso pagar para aparecer nas respostas do ChatGPT?</summary>
+              <p>Não. As recomendações orgânicas não se compram: dependem da informação que as ferramentas encontram e conseguem confirmar sobre o seu negócio.</p>
+            </details>
+            <details>
+              <summary>SEO e otimização para IA são coisas diferentes?</summary>
+              <p>Partilham a mesma base: um site acessível, rápido e com conteúdo claro. A otimização para IA dá mais peso a respostas diretas, a dados estruturados e à confirmação da sua reputação noutras fontes.</p>
+            </details>
+            <details>
+              <summary>Quanto tempo demora a ver resultados?</summary>
+              <p>As correções técnicas, como desbloquear robôs ou enviar o sitemap, produzem efeito em semanas. A reputação fora do site, com avaliações e menções, constrói-se ao longo de meses.</p>
+            </details>
+            <details>
+              <summary>Como sei se o meu negócio já aparece?</summary>
+              <p>Faça às ferramentas as perguntas que os seus clientes fariam, com várias formulações, e registe os resultados. Nas estatísticas do site, veja também se recebe visitas vindas de chatgpt.com ou perplexity.ai.</p>
+            </details>
+            </section>
+
+            <aside class="author-box">
+              <img src="../../assets/mariana-avatar.webp" alt="Mariana Marcelino" width="64" height="64" loading="lazy" decoding="async">
+              <div>
+                <p class="author-name">Mariana Marcelino</p>
+                <p>Redesenho e reconstruo sites para que o seu negócio pareça o que realmente é: moderno e credível. Para que seja encontrado por quem o procura. E para que cada visitante tenha um caminho claro até se tornar cliente. <a href="https://www.linkedin.com/in/marianamarcelino-frontend-engineer/" target="_blank" rel="noopener">LinkedIn</a></p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <section class="post-list related" aria-label="Continuar a ler">
+      <p class="kicker">Continuar a ler</p>
+      <div class="post-grid">
+        <article class="post-card js-post" data-cat="redesign" data-text="8 sinais de que o seu site esta a afastar clientes um site desatualizado custa-lhe contactos todos os dias, mesmo sem dar por isso. os oito sinais mais comuns e o que fazer com cada um deles. redesign">
+          <a href="../../blog/sinais-que-o-site-esta-a-afastar-clientes/" class="post-media" tabindex="-1" aria-hidden="true"><img src="../../assets/blog/sinais-site-sm.webp?v=1790872287" srcset="../../assets/blog/sinais-site-sm.webp?v=1790872287 800w, ../../assets/blog/sinais-site.webp?v=1790872287 1400w" sizes="(min-width: 860px) 46vw, 100vw" alt="Ilustração: oito páginas de um site que se afastam e desvanecem da esquerda para a direita" width="800" height="500" loading="lazy" decoding="async" class="fade-on-load"></a>
+          <p class="post-meta"><span class="post-cat">Redesign</span><time datetime="2026-07-28">28 de julho de 2026</time><span>4 min</span></p>
+          <h3 class="post-title"><a href="../../blog/sinais-que-o-site-esta-a-afastar-clientes/">8 sinais de que o seu site está a afastar clientes</a></h3>
+          <p class="post-excerpt">Um site desatualizado custa-lhe contactos todos os dias, mesmo sem dar por isso. Os oito sinais mais comuns e o que fazer com cada um deles.</p>
+        </article>
+        <article class="post-card js-post" data-cat="seo" data-text="seo local: como ser encontrado por clientes na sua zona guia pratico para pequenos negocios aparecerem no google maps e nas pesquisas locais: perfil da empresa, avaliacoes, paginas por localidade e dados estruturados. seo">
+          <a href="../../blog/seo-local-para-pequenos-negocios/" class="post-media" tabindex="-1" aria-hidden="true"><img src="../../assets/blog/seo-local-sm.webp?v=1790872287" srcset="../../assets/blog/seo-local-sm.webp?v=1790872287 800w, ../../assets/blog/seo-local.webp?v=1790872287 1400w" sizes="(min-width: 860px) 46vw, 100vw" alt="Ilustração: mapa topográfico com um local assinalado a verde-água" width="800" height="500" loading="lazy" decoding="async" class="fade-on-load"></a>
+          <p class="post-meta"><span class="post-cat">SEO</span><time datetime="2026-06-23">23 de junho de 2026</time><span>3 min</span></p>
+          <h3 class="post-title"><a href="../../blog/seo-local-para-pequenos-negocios/">SEO local: como ser encontrado por clientes na sua zona</a></h3>
+          <p class="post-excerpt">Guia prático para pequenos negócios aparecerem no Google Maps e nas pesquisas locais: Perfil da Empresa, avaliações, páginas por localidade e dados estruturados.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta-section" data-nav-hide>
+      <div class="cta-panel">
+        <div class="cta-inner">
+        <h2 class="cta-title">Comecemos com uma conversa</h2>
+        <p class="cta-sub">Identificamos oportunidades de melhoria no seu site e falamos sobre o caminho que faz sentido. Sem qualquer custo nem compromisso.</p>
+        <div class="cta-main">
+          <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="button cta-button">Marcar chamada</a>
+        </div>
+        <div class="cta-write">
+          <button type="button" class="cta-write-toggle js-write-toggle" aria-expanded="false" aria-controls="cta-form"><span class="cta-write-text">Se preferir, envie uma mensagem</span><span class="cta-write-arrow" aria-hidden="true">→</span></button>
+          <form id="cta-form" class="js-contact-form cta-form" hidden aria-label="Formulário de contacto" novalidate>
+      <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <label class="cta-field"><span>Nome</span><input type="text" name="Nome" autocomplete="name"></label>
+            <label class="cta-field"><span>Email</span><input type="email" name="Email" required autocomplete="email"></label>
+            <label class="cta-field -full"><span>Mensagem</span><textarea name="Mensagem" rows="3" required></textarea></label>
+            <div class="cta-form-foot">
+              <button type="submit" class="button">Enviar</button>
+              <p class="js-form-message message" role="status"></p>
+            </div>
+          </form>
+        </div>
+      </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer -bg-black -fg-off-white" data-nav="dark" data-nav-hide>
+    <div class="footer-top footer-row">
+      <div class="footer-brand">
+        <a href="../../" class="logo footer-logo">MARIANA MARCELINO</a>
+        <a href="mailto:info@mariana-marcelino.com" class="footer-email">info@mariana-marcelino.com</a>
+      </div>
+      <a class="footer-guide" href="../../diagnostico/"><span class="footer-guide-label">Diagnóstico gratuito</span><span class="footer-guide-title"><span class="ul">O seu site está a afastar clientes? Faça o teste em 2 minutos</span>&nbsp;<span class="arrow" aria-hidden="true">→</span></span></a>
+      <nav class="footer-links" aria-label="Rodapé">
+        <div class="lang-switch" aria-label="Idioma">
+          <span class="lang-current" aria-current="true">PT</span>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <a href="../../en/blog/how-to-appear-in-chatgpt-answers/" hreflang="en" lang="en" class="lang-link">EN</a>
+        </div>
+        <a href="../../blog/" class="nav-link-plain">Blog</a>
+        <a href="https://calendly.com/marianacmarcelino/30min" target="_blank" rel="noopener" class="nav-cta">Marcar chamada</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Mariana Marcelino</p>
+      <div class="footer-legal">
+        <button type="button" class="footer-legal-toggle js-legal-toggle" aria-expanded="false" aria-controls="footer-legal-links">Informação legal <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+        <div class="footer-legal-links" id="footer-legal-links"><div>
+        <a href="../../politica-de-privacidade/" class="link">Privacidade</a>
+        <a href="../../politica-de-cookies/" class="link">Cookies</a>
+        <a href="../../termos-e-condicoes/" class="link">Termos e Condições</a>
+        </div></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/vendor/lenis.min.js?v=1.3.26"></script>
+  <script src="../../main.js?v=1790872287"></script>
+</body>
+</html>

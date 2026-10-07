@@ -63,6 +63,14 @@
     }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
   }
 
+  // The arrival fade (html.pt-enter, set in the page head) is cleared once it has run
+  if (document.documentElement.classList.contains("pt-enter")) {
+    var ptMain = document.querySelector("main");
+    var ptDone = function () { document.documentElement.classList.remove("pt-enter"); };
+    if (ptMain) ptMain.addEventListener("animationend", function (e) { if (e.target === ptMain && e.animationName === "pt-in") ptDone(); });
+    setTimeout(ptDone, 1200);
+  }
+
   // Page transitions between internal pages: fade out, then navigate
   if (!REDUCED) {
     document.addEventListener("click", function (e) {
@@ -448,8 +456,9 @@
     var navParts = [header.querySelector(".logo-container"), header.querySelector(".lang-switch"), header.querySelector(".nav-link-plain"), header.querySelector(".nav-cta-fixed"), header.querySelector(".nav-burger")].filter(Boolean);
     var darkAreas = document.querySelectorAll('[data-nav="dark"]');
     var hideAreas = document.querySelectorAll("[data-nav-hide]");
-    // The guide strip steps aside over the contact section and the footer
-    var stripHideAreas = document.querySelectorAll("[data-nav-hide]");
+    // The strip steps aside over the footer (data-nav-hide) and the contact section
+    // (data-strip-hide), where the nav itself stays visible
+    var stripHideAreas = document.querySelectorAll("[data-nav-hide], [data-strip-hide]");
     var navTicking = false;
     var over = function (areas, x, y) {
       for (var i = 0; i < areas.length; i++) {
@@ -476,7 +485,9 @@
           document.documentElement.classList.toggle("strip-stuck", window.scrollY > 0 && promoStrip.getBoundingClientRect().top <= 1);
         }
         // Fixed probe point: the strip's own rect moves once it slides away
-        promoStrip.classList.toggle("is-away", over(stripHideAreas, window.innerWidth / 2, promoStrip.offsetHeight / 2));
+        var stripAway = over(stripHideAreas, window.innerWidth / 2, promoStrip.offsetHeight / 2);
+        promoStrip.classList.toggle("is-away", stripAway);
+        document.documentElement.classList.toggle("strip-away", stripAway);
       }
       navParts.forEach(function (part) {
         var r = part.getBoundingClientRect();
@@ -972,34 +983,42 @@
     });
   }
 
-  // Blog: filter by topic chip + free-text search
+  // Blog: filter by topic chips + free-text search. Several topics can be on
+  // at once; a post shows only if it has every selected topic
   var postList = document.querySelector(".js-post-list");
   if (postList) {
     var chips = Array.prototype.slice.call(postList.querySelectorAll(".js-chip"));
     var postCards = Array.prototype.slice.call(postList.querySelectorAll(".js-post"));
     var searchBox = postList.querySelector(".js-post-search");
     var empty = postList.querySelector(".js-posts-empty");
-    var activeCat = "all";
-    var norm = function (s) { return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim(); };
+    var selected = [];
+    var norm = function (s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim(); };
     var applyFilter = function () {
       var q = norm(searchBox ? searchBox.value : "");
       var shown = 0;
       postCards.forEach(function (card) {
-        var ok = (activeCat === "all" || card.dataset.cat === activeCat) && (!q || card.dataset.text.indexOf(q) !== -1);
+        var cats = (card.dataset.cats || "").split(" ");
+        var ok = selected.every(function (c) { return cats.indexOf(c) !== -1; }) && (!q || card.dataset.text.indexOf(q) !== -1);
         card.hidden = !ok;
         if (ok) shown++;
       });
       if (empty) empty.hidden = shown > 0;
     };
+    var paintChips = function () {
+      chips.forEach(function (c) {
+        var on = c.dataset.filter === "all" ? selected.length === 0 : selected.indexOf(c.dataset.filter) !== -1;
+        c.classList.toggle("is-active", on);
+        c.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+    };
     chips.forEach(function (chip) {
       chip.addEventListener("click", function () {
-        // Clicking the active topic again goes back to "all"
-        activeCat = (chip.dataset.filter === activeCat && activeCat !== "all") ? "all" : chip.dataset.filter;
-        chips.forEach(function (c) {
-          var on = c.dataset.filter === activeCat;
-          c.classList.toggle("is-active", on);
-          c.setAttribute("aria-pressed", on ? "true" : "false");
-        });
+        var f = chip.dataset.filter;
+        // "All" clears the selection; any other topic toggles on and off
+        if (f === "all") selected = [];
+        else if (selected.indexOf(f) !== -1) selected = selected.filter(function (c) { return c !== f; });
+        else selected.push(f);
+        paintChips();
         applyFilter();
       });
     });
@@ -1340,6 +1359,16 @@
       });
     };
     logos.forEach(function (logo, i) { logo.addEventListener("click", function () { show(i); }); });
+    // Mobile: after the arrows (which sit below a long quote) or a swipe, bring the
+    // start of the new testimonial into view, just under the nav, so it can be read whole
+    var toSlideTop = function () {
+      if (!mobileSlides.matches) return;
+      var hd = document.querySelector(".header");
+      var offset = (hd ? Math.max(0, hd.getBoundingClientRect().bottom) : 0) + 16;
+      var top = testimonialSlides.getBoundingClientRect().top;
+      if (top < offset) window.scrollTo({ top: window.scrollY + top - offset, behavior: REDUCED ? "auto" : "smooth" });
+    };
+    var go = function (index) { show(index); toSlideTop(); };
     // Swipe left/right on touch screens
     var tx = null, ty = null;
     testimonialSlides.addEventListener("touchstart", function (e) {
@@ -1350,13 +1379,13 @@
       var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
       tx = null;
       if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-      show(dx < 0 ? (current + 1) % slides.length : (current - 1 + slides.length) % slides.length);
+      go(dx < 0 ? (current + 1) % slides.length : (current - 1 + slides.length) % slides.length);
     }, { passive: true });
     document.querySelectorAll(".js-testimonial-prev").forEach(function (btn) {
-      btn.addEventListener("click", function () { show((current - 1 + slides.length) % slides.length); });
+      btn.addEventListener("click", function () { go((current - 1 + slides.length) % slides.length); });
     });
     document.querySelectorAll(".js-testimonial-next").forEach(function (btn) {
-      btn.addEventListener("click", function () { show((current + 1) % slides.length); });
+      btn.addEventListener("click", function () { go((current + 1) % slides.length); });
     });
   }
 })();

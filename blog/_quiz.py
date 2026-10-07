@@ -63,7 +63,7 @@ QUIZ = {
     {"id": "q4", "cat": "image", "q": "O site transmite a imagem atual do seu negócio?", "options": [
       {"t": "Sim, representa-o bem", "p": 0}, {"t": "Mais ou menos", "p": 1}, {"t": "Não, ficou para trás", "p": 2}]},
     {"id": "q5", "cat": "reach", "q": "Quando alguém procura o seu serviço na sua zona, o seu negócio aparece no Google?", "options": [
-      {"t": "Sim, na primeira página", "p": 0}, {"t": "Às vezes, ou mais abaixo", "p": 1}, {"t": "Não, ou não sei", "p": 2}]},
+      {"t": "Sim, entre os primeiros resultados", "p": 0}, {"t": "Sim, mas mais abaixo nos resultados", "p": 1}, {"t": "Não, ou não sei", "p": 2}]},
     {"id": "q6", "cat": "reach", "q": "E nas ferramentas de IA, como o ChatGPT?", "options": [
       {"t": "Sim, já aparece nas respostas", "p": 0}, {"t": "Nunca experimentei ver", "p": 1}, {"t": "Não aparece", "p": 2}]},
     {"id": "q7", "cat": "leads", "q": "Quantos pedidos de contacto ou marcações chegam pelo site?", "options": [
@@ -100,14 +100,14 @@ QUIZ = {
   "plans": {
     "engine": {"name": "Motor de Contactos", "line": "O seu site precisa de mais do que uma nova imagem: precisa também de ser encontrado e de transformar visitas em contactos.",
                "lineNoSite": "Começar do zero é a melhor altura para fazer um site que trabalha pelo negócio desde o primeiro dia.",
-               "cta": {"t": "Marcar chamada", "href": CALENDLY}, "cta2": {"t": "Ver o que inclui", "href": "/#solutions"}},
+               "cta": {"t": "Marcar chamada", "href": CALENDLY}, "cta2": {"t": "Ver o que inclui", "href": "/#motor-de-contactos"}},
     "visual": {"name": "Nova Imagem", "line": "A estrutura serve, mas a imagem está a afastar quem visita. Um novo design resolve o essencial.",
                "also": "Se também quiser ser mais encontrado e receber mais contactos, o Motor de Contactos resolve essa parte.",
-               "cta": {"t": "Pedir redesign gratuito", "href": "/#pedir-redesign"}, "cta2": {"t": "Marcar chamada", "href": CALENDLY}},
+               "cta": {"t": "Pedir redesign gratuito", "href": "/#pedir-redesign"}, "cta2": {"t": "Ver o que inclui", "href": "/#nova-imagem"}},
     "call": {"name": "Uma conversa sem compromisso", "line": "O seu site está em boa forma. Numa chamada de 30 minutos, vemos juntos o que ainda pode ser melhorado.",
              "cta": {"t": "Marcar chamada", "href": CALENDLY}, "cta2": {"t": "Ver os planos", "href": "/#solutions"}},
     "free": {"name": "Redesign da Homepage (gratuito)", "line": "Como ainda está a explorar, veja, sem compromisso, como o seu site pode ficar.",
-             "cta": {"t": "Pedir redesign gratuito", "href": "/#pedir-redesign"}, "cta2": {"t": "Ver os planos", "href": "/#solutions"}}
+             "cta": {"t": "Pedir redesign gratuito", "href": "/#pedir-redesign"}, "cta2": {"t": "Ver o que inclui", "href": "/#free"}}
   },
   "report": {
     "subject": "O seu diagnóstico: {score}/100 · {band}",
@@ -178,7 +178,7 @@ QUIZ = {
     {"id": "q4", "cat": "image", "q": "Does your website reflect your business as it is today?", "options": [
       {"t": "Yes, it represents it well", "p": 0}, {"t": "More or less", "p": 1}, {"t": "No, it's fallen behind", "p": 2}]},
     {"id": "q5", "cat": "reach", "q": "When someone searches for your service in your area, does your business show up on Google?", "options": [
-      {"t": "Yes, on the first page", "p": 0}, {"t": "Sometimes, or further down", "p": 1}, {"t": "No, or I don't know", "p": 2}]},
+      {"t": "Yes, among the top results", "p": 0}, {"t": "Yes, but further down the results", "p": 1}, {"t": "No, or I don't know", "p": 2}]},
     {"id": "q6", "cat": "reach", "q": "And in AI tools like ChatGPT?", "options": [
       {"t": "Yes, it already shows up in answers", "p": 0}, {"t": "I've never checked", "p": 1}, {"t": "It doesn't show up", "p": 2}]},
     {"id": "q7", "cat": "leads", "q": "How many enquiries or bookings come through your website?", "options": [
@@ -215,14 +215,14 @@ QUIZ = {
   "plans": {
     "engine": {"name": "Enquiry Engine", "line": "Your website needs more than a new look: it also needs to be found and to turn visits into enquiries.",
                "lineNoSite": "Starting from scratch is the best moment to build a website that works for your business from day one.",
-               "cta": {"t": "Book a call", "href": CALENDLY}, "cta2": {"t": "See what's included", "href": "/en/#solutions"}},
+               "cta": {"t": "Book a call", "href": CALENDLY}, "cta2": {"t": "See what's included", "href": "/en/#motor-de-contactos"}},
     "visual": {"name": "Fresh Look", "line": "The structure works, but the look is turning visitors away. A new design fixes the essentials.",
                "also": "If you'd also like to be found by more people and get more enquiries, the Enquiry Engine covers that too.",
-               "cta": {"t": "Request a free redesign", "href": "/en/#pedir-redesign"}, "cta2": {"t": "Book a call", "href": CALENDLY}},
+               "cta": {"t": "Request a free redesign", "href": "/en/#pedir-redesign"}, "cta2": {"t": "See what's included", "href": "/en/#nova-imagem"}},
     "call": {"name": "A no-strings chat", "line": "Your website is in good shape. In a 30-minute call, we'll look together at what could still be improved.",
              "cta": {"t": "Book a call", "href": CALENDLY}, "cta2": {"t": "See the plans", "href": "/en/#solutions"}},
     "free": {"name": "Homepage Redesign (free)", "line": "Since you're still exploring, see what your website could look like, with no commitment.",
-             "cta": {"t": "Request a free redesign", "href": "/en/#pedir-redesign"}, "cta2": {"t": "See the plans", "href": "/en/#solutions"}}
+             "cta": {"t": "Request a free redesign", "href": "/en/#pedir-redesign"}, "cta2": {"t": "See what's included", "href": "/en/#free"}}
   },
   "report": {
     "subject": "Your diagnosis: {score}/100 · {band}",

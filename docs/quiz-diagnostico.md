@@ -39,8 +39,8 @@ no máximo 14. A pergunta 9 não pontua: serve para escolher o plano.
 - Não, ficou para trás — 2
 
 **5. Quando alguém procura o seu serviço na sua zona, o seu negócio aparece no Google?** *(Visibilidade)*
-- Sim, na primeira página — 0
-- Às vezes, ou mais abaixo — 1
+- Sim, entre os primeiros resultados — 0
+- Sim, mas mais abaixo nos resultados — 1
 - Não, ou não sei — 2
 
 **6. E nas ferramentas de IA, como o ChatGPT?** *(Visibilidade)*

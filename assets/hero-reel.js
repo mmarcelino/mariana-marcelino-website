@@ -557,6 +557,15 @@
     var r = root.getBoundingClientRect();
     if (r.top < window.innerHeight && r.bottom > 0) start();
     if (done || held) return;
-    if (r.top + r.height / 2 <= window.innerHeight / 2) hold();
+    var mid = r.top + r.height / 2;
+    // Already a screen or more past it (a link jumped down the page): it counts
+    // as seen, so the page is never pulled back up to it
+    if (mid < -window.innerHeight) { done = true; return; }
+    if (mid <= window.innerHeight / 2) hold();
   }, { passive: true });
+  // Following an in-page link ("Ver soluções", the menu…) skips the hold too
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="#"]');
+    if (a && a.pathname === location.pathname && a.hash.length > 1 && !held) done = true;
+  }, true);
 })();

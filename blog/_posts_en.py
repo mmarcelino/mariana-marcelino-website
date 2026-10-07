@@ -8,6 +8,7 @@ POSTS_EN = [
 "description": "More and more clients ask AI tools for recommendations. Learn what makes ChatGPT, Perplexity and Google cite a business, and how to prepare your website.",
 "dek": "More and more people ask an AI tool for recommendations instead of scrolling through a page of results. Here’s what gets a business cited in those answers, and how to prepare your website.",
 "category": "AI & search",
+"topics": ["AI & search", "SEO"],
 "cover_alt": "Illustration: a glowing answer at the centre, with orbits and three highlighted sources",
 "takeaways": [
   "AI tools recommend businesses they can read, understand and confirm in other sources.",
@@ -98,6 +99,7 @@ POSTS_EN = [
 "description": "An outdated website costs you enquiries every day, even if you don’t notice. The eight most common signs, and what to do about each one.",
 "dek": "A website rarely breaks in a visible way. It simply stops working, and enquiries drop without anyone quite knowing why. These are the eight signs to watch for.",
 "category": "Redesign",
+"topics": ["Redesign", "Conversion", "SEO"],
 "cover_alt": "Illustration: eight website pages drifting away and fading from left to right",
 "takeaways": [
   "Visitors decide within seconds whether to stay or leave.",
@@ -158,6 +160,7 @@ POSTS_EN = [
 "description": "A practical guide for small businesses to show up on Google Maps and in local searches: Business Profile, reviews, location pages and structured data.",
 "dek": "People who search “near me” or add a town to their search are often ready to hire. This guide shows you how to make your business the answer.",
 "category": "SEO",
+"topics": ["SEO", "AI & search"],
 "cover_alt": "Illustration: a topographic map with one place marked in teal",
 "takeaways": [
   "Searches with local intent often come from people ready to hire.",
@@ -224,6 +227,7 @@ POSTS_EN = [
 "description": "If people visit your website but don’t get in touch, the problem is rarely traffic. Seven practical changes to turn visits into enquiries.",
 "dek": "Bringing in visitors is the expensive part. Losing them through lack of clarity or trust is the avoidable part. Seven fixes that turn visits into enquiries.",
 "category": "Conversion",
+"topics": ["Conversion"],
 "cover_alt": "Illustration: many dots converging on a narrow passage that only a few pass through",
 "takeaways": [
   "The problem is rarely a lack of visitors: it’s a lack of clarity and trust.",
@@ -284,6 +288,7 @@ POSTS_EN = [
 "description": "From website builders to agencies: what determines the price of a professional website, what should be included and how to compare quotes without surprises.",
 "dek": "Two quotes for “the same website” can be worlds apart. This guide explains what makes the price vary, what should be included and how to compare fairly.",
 "category": "Investment",
+"topics": ["Investment", "Redesign"],
 "cover_alt": "Illustration: a rising bar chart, with the last bars in lilac",
 "takeaways": [
   "The price depends mainly on scope: pages, content, features and integrations.",
