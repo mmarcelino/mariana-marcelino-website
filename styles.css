@@ -1756,6 +1756,11 @@ html:has(> body.has-modal), html:has(> body.has-calendly) { overflow: hidden; }
 .promo-strip.is-away { transform: translateY(-100%); }
 html.strip-closed .promo-strip { visibility: hidden; transition: visibility 0s .45s; }
 html.strip-inline .promo-strip { position: sticky; height: var(--strip-size); }
+/* Once it reaches the top it becomes fixed, like the nav: iPhone Safari sometimes stops
+   updating a sticky element after the page has been scrolled by script (the hero reel's
+   hold), leaving the strip behind on the way down. The next section keeps its place. */
+html.strip-inline.strip-stuck .promo-strip { position: fixed; top: 0; left: 0; right: 0; }
+html.strip-inline.strip-stuck .promo-strip + * { margin-top: var(--strip-size); }
 html.strip-inline.strip-closed .promo-strip { transform: translateY(-100%); transition: transform .45s var(--ease), visibility 0s .45s; }
 .promo-link {
   display: flex;

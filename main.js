@@ -480,9 +480,13 @@
       document.documentElement.classList.toggle("is-scrolled", window.scrollY > 4);
       // The strip slides away over the footer
       if (promoStrip) {
-        // Inline strip (homepage): flag when it has reached the top and stuck there
+        // Inline strip (homepage): flag when it has reached the top (it then turns fixed).
+        // Measured from the next section, whose top sits one strip below the strip's
+        // place in the page whether the strip is in the flow or fixed
         if (document.documentElement.classList.contains("strip-inline")) {
-          document.documentElement.classList.toggle("strip-stuck", window.scrollY > 0 && promoStrip.getBoundingClientRect().top <= 1);
+          var stripNext = promoStrip.nextElementSibling;
+          var stripAt = stripNext ? stripNext.getBoundingClientRect().top - promoStrip.offsetHeight : promoStrip.getBoundingClientRect().top;
+          document.documentElement.classList.toggle("strip-stuck", window.scrollY > 0 && stripAt <= 1);
         }
         // Fixed probe point: the strip's own rect moves once it slides away
         var stripAway = over(stripHideAreas, window.innerWidth / 2, promoStrip.offsetHeight / 2);
