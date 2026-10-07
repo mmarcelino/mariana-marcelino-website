@@ -1375,7 +1375,18 @@ Antes de começar, o cliente recebe sempre uma proposta escrita com âmbito, pra
 """
     open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8").write(llms)
 
+def stamp_homepages():
+    """The homepages are written by hand, so give their CSS and JS links this build's
+    version too. Otherwise browsers keep serving cached copies until a refresh."""
+    pat = re.compile(r'((?:styles\.css|main\.js|assets/hero-reel\.(?:css|js))\?v=)\d+')
+    for f in ("index.html", os.path.join("en", "index.html")):
+        path = os.path.join(ROOT, f)
+        page = open(path, encoding="utf-8").read()
+        open(path, "w", encoding="utf-8").write(pat.sub(lambda m: m.group(1) + VERSION, page))
+
+
 if __name__ == "__main__":
+    stamp_homepages()
     for lang in ("pt", "en"):
         build_index(lang)
         for i, p in enumerate(posts_for(lang)):
