@@ -179,7 +179,7 @@
   var hash = function (n) { var x = Math.sin(n * 127.1) * 43758.5453; return x - Math.floor(x); };
 
   // [length, background, foreground]
-  var DARK = "#1f1e1b", INK = "#f5f3ef";
+  var DARK = "#111111", INK = "#f4f4f2";
   var BEATS = [[3.8, DARK, INK], [3.0, DARK, INK], [3.0, DARK, INK], [3.0, DARK, INK]];
   var HOLD = BEATS[0][0]; // the page holds still until the end of the first beat
   var L = BEATS.reduce(function (s, b) { return s + b[0]; }, 0);
@@ -292,9 +292,9 @@
     root.style.background = B[1];
     el.grain.style.transform = "translate(" + (hash(frame) * 20 - 10) + "%," + (hash(frame + 7) * 20 - 10) + "%)";
     var ph = t / L * Math.PI * 2;
-    // Every beat shares one warm backdrop: amber and sand lights, only drifting
-    el.light.style.background = "radial-gradient(circle, rgba(255,190,130,.22), rgba(0,0,0,0) 62%)";
-    el.light2.style.background = "radial-gradient(circle, rgba(226,207,174,.16), rgba(0,0,0,0) 62%)";
+    // Every beat shares one backdrop: two electric-blue lights, only drifting
+    el.light.style.background = "radial-gradient(circle, rgba(43,59,255,.32), rgba(0,0,0,0) 62%)";
+    el.light2.style.background = "radial-gradient(circle, rgba(143,153,255,.18), rgba(0,0,0,0) 62%)";
     el.light.style.transform = "translate(" + (W * (.3 + .18 * Math.cos(ph)) - el.light.offsetWidth / 2) + "px," + (H * (.3 + .18 * Math.sin(ph)) - el.light.offsetHeight / 2) + "px)";
     el.light2.style.transform = "translate(" + (W * (.78 - .14 * Math.cos(ph + 1.2)) - el.light2.offsetWidth / 2) + "px," + (H * (.78 - .16 * Math.sin(ph + 1.2)) - el.light2.offsetHeight / 2) + "px)";
 

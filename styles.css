@@ -2481,33 +2481,33 @@ a.promo-link, a.footer-guide { text-decoration: none; color: inherit; }
    RAR look & feel (rar-umber.vercel.app)
    A theme layer over everything above: same sections, copy and motion;
    new palette, type and layout.
-   - Warm paper page #f5f3ef, ink #1c1c1a, warm greys; no accent colour
+   - White page, ink #111, neutral greys, and one
+     electric blue #2b3bff used in big, confident blocks (agency-style)
    - Inter Tight ExtraLight (200) for headings, set large and tight;
      JetBrains Mono in small caps for labels
    - Each section opens with a numbered hairline ("01  O problema"), then
      runs the full width of the page: directories and figures on hairlines,
-     one dark panel (Contacto), a white card footer
-   - Photos with a warm, archival grade
+     one blue panel (Contacto), a light grey card footer
+   - Photos in black & white
    ===================================================================== */
 @font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("assets/fonts/inter-tight-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/jetbrains-mono-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 :root {
-  --off-white: #f5f3ef;
-  --black: #1c1c1a;
-  --soft-black: #1f1e1b;
-  --grey: #8f8c85;
-  --ink: #1c1c1a;
-  --ink-2: #5d5b56;
-  --ink-3: #8f8c85;
-  --muted: #8a867e;
-  --line: rgba(28, 28, 26, .12);
-  --surface: #fff;
-  --panel-dark: #1f1e1b;
-  --text-2: #5d5b56;
-  --text-3: #75726b;
-  --text-2-inv: rgba(245, 243, 239, .74);
-  --text-3-inv: rgba(245, 243, 239, .5);
+  --off-white: #fff;
+  --black: #111;
+  --soft-black: #111;
+  --grey: #8b8b90;
+  --ink: #111;
+  --ink-2: #55555a;
+  --ink-3: #8b8b90;
+  --accent: #2b3bff;
+  --line: rgba(17, 17, 17, .12);
+  --surface: #f4f4f4;
+  --text-2: #55555a;
+  --text-3: #6f6f75;
+  --text-2-inv: rgba(255, 255, 255, .85);
+  --text-3-inv: rgba(255, 255, 255, .6);
   --font-sans: "Inter Tight", "Inter", Helvetica, Arial, sans-serif;
   --font-serif: "Inter Tight", "Inter", Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
@@ -2518,7 +2518,7 @@ a.promo-link, a.footer-guide { text-decoration: none; color: inherit; }
   --portrait-w: clamp(240px, 24vw, 360px);
 }
 html, body { background: var(--off-white); color: var(--ink); }
-::selection { background: #e2cfae; color: var(--ink); }
+::selection { background: var(--accent); color: #fff; }
 
 /* Shared roles */
 .kicker, .pains-lead, .tier-label, .tier-tag, .tier-free-kicker, .cta-field span, .modal-inc-label,
@@ -2582,7 +2582,7 @@ html, body { background: var(--off-white); color: var(--ink); }
 }
 .nav-cta::after { display: none; }
 @media (hover: hover) { .nav-cta:hover { background: var(--ink); color: var(--off-white); border-color: var(--ink); } }
-.nav-cta.nav-on-dark { border-color: rgba(245, 243, 239, .3); }
+.nav-cta.nav-on-dark { border-color: rgba(255, 255, 255, .35); }
 @media (hover: hover) { .nav-cta.nav-on-dark:hover { background: var(--off-white); color: var(--ink); border-color: var(--off-white); } }
 /* The fixed pill is centred on the logo's line; its invisible twin keeps the nav row at the logo's height */
 .nav-cta-fixed { top: calc(var(--strip-h) + var(--nav-extra) + var(--gap) - 12px); height: 40px; }
@@ -2590,8 +2590,8 @@ html, body { background: var(--off-white); color: var(--ink); }
 .header .nav-cta-spacer { height: 17px; }
 @media (max-width: 859px) { .nav-burger { right: calc(var(--pad) - 6px); } }
 
-/* ---------- Diagnosis strip: a quiet hairline bar in the page colour ---------- */
-.promo-strip, .menu-strip { background: var(--off-white); color: var(--ink); box-shadow: inset 0 -1px 0 var(--line), inset 0 1px 0 var(--line); }
+/* ---------- Diagnosis strip: a band of the accent ---------- */
+.promo-strip, .menu-strip, a.promo-link { background: var(--accent); color: #fff; box-shadow: none; }
 .promo-link { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
 .promo-go { font-weight: 400; }
 
@@ -2635,8 +2635,8 @@ main { counter-reset: section; }
   line-height: .92;
   letter-spacing: -.055em;
 }
-/* Second half of the headline in the muted ink, like RAR's "uma visão." */
-html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw:nth-child(n+3) { color: var(--muted); }
+/* Second half of the headline in the accent, where RAR has its muted "uma visão." */
+html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw:nth-child(n+3) { color: var(--accent); }
 .hero-statement { max-width: 30ch; margin-top: 28px; font-size: 19px; font-weight: 300; line-height: 1.45; letter-spacing: -.01em; color: var(--ink); }
 .hero-actions { margin-top: 28px; gap: 12px 24px; }
 @media (min-width: 900px) {
@@ -2719,11 +2719,10 @@ html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw
 @media (min-width: 860px) {
   .about-grid { grid-template-columns: var(--portrait-w) minmax(0, 1fr); column-gap: clamp(32px, 6vw, 120px); align-items: end; padding-bottom: 0; }
 }
-.about-photo { max-width: min(72%, 340px); border-radius: 8px; background: #e7e4de; }
+.about-photo { max-width: min(72%, 340px); border-radius: 8px; background: #e6e6e3; }
 @media (min-width: 860px) { .about-photo { max-width: none; } }
-/* Archive grade: black & white, warmed with a multiplied sand tone */
-.about-photo img { filter: grayscale(1) contrast(.95) brightness(1.04); }
-.about-photo::after { content: ""; position: absolute; inset: 0; background: #e2cfae; mix-blend-mode: multiply; opacity: .4; pointer-events: none; }
+/* Black & white, a touch of contrast */
+.about-photo img { filter: grayscale(1) contrast(1.05); }
 .about-copy { gap: 1em; font-size: 17px; line-height: 1.5; color: var(--ink-2); }
 .about-copy p { max-width: 52ch; }
 .about-copy p:first-child { max-width: 30ch; margin-bottom: .4em; font-size: clamp(22px, 2.1vw, 32px); font-weight: 300; line-height: 1.2; letter-spacing: -.025em; color: var(--ink); }
@@ -2740,7 +2739,7 @@ html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw
 .tiers .tier-desc { font-size: 15px; color: var(--ink-2); }
 .tier-price { font-weight: 200; font-size: clamp(44px, 5.6vw, 92px); line-height: .95; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
 .tier-note { font-size: 13px; color: var(--ink-2); }
-.tier-tag { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: none; color: var(--ink); }
+.tier-tag { padding: 6px 12px; border: 0; border-radius: 999px; background: var(--accent); color: #fff; }
 .tier-list { font-size: 15px; }
 .tier-list li::before { color: var(--ink-3); }
 .tier-free { border-radius: 20px; background: var(--surface); }
@@ -2769,15 +2768,15 @@ html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw
 .testimonial-nav-btn { width: 40px; height: 40px; border-color: var(--line); color: var(--ink); }
 @media (hover: hover) { .testimonial-nav-btn:hover { background: var(--ink); border-color: var(--ink); color: var(--off-white); } }
 
-/* ---------- Contacto: the page's one dark panel ---------- */
+/* ---------- Contacto: the page's one big block of colour ---------- */
 .cta-section { margin-top: var(--section-gap); padding: 0 var(--pad); background: none; }
 @media (min-width: 1200px) { .cta-section { padding: 0 var(--pad); } }
 .cta-panel {
   padding: clamp(40px, 6vw, 96px) clamp(28px, 4vw, 64px);
   border-radius: var(--radius);
-  background: var(--panel-dark);
-  color: var(--off-white);
-  --focus-ring: var(--off-white);
+  background: var(--accent);
+  color: #fff;
+  --focus-ring: #fff;
 }
 @media (min-width: 1200px) {
   .cta-panel { padding-left: clamp(28px, 4vw, 64px); padding-right: clamp(28px, 4vw, 64px); }
@@ -2785,18 +2784,18 @@ html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw
 }
 .cta-title { max-width: 12em; font-weight: 200; font-size: clamp(40px, 5.6vw, 92px); line-height: .98; letter-spacing: -.05em; }
 .cta-sub { max-width: 34em; font-size: 17px; line-height: 1.5; color: var(--text-2-inv); }
-.cta-section .cta-main .cta-button { background: var(--off-white); color: var(--ink); border-color: var(--off-white); font-size: 16px; }
-@media (hover: hover) { .cta-section .cta-main .cta-button:hover { background: #e2cfae; color: var(--ink); border-color: #e2cfae; } }
-.cta-write { border-top-color: rgba(245, 243, 239, .2); }
-.cta-write-toggle, .cta-thanks-again { color: var(--off-white); font-weight: 500; }
+.cta-section .cta-main .cta-button { background: #fff; color: var(--ink); border-color: #fff; font-size: 16px; }
+@media (hover: hover) { .cta-section .cta-main .cta-button:hover { background: var(--ink); color: #fff; border-color: var(--ink); } }
+.cta-write { border-top-color: rgba(255, 255, 255, .3); }
+.cta-write-toggle, .cta-thanks-again { color: #fff; font-weight: 500; }
 .cta-field span { color: var(--text-3-inv); }
-.cta-field input, .cta-field textarea { color: var(--off-white); border-bottom-color: rgba(245, 243, 239, .3); }
-.cta-field input:focus, .cta-field textarea:focus { border-bottom-color: var(--off-white); box-shadow: 0 1px 0 var(--off-white); }
-.cta-form .button { background: transparent; color: var(--off-white); border-color: rgba(245, 243, 239, .3); }
-@media (hover: hover) { .cta-form .button:hover { background: var(--off-white); color: var(--ink); border-color: var(--off-white); } }
-.cta-thanks-title, .cta-thanks-sub { color: var(--off-white); }
+.cta-field input, .cta-field textarea { color: #fff; border-bottom-color: rgba(255, 255, 255, .45); }
+.cta-field input:focus, .cta-field textarea:focus { border-bottom-color: #fff; box-shadow: 0 1px 0 #fff; }
+.cta-form .button { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .5); }
+@media (hover: hover) { .cta-form .button:hover { background: #fff; color: var(--ink); border-color: #fff; } }
+.cta-thanks-title, .cta-thanks-sub { color: #fff; }
 
-/* ---------- Footer: a white card ---------- */
+/* ---------- Footer: a light grey card ---------- */
 .footer.-bg-black { margin: var(--section-gap) var(--pad) var(--pad); padding: 48px clamp(20px, 3vw, 48px) 24px; border-radius: var(--radius); background: var(--surface); }
 @media (min-width: 1200px) { .footer.-bg-black { padding: 48px clamp(20px, 3vw, 48px) 24px; } }
 .footer.-fg-off-white, .footer.-fg-off-white a { color: var(--ink); }
@@ -2810,19 +2809,20 @@ html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw
 .footer .nav-cta { color: var(--ink); }
 
 /* ---------- Mobile menu, modals, chat, quiz ---------- */
-.mobile-menu { background: rgba(245, 243, 239, .96); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); }
+.mobile-menu { background: rgba(255, 255, 255, .96); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); }
 .mobile-menu-links a { font-weight: 300; letter-spacing: -.03em; }
 .mobile-menu-cta { font-weight: 500; }
 .modal { border-radius: 20px; background: var(--off-white); }
-.modal::backdrop, .calendly-overlay .calendly-close-overlay { background: rgba(31, 30, 27, .5); }
+.modal::backdrop, .calendly-overlay .calendly-close-overlay { background: rgba(17, 17, 17, .5); }
 .modal-title { font-weight: 200; letter-spacing: -.04em; }
-.modal-head .modal-pill { border: 1px solid var(--line); background: none; }
-.modal-form, .modal-success { background: rgba(28, 28, 26, .03); }
+.modal-head .modal-pill { border: 0; background: var(--accent); color: #fff; }
+.modal-form, .modal-success { background: rgba(17, 17, 17, .03); }
 .chat-panel { border-radius: 20px; background: var(--off-white); }
 .chat-msg.-bot { background: var(--surface); }
-@media (hover: hover) { .chat-launcher:hover { background: #3a3936; color: var(--off-white); } }
-.chat-launcher.is-active { background: #3a3936; color: var(--off-white); }
-.quiz-option.is-selected { background: var(--surface); }
+@media (hover: hover) { .chat-launcher:hover { background: var(--accent); color: #fff; } }
+.chat-launcher.is-active { background: var(--accent); color: #fff; }
+.quiz-option.is-selected { border-color: var(--accent); background: rgba(43, 59, 255, .06); }
+.quiz-option.is-selected .quiz-option-key { background: var(--accent); border-color: var(--accent); }
 .quiz-plan { background: var(--surface); }
 .quiz-mail-guide { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 .quiz-title, .quiz-question, .quiz-band { font-weight: 200; letter-spacing: -.04em; }
@@ -2833,3 +2833,28 @@ html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw
 
 /* Footer: the guide link lines up with the top of the card, between the brand and the links */
 @media (min-width: 1100px) { .footer-guide { top: 0; } }
+
+/* ---------- Soluções: a small interface snippet beside each entry, like the
+   square photos in RAR's directory. Drawn as background images on ::after
+   (a grid item), so the markup and copy stay as they are ---------- */
+.card { grid-template-columns: clamp(88px, 9vw, 136px) minmax(0, 1fr); grid-template-rows: auto auto 1fr; }
+.card::after {
+  content: "";
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  align-self: start;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: var(--surface) center / 100% no-repeat;
+  transition: background-size 1.2s cubic-bezier(.2, .7, .2, 1);
+}
+.card .h5 { grid-column: 2; grid-row: 1; padding-top: 0; }
+.card-title { grid-column: 2; grid-row: 2; }
+.card-desc { grid-column: 2; grid-row: 3; }
+.cards > .card:nth-child(1)::after { background-image: url("assets/solutions/01-design.svg"); }
+.cards > .card:nth-child(2)::after { background-image: url("assets/solutions/02-visibilidade.svg"); }
+.cards > .card:nth-child(3)::after { background-image: url("assets/solutions/03-contactos.svg"); }
+.cards > .card:nth-child(4)::after { background-image: url("assets/solutions/04-automacao.svg"); }
+.cards > .card:nth-child(5)::after { background-image: url("assets/solutions/05-marcacoes.svg"); }
+.cards > .card:nth-child(6)::after { background-image: url("assets/solutions/06-resultados.svg"); }
+@media (hover: hover) { .card:hover::after { background-size: 108%; } }
