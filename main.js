@@ -456,9 +456,10 @@
     var navParts = [header.querySelector(".logo-container"), header.querySelector(".lang-switch"), header.querySelector(".nav-link-plain"), header.querySelector(".nav-cta-fixed"), header.querySelector(".nav-burger")].filter(Boolean);
     var darkAreas = document.querySelectorAll('[data-nav="dark"]');
     var hideAreas = document.querySelectorAll("[data-nav-hide]");
-    // The strip steps aside over the footer (data-nav-hide) and the contact section
+    // The strip steps aside over the footer (data-nav-hide) and the contact panel
     // (data-strip-hide), where the nav itself stays visible
     var stripHideAreas = document.querySelectorAll("[data-nav-hide], [data-strip-hide]");
+    var stripHideFrom = document.querySelector("[data-strip-hide]");
     var navTicking = false;
     var over = function (areas, x, y) {
       for (var i = 0; i < areas.length; i++) {
@@ -488,10 +489,18 @@
           var stripAt = stripNext ? stripNext.getBoundingClientRect().top - promoStrip.offsetHeight : promoStrip.getBoundingClientRect().top;
           document.documentElement.classList.toggle("strip-stuck", window.scrollY > 0 && stripAt <= 1);
         }
-        // Fixed probe point: the strip's own rect moves once it slides away
-        var stripAway = over(stripHideAreas, window.innerWidth / 2, promoStrip.offsetHeight / 2);
+        // Fixed probe point: the strip's own rect moves once it slides away.
+        // It goes as soon as the contact panel (data-strip-hide) reaches the
+        // strip's bottom edge, and stays away to the end of the page, so it
+        // doesn't flash back in the gap before the footer
+        var stripProbe = promoStrip.offsetHeight / 2;
+        var stripAway = over(stripHideAreas, window.innerWidth / 2, stripProbe) ||
+          (stripHideFrom && stripHideFrom.getBoundingClientRect().top <= promoStrip.offsetHeight);
         promoStrip.classList.toggle("is-away", stripAway);
         document.documentElement.classList.toggle("strip-away", stripAway);
+        // Over a dark section the pill switches to its light version
+        var stripRect = promoStrip.getBoundingClientRect();
+        promoStrip.classList.toggle("is-on-dark", over(darkAreas, window.innerWidth / 2, stripRect.top + stripRect.height / 2));
       }
       navParts.forEach(function (part) {
         var r = part.getBoundingClientRect();

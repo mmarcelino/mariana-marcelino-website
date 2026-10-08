@@ -390,7 +390,7 @@ X_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3
 # Interface copy for both languages
 UI = {
 "pt": dict(
-    html_lang="pt-PT", og_locale="pt_PT", skip="Saltar para o conteúdo", m_open="Abrir menu", m_close="Fechar menu", m_l1="Soluções", m_l2="Sobre", m_l3="Planos", m_l5="Contactos", home_label="Mariana Marcelino — página inicial",
+    html_lang="pt-PT", og_locale="pt_PT", skip="Saltar para o conteúdo", m_open="Abrir menu", m_close="Fechar menu", m_l1="Soluções", m_l2="Sobre", m_l3="Planos", m_l5="Contactos", home_label="Mariana Marcelino — página inicial", tagline="<span>Design</span><span>Automação</span><span>IA</span>",
     call="Marcar chamada", lang_label="Idioma",
     strip_region="Guia gratuito", strip_kicker="Gratuito", guide_title="8 sinais de que o seu site está a afastar clientes", foot_guide="Oito sinais de que o seu site está a afastar clientes",
     strip_go="Receber guia", close="Fechar",
@@ -414,7 +414,7 @@ UI = {
     f_title="Explorar por tema", f_all="Todos", f_search="Pesquisar artigos", f_topics="Temas", f_empty="Nenhum artigo encontrado. Experimente outro tema ou outra palavra.",
 ),
 "en": dict(
-    html_lang="en", og_locale="en_GB", skip="Skip to content", m_open="Open menu", m_close="Close menu", m_l1="Solutions", m_l2="About", m_l3="Plans", m_l5="Contact", home_label="Mariana Marcelino — homepage",
+    html_lang="en", og_locale="en_GB", skip="Skip to content", m_open="Open menu", m_close="Close menu", m_l1="Solutions", m_l2="About", m_l3="Plans", m_l5="Contact", home_label="Mariana Marcelino — homepage", tagline="<span>Design</span><span>Automation</span><span>AI</span>",
     call="Book a call", lang_label="Language",
     strip_region="Free guide", strip_kicker="Free", guide_title="8 signs your website is driving clients away", foot_guide="Eight signs your website is driving clients away",
     strip_go="Get the guide", close="Close",
@@ -509,6 +509,7 @@ def header(prefix, current="blog", lang="pt", alt=None, strip=True):
     <nav class="navigation grid-col-t grid-col-b grid-col-l grid-col-r h4">
       <a href="{home}" class="logo-container" aria-label="{u['home_label']}">
         <span class="logo">MARIANA MARCELINO</span>
+        <span class="logo-tagline" aria-hidden="true">{u['tagline']}</span>
       </a>
       <div class="nav-right">
         {lang_switch(lang, alt, u['lang_label'])}
@@ -575,8 +576,8 @@ def guide_modal(prefix, lang="pt"):
 
 def cta(prefix, lang="pt"):
     u = UI[lang]
-    return f"""    <section class="cta-section" data-strip-hide>
-      <div class="cta-panel">
+    return f"""    <section class="cta-section">
+      <div class="cta-panel" data-strip-hide>
         <div class="cta-inner">
         <h2 class="cta-title">{u['cta_title']}</h2>
         <p class="cta-sub">{u['cta_sub']}</p>
@@ -672,11 +673,12 @@ def head(title, description, canonical, image, prefix, og_type, jsonld, lang="pt
   <meta name="twitter:description" content="{esc(description)}">
   <meta name="twitter:image" content="{image}">
 
-  <link rel="icon" href="{prefix}favicon.ico?v=2" sizes="any">
-  <link rel="icon" href="{prefix}assets/favicon-32.png?v=2" type="image/png" sizes="32x32">
-  <link rel="icon" href="{prefix}assets/favicon-16.png?v=2" type="image/png" sizes="16x16">
-  <link rel="icon" href="{prefix}assets/icon-192.png?v=2" type="image/png" sizes="192x192">
-  <link rel="apple-touch-icon" href="{prefix}assets/apple-touch-icon.png">
+  <link rel="icon" href="{prefix}favicon.ico?v=3" sizes="any">
+  <link rel="icon" href="{prefix}assets/favicon.svg?v=3" type="image/svg+xml">
+  <link rel="icon" href="{prefix}assets/favicon-32.png?v=3" type="image/png" sizes="32x32">
+  <link rel="icon" href="{prefix}assets/favicon-16.png?v=3" type="image/png" sizes="16x16">
+  <link rel="icon" href="{prefix}assets/icon-192.png?v=3" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="{prefix}assets/apple-touch-icon.png?v=3">
   <link rel="manifest" href="{prefix}site.webmanifest">
 
   <link rel="preload" href="{prefix}assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -1148,7 +1150,7 @@ def build_legal():
                 "dateModified": LEGAL_UPDATED,
                 "publisher": PUBLISHER,
             }]
-            html_page = f"""{head(f"{page['title']} | Mariana Marcelino", page["description"], canonical, f"{SITE}/assets/og-image.png", prefix, "website", jsonld, lang, alternates)}
+            html_page = f"""{head(f"{page['title']} | Mariana Marcelino", page["description"], canonical, f"{SITE}/assets/{'og-image-en' if lang == 'en' else 'og-image'}.png", prefix, "website", jsonld, lang, alternates)}
 <body>
 
 {header(prefix, None, lang, alt)}
@@ -1208,7 +1210,7 @@ def build_quiz():
             "@context": "https://schema.org", "@type": "WebPage", "name": Q["title"], "description": m["desc"],
             "url": canonical, "inLanguage": u["html_lang"], "publisher": PUBLISHER,
         }]
-        page = f"""{head(m['title'], m['desc'], canonical, f"{SITE}/assets/og-image.png", prefix, "website", jsonld, lang, alternates)}
+        page = f"""{head(m['title'], m['desc'], canonical, f"{SITE}/assets/{'og-image-en' if lang == 'en' else 'og-image'}.png", prefix, "website", jsonld, lang, alternates)}
 <body>
 
 {header(prefix, None, lang, alt, strip=False)}
