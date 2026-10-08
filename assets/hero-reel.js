@@ -179,7 +179,7 @@
   var hash = function (n) { var x = Math.sin(n * 127.1) * 43758.5453; return x - Math.floor(x); };
 
   // [length, background, foreground]
-  var DARK = "#0b0b0a", INK = "#eeeeea";
+  var DARK = "#111214", INK = "#ffffff";
   var BEATS = [[3.8, DARK, INK], [3.0, DARK, INK], [3.0, DARK, INK], [3.0, DARK, INK]];
   var HOLD = BEATS[0][0]; // the page holds still until the end of the first beat
   var L = BEATS.reduce(function (s, b) { return s + b[0]; }, 0);
@@ -292,9 +292,9 @@
     root.style.background = B[1];
     el.grain.style.transform = "translate(" + (hash(frame) * 20 - 10) + "%," + (hash(frame + 7) * 20 - 10) + "%)";
     var ph = t / L * Math.PI * 2;
-    // All beats are black: the lights alternate which one leads (cool lilac, then warm)
-    el.light.style.background = "radial-gradient(circle, " + (i % 2 ? "rgba(110,140,215,.28)" : "rgba(143,124,201,.34)") + ", rgba(0,0,0,0) 62%)";
-    el.light2.style.background = "radial-gradient(circle, " + (i % 2 ? "rgba(143,124,201,.2)" : "rgba(110,140,215,.16)") + ", rgba(0,0,0,0) 62%)";
+    // Every beat shares one backdrop: the same two sky-blue lights, only drifting
+    el.light.style.background = "radial-gradient(circle, rgba(160,200,232,.48), rgba(0,0,0,0) 62%)";
+    el.light2.style.background = "radial-gradient(circle, rgba(96,150,230,.34), rgba(0,0,0,0) 62%)";
     el.light.style.transform = "translate(" + (W * (.3 + .18 * Math.cos(ph)) - el.light.offsetWidth / 2) + "px," + (H * (.3 + .18 * Math.sin(ph)) - el.light.offsetHeight / 2) + "px)";
     el.light2.style.transform = "translate(" + (W * (.78 - .14 * Math.cos(ph + 1.2)) - el.light2.offsetWidth / 2) + "px," + (H * (.78 - .16 * Math.sin(ph + 1.2)) - el.light2.offsetHeight / 2) + "px)";
 

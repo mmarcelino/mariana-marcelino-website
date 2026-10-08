@@ -437,3 +437,15 @@
 .filters-row .filters-search input { padding-top: 10px; padding-bottom: 10px; }
 .filters-row .filters-search-icon { width: 32px; height: 32px; right: 4px; }
 
+
+/* ---------- Genesis look & feel (see the layer at the end of styles.css) ---------- */
+.blog-title, .quiz-title { font-weight: 400; letter-spacing: -.045em; line-height: 1.02; }
+.post-title { letter-spacing: -.03em; }
+.blog-intro { color: var(--text-2); }
+.blog-filters { border-top-color: var(--line); }
+.chip { border-radius: 999px; border-color: var(--chip); background: var(--chip); }
+.chip:hover { border-color: var(--steel); background: var(--steel); }
+.chip[data-filter="all"].is-active { background: var(--ink); border-color: var(--ink); color: #fff; }
+.filters-search input { border-radius: 999px; border-color: rgba(27, 28, 30, .18); }
+.post-meta { font-family: var(--font-mono); font-weight: 500; letter-spacing: 0; text-transform: none; }
+.post-media { border-radius: var(--radius); overflow: hidden; }
