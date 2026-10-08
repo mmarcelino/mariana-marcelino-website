@@ -129,55 +129,57 @@ T = {
 CSS = """
 @page { size: A4; margin: 0; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-:root { --ink: #171715; --paper: #eeeeea; --grey: #a3a3a3; --soft: rgba(23,23,21,.62); --line: rgba(23,23,21,.16); --lilac: #d6cbec; }
+/* Genesis palette: white pages, graphite ink, cool greys, baby-blue accent */
+:root { --ink: #1b1c1e; --paper: #ffffff; --panel: #f5f5f3; --grey: #8e9099; --soft: #5d616c; --line: rgba(27,28,30,.14); --accent: #dee8eb; --night: #111214; --mono: "JetBrains Mono", ui-monospace, Menlo, monospace; }
 html, body { background: var(--paper); }
-body { font-family: "Inter", Helvetica, Arial, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+body { font-family: "Inter Tight", "Inter", Helvetica, Arial, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
 .page { position: relative; width: 210mm; height: 297mm; padding: 18mm 18mm 16mm; overflow: hidden; page-break-after: always; display: flex; flex-direction: column; }
 .page:last-child { page-break-after: auto; }
-.kicker { font-size: 8pt; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.kicker { font-family: var(--mono); font-size: 8pt; font-weight: 400; letter-spacing: 0; }
 .muted { color: var(--soft); }
-.brand { display: flex; justify-content: space-between; align-items: center; font-size: 8pt; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; }
-.brand span:last-child { font-weight: 500; color: var(--soft); }
-.foot { margin-top: auto; display: flex; justify-content: space-between; padding-top: 5mm; border-top: 1px solid var(--line); font-size: 7.5pt; color: var(--soft); }
+.brand { display: flex; justify-content: space-between; align-items: center; font-size: 9.5pt; font-weight: 500; letter-spacing: -.01em; text-transform: uppercase; }
+.brand span:last-child { font-family: var(--mono); font-size: 8pt; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--soft); }
+.foot { margin-top: auto; display: flex; justify-content: space-between; padding-top: 5mm; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 7.5pt; color: var(--soft); }
 
 /* Cover */
-/* Full-bleed dark cover: the site's 3D form fades into the page colour */
-.cover { padding: 0; background: #17121e; color: var(--paper); }
-.cover-art { position: absolute; inset: 0; background: #17121e center top / 100% auto no-repeat; }
-.cover-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,18,30,.35) 0%, rgba(23,18,30,0) 15%, rgba(23,18,30,0) 36%, #17121e 70%); }
+/* Full-bleed graphite cover: the site's 3D form in silver, a baby-blue sheen, fading into the night */
+.cover { padding: 0; background: var(--night); color: var(--paper); }
+.cover-art { position: absolute; inset: 0; background: var(--night) center top / 100% auto no-repeat; filter: grayscale(1) contrast(1.05) brightness(.95); }
+.cover-art::before { content: ""; position: absolute; inset: 0; background: #dee8eb; mix-blend-mode: multiply; opacity: .55; }
+.cover-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(17,18,20,.35) 0%, rgba(17,18,20,0) 15%, rgba(17,18,20,0) 36%, #111214 70%); }
 .cover-body { position: relative; flex: 1; display: flex; flex-direction: column; padding: 16mm 18mm 16mm; }
-.cover .brand span:last-child { color: var(--ink); background: var(--lilac); padding: 1.6mm 3.6mm; border-radius: 20mm; }
-.cover h1 { margin-top: auto; font-size: 44pt; line-height: 1.02; letter-spacing: -.035em; font-weight: 400; max-width: 14ch; }
-.cover .sub { margin-top: 6mm; font-size: 13pt; line-height: 1.4; color: rgba(238,238,234,.72); max-width: 30em; }
-.byline { margin-top: 16mm; display: flex; justify-content: space-between; align-items: flex-end; padding-top: 6mm; border-top: 1px solid rgba(238,238,234,.22); font-size: 9pt; line-height: 1.4; }
+.cover .brand span:last-child { color: var(--ink); background: var(--accent); padding: 1.6mm 3.6mm; border-radius: 20mm; }
+.cover h1 { margin-top: auto; font-size: 46pt; line-height: 1; letter-spacing: -.045em; font-weight: 300; max-width: 14ch; }
+.cover .sub { margin-top: 6mm; font-size: 13pt; line-height: 1.4; color: rgba(255,255,255,.72); max-width: 30em; }
+.byline { margin-top: 16mm; display: flex; justify-content: space-between; align-items: flex-end; padding-top: 6mm; border-top: 1px solid rgba(255,255,255,.22); font-size: 9pt; line-height: 1.4; }
 .byline b { font-weight: 600; display: block; }
-.byline .url { color: rgba(238,238,234,.62); }
+.byline .url { font-family: var(--mono); font-size: 8pt; color: rgba(255,255,255,.62); }
 
 /* Intro */
-.intro h2, .score h2 { margin-top: 20mm; font-size: 28pt; line-height: 1.05; letter-spacing: -.03em; font-weight: 400; max-width: 16ch; }
+.intro h2, .score h2 { margin-top: 20mm; font-size: 30pt; line-height: 1.02; letter-spacing: -.04em; font-weight: 300; max-width: 16ch; }
 .intro .lead { margin-top: 8mm; max-width: 132mm; }
 .intro .lead p { font-size: 11.5pt; line-height: 1.6; }
 .intro .lead p + p { margin-top: 4mm; }
 .how { margin-top: 14mm; border-top: 1px solid var(--ink); padding-top: 5mm; max-width: 150mm; }
 .how ol { list-style: none; margin-top: 3mm; }
 .how li { display: grid; grid-template-columns: 12mm 1fr; padding: 3.5mm 0; border-bottom: 1px solid var(--line); font-size: 10.5pt; line-height: 1.45; }
-.how li span { color: var(--grey); font-size: 8.5pt; padding-top: .6mm; }
+.how li span { font-family: var(--mono); color: var(--grey); font-size: 8pt; padding-top: .6mm; }
 .index { margin-top: 12mm; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10mm; }
 .index div { display: grid; grid-template-columns: 9mm 1fr; padding: 2.4mm 0; border-bottom: 1px solid var(--line); font-size: 9pt; line-height: 1.35; }
-.index span { color: var(--grey); font-size: 8pt; }
+.index span { font-family: var(--mono); color: var(--grey); font-size: 7.5pt; }
 
 /* Signs: two per page */
 .sign { display: grid; grid-template-columns: 30mm 1fr; column-gap: 6mm; padding: 9mm 0; border-top: 1px solid var(--ink); }
 .sign + .sign { border-top: 1px solid var(--line); }
-.sign-num { font-size: 34pt; line-height: .9; letter-spacing: -.04em; font-weight: 300; color: var(--grey); }
-.sign h2 { font-size: 19pt; line-height: 1.12; letter-spacing: -.02em; font-weight: 400; }
+.sign-num { font-size: 36pt; line-height: .9; letter-spacing: -.05em; font-weight: 200; color: var(--grey); }
+.sign h2 { font-size: 19pt; line-height: 1.1; letter-spacing: -.03em; font-weight: 400; }
 .sign .why { margin-top: 3.5mm; font-size: 10.5pt; line-height: 1.55; color: var(--soft); }
 .cols { margin-top: 5mm; display: grid; grid-template-columns: 1fr 1fr; column-gap: 6mm; }
-.label { font-size: 7.5pt; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 2mm; }
+.label { font-family: var(--mono); font-size: 7.5pt; font-weight: 400; letter-spacing: 0; color: var(--soft); margin-bottom: 2mm; }
 .do ul { list-style: none; }
 .do li { position: relative; padding: 1.6mm 0 1.6mm 5mm; font-size: 9.8pt; line-height: 1.4; border-bottom: 1px solid var(--line); }
 .do li::before { content: "—"; position: absolute; left: 0; color: var(--grey); }
-.test { background: var(--lilac); padding: 4mm 4.5mm; display: grid; grid-template-columns: 5.5mm 1fr; column-gap: 3mm; align-items: start; }
+.test { background: var(--accent); border-radius: 3mm; padding: 4mm 4.5mm; display: grid; grid-template-columns: 5.5mm 1fr; column-gap: 3mm; align-items: start; }
 .test .box { width: 5mm; height: 5mm; border: 1.2px solid var(--ink); border-radius: 1mm; margin-top: .6mm; background: rgba(255,255,255,.35); }
 .test p { font-size: 9.8pt; line-height: 1.45; }
 .signs-wrap { margin-top: 10mm; }
@@ -185,16 +187,16 @@ body { font-family: "Inter", Helvetica, Arial, sans-serif; color: var(--ink); -w
 /* Score + CTA */
 .score .rows { margin-top: 10mm; border-top: 1px solid var(--ink); }
 .score .row { display: grid; grid-template-columns: 34mm 1fr; padding: 5.5mm 0; border-bottom: 1px solid var(--line); align-items: baseline; }
-.score .row b { font-size: 16pt; font-weight: 400; letter-spacing: -.02em; }
+.score .row b { font-size: 17pt; font-weight: 300; letter-spacing: -.03em; }
 .score .row p { font-size: 11pt; line-height: 1.5; }
-.cta { margin-top: auto; background: var(--ink); color: var(--paper); padding: 12mm 12mm 11mm; }
-.cta h3 { font-size: 22pt; line-height: 1.08; letter-spacing: -.03em; font-weight: 400; }
-.cta p { margin-top: 4mm; font-size: 10.5pt; line-height: 1.55; color: rgba(238,238,234,.72); max-width: 125mm; }
+.cta { margin-top: auto; background: var(--ink); color: var(--paper); padding: 12mm 12mm 11mm; border-radius: 4mm; }
+.cta h3 { font-size: 24pt; line-height: 1.04; letter-spacing: -.04em; font-weight: 300; }
+.cta p { margin-top: 4mm; font-size: 10.5pt; line-height: 1.55; color: rgba(255,255,255,.72); max-width: 125mm; }
 .cta .btns { margin-top: 7mm; display: flex; gap: 3mm; flex-wrap: wrap; }
 .cta a { display: inline-block; padding: 3mm 6mm; border-radius: 20mm; border: 1px solid var(--paper); color: var(--paper); text-decoration: none; font-size: 9.5pt; }
 .cta a.primary { background: var(--paper); color: var(--ink); }
-.cta .contact { margin-top: 7mm; padding-top: 4mm; border-top: 1px solid rgba(238,238,234,.2); font-size: 8.5pt; color: rgba(238,238,234,.6); display: flex; justify-content: space-between; }
-.cta .contact a { border: 0; padding: 0; font-size: 8.5pt; color: rgba(238,238,234,.85); }
+.cta .contact { margin-top: 7mm; padding-top: 4mm; border-top: 1px solid rgba(255,255,255,.2); font-family: var(--mono); font-size: 8pt; color: rgba(255,255,255,.6); display: flex; justify-content: space-between; }
+.cta .contact a { border: 0; padding: 0; font-size: 8pt; color: rgba(255,255,255,.85); }
 """
 
 
@@ -283,7 +285,7 @@ def build(code):
 <head>
 <meta charset="utf-8">
 <title>{e(t['title'])} — Mariana Marcelino</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200..600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>{CSS}</style>
 </head>
 <body>

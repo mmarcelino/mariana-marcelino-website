@@ -88,7 +88,7 @@ def graph(page, lang):
         "url": c["url"],
         "description": c["desc"],
         "email": "info@mariana-marcelino.com",
-        "image": f"{SITE}/assets/og-image.png",
+        "image": f"{SITE}/assets/{'og-image-en' if lang == 'en' else 'og-image'}.png",
         "logo": f"{SITE}/assets/icon-512.png",
         "address": address,
         "areaServed": [{"@type": "Country", "name": "Portugal"}, "Worldwide"],
@@ -133,7 +133,7 @@ def graph(page, lang):
         "inLanguage": c["lang"],
         "isPartOf": {"@id": site_id},
         "about": {"@id": biz_id},
-        "primaryImageOfPage": f"{SITE}/assets/og-image.png",
+        "primaryImageOfPage": f"{SITE}/assets/{'og-image-en' if lang == 'en' else 'og-image'}.png",
     }
     # FAQ (visible on the page)
     faqs = re.findall(r'<details class="faq-item">\s*<summary>(.*?)</summary>\s*<div class="faq-answer">(.*?)</div>', page, re.S)

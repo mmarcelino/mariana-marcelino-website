@@ -117,7 +117,7 @@
             '<div class="o-cookie">' + O.cookie + ' <span>' + O.ok + '</span><span>' + O.info + '</span></div><i class="o-wa"></i>' +
           '</div>' +
           '<div class="hr-after js-after"><div class="hr-canvas he-new">' +
-            '<nav class="n-nav"><b>Alma</b>' + map(N.nav, function (x) { return "<span>" + x + "</span>"; }) + '<em>' + N.book + '</em></nav>' +
+            '<nav class="n-nav"><b>Alma Studio</b>' + map(N.nav, function (x) { return "<span>" + x + "</span>"; }) + '<em>' + N.book + '</em></nav>' +
             '<div class="n-hero"><div class="n-copy"><small>' + N.kicker + '</small><h4>' + N.h + '</h4><p>' + N.p + '</p><div class="n-cta"><span class="n-btn">' + N.book + '</span><span class="n-link">' + N.see + '</span></div></div>' +
             '<figure class="n-img"><div></div><figcaption><span>' + N.cap[0] + '</span><span>' + N.cap[1] + '</span></figcaption></figure></div>' +
             '<div class="n-proof">' + map(N.proof, function (p) { return "<span><b>" + p[0] + "</b>" + p[1] + "</span>"; }) + '</div>' +

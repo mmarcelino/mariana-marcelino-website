@@ -107,7 +107,7 @@
 .hero-reel .o-wa { position: absolute; right: 28px; bottom: 72px; width: 56px; height: 56px; border-radius: 50%; background: #25d366; box-shadow: 0 6px 16px rgba(0, 0, 0, .25); }
 .hero-reel .he-new { background: #f4f3ef; color: #111; padding: 0 56px; }
 .hero-reel .n-nav { display: flex; align-items: center; gap: 34px; height: 84px; font-size: 14px; color: #555; }
-.hero-reel .n-nav b { font-weight: 600; font-size: 20px; letter-spacing: -.02em; color: #111; margin-right: auto; }
+.hero-reel .n-nav b { font-weight: 600; font-size: 20px; letter-spacing: -.02em; color: #111; margin-right: auto; white-space: nowrap; }
 .hero-reel .n-nav em { font-style: normal; margin-left: 10px; padding: 11px 20px; border-radius: 30px; background: #111; color: #f4f3ef; }
 .hero-reel .n-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; height: 560px; padding-top: 24px; }
 .hero-reel .n-copy { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 8px; }

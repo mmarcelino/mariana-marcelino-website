@@ -576,8 +576,8 @@ def guide_modal(prefix, lang="pt"):
 
 def cta(prefix, lang="pt"):
     u = UI[lang]
-    return f"""    <section class="cta-section" data-strip-hide>
-      <div class="cta-panel">
+    return f"""    <section class="cta-section">
+      <div class="cta-panel" data-strip-hide>
         <div class="cta-inner">
         <h2 class="cta-title">{u['cta_title']}</h2>
         <p class="cta-sub">{u['cta_sub']}</p>
@@ -1150,7 +1150,7 @@ def build_legal():
                 "dateModified": LEGAL_UPDATED,
                 "publisher": PUBLISHER,
             }]
-            html_page = f"""{head(f"{page['title']} | Mariana Marcelino", page["description"], canonical, f"{SITE}/assets/og-image.png", prefix, "website", jsonld, lang, alternates)}
+            html_page = f"""{head(f"{page['title']} | Mariana Marcelino", page["description"], canonical, f"{SITE}/assets/{'og-image-en' if lang == 'en' else 'og-image'}.png", prefix, "website", jsonld, lang, alternates)}
 <body>
 
 {header(prefix, None, lang, alt)}
@@ -1210,7 +1210,7 @@ def build_quiz():
             "@context": "https://schema.org", "@type": "WebPage", "name": Q["title"], "description": m["desc"],
             "url": canonical, "inLanguage": u["html_lang"], "publisher": PUBLISHER,
         }]
-        page = f"""{head(m['title'], m['desc'], canonical, f"{SITE}/assets/og-image.png", prefix, "website", jsonld, lang, alternates)}
+        page = f"""{head(m['title'], m['desc'], canonical, f"{SITE}/assets/{'og-image-en' if lang == 'en' else 'og-image'}.png", prefix, "website", jsonld, lang, alternates)}
 <body>
 
 {header(prefix, None, lang, alt, strip=False)}
