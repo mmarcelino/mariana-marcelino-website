@@ -2478,15 +2478,15 @@ a.promo-link, a.footer-guide { text-decoration: none; color: inherit; }
 .quiz-mail-guide { font-weight: 600; color: #6b52c8; }
 
 /* Fonts for the Genesis layer below, self-hosted like Inter (latin subset) */
-@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 300 600; font-display: swap; src: url("assets/fonts/inter-tight-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: "Geist Mono"; font-style: normal; font-weight: 400 500; font-display: swap; src: url("assets/fonts/geist-mono-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("assets/fonts/inter-tight-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/jetbrains-mono-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 /* ==========================================================================
    Genesis look & feel — an override layer on top of styles.css + hero-reel.css.
    Same HTML, same copy, same JS and animations: only the visual language changes.
    - White page; each section is an inset, rounded panel (#f5f5f3, graphite, baby blue)
    - Graphite ink (#1b1c1e) instead of black, cool grey secondary text
-   - Tight grotesk (Inter Tight) + mono labels (Geist Mono)
+   - Tight grotesk (Inter Tight) + mono labels (JetBrains Mono)
    - Hairline tick marks at the corners of each panel
    - Small 6px-radius buttons
    ========================================================================== */
@@ -2514,7 +2514,7 @@ a.promo-link, a.footer-guide { text-decoration: none; color: inherit; }
 
   --font-sans: "Inter Tight", "Inter", Helvetica, Arial, sans-serif;
   --font-serif: "Inter Tight", "Inter", Helvetica, Arial, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   /* Panel frame: the white margin around every section */
   --frame: 10px;
@@ -3011,3 +3011,71 @@ a.promo-link, .promo-link { background: var(--ink); color: #fff; }
 /* Free redesign: the same distance from the plans as on the live site */
 .tier-free { margin-top: 64px; }
 @media (min-width: 860px) { .tier-free { margin-top: 80px; } }
+
+/* ---------- Type and hero from the RAR version ----------
+   Inter Tight ExtraLight for a huge hero headline running the full width,
+   the lede and actions in a right-hand column; section titles a step
+   larger in Light (300), which keeps its contrast on the grey panels */
+:root { --hero-fs: clamp(42px, 10.4vw, 190px); }
+.hero .narrow-container { width: auto; margin: 0; padding: 0 calc(var(--frame) + var(--inner)); }
+.kicker.hero-kicker:not(.modal-pill) { position: static; top: auto; padding: 48px calc(var(--frame) + var(--inner)) 0; margin-bottom: 20px; }
+@media (min-width: 860px) { .kicker.hero-kicker:not(.modal-pill) { padding-top: 64px; } }
+.kicker.hero-kicker:not(.modal-pill)::before { top: auto; transform: translateY(-12px); }
+.hero .hero-head { padding-top: 0; }
+.hero-head { display: grid; grid-template-columns: minmax(0, 1fr); }
+.hero-title { max-width: none; font-weight: 200; font-size: var(--hero-fs); line-height: .92; letter-spacing: -.055em; }
+/* Second half of the headline in a soft grey, like RAR's "uma visão." */
+html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw:nth-child(n+3) { color: #8e9099; }
+.hero-statement { max-width: 30ch; margin-top: 28px; font-size: 19px; font-weight: 300; line-height: 1.45; letter-spacing: -.01em; color: var(--ink); }
+.hero-actions { margin-top: 28px; }
+@media (min-width: 900px) {
+  .hero-head { grid-template-columns: minmax(0, 1fr) minmax(0, 380px); column-gap: 48px; }
+  .hero-title { grid-column: 1 / -1; }
+  .hero-statement, .hero-actions { grid-column: 2; }
+  .hero-statement { margin-top: clamp(24px, 4vh, 48px); }
+}
+
+:is(.pains-statement, .impact-title, .about-title, .tiers-intro, .cta-title) {
+  font-weight: 300;
+  font-size: clamp(32px, 3.4vw, 52px);
+  line-height: 1.02;
+  letter-spacing: -.04em;
+}
+.faq-title { font-weight: 300; letter-spacing: -.035em; }
+/* Kickers follow the larger titles: cap top in a 1.02 line box sits at .1465em */
+.pains-kicker, .about-kicker, .tiers-kicker, .impact-kicker { --fs: clamp(32px, 3.4vw, 52px); }
+@media (min-width: 1200px) {
+  .kicker:is(.pains-kicker, .impact-kicker, .about-kicker, .tiers-kicker, .faq-kicker, .testimonial-kicker):not(.modal-pill) {
+    top: calc(var(--t) + var(--fs) * .1465 - 3.5px);
+  }
+}
+
+/* ---------- Kickers: no tick above, text flush with the panel's corner marks ---------- */
+.kicker:not(.modal-pill)::before { content: none; }
+@media (min-width: 1200px) {
+  .kicker:is(.pains-kicker, .impact-kicker, .about-kicker, .tiers-kicker, .faq-kicker, .testimonial-kicker):not(.modal-pill) { padding-left: 0; }
+}
+
+/* ---------- Hero: tighter, so the reel starts above the fold ----------
+   Lede on the left and actions on the right share one row under the
+   headline (instead of stacking in a narrow column), and the gaps above
+   the kicker and before the reel are smaller */
+@media (min-width: 860px) {
+  .hero-pin { padding-top: 80px; }
+  .kicker.hero-kicker:not(.modal-pill) { padding-top: 16px; margin-bottom: 16px; }
+  .hero-curtain { margin-top: clamp(32px, 4.5vh, 48px); }
+}
+@media (min-width: 900px) {
+  .hero-head { grid-template-columns: minmax(0, 1fr) auto; column-gap: 48px; align-items: end; }
+  .hero-statement { grid-column: 1; grid-row: 2; max-width: 46ch; margin-top: clamp(24px, 3.5vh, 36px); }
+  .hero-actions { grid-column: 2; grid-row: 2; margin-top: 0; }
+}
+
+/* Hero kicker: the items separated by an em dash, like the rest of the site's lists */
+.hero-kicker span + span::before { content: "—"; margin: 0 .6em; opacity: .45; }
+
+/* O problema: compact cells — index right above the line of text, no fixed height */
+@media (min-width: 860px) {
+  .pains-row { gap: 10px; min-height: 0; padding: 16px 0 24px; }
+  .pains-lead { margin-top: 56px; }
+}
