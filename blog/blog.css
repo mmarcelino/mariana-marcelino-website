@@ -438,14 +438,22 @@
 .filters-row .filters-search-icon { width: 32px; height: 32px; right: 4px; }
 
 
-/* ---------- Genesis look & feel (see the layer at the end of styles.css) ---------- */
-.blog-title, .quiz-title { font-weight: 400; letter-spacing: -.045em; line-height: 1.02; }
-.post-title { letter-spacing: -.03em; }
-.blog-intro { color: var(--text-2); }
+/* ---------- RAR look & feel (see the layer at the end of styles.css) ---------- */
+.blog-title, .quiz-title { font-weight: 200; letter-spacing: -.045em; line-height: 1; }
+.post-title { font-weight: 300; letter-spacing: -.025em; }
+.filters-title { font-weight: 200; letter-spacing: -.035em; }
+.blog-intro { color: var(--ink-2); }
 .blog-filters { border-top-color: var(--line); }
-.chip { border-radius: 999px; border-color: var(--chip); background: var(--chip); }
-.chip:hover { border-color: var(--steel); background: var(--steel); }
-.chip[data-filter="all"].is-active { background: var(--ink); border-color: var(--ink); color: #fff; }
-.filters-search input { border-radius: 999px; border-color: rgba(27, 28, 30, .18); }
-.post-meta { font-family: var(--font-mono); font-weight: 500; letter-spacing: 0; text-transform: none; }
-.post-media { border-radius: var(--radius); overflow: hidden; }
+.post-meta { font-family: var(--font-mono); font-weight: 400; letter-spacing: .06em; }
+.post-media { border-radius: 8px; overflow: hidden; }
+/* Blog head: the kicker as a hairline mark above the title, content on the page's side padding */
+.blog-kicker { position: static; margin: 32px var(--pad) clamp(32px, 5vh, 56px); padding: 14px 0 0; border-top: 1px solid var(--ink); color: var(--ink); }
+@media (min-width: 860px) { .blog-kicker { padding-top: 14px; margin-top: 48px; } }
+@media (min-width: 1200px) {
+  .blog-kicker { position: static; padding-top: 14px; margin-bottom: clamp(32px, 5vh, 56px); }
+  .blog-head .narrow-container { padding-top: 0; }
+  .nf-head .narrow-container { padding-top: 0; }
+}
+.post-list { margin-left: var(--pad); margin-right: var(--pad); }
+@media (min-width: 1200px) { .post-list { margin-left: var(--pad); margin-right: var(--pad); } }
+@media (max-width: 859px) { .filters-row .filters-chips { margin: 0 calc(-1 * var(--pad)); padding: 0 var(--pad) 4px; } }

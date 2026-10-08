@@ -2477,537 +2477,359 @@ a.promo-link, a.footer-guide { text-decoration: none; color: inherit; }
 /* Guide name in the report box: a deeper shade of the site lilac, readable on off-white */
 .quiz-mail-guide { font-weight: 600; color: #6b52c8; }
 
-/* Fonts for the Genesis layer below, self-hosted like Inter (latin subset) */
-@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 300 600; font-display: swap; src: url("assets/fonts/inter-tight-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: "Geist Mono"; font-style: normal; font-weight: 400 500; font-display: swap; src: url("assets/fonts/geist-mono-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-
-/* ==========================================================================
-   Genesis look & feel — an override layer on top of styles.css + hero-reel.css.
-   Same HTML, same copy, same JS and animations: only the visual language changes.
-   - White page; each section is an inset, rounded panel (#f5f5f3, graphite, baby blue)
-   - Graphite ink (#1b1c1e) instead of black, cool grey secondary text
-   - Tight grotesk (Inter Tight) + mono labels (Geist Mono)
-   - Hairline tick marks at the corners of each panel
-   - Small 6px-radius buttons
-   ========================================================================== */
+/* =====================================================================
+   RAR look & feel (rar-umber.vercel.app)
+   A theme layer over everything above: same sections, copy and motion;
+   new palette, type and layout.
+   - Warm paper page #f5f3ef, ink #1c1c1a, warm greys; no accent colour
+   - Inter Tight ExtraLight (200) for headings, set large and tight;
+     JetBrains Mono in small caps for labels
+   - Each section opens with a numbered hairline ("01  O problema"), then
+     runs the full width of the page: directories and figures on hairlines,
+     one dark panel (Contacto), a white card footer
+   - Photos with a warm, archival grade
+   ===================================================================== */
+@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("assets/fonts/inter-tight-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/jetbrains-mono-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 :root {
-  --ink: #1b1c1e;
-  --dark: #1b1c1e;
-  --night: #111214;
-  --panel: #f5f5f3;
-  --accent: #dee8eb;
-  --steel: #cad4d9;
-  --chip: #ebebeb;
-  --line: rgba(27, 28, 30, .12);
-  --line-inv: rgba(255, 255, 255, .14);
-
-  /* Remap the original palette */
-  --off-white: #ffffff;
-  --black: #1b1c1e;
-  --soft-black: #1b1c1e;
-  --grey: rgba(27, 28, 30, .14);
-  --text-2: #7c828f;
-  --text-3: #8a8a8a;
-  --text-2-inv: rgba(255, 255, 255, .6);
-  --text-3-inv: rgba(255, 255, 255, .45);
-
+  --off-white: #f5f3ef;
+  --black: #1c1c1a;
+  --soft-black: #1f1e1b;
+  --grey: #8f8c85;
+  --ink: #1c1c1a;
+  --ink-2: #5d5b56;
+  --ink-3: #8f8c85;
+  --muted: #8a867e;
+  --line: rgba(28, 28, 26, .12);
+  --surface: #fff;
+  --panel-dark: #1f1e1b;
+  --text-2: #5d5b56;
+  --text-3: #75726b;
+  --text-2-inv: rgba(245, 243, 239, .74);
+  --text-3-inv: rgba(245, 243, 239, .5);
   --font-sans: "Inter Tight", "Inter", Helvetica, Arial, sans-serif;
   --font-serif: "Inter Tight", "Inter", Helvetica, Arial, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-
-  /* Panel frame: the white margin around every section */
-  --frame: 10px;
-  --frame-y: 6px;
-  --radius: 16px;
-  --inner: 20px; /* tick inset / content inset inside a panel */
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --ease: cubic-bezier(.7, 0, .2, 1);
+  --pad: clamp(16px, 2.4vw, 40px);
+  --radius: 28px;
+  --section-gap: clamp(112px, 16vh, 200px);
+  --portrait-w: clamp(240px, 24vw, 360px);
 }
-@media (min-width: 560px) { :root { --frame: 16px; --frame-y: 8px; } }
-@media (min-width: 860px) { :root { --frame: 24px; --frame-y: 12px; --inner: 22px; } }
-@media (min-width: 1200px) { :root { --frame: 34px; --frame-y: 20px; } }
+html, body { background: var(--off-white); color: var(--ink); }
+::selection { background: #e2cfae; color: var(--ink); }
 
-html, body { background: #fff; color: var(--ink); }
-body { font-feature-settings: "ss01", "cv11"; letter-spacing: -.005em; }
-::selection { background: var(--steel); color: var(--ink); }
-
-/* ---------- Panels ---------- */
-.pains, .impact, .about, .tiers-section, .faq-section, .testimonial-section, .footer {
-  position: relative;
-  isolation: isolate;
-  background: #fff !important;
-  border: 0 !important;
-}
-:is(.pains, .impact, .about, .tiers-section, .faq-section, .testimonial-section, .footer)::before {
-  content: "";
-  position: absolute;
-  inset: var(--frame-y) var(--frame);
-  z-index: -2;
-  border-radius: var(--radius);
-  background: var(--panel);
-  pointer-events: none;
-}
-/* Corner tick marks, like a technical drawing (and 1/3, 2/3 on desktop) */
-:is(.pains, .impact, .about, .tiers-section, .faq-section, .testimonial-section, .footer, .cta-panel)::after {
-  --t: var(--ink);
-  content: "";
-  position: absolute;
-  inset: calc(var(--frame-y) + var(--inner)) calc(var(--frame) + var(--inner));
-  z-index: -1;
-  pointer-events: none;
-  background:
-    linear-gradient(var(--t), var(--t)) 0 0 / 14px 1px no-repeat,
-    linear-gradient(var(--t), var(--t)) 100% 0 / 14px 1px no-repeat,
-    linear-gradient(var(--t), var(--t)) 0 100% / 14px 1px no-repeat,
-    linear-gradient(var(--t), var(--t)) 100% 100% / 14px 1px no-repeat;
-  opacity: .9;
-}
-@media (min-width: 860px) {
-  :is(.pains, .impact, .about, .tiers-section, .faq-section, .testimonial-section, .footer, .cta-panel)::after {
-    background:
-      linear-gradient(var(--t), var(--t)) 0 0 / 14px 1px no-repeat,
-      linear-gradient(var(--t), var(--t)) 33.333% 0 / 14px 1px no-repeat,
-      linear-gradient(var(--t), var(--t)) 66.666% 0 / 14px 1px no-repeat,
-      linear-gradient(var(--t), var(--t)) 100% 0 / 14px 1px no-repeat,
-      linear-gradient(var(--t), var(--t)) 0 100% / 14px 1px no-repeat,
-      linear-gradient(var(--t), var(--t)) 33.333% 100% / 14px 1px no-repeat,
-      linear-gradient(var(--t), var(--t)) 66.666% 100% / 14px 1px no-repeat,
-      linear-gradient(var(--t), var(--t)) 100% 100% / 14px 1px no-repeat;
-  }
-}
-
-/* Panel colours */
-.impact::before { background: var(--panel); }
-.about::before { background: var(--dark); }
-.testimonial-section::before { background: var(--night); }
-.footer::before { background: var(--dark); }
-:is(.about, .testimonial-section, .footer)::after { --t: rgba(222, 232, 235, .7); }
-
-/* Pains and impact read as two panels with a white gap between them */
-.pains { padding-bottom: var(--frame-y); }
-.impact { padding-top: var(--frame-y); }
-.impact .cards { padding-bottom: calc(64px + var(--frame-y)); }
-@media (min-width: 860px) { .impact .cards { padding-bottom: calc(96px + var(--frame-y)); } }
-.pains-list { padding-bottom: calc(64px + var(--frame-y)); }
-@media (min-width: 860px) { .pains-list { padding-bottom: calc(128px + var(--frame-y)); } }
-
-/* Content insets follow the frame (below 1200px, where text runs full width) */
-@media (max-width: 1199px) {
-  .narrow-container { padding-left: calc(var(--frame) + var(--inner)); padding-right: calc(var(--frame) + var(--inner)); }
-  :is(.pains-kicker, .impact-kicker, .about-kicker, .tiers-kicker, .faq-kicker, .testimonial-kicker) { padding-left: calc(var(--frame) + var(--inner)); }
-}
-@media (min-width: 1200px) {
-  :is(.pains-kicker, .impact-kicker, .about-kicker, .tiers-kicker, .faq-kicker, .testimonial-kicker) { left: calc(var(--frame) + var(--inner)); }
-}
-.hero-kicker { padding-left: calc(var(--frame) + var(--inner)); }
-@media (min-width: 1200px) { .hero-kicker { left: calc(var(--frame) + var(--inner)); padding-left: 0; } }
-@media (min-width: 1200px) and (max-width: 1279px) { .hero-kicker { padding-left: 20%; } }
-
-/* Extra breathing room at the bottom of the panels */
-.about-grid, .testimonial-section, .faq-section, .tiers-section { padding-bottom: calc(64px + var(--frame-y)); }
-@media (min-width: 860px) {
-  .about-grid { padding-bottom: calc(96px + var(--frame-y)); }
-  .testimonial-section, .faq-section, .tiers-section { padding-bottom: calc(104px + var(--frame-y)); }
-}
-
-/* ---------- Typography ---------- */
-:is(.hero-title, .pains-statement, .impact-title, .about-title, .tiers-intro, .cta-title, .modal-title) {
-  font-weight: 400;
-  letter-spacing: -.045em;
-  line-height: 1.02;
-  color: inherit;
-}
-.hero-title { letter-spacing: -.05em; line-height: .98; }
-.faq-title, .tier-name, .tier-free-title, .card-title { letter-spacing: -.03em; font-weight: 400; }
-.tier-price { letter-spacing: -.045em; }
-
-/* Supporting text: Genesis grey */
-:is(.hero-statement, .pains-sub, .impact-sub, .tiers-sub, .cta-sub, .modal-sub, .card-desc, .tier-desc, .faq-answer) { color: var(--text-2); }
-.about-copy { color: rgba(255, 255, 255, .78); }
-.about-copy p:first-child { color: #fff; }
-
-/* Mono labels: kickers lose the caps, gain a tick above */
+/* Shared roles */
 .kicker, .pains-lead, .tier-label, .tier-tag, .tier-free-kicker, .cta-field span, .modal-inc-label,
-.footer-guide-label, .lang-switch, .promo-link, .promo-kicker, .testimonial-role, .footer-bottom {
+.footer-guide-label, .promo-kicker, .testimonial-role, .quiz-label, .quiz-score-label {
   font-family: var(--font-mono);
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
 }
-.kicker { position: relative; font-size: 12px; }
-.kicker:not(.modal-pill)::before {
-  content: "";
-  position: absolute;
-  top: -12px;
-  width: 14px;
-  height: 1px;
-  background: currentColor;
-}
-.hero-kicker::before, .pains-kicker::before, .impact-kicker::before, .about-kicker::before,
-.tiers-kicker::before, .faq-kicker::before, .testimonial-kicker::before { margin-top: 0; }
-/* Kickers sitting in normal flow (mobile) carry their padding on top: put the tick just above the text */
-@media (max-width: 1199px) {
-  .kicker:is(.pains-kicker, .impact-kicker, .about-kicker, .tiers-kicker, .faq-kicker, .testimonial-kicker):not(.modal-pill)::before { top: auto; transform: translateY(-12px); }
-}
-.hero-kicker span + span::before { content: "/"; opacity: .35; margin: 0 .6em; }
-.pains-lead, .tier-label, .cta-field span, .modal-inc-label, .footer-guide-label { font-size: 11.5px; color: var(--text-3); }
-.tier-free-kicker { font-size: 11.5px; }
-
-/* Numbering in mono */
-.card .h5, .pains-row::before, .faq-answer ol li::before, .modal-list li::before {
+.pains-lead, .tier-label, .tier-free-kicker, .modal-inc-label, .footer-guide-label, .testimonial-role { color: var(--ink-3); }
+.card .h5, .pains-row::before, .faq-answer ol li::before, .modal-list li::before, .quiz-count {
   font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-3);
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: var(--ink-3);
 }
-
-/* Hairlines */
-.pains-row, .pains-list li:last-child, .faq-list, .faq-item, .modal-list li, .modal-head { border-color: var(--line) !important; }
-.card::before { border-top-color: var(--line); }
-.cta-write { border-top-color: rgba(27, 28, 30, .14); }
+/* Large headings: ExtraLight, tight */
+.pains-statement, .impact-title, .about-title, .tiers-intro, .faq-title {
+  max-width: 14em;
+  padding-top: 0;
+  font-weight: 200;
+  font-size: clamp(34px, 4vw, 60px);
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+.pains-sub, .impact-sub, .tiers-sub {
+  max-width: 420px;
+  margin-top: 0;
+  font-size: 17px;
+  line-height: 1.5;
+  letter-spacing: -.005em;
+  color: var(--ink-2);
+}
+/* Hairlines instead of grey rules */
+.-border-top, .-border-bottom, .pains, .pains-row, .pains-list li:last-child, .card::before, .tier,
+.faq-section, .faq-list, .faq-item, .modal-head, .modal-list li, .modal-form, .modal-success,
+.mobile-menu-links, .mobile-menu-links a, .quiz-weak-list, .quiz-weak-list li { border-color: var(--line); }
+.pains { border-bottom: 0; }
 
 /* ---------- Header ---------- */
-.logo { font-weight: 500; letter-spacing: -.01em; }
-.nav-link-plain { font-weight: 400; }
-.header .nav-right { gap: 32px; }
-.nav-cta { font-weight: 500; }
-.lang-switch { font-size: 11.5px; }
-
-/* ---------- Hero ---------- */
-.hero-curtain { background: #fff; }
-.hero-curtain .hero-visual {
-  border-radius: var(--radius);
-  clip-path: inset(0 calc(var(--frame) + (var(--vm) - var(--frame)) * (1 - var(--cp, 0))) round var(--radius));
-}
-@media (max-width: 1199px) { .hero-curtain { --vm: calc(var(--frame) + 16px); } }
-@media (min-width: 1200px) { .hero-curtain { --vm: calc(var(--gap) * 3); } }
-.hero-statement { color: var(--text-2); }
-
-/* Reel: graphite night instead of black, blue-grey instead of lilac */
-.hero .hero-visual.hero-reel { --bg: #111214; --fg: #ffffff; --lilac: #cad4d9; }
-.hero .hero-reel .hr-type { color: #ffffff; }
-.hero .hero-reel .hr-label { font-family: var(--font-mono); font-size: clamp(12px, .9vw, 14px); letter-spacing: 0; }
-.hero .hero-reel .sp-you, .hero .hero-reel .db-bar i:nth-child(2), .hero .hero-reel .db-legend span:nth-child(2) i,
-.hero .hero-reel .ib-row.-new .ib-r1 b::before { background: #5d6f94; }
-.hero .hero-reel .ib-auto-h i { background: linear-gradient(140deg, #a9b8cf, #5d6f94); }
-.hero .hero-reel .db-chart-h small i { border-top-color: #5d6f94; }
-.hero .hero-reel .db-chart .db-mark { stroke: #5d6f94; }
-.hero .hero-reel .sp-text mark span { background: linear-gradient(var(--accent), var(--accent)) 0 0 / calc(var(--m, 0) * 100%) 100% no-repeat, #e9eff7; }
-.hero .hero-reel .sp-ai-list u { background: linear-gradient(var(--accent), var(--accent)) 0 0 / calc(var(--m, 0) * 100%) 100% no-repeat; }
-.hero .hero-reel .sp-res { background: rgba(222, 232, 235, calc(var(--hl, 0) * .6)); box-shadow: inset 0 0 0 calc(2px * var(--hl, 0)) #5d6f94; }
-
-/* ---------- Buttons ---------- */
-.button {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 13px;
-  letter-spacing: 0;
-  line-height: 1.2;
-  padding: 10px 16px;
-  border-radius: 6px;
-  border: 1px solid transparent;
-  background: var(--ink);
-  color: #fff;
-}
-.hero-actions .hero-button { padding: 13px 20px; border-radius: 6px; background: var(--ink); color: #fff; border-color: var(--ink); }
-.hero-actions .hero-button.-secondary { background: var(--chip); color: var(--ink); border-color: var(--chip); }
-@media (hover: hover) {
-  .hero-actions .hero-button:hover { background: #34363a; }
-  .hero-actions .hero-button.-secondary:hover { background: var(--steel); border-color: var(--steel); color: var(--ink); }
-}
-
-/* Former outline buttons become soft grey chips */
-.tier-cta .button, .tier-free .button, .cta-form .button { padding: 11px 18px; background: var(--chip); color: var(--ink); border-color: var(--chip); }
-.tier.-featured .tier-cta .button { background: var(--ink); color: #fff; border-color: var(--ink); }
-.tier-free .button { background: var(--ink); color: #fff; border-color: var(--ink); }
-@media (hover: hover) {
-  .tier-cta .button:hover, .cta-form .button:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .tier.-featured .tier-cta .button:hover, .tier-free .button:hover { background: #34363a; border-color: #34363a; }
-}
-.cta-section .cta-main .cta-button { padding: 16px 26px; font-size: 14px; border-radius: 6px; background: var(--ink); color: #fff; border-color: var(--ink); }
-@media (hover: hover) { .cta-section .cta-main .cta-button:hover { background: #34363a; color: #fff; } }
-
-.input { border-radius: 6px; border: 1px solid rgba(27, 28, 30, .18); background: #fff; color: var(--ink); }
-.input:focus { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
-.input::placeholder { color: #8a8a8a; }
-.skip-link { border-radius: 6px; }
-
-/* ---------- Impact cards ---------- */
-.card { gap: 12px; }
-.card-title { font-size: clamp(18px, 1.4vw, 22px); }
-
-/* ---------- About ---------- */
-.about { color: #fff; }
-.about-photo { border-radius: 10px; }
-.about-link { font-family: var(--font-mono); font-size: 13px; }
-
-/* ---------- Pricing ---------- */
-.tiers { row-gap: 16px; }
-@media (min-width: 860px) { .tiers { column-gap: 16px; } }
-.tier {
-  padding: 28px 24px 32px;
-  border: 0;
-  border-radius: 12px;
-  background: #fff;
-}
-@media (min-width: 860px) { .tier { padding: 32px 32px 36px; } }
-.tier.-featured { box-shadow: inset 0 0 0 1px var(--steel); }
-.tier-tag { padding: 5px 9px; border-radius: 6px; background: var(--accent); color: var(--ink); font-size: 11.5px; }
-.tier-list li::before { color: var(--text-3); }
-.tier-list.-extras li { color: var(--text-2); }
-.tier-free { margin-top: 16px; border-radius: 12px; background: var(--accent); }
-@media (min-width: 860px) { .tier-free { margin-top: 16px; padding: 32px; } }
-.tier-free-kicker { color: var(--text-2); }
-
-/* ---------- FAQ ---------- */
-.faq-item summary { letter-spacing: -.015em; }
-.faq-item summary::after { font-family: var(--font-mono); font-weight: 400; color: var(--text-3); }
-.faq-answer strong, .faq-answer a { color: var(--ink); }
-
-/* ---------- Testimonials ---------- */
-.testimonial-quote { letter-spacing: -.02em; }
-.testimonial-name { font-weight: 500; }
-.testimonial-role { font-size: 12px; }
-.testimonial-nav-btn {
-  border-radius: 6px;
-  border-color: rgba(255, 255, 255, .14);
-  background: rgba(255, 255, 255, .06);
-  color: #fff;
-}
-@media (hover: hover) { .testimonial-nav-btn:hover { background: #fff; border-color: #fff; color: var(--ink); } }
-
-/* ---------- Contact ---------- */
-.cta-section { background: #fff; padding: var(--frame-y) var(--frame); }
-.cta-panel { position: relative; isolation: isolate; border-radius: var(--radius); background: var(--accent); }
-.cta-panel::after { inset: var(--inner); }
-.cta-field input, .cta-field textarea { border-bottom-color: rgba(27, 28, 30, .25); color: var(--ink); }
-.cta-field input:focus, .cta-field textarea:focus { border-bottom-color: var(--ink); box-shadow: 0 1px 0 var(--ink); }
-.cta-write-toggle { font-weight: 500; }
-
-/* ---------- Footer ---------- */
-.footer { padding-left: calc(var(--frame) + var(--inner)); padding-right: calc(var(--frame) + var(--inner)); padding-bottom: calc(var(--frame-y) + var(--inner) + 8px); color: #fff; margin-top: 0; }
-.footer-top { padding-top: calc(var(--frame-y) + var(--inner) + 32px); }
-.footer-logo { font-weight: 500; }
-.footer-bottom { font-size: 11.5px; }
-.footer-guide-label { color: rgba(255, 255, 255, .5); }
-.footer-email { font-family: var(--font-mono); font-size: 13px; }
-
-/* ---------- Promo strip ---------- */
-.promo-strip { background: var(--accent); color: var(--ink); box-shadow: inset 0 -1px 0 rgba(27, 28, 30, .08); }
-.promo-link { font-size: 12px; }
-.promo-go { font-weight: 500; }
-@media (max-width: 559px) { .promo-link { font-size: 11px; } }
-
-/* ---------- Modal & menu ---------- */
-.modal { border-radius: var(--radius); background: #fff; color: var(--ink); box-shadow: 0 40px 120px rgba(17, 18, 20, .3); }
-.modal::backdrop { background: rgba(17, 18, 20, .5); }
-.modal-head .modal-pill { padding: 5px 9px; border-radius: 6px; background: var(--accent); color: var(--ink); }
-.modal-close { border-radius: 6px; }
-.modal-success { background: var(--panel); border-top-color: var(--line); }
-.calendly-overlay .calendly-close-overlay { background: rgba(17, 18, 20, .6); }
-.mobile-menu { background: #fff; color: var(--ink); }
-
-/* ---------- Chat launcher ---------- */
-.chat-launcher { border-radius: 14px; background: var(--ink); color: #fff; }
-
-/* Hero kicker in normal flow (below 1280px): tick just above the text, not above its padding */
-@media (max-width: 1279px) { .kicker.hero-kicker:not(.modal-pill)::before { top: auto; transform: translateY(-12px); } }
-
-/* ---------- Genesis scale: smaller, quieter headings ---------- */
-.hero-title { font-size: clamp(36px, 4vw, 60px); letter-spacing: -.04em; line-height: 1; max-width: 12em; }
-:is(.pains-statement, .impact-title, .about-title, .tiers-intro, .cta-title) {
-  font-size: clamp(28px, 2.5vw, 40px);
-  letter-spacing: -.035em;
-  line-height: 1.06;
-  max-width: 18em;
-}
-.about-title { margin-bottom: 64px; }
-.modal-title { font-size: clamp(24px, 2.2vw, 30px); letter-spacing: -.03em; line-height: 1.08; }
-.faq-title { font-size: clamp(22px, 1.8vw, 28px); }
-.tier-name { font-size: clamp(20px, 1.6vw, 24px); }
-.tier-price { font-size: clamp(26px, 2vw, 32px); }
-.card-title { font-size: clamp(17px, 1.2vw, 19px); }
-.tier-free-title { font-size: clamp(18px, 1.4vw, 21px); }
-.testimonial-quote { font-size: clamp(17px, 1.35vw, 21px); }
-/* Supporting text follows the smaller headings */
-:is(.hero-statement, .pains-sub, .impact-sub, .tiers-sub, .cta-sub, .about-copy) { font-size: clamp(15px, 1.1vw, 17px); }
-
-/* ---------- Genesis layout refinements ---------- */
-/* Title masks: room for the last letter's overhang, which the tight tracking
-   pushes past the word's box (it was clipped on the right) */
-.title-reveal .tw { padding-left: .08em; padding-right: .08em; margin-left: -.08em; margin-right: -.08em; }
-
-/* Soluções: white cards inside the grey panel, like the plans. Tick top left,
-   index top right; the title sits at a fixed height below them (room for two
-   lines) so titles and descriptions line up across each row */
-.cards { column-gap: 16px; row-gap: 16px; align-items: stretch; }
-@media (min-width: 860px) { .cards { column-gap: 16px; row-gap: 16px; } }
-.card {
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 64px 22px 26px;
-  border-radius: 12px;
-  background: #fff;
-}
-.card::before {
-  top: 22px; left: 22px; right: auto;
-  width: 14px;
-  border-top: 1px solid var(--ink);
-}
-.card .h5 { position: absolute; top: 16px; right: 22px; }
-@media (min-width: 860px) {
-  .card { padding-top: 88px; }
-  .card-title { min-height: 2.3em; min-height: 2lh; }
-}
-
-/* Dúvidas: title on the left, questions on the right */
-@media (min-width: 860px) {
-  .faq-section .narrow-container {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    column-gap: 32px;
-    align-items: start;
-  }
-  .faq-title { position: sticky; top: 120px; max-width: 8em; }
-  .faq-list { margin-top: 0; }
-}
-
-/* Sobre: the photo as an image card, in black & white, text beside it */
-.about-photo { max-width: 240px; border-radius: 12px; }
-.about-photo img { filter: grayscale(1) contrast(1.06) brightness(1.02); }
-@media (min-width: 860px) {
-  .about-grid { grid-template-columns: 220px minmax(0, 1fr); column-gap: 48px; }
-  .about-photo { max-width: none; position: sticky; top: 120px; }
-}
-
-/* Hero: the opening message a step larger than the section headings */
-.hero-title { font-size: var(--hero-fs); max-width: 11em; }
-:root { --hero-fs: clamp(46px, 6.4vw, 100px); }
-.hero-statement { max-width: 30em; font-size: clamp(17px, 1.35vw, 20px); line-height: 1.4; }
-
-/* Calls to action as pills; tags and labels keep their 6px corners */
-.button, .hero-actions .hero-button, .cta-section .cta-main .cta-button,
-.input, .quiz-url-form .input, .quiz-mail-row .input, .modal-form .input,
-.chip, .filters-search input, .chat-mail-input, .chat-mail-send, .chat-chip, .skip-link { border-radius: 999px; }
-.button, .hero-actions .hero-button { padding-left: 22px; padding-right: 22px; }
-.cta-section .cta-main .cta-button { padding-left: 30px; padding-right: 30px; }
-.testimonial-nav-btn, .chat-launcher, .modal-close, .chat-send { border-radius: 50%; }
-
-/* O problema: the four pains as a 2×2 grid of index cells (one column on
-   phones): hairline on top, mono index, then the line itself */
-@media (min-width: 860px) {
-  .pains-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px; }
-  .pains-row { display: flex; flex-direction: column; gap: 28px; min-height: 136px; padding: 18px 0 28px; }
-  .pains-list li:last-child { border-bottom: 0; }
-}
-/* Same type as the Soluções card titles below */
-.pains-text { max-width: 22em; font-size: clamp(17px, 1.2vw, 19px); line-height: 1.25; letter-spacing: -.03em; }
-
-/* Kickers: back in the side margin from 1200px (the Genesis layer had made
-   them position: relative, so they took up space and drifted). Each one's
-   cap height lines up with its title's: --t is the title's top inside the
-   section, --fs its font size; .1665 / .137 place a cap top in a line box of
-   1.06 / 1 for Inter Tight, 3.5px does the same for the 12px mono label */
-@media (min-width: 1200px) {
-  .kicker:is(.pains-kicker, .impact-kicker, .about-kicker, .tiers-kicker, .faq-kicker, .testimonial-kicker):not(.modal-pill) {
-    position: absolute;
-    top: calc(var(--t) + var(--fs) * .1665 - 3.5px);
-    line-height: 16px;
-  }
-}
-@media (min-width: 1280px) {
-  .kicker.hero-kicker:not(.modal-pill) {
-    position: absolute;
-    top: calc(var(--t) + var(--hero-fs) * .137 - 3.5px);
-    line-height: 16px;
-    padding-top: 0;
-  }
-}
-.pains-kicker, .about-kicker, .tiers-kicker { --t: 96px; --fs: clamp(28px, 2.5vw, 40px); }
-.impact-kicker { --t: calc(96px + var(--frame-y)); --fs: clamp(28px, 2.5vw, 40px); }
-.faq-kicker { --t: 96px; --fs: clamp(22px, 1.8vw, 28px); }
-.testimonial-kicker { --t: 100px; --fs: 0px; }
-.hero-kicker { --t: 160px; }
-
-/* "Não tem a certeza? Faça o diagnóstico": same size and weight as
-   "Se preferir, envie uma mensagem" in the contact section */
-.pains-quiz { font-size: clamp(15px, 1.1vw, 17px); font-weight: 500; }
-@media (max-width: 359px) { .pains-quiz { font-size: 14px; } }
-
-/* Navigation: the name stays in the grotesk; links read as interface, in mono */
-.nav-link-plain, .nav-cta { font-family: var(--font-mono); font-size: 13px; font-weight: 500; letter-spacing: 0; }
-@media (max-width: 859px) { .footer-links .nav-cta, .footer-links .nav-link-plain { font-size: 13px; } }
-
-/* Diagnosis report: the guide name in ink, not the old lilac */
-.quiz-mail-guide { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-
-/* ---------- Lighter page: dark only at the hero reel, Testemunhos and the
-   footer; Sobre moves onto a light panel ---------- */
-.about { color: var(--ink); }
-.about::before { background: var(--panel); }
-.about::after { --t: var(--ink); }
-.about-copy { color: var(--text-2); }
-.about-copy p:first-child { color: var(--ink); }
-
-/* ---------- Diagnosis strip: no full-bleed band; the page's own white bar
-   with the message as a small baby-blue pill, like the site's tags and CTAs.
-   Same height and the same sticky/fixed behaviour as before. ---------- */
-.promo-strip, .menu-strip { background: #fff; box-shadow: none; }
-.promo-link {
-  padding: 6px 14px;
+.logo { font-weight: 500; font-size: 15px; letter-spacing: .02em; }
+@media (min-width: 860px) { .logo { font-size: 15px; } }
+.header .navigation { padding-left: var(--pad); padding-right: var(--pad); }
+.header .logo-container { left: var(--pad); }
+.nav-cta-fixed { right: var(--pad); }
+.lang-switch { font-family: var(--font-mono); font-weight: 400; font-size: 11px; letter-spacing: .06em; }
+.nav-link-plain { font-family: var(--font-mono); font-weight: 400; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+/* "Marcar chamada": an outlined pill, like RAR's Menu button */
+.nav-cta {
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--accent);
-  transition: background-color .3s ease;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transition: background-color .2s, color .2s, border-color .2s, opacity .3s ease;
 }
-@media (hover: hover) { .promo-link:hover { background: var(--steel); } }
-@media (max-width: 559px) { .promo-link { padding: 5px 12px; } }
+.nav-cta::after { display: none; }
+@media (hover: hover) { .nav-cta:hover { background: var(--ink); color: var(--off-white); border-color: var(--ink); } }
+.nav-cta.nav-on-dark { border-color: rgba(245, 243, 239, .3); }
+@media (hover: hover) { .nav-cta.nav-on-dark:hover { background: var(--off-white); color: var(--ink); border-color: var(--off-white); } }
+/* The fixed pill is centred on the logo's line; its invisible twin keeps the nav row at the logo's height */
+.nav-cta-fixed { top: calc(var(--strip-h) + var(--nav-extra) + var(--gap) - 12px); height: 40px; }
+@media (min-width: 860px) { .nav-cta-fixed { top: calc(var(--strip-h) + var(--nav-extra) + var(--gap) - 11px); height: 40px; } }
+.header .nav-cta-spacer { height: 17px; }
+@media (max-width: 859px) { .nav-burger { right: calc(var(--pad) - 6px); } }
 
-/* Sobre on the baby-blue accent panel; body copy a shade darker than the
-   usual grey so it keeps its contrast on blue */
-.about::before { background: var(--accent); }
-.about-copy { color: rgba(27, 28, 30, .72); }
+/* ---------- Diagnosis strip: a quiet hairline bar in the page colour ---------- */
+.promo-strip, .menu-strip { background: var(--off-white); color: var(--ink); box-shadow: inset 0 -1px 0 var(--line), inset 0 1px 0 var(--line); }
+.promo-link { font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.promo-go { font-weight: 400; }
 
-/* Diagnosis pill in graphite, like the primary CTA: the blue stays for
-   surfaces (Sobre, Contacto, tags) */
-a.promo-link, .promo-link { background: var(--ink); color: #fff; }
-@media (hover: hover) { .promo-link:hover { background: #34363a; } }
+/* ---------- Section openings: a numbered hairline across the page ---------- */
+main { counter-reset: section; }
+.pains, .impact, .about, .tiers-section, .faq-section, .testimonial-section { padding-top: var(--section-gap); }
+.kicker:is(.pains-kicker, .impact-kicker, .about-kicker, .tiers-kicker, .faq-kicker, .testimonial-kicker) {
+  position: static;
+  display: flex;
+  gap: 16px;
+  margin: 0 var(--pad) clamp(40px, 6vh, 72px);
+  padding: 14px 0 0;
+  border-top: 1px solid var(--ink);
+  color: var(--ink);
+  counter-increment: section;
+}
+.kicker:is(.pains-kicker, .impact-kicker, .about-kicker, .tiers-kicker, .faq-kicker, .testimonial-kicker)::before {
+  content: counter(section, decimal-leading-zero);
+  color: var(--ink-3);
+}
+/* Content runs the full width of the page (homepage sections; articles keep their reading column) */
+:is(.hero, .pains, .impact, .about, .tiers-section, .faq-section, .testimonial-section, .blog-head) .narrow-container { width: auto; margin: 0; padding: 0 var(--pad); }
+@media (min-width: 1200px) {
+  :is(.hero, .pains, .impact, .about, .tiers-section, .faq-section, .testimonial-section, .blog-head) .narrow-container { width: auto; margin: 0; padding: 0 var(--pad); }
+  .impact-block, .about-title, .tiers-intro, .faq-section .narrow-container, .testimonial-section > .narrow-container { padding-top: 0; }
+}
 
-/* Sobre: all the copy in one colour */
-.about-copy, .about-copy p:first-child { color: var(--ink); }
+/* ---------- Hero: a huge ExtraLight headline, the lede and actions in a right-hand column ---------- */
+.hero-kicker { padding-left: var(--pad); color: var(--ink-3); }
+@media (min-width: 1200px) {
+  .hero-kicker { position: static; padding: 40px var(--pad) 0; margin-bottom: 20px; }
+  .hero .hero-head { padding-top: 0; }
+}
+@media (min-width: 1200px) and (max-width: 1279px) { .hero-kicker { padding-left: var(--pad); } }
+.hero-kicker span + span::before { content: "/"; margin: 0 .7em; opacity: .5; }
+.hero-head { display: grid; grid-template-columns: minmax(0, 1fr); }
+.hero-title {
+  max-width: none;
+  font-weight: 200;
+  font-size: clamp(42px, 10.4vw, 190px);
+  line-height: .92;
+  letter-spacing: -.055em;
+}
+/* Second half of the headline in the muted ink, like RAR's "uma visão." */
+html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw:nth-child(n+3) { color: var(--muted); }
+.hero-statement { max-width: 30ch; margin-top: 28px; font-size: 19px; font-weight: 300; line-height: 1.45; letter-spacing: -.01em; color: var(--ink); }
+.hero-actions { margin-top: 28px; gap: 12px 24px; }
+@media (min-width: 900px) {
+  .hero-head { grid-template-columns: minmax(0, 1fr) minmax(0, 380px); column-gap: 48px; }
+  .hero-title { grid-column: 1 / -1; }
+  .hero-statement, .hero-actions { grid-column: 2; }
+  .hero-statement { margin-top: clamp(24px, 4vh, 48px); }
+}
+.hero-curtain { --vm: var(--pad); margin-top: clamp(32px, 5vh, 64px); background: var(--off-white); }
+.hero .hero-visual.hero-reel { border-radius: 8px; }
+.hero-curtain.has-reel { padding-bottom: 0; }
 
-/* Tags as pills too, like every other small control on the page */
-.tier-tag, .modal-head .modal-pill { border-radius: 999px; padding: 5px 11px; }
-
-/* Free redesign: a tone darker than the panel, not the blue accent */
-.tier-free { background: #e9e9e5; }
-
-/* ---------- Buttons back in the grotesk: mono stays for labels and numbers,
-   actions read as plain words ---------- */
-.button, .hero-actions .hero-button, .cta-section .cta-main .cta-button {
+/* ---------- Buttons and text links ---------- */
+.button {
+  padding: 13px 22px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--off-white);
   font-family: var(--font-sans);
   font-weight: 500;
   font-size: 15px;
-  letter-spacing: -.01em;
+  letter-spacing: -.005em;
 }
-.cta-section .cta-main .cta-button { font-size: 16px; }
-
-/* ---------- Legibility: darker greys, running text a step larger ---------- */
-:root {
-  --text-2: #5d616c;
-  --text-3: #6c707b;
+.hero-actions .hero-button { padding: 14px 24px; background: var(--ink); color: var(--off-white); border-color: var(--ink); }
+/* Secondary actions read as RAR's underlined text links */
+.hero-actions .hero-button.-secondary {
+  padding: 0 0 6px;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
 }
-:is(.hero-statement, .pains-sub, .impact-sub, .tiers-sub, .cta-sub) { font-size: clamp(16px, 1.25vw, 19px); }
-.hero-statement { font-size: clamp(17px, 1.4vw, 21px); }
-.about-copy { font-size: clamp(16px, 1.2vw, 18px); }
-.card-desc, .tier-desc, .tier-list { font-size: 15px; }
-.tier-note { font-size: 14px; }
-.faq-answer { font-size: 16px; }
-.testimonial-role, .pains-lead, .tier-label { color: var(--text-3); }
+@media (hover: hover) { .hero-actions .hero-button.-secondary:hover { background: none; color: var(--ink-2); } }
+.tier-cta .button, .tier-free .button, .cta-form .button { border-color: var(--line); }
+.input { border-color: var(--line); }
 
-/* Testemunhos: a larger quote */
-.testimonial-quote { font-size: clamp(20px, 1.75vw, 27px); line-height: 1.34; }
+/* ---------- O problema: heading left, intro right, the four pains as a row of hairline columns ---------- */
+@media (min-width: 900px) {
+  .pains .narrow-container { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); column-gap: clamp(32px, 6vw, 120px); align-items: end; }
+  .pains .narrow-container > :not(.pains-statement, .pains-sub) { grid-column: 1 / -1; }
+}
+.pains-sub { margin-top: 20px; }
+@media (min-width: 900px) { .pains-sub { margin-top: 0; } }
+.pains-lead { margin: clamp(48px, 7vh, 80px) 0 16px; }
+.pains-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 clamp(16px, 2vw, 32px); padding-bottom: 0; }
+@media (min-width: 560px) { .pains-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .pains-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.pains-row { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 12px; padding: 14px 0 28px; border-top: 1px solid var(--line); }
+.pains-list li:last-child { border-bottom: 0; }
+.pains-text { font-size: 17px; line-height: 1.4; letter-spacing: -.01em; }
+.pains-list:has(+ .pains-quiz) { padding-bottom: 0; }
+.pains-quiz { justify-self: start; margin: clamp(24px, 4vh, 40px) 0 0; font-size: 15px; font-weight: 500; }
+.pains-quiz .ul { text-decoration: none; padding-bottom: 6px; border-bottom: 1px solid var(--ink); }
 
-/* Hero reel: same side margins as the section panels, at every width */
-.hero-curtain { --vm: var(--frame); }
+/* ---------- Soluções: a two-column directory on hairlines ---------- */
+.impact-block { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px 48px; padding: 0 0 clamp(28px, 4vh, 48px); }
+@media (min-width: 860px) { .impact-block { padding-bottom: clamp(28px, 4vh, 48px); } }
+.cards { column-gap: clamp(24px, 4vw, 72px); row-gap: 0; padding-bottom: 0; }
+@media (min-width: 860px) {
+  .cards { column-gap: clamp(24px, 4vw, 72px); row-gap: 0; padding-bottom: 0; }
+  .grid.cards > .col-4 { grid-column: span 6; }
+}
+.card {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  column-gap: clamp(16px, 1.8vw, 28px);
+  row-gap: 8px;
+  padding: 24px 0 28px;
+}
+.card::before { border-top: 1px solid var(--line); }
+.card .h5 { grid-row: span 2; padding-top: 6px; }
+.card-title { font-size: clamp(22px, 1.9vw, 30px); font-weight: 300; line-height: 1.15; letter-spacing: -.025em; }
+.card-desc { max-width: 38ch; font-size: 15px; line-height: 1.5; color: var(--ink-2); }
 
-/* Free redesign: the same distance from the plans as on the live site */
-.tier-free { margin-top: 64px; }
-@media (min-width: 860px) { .tier-free { margin-top: 80px; } }
+/* ---------- Sobre: framed portrait beside the words (RAR's President block) ---------- */
+.about { background: none; color: var(--ink); }
+.about-title { margin-bottom: clamp(40px, 6vh, 72px); }
+.about-grid { gap: 32px; padding-bottom: 0; }
+@media (min-width: 860px) {
+  .about-grid { grid-template-columns: var(--portrait-w) minmax(0, 1fr); column-gap: clamp(32px, 6vw, 120px); align-items: end; padding-bottom: 0; }
+}
+.about-photo { max-width: min(72%, 340px); border-radius: 8px; background: #e7e4de; }
+@media (min-width: 860px) { .about-photo { max-width: none; } }
+/* Archive grade: black & white, warmed with a multiplied sand tone */
+.about-photo img { filter: grayscale(1) contrast(.95) brightness(1.04); }
+.about-photo::after { content: ""; position: absolute; inset: 0; background: #e2cfae; mix-blend-mode: multiply; opacity: .4; pointer-events: none; }
+.about-copy { gap: 1em; font-size: 17px; line-height: 1.5; color: var(--ink-2); }
+.about-copy p { max-width: 52ch; }
+.about-copy p:first-child { max-width: 30ch; margin-bottom: .4em; font-size: clamp(22px, 2.1vw, 32px); font-weight: 300; line-height: 1.2; letter-spacing: -.025em; color: var(--ink); }
+.about-link { margin-top: 8px; font-size: 15px; font-weight: 500; color: var(--ink); }
+
+/* ---------- Planos: figures on hairlines ---------- */
+.tiers-section { padding-bottom: 0; }
+.tiers-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px 48px; }
+.tiers-intro { margin-bottom: 0; }
+.tiers { column-gap: clamp(24px, 4vw, 72px); }
+@media (min-width: 860px) { .tiers { column-gap: clamp(24px, 4vw, 72px); } }
+.tier { padding-top: 18px; border-top: 1px solid var(--line); }
+.tier-name { font-size: clamp(22px, 1.9vw, 30px); font-weight: 300; letter-spacing: -.025em; }
+.tiers .tier-desc { font-size: 15px; color: var(--ink-2); }
+.tier-price { font-weight: 200; font-size: clamp(44px, 5.6vw, 92px); line-height: .95; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+.tier-note { font-size: 13px; color: var(--ink-2); }
+.tier-tag { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: none; color: var(--ink); }
+.tier-list { font-size: 15px; }
+.tier-list li::before { color: var(--ink-3); }
+.tier-free { border-radius: 20px; background: var(--surface); }
+.tier-free-title { font-weight: 300; letter-spacing: -.02em; }
+
+/* ---------- Dúvidas: heading left, questions right ---------- */
+.faq-section { border-top: 0; padding-bottom: 0; }
+@media (min-width: 860px) {
+  .faq-section .narrow-container { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); column-gap: clamp(32px, 6vw, 120px); align-items: start; }
+  .faq-list { margin-top: 0; }
+}
+.faq-item summary { padding: 18px 0; font-size: 17px; letter-spacing: -.01em; }
+.faq-item summary::after { font-weight: 200; color: var(--ink-3); }
+.faq-answer { color: var(--ink-2); }
+
+/* ---------- Testemunhos: a light quote, like RAR's President's message ---------- */
+.testimonial-section { background: none; color: var(--ink); padding-bottom: 0; }
+.testimonial-logo-img { filter: brightness(0); }
+.testimonial-logo { opacity: .25; }
+.testimonial-logo.is-active { opacity: .85; }
+.testimonial-logos { margin-bottom: clamp(40px, 6vh, 72px); }
+.testimonial-quote { max-width: 34em; font-size: clamp(22px, 2.1vw, 32px); font-weight: 300; line-height: 1.22; letter-spacing: -.03em; }
+.testimonial-author { margin-top: clamp(28px, 4vh, 44px); padding-top: 18px; border-top: 1px solid var(--line); }
+.testimonial-name { font-size: 20px; font-weight: 300; letter-spacing: -.02em; }
+.testimonial-role { margin-top: 6px; }
+.testimonial-nav-btn { width: 40px; height: 40px; border-color: var(--line); color: var(--ink); }
+@media (hover: hover) { .testimonial-nav-btn:hover { background: var(--ink); border-color: var(--ink); color: var(--off-white); } }
+
+/* ---------- Contacto: the page's one dark panel ---------- */
+.cta-section { margin-top: var(--section-gap); padding: 0 var(--pad); background: none; }
+@media (min-width: 1200px) { .cta-section { padding: 0 var(--pad); } }
+.cta-panel {
+  padding: clamp(40px, 6vw, 96px) clamp(28px, 4vw, 64px);
+  border-radius: var(--radius);
+  background: var(--panel-dark);
+  color: var(--off-white);
+  --focus-ring: var(--off-white);
+}
+@media (min-width: 1200px) {
+  .cta-panel { padding-left: clamp(28px, 4vw, 64px); padding-right: clamp(28px, 4vw, 64px); }
+  .cta-inner { width: auto; margin-left: 0; }
+}
+.cta-title { max-width: 12em; font-weight: 200; font-size: clamp(40px, 5.6vw, 92px); line-height: .98; letter-spacing: -.05em; }
+.cta-sub { max-width: 34em; font-size: 17px; line-height: 1.5; color: var(--text-2-inv); }
+.cta-section .cta-main .cta-button { background: var(--off-white); color: var(--ink); border-color: var(--off-white); font-size: 16px; }
+@media (hover: hover) { .cta-section .cta-main .cta-button:hover { background: #e2cfae; color: var(--ink); border-color: #e2cfae; } }
+.cta-write { border-top-color: rgba(245, 243, 239, .2); }
+.cta-write-toggle, .cta-thanks-again { color: var(--off-white); font-weight: 500; }
+.cta-field span { color: var(--text-3-inv); }
+.cta-field input, .cta-field textarea { color: var(--off-white); border-bottom-color: rgba(245, 243, 239, .3); }
+.cta-field input:focus, .cta-field textarea:focus { border-bottom-color: var(--off-white); box-shadow: 0 1px 0 var(--off-white); }
+.cta-form .button { background: transparent; color: var(--off-white); border-color: rgba(245, 243, 239, .3); }
+@media (hover: hover) { .cta-form .button:hover { background: var(--off-white); color: var(--ink); border-color: var(--off-white); } }
+.cta-thanks-title, .cta-thanks-sub { color: var(--off-white); }
+
+/* ---------- Footer: a white card ---------- */
+.footer.-bg-black { margin: var(--section-gap) var(--pad) var(--pad); padding: 48px clamp(20px, 3vw, 48px) 24px; border-radius: var(--radius); background: var(--surface); }
+@media (min-width: 1200px) { .footer.-bg-black { padding: 48px clamp(20px, 3vw, 48px) 24px; } }
+.footer.-fg-off-white, .footer.-fg-off-white a { color: var(--ink); }
+.footer .footer-email { color: var(--ink-2) !important; }
+@media (hover: hover) { .footer .footer-email:hover { color: var(--ink) !important; } }
+.footer-top { padding: 0 0 40px; }
+@media (min-width: 860px) { .footer-top { padding: 0 0 48px; } }
+.footer-guide-title { color: var(--ink); }
+.footer-bottom { border-top-color: var(--line); color: var(--ink-3); font-size: 13px; }
+@media (max-width: 859px) { .footer-guide { border-top-color: var(--line); } }
+.footer .nav-cta { color: var(--ink); }
+
+/* ---------- Mobile menu, modals, chat, quiz ---------- */
+.mobile-menu { background: rgba(245, 243, 239, .96); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); }
+.mobile-menu-links a { font-weight: 300; letter-spacing: -.03em; }
+.mobile-menu-cta { font-weight: 500; }
+.modal { border-radius: 20px; background: var(--off-white); }
+.modal::backdrop, .calendly-overlay .calendly-close-overlay { background: rgba(31, 30, 27, .5); }
+.modal-title { font-weight: 200; letter-spacing: -.04em; }
+.modal-head .modal-pill { border: 1px solid var(--line); background: none; }
+.modal-form, .modal-success { background: rgba(28, 28, 26, .03); }
+.chat-panel { border-radius: 20px; background: var(--off-white); }
+.chat-msg.-bot { background: var(--surface); }
+@media (hover: hover) { .chat-launcher:hover { background: #3a3936; color: var(--off-white); } }
+.chat-launcher.is-active { background: #3a3936; color: var(--off-white); }
+.quiz-option.is-selected { background: var(--surface); }
+.quiz-plan { background: var(--surface); }
+.quiz-mail-guide { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.quiz-title, .quiz-question, .quiz-band { font-weight: 200; letter-spacing: -.04em; }
+
+/* Title masks: room for the last letter's overhang, which the tight tracking
+   pushes past the word's box */
+.title-reveal .tw { padding-left: .08em; padding-right: .08em; margin-left: -.08em; margin-right: -.08em; }
+
+/* Footer: the guide link lines up with the top of the card, between the brand and the links */
+@media (min-width: 1100px) { .footer-guide { top: 0; } }
