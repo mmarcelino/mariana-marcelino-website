@@ -2681,18 +2681,20 @@ body { font-feature-settings: "ss01", "cv11"; letter-spacing: -.005em; }
 @media (min-width: 1200px) { .hero-curtain { --vm: calc(var(--gap) * 3); } }
 .hero-statement { color: var(--text-2); }
 
-/* Reel: graphite night instead of black, blue-grey instead of lilac */
-.hero .hero-visual.hero-reel { --bg: #111214; --fg: #ffffff; --lilac: #cad4d9; }
-.hero .hero-reel .hr-type { color: #ffffff; }
-.hero .hero-reel .hr-label { font-family: var(--font-mono); font-size: clamp(12px, .9vw, 14px); letter-spacing: 0; }
-.hero .hero-reel .sp-you, .hero .hero-reel .db-bar i:nth-child(2), .hero .hero-reel .db-legend span:nth-child(2) i,
-.hero .hero-reel .ib-row.-new .ib-r1 b::before { background: #5d6f94; }
-.hero .hero-reel .ib-auto-h i { background: linear-gradient(140deg, #a9b8cf, #5d6f94); }
-.hero .hero-reel .db-chart-h small i { border-top-color: #5d6f94; }
-.hero .hero-reel .db-chart .db-mark { stroke: #5d6f94; }
-.hero .hero-reel .sp-text mark span { background: linear-gradient(var(--accent), var(--accent)) 0 0 / calc(var(--m, 0) * 100%) 100% no-repeat, #e9eff7; }
-.hero .hero-reel .sp-ai-list u { background: linear-gradient(var(--accent), var(--accent)) 0 0 / calc(var(--m, 0) * 100%) 100% no-repeat; }
-.hero .hero-reel .sp-res { background: rgba(222, 232, 235, calc(var(--hl, 0) * .6)); box-shadow: inset 0 0 0 calc(2px * var(--hl, 0)) #5d6f94; }
+/* Reel: graphite night instead of black; inside the beats, production as is, with baby blue for its lilacs */
+.hero .hero-visual.hero-reel { --bg: #111214; --fg: #ffffff; }
+/* The reel keeps production's type: Inter, no stylistic sets, no page-level tracking */
+.hero .hero-visual.hero-reel { --font-sans: "Inter", Helvetica, Arial, sans-serif; --font-serif: "Inter", Helvetica, Arial, sans-serif; font-feature-settings: normal; letter-spacing: normal; }
+/* Inside each beat everything is as in production. Beat 1 (the search page)
+   keeps production's lilacs too; in the other beats the strong accent
+   (#8f7cc9: chart marks, bars, new-mail dots, the automation avatar) is a
+   deep shade of this version's baby blue, #6f93a2.
+   Colours are literal: inside the reel, --accent is the reel's own near-black. */
+.hero .hero-reel .db-bar i:nth-child(2), .hero .hero-reel .db-legend span:nth-child(2) i,
+.hero .hero-reel .ib-row.-new .ib-r1 b::before { background: #6f93a2; }
+.hero .hero-reel .ib-auto-h i { background: linear-gradient(140deg, #b7ccd4, #6f93a2); }
+.hero .hero-reel .db-chart-h small i { border-top-color: #6f93a2; }
+.hero .hero-reel .db-chart .db-mark { stroke: #6f93a2; }
 
 /* ---------- Buttons ---------- */
 .button {
@@ -3079,3 +3081,58 @@ html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw
   .pains-row { gap: 10px; min-height: 0; padding: 16px 0 24px; }
   .pains-lead { margin-top: 56px; }
 }
+
+/* Hero: more air between the copy and the reel */
+@media (min-width: 860px) { .hero-curtain { margin-top: clamp(56px, 8vh, 96px); } }
+
+/* Panels: corner ticks only (the 1/3 and 2/3 ticks matched no column) */
+@media (min-width: 860px) {
+  :is(.pains, .impact, .about, .tiers-section, .faq-section, .testimonial-section, .footer, .cta-panel)::after {
+    background:
+      linear-gradient(var(--t), var(--t)) 0 0 / 14px 1px no-repeat,
+      linear-gradient(var(--t), var(--t)) 100% 0 / 14px 1px no-repeat,
+      linear-gradient(var(--t), var(--t)) 0 100% / 14px 1px no-repeat,
+      linear-gradient(var(--t), var(--t)) 100% 100% / 14px 1px no-repeat;
+  }
+}
+
+/* Hero: the headline a little lower, and more room before the reel */
+@media (min-width: 860px) {
+  .hero-pin { padding-top: 104px; }
+  .kicker.hero-kicker:not(.modal-pill) { margin-bottom: 24px; }
+  .hero-curtain { margin-top: clamp(80px, 11vh, 128px); }
+}
+
+/* ---------- Logo descriptor: "Design — Automação — IA" under the name,
+   left-aligned with natural spacing, like the site's other labels. The
+   name, links and button keep their places ---------- */
+.header .logo-container { flex-direction: column; align-items: flex-start; height: auto; }
+.logo-tagline {
+  display: flex;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.logo-tagline span + span::before { content: "—"; margin: 0 .5em; opacity: .6; }
+@media (max-width: 859px) { .logo-tagline { margin-top: 5px; font-size: 9px; } }
+/* A caption to the name, not a second name: the name's colour at half
+   strength (so it also works over dark sections), dashes lighter still */
+.logo-tagline { color: color-mix(in srgb, currentColor 55%, transparent); transition: opacity .25s ease, visibility 0s; }
+/* Once the page scrolls and the nav sits over the sections: the name alone
+   (the nav's backdrop keeps its original height) */
+html.is-scrolled .header .logo-tagline { opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility 0s .25s; }
+
+/* Without the kicker above it, the headline keeps its place below the nav */
+@media (min-width: 860px) { .hero-pin { padding-top: 160px; } }
+
+/* Logo descriptor sized per language so its natural width matches the name's
+   (measured: at 11px the PT line is 0.870 and the EN line 0.908 of the name).
+   Set as a share of the name's size, so it holds on phones too. */
+:root { --logo-fs: 14px; }
+@media (min-width: 860px) { :root { --logo-fs: 17px; } }
+html[lang^="pt"] .logo-tagline { font-size: calc(var(--logo-fs) * .744); }
+html[lang="en"] .logo-tagline { font-size: calc(var(--logo-fs) * .712); }
