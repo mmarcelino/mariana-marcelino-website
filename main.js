@@ -39,6 +39,41 @@
   var EN = /^en/i.test(document.documentElement.lang);
   var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // FAQ accordion: animate the answer's height instead of the native instant
+  // toggle. <details> keeps working without JS and with reduced motion.
+  document.querySelectorAll(".faq-item").forEach(function (item) {
+    var summary = item.querySelector("summary");
+    var answer = item.querySelector(".faq-answer");
+    if (!summary || !answer || !answer.animate || REDUCED) return;
+    var anim = null;
+    summary.addEventListener("click", function (e) {
+      e.preventDefault();
+      var closing = item.open && !item.classList.contains("is-closing");
+      // Start from the current state, mid-animation included. The bottom
+      // padding is animated too, or the answer stops at 20px and then snaps shut.
+      var cs = getComputedStyle(answer);
+      var from = { height: answer.getBoundingClientRect().height + "px", paddingBottom: cs.paddingBottom, opacity: cs.opacity };
+      if (!anim && !closing) from = { height: "0px", paddingBottom: "0px", opacity: 0 };
+      if (anim) anim.cancel();
+      item.classList.toggle("is-closing", closing);
+      if (!closing) item.open = true;
+      var to = closing
+        ? { height: "0px", paddingBottom: "0px", opacity: 0 }
+        : { height: answer.offsetHeight + "px", paddingBottom: getComputedStyle(answer).paddingBottom, opacity: 1 };
+      answer.style.overflow = "hidden";
+      // fill: "forwards" holds the closed state until <details> is closed,
+      // so the full answer never flashes for a frame at the end.
+      var current = anim = answer.animate([from, to], { duration: 450, easing: "cubic-bezier(.22, 1, .36, 1)", fill: "forwards" });
+      anim.onfinish = function () {
+        if (closing) item.open = false;
+        item.classList.remove("is-closing");
+        answer.style.overflow = "";
+        current.cancel();
+        anim = null;
+      };
+    });
+  });
+
   // Smooth scrolling (Lenis, self-hosted). Mouse/trackpad devices only: touch
   // keeps native scrolling (on iOS 26 Safari, Lenis made the fixed strip slide
   // under the address bar). Popups and the mobile menu scroll natively and
