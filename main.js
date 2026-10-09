@@ -39,11 +39,47 @@
   var EN = /^en/i.test(document.documentElement.lang);
   var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Analytics: custom events in Umami (cookieless). Silently does nothing if
+  // the script is blocked or switched off (localStorage "umami.disabled").
+  var track = function (name, data) {
+    try { if (window.umami && typeof window.umami.track === "function") window.umami.track(name, data); } catch (err) {}
+  };
+  window.siteTrack = track;
+  // Where on the page a button sits, so each "Marcar chamada" can be compared
+  var placeOf = function (el) {
+    if (!el || !el.closest) return "outro";
+    if (el.closest(".chat-panel")) return "chat";
+    if (el.closest(".quiz-result, .quiz")) return "diagnostico";
+    if (el.closest(".mobile-menu")) return "menu-telemovel";
+    if (el.closest(".footer")) return "rodape";
+    if (el.closest(".header")) return "nav";
+    if (el.closest(".hero")) return "hero";
+    var tier = el.closest(".tier, .tier-free");
+    if (tier) return "planos-" + (tier.id || "outro");
+    if (el.closest(".cta-section")) return "contacto";
+    var section = el.closest("section[id]");
+    return section ? section.id : "outro";
+  };
+  // UTM tags from the landing URL are kept for the visit and handed to
+  // Calendly, so a booking shows where the visitor came from
+  var UTM = {};
+  try {
+    var qs = new URLSearchParams(location.search);
+    if (qs.get("utm_source")) sessionStorage.setItem("utm", JSON.stringify({ utmSource: qs.get("utm_source"), utmMedium: qs.get("utm_medium") || "", utmCampaign: qs.get("utm_campaign") || "", utmContent: qs.get("utm_content") || "" }));
+    UTM = JSON.parse(sessionStorage.getItem("utm") || "{}");
+  } catch (err) { UTM = {}; }
+  // Email links
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="mailto:"]');
+    if (a) track("email-clicado", { local: placeOf(a) });
+  });
+
   // FAQ accordion: animate the answer's height instead of the native instant
   // toggle. <details> keeps working without JS and with reduced motion.
   document.querySelectorAll(".faq-item").forEach(function (item) {
     var summary = item.querySelector("summary");
     var answer = item.querySelector(".faq-answer");
+    if (summary) item.addEventListener("toggle", function () { if (item.open) track("faq-aberta", { pergunta: summary.textContent.trim() }); });
     if (!summary || !answer || !answer.animate || REDUCED) return;
     var anim = null;
     summary.addEventListener("click", function (e) {
@@ -165,12 +201,20 @@
     if (!a) return;
     e.preventDefault();
     var url = a.href;
+    callPlace = placeOf(a);
+    track("marcar-chamada", { local: callPlace });
     // The mobile menu closes first so the calendar opens on a clean page
     var menuClose = document.querySelector(".js-mobile-menu:not([hidden]) .js-menu-close");
     if (menuClose) menuClose.click();
     loadCalendly().then(function () {
-      window.Calendly.initPopupWidget({ url: url });
+      window.Calendly.initPopupWidget({ url: url, utm: UTM });
     }).catch(function () { window.open(url, "_blank", "noopener"); });
+  });
+  // Calendly tells the page when a call is actually booked: the end of the funnel
+  var callPlace = "outro";
+  window.addEventListener("message", function (e) {
+    if (e.origin !== "https://calendly.com" || !e.data || e.data.event !== "calendly.event_scheduled") return;
+    track("chamada-marcada", { local: callPlace });
   });
   // While the calendar is open, the page behind stays still
   new MutationObserver(function () {
@@ -309,7 +353,10 @@
     w3.append("Mensagem", transcript);
     w3.append("Origem", "Chat do site");
     w3.append("Idioma", EN ? "EN" : "PT");
-    return submit(form, { type: "chat", email: email, message: transcript }, w3);
+    return submit(form, { type: "chat", email: email, message: transcript }, w3).then(function (d) {
+      track("chat-email-enviado", { mensagens: chatHistory.length });
+      return d;
+    });
   };
   var leadCard = null;
   var offerLead = function () {
@@ -353,6 +400,7 @@
     if (!text || waiting) return;
     waiting = true;
     chips.hidden = true;
+    if (!chatHistory.length) track("chat-conversa-iniciada");
     chatHistory.push({ role: "user", content: text.slice(0, 800) });
     saveChat();
     bubble("user", text);
@@ -416,6 +464,7 @@
 
   var chatIsOpen = false;
   var openChat = function () {
+    track("chat-aberto");
     if (!logEl.childNodes.length) renderChat();
     panel.hidden = false;
     requestAnimationFrame(function () { panel.classList.add("is-open"); });
@@ -853,6 +902,10 @@
     var closeModal = function () { modal.close(); };
     var openModal = function (trigger) {
         opener = trigger;
+        // Opened from the diagnosis result (#pedir-redesign) when there's no trigger
+        var from = trigger ? placeOf(trigger) : "diagnostico";
+        if (modal.id === "free-modal") track("redesign-aberto", { local: from });
+        else track("popup-aberto", { popup: modal.id, local: from });
         modal.showModal();
         document.body.classList.add("has-modal");
         modal.scrollTop = 0;
@@ -1226,6 +1279,7 @@
       data.append("Idioma", EN ? "EN" : "PT");
       submit(form, { type: "contact", name: name, email: email, message: text }, data)
         .then(function () {
+          track("contacto-enviado");
           form.reset();
           msg.textContent = "";
           msg.classList.remove("is-success", "is-error");
@@ -1335,7 +1389,7 @@
         }, { once: true });
       };
       submit(form, payload, data)
-        .then(reveal, reveal)
+        .then(function () { track("guia-pedido"); reveal(); }, reveal)
         .finally(function () { button.disabled = false; });
     });
   });
@@ -1364,6 +1418,7 @@
       data.append("Origem", "Plano gratuito (pop-up)");
       data.append("Idioma", EN ? "EN" : "PT");
       submit(form, { type: "redesign", email: email, url: url }, data).then(function () {
+        track("redesign-enviado");
         form.reset();
         msg.textContent = "";
         msg.classList.remove("is-success", "is-error");
