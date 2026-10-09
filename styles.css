@@ -2957,3 +2957,12 @@ html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw
 
 /* Sobre: the photo stays in place while the text scrolls past */
 .about-photo { position: static; }
+
+/* =====================================================================
+   Site improvements (branch site-melhorias)
+   ===================================================================== */
+
+/* Hero headline: second line a step darker, for contrast on white */
+html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw:nth-child(n+3) { color: #929292; }
+
+
