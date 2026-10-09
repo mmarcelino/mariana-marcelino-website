@@ -233,34 +233,34 @@
   // Kept in its own scope: the hero animation further down uses the same names
   (function () {
   var CHAT_T = EN ? {
-    open: "Open chat", close: "Close chat", title: "Let's talk", status: "Virtual assistant · Online", label: "Mariana's virtual assistant",
-    hello: "Hi, how can I help? I can answer your questions about the services, plans and prices, or suggest the next step that makes most sense for your business.",
+    open: "Open chat", close: "Close chat", title: "Let's talk", status: "Virtual assistant · Online", label: "Website virtual assistant",
+    hello: "Hi, how can we help? We can answer your questions about the services, plans and prices, or suggest the next step that makes most sense for your business.",
     placeholder: "Write your question…", send: "Send",
     chips: ["How much does a website cost?", "How does the free redesign work?", "How long does it take?"],
     call: "Book a call", mail: "Email this conversation",
-    mailAsk: "Leave your email and Mariana will get back to you with this conversation in hand.",
+    mailAsk: "Leave your email and we'll get back to you with this conversation in hand.",
     mailPlaceholder: "Your email", mailSend: "Send", mailCancel: "Cancel",
-    mailOk: "Done! Mariana has received this conversation and will get back to you soon.",
-    leadAsk: "Would you like Mariana to follow up on your questions in more detail? Leave your email and she'll get back to you soon.",
+    mailOk: "Done! We've received this conversation and will get back to you soon.",
+    leadAsk: "Would you like us to follow up on your questions in more detail? Leave your email and we'll get back to you soon.",
     leadSkip: "Not now",
     mailFail: "It couldn't be sent right now. You can write to info@mariana-marcelino.com.",
     busy: "Too many messages in a short time. Please try again in a little while, or book a call.",
-    fail: "Sorry, I can't answer right now. You can book a call or write to info@mariana-marcelino.com.",
+    fail: "Sorry, we can't answer right now. You can book a call or write to info@mariana-marcelino.com.",
     you: "You", bot: "Assistant"
   } : {
-    open: "Abrir chat", close: "Fechar chat", title: "Vamos falar", status: "Assistente virtual · Online", label: "Assistente virtual da Mariana",
-    hello: "Olá, como posso ajudar? Posso responder às suas dúvidas sobre os serviços, planos e preços, ou sugerir o próximo passo que faz mais sentido para o seu negócio.",
+    open: "Abrir chat", close: "Fechar chat", title: "Vamos falar", status: "Assistente virtual · Online", label: "Assistente virtual do site",
+    hello: "Olá, como podemos ajudar? Podemos responder às suas dúvidas sobre os serviços, planos e preços, ou sugerir o próximo passo que faz mais sentido para o seu negócio.",
     placeholder: "Escreva a sua pergunta…", send: "Enviar",
     chips: ["Quanto custa um site?", "Como funciona o redesign gratuito?", "Quanto tempo demora?"],
     call: "Marcar chamada", mail: "Enviar conversa por email",
-    mailAsk: "Deixe o seu email e a Mariana responde-lhe com esta conversa em mãos.",
+    mailAsk: "Deixe o seu email e respondemos-lhe com esta conversa em mãos.",
     mailPlaceholder: "O seu email", mailSend: "Enviar", mailCancel: "Cancelar",
-    mailOk: "Feito! A Mariana recebeu esta conversa e responde-lhe brevemente.",
-    leadAsk: "Quer que a Mariana dê seguimento mais detalhado às suas dúvidas? Deixe o seu email e ela responde-lhe brevemente.",
+    mailOk: "Feito! Recebemos esta conversa e respondemos-lhe brevemente.",
+    leadAsk: "Quer que demos seguimento mais detalhado às suas dúvidas? Deixe o seu email e respondemos-lhe brevemente.",
     leadSkip: "Agora não",
     mailFail: "Não foi possível enviar agora. Pode escrever para info@mariana-marcelino.com.",
     busy: "Muitas mensagens em pouco tempo. Tente de novo daqui a pouco, ou marque uma chamada.",
-    fail: "Desculpe, não consigo responder agora. Pode marcar uma chamada ou escrever para info@mariana-marcelino.com.",
+    fail: "Desculpe, não conseguimos responder agora. Pode marcar uma chamada ou escrever para info@mariana-marcelino.com.",
     you: "Eu", bot: "Assistente"
   };
   var CHAT_KEY = "chat-" + (EN ? "en" : "pt");
