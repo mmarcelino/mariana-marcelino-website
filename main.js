@@ -50,10 +50,12 @@
     if (!el || !el.closest) return "outro";
     if (el.closest(".chat-panel")) return "chat";
     if (el.closest(".quiz-result, .quiz")) return "diagnostico";
+    if (el.closest(".promo-strip")) return "barra-anuncio";
     if (el.closest(".mobile-menu")) return "menu-telemovel";
     if (el.closest(".footer")) return "rodape";
     if (el.closest(".header")) return "nav";
     if (el.closest(".hero")) return "hero";
+    if (el.closest(".pains")) return "problemas";
     var tier = el.closest(".tier, .tier-free");
     if (tier) return "planos-" + (tier.id || "outro");
     if (el.closest(".cta-section")) return "contacto";
@@ -68,10 +70,14 @@
     if (qs.get("utm_source")) sessionStorage.setItem("utm", JSON.stringify({ utmSource: qs.get("utm_source"), utmMedium: qs.get("utm_medium") || "", utmCampaign: qs.get("utm_campaign") || "", utmContent: qs.get("utm_content") || "" }));
     UTM = JSON.parse(sessionStorage.getItem("utm") || "{}");
   } catch (err) { UTM = {}; }
-  // Email links
+  // Email links, and the links that lead to the diagnosis (the quiz's own
+  // "diagnostico-iniciado" can't tell which link brought the visitor there)
   document.addEventListener("click", function (e) {
-    var a = e.target.closest && e.target.closest('a[href^="mailto:"]');
+    if (!e.target.closest) return;
+    var a = e.target.closest('a[href^="mailto:"]');
     if (a) track("email-clicado", { local: placeOf(a) });
+    a = e.target.closest('a[href*="diagnostico/"]:not([hreflang]), a[href*="diagnosis/"]:not([hreflang])');
+    if (a) track("diagnostico-clique", { local: placeOf(a) });
   });
 
   // FAQ accordion: animate the answer's height instead of the native instant
