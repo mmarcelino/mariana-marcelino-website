@@ -113,7 +113,7 @@ def graph(page, lang):
         "@id": person_id,
         "name": "Mariana Marcelino",
         "jobTitle": c["job"],
-        "image": f"{SITE}/assets/mariana-about.webp",
+        "image": f"{SITE}/assets/mariana-about.webp?v=2",
         "url": c["url"] + "#about",
         "worksFor": {"@id": biz_id},
         "sameAs": [LINKEDIN],

@@ -7,8 +7,8 @@
 <style>
 @page { size: A4; margin: 0; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-/* Genesis palette: white pages, graphite ink, cool greys, baby-blue accent */
-:root { --ink: #1b1c1e; --paper: #ffffff; --panel: #f5f5f3; --grey: #8e9099; --soft: #5d616c; --line: rgba(27,28,30,.14); --accent: #dee8eb; --night: #111214; --mono: "JetBrains Mono", ui-monospace, Menlo, monospace; }
+/* Light monochrome palette: white pages, black ink, neutral greys, baby-blue accent on small details */
+:root { --ink: #0a0a0a; --paper: #ffffff; --panel: #f4f4f4; --grey: #8a8a8a; --soft: #555555; --line: rgba(10,10,10,.14); --accent: #dee8eb; --night: #0a0a0a; --mono: "JetBrains Mono", ui-monospace, Menlo, monospace; }
 html, body { background: var(--paper); }
 body { font-family: "Inter Tight", "Inter", Helvetica, Arial, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
 .page { position: relative; width: 210mm; height: 297mm; padding: 18mm 18mm 16mm; overflow: hidden; page-break-after: always; display: flex; flex-direction: column; }
@@ -20,11 +20,11 @@ body { font-family: "Inter Tight", "Inter", Helvetica, Arial, sans-serif; color:
 .foot { margin-top: auto; display: flex; justify-content: space-between; padding-top: 5mm; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 7.5pt; color: var(--soft); }
 
 /* Cover */
-/* Full-bleed graphite cover: the site's 3D form in silver, a baby-blue sheen, fading into the night */
+/* Full-bleed black cover: the site's 3D form in silver, fading into the black */
 .cover { padding: 0; background: var(--night); color: var(--paper); }
 .cover-art { position: absolute; inset: 0; background: var(--night) center top / 100% auto no-repeat; filter: grayscale(1) contrast(1.05) brightness(.95); }
-.cover-art::before { content: ""; position: absolute; inset: 0; background: #dee8eb; mix-blend-mode: multiply; opacity: .55; }
-.cover-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(17,18,20,.35) 0%, rgba(17,18,20,0) 15%, rgba(17,18,20,0) 36%, #111214 70%); }
+
+.cover-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,10,10,.35) 0%, rgba(10,10,10,0) 15%, rgba(10,10,10,0) 36%, #0a0a0a 70%); }
 .cover-body { position: relative; flex: 1; display: flex; flex-direction: column; padding: 16mm 18mm 16mm; }
 .cover .brand span:last-child { color: var(--ink); background: var(--accent); padding: 1.6mm 3.6mm; border-radius: 20mm; }
 .cover h1 { margin-top: auto; font-size: 46pt; line-height: 1; letter-spacing: -.045em; font-weight: 300; max-width: 14ch; }

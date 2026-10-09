@@ -438,7 +438,7 @@ UI = {
     f_title="Explore by topic", f_all="All", f_search="Search articles", f_topics="Topics", f_empty="No articles found. Try another topic or word.",
 ),
 }
-AVATAR = "assets/mariana-about.webp"
+AVATAR = "assets/mariana-about.webp?v=2"
 
 
 def esc(s):
@@ -925,7 +925,7 @@ def build_post(i, post, lang="pt"):
           <h1 class="article-title">{esc(post['title'])}</h1>
           <p class="article-dek">{esc(post['dek'])}</p>
           <div class="article-byline">
-            <img src="{prefix}assets/mariana-avatar.webp" alt="" width="40" height="40">
+            <img src="{prefix}assets/mariana-avatar.webp?v=2" alt="" width="40" height="40">
             <p>Mariana Marcelino<span>{u['role']}</span></p>
           </div>
           <figure class="article-cover">
@@ -960,7 +960,7 @@ def build_post(i, post, lang="pt"):
             </section>
 
             <aside class="author-box">
-              <img src="{prefix}assets/mariana-avatar.webp" alt="Mariana Marcelino" width="64" height="64" loading="lazy" decoding="async">
+              <img src="{prefix}assets/mariana-avatar.webp?v=2" alt="Mariana Marcelino" width="64" height="64" loading="lazy" decoding="async">
               <div>
                 <p class="author-name">Mariana Marcelino</p>
                 <p>{esc(u['bio'])} <a href="{LINKEDIN}" target="_blank" rel="noopener">LinkedIn</a></p>
@@ -1005,7 +1005,7 @@ LEGAL = [
 "title": "Política de Privacidade",
 "description": "Como são recolhidos, usados e protegidos os seus dados pessoais no site de Mariana Marcelino.",
 "body": """
-<p>Esta política explica que dados pessoais recolho através deste site, para que os uso, com quem os partilho e que direitos tem sobre eles, nos termos do Regulamento Geral sobre a Proteção de Dados (RGPD).</p>
+<p>Esta política explica que dados pessoais recolho através deste site, para que os uso, que serviços os tratam em meu nome e que direitos tem sobre eles, nos termos do Regulamento Geral sobre a Proteção de Dados (RGPD).</p>
 
 <h2>Responsável pelo tratamento</h2>
 <p>Mariana Marcelino é a responsável pelo tratamento dos dados recolhidos neste site. Para qualquer questão sobre privacidade, escreva para <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a>.</p>
@@ -1029,17 +1029,16 @@ LEGAL = [
 </ul>
 <p>Não uso os seus dados para publicidade nem os vendo a terceiros.</p>
 
-<h2>Com quem partilho os seus dados</h2>
-<p>Para que o site funcione, recorro a prestadores de serviços que tratam dados em meu nome ou que são contactados pelo seu browser:</p>
+<h2>Serviços que uso para o site funcionar</h2>
+<p>Não partilho os seus dados para serem usados por terceiros. Para o site funcionar, uso alguns serviços técnicos que tratam dados apenas em meu nome e só para a finalidade indicada:</p>
 <ul>
-  <li><strong>Resend</strong> (resend.com): envia os emails gerados pelos formulários do site (redesign gratuito, diagnóstico e contacto: nome, email, link do site, mensagem e idioma da página), ou seja, a notificação que recebo e a confirmação que lhe é enviada. Os dados não são usados para outros fins.</li>
-  <li><strong>Web3Forms</strong> (web3forms.com): serviço alternativo que entrega os formulários por email caso o anterior não esteja disponível. Os dados não são usados para outros fins.</li>
-  <li><strong>Vercel Web Analytics</strong> (vercel.com): mede de forma agregada e anónima as visitas ao site (páginas vistas, origem da visita, país, tipo de dispositivo e browser). Não usa cookies, não guarda o endereço IP e não permite identificar nem seguir visitantes entre sites.</li>
-  <li><strong>Anthropic</strong> (anthropic.com): gera as respostas do assistente de chat do site, através do modelo de IA Claude. Recebe apenas as mensagens da conversa, para responder, e não as usa para treinar os seus modelos. O chat não pede nem guarda dados pessoais, a menos que decida enviar a conversa por email.</li>
-  <li><strong>Calendly</strong> (calendly.com): gere a marcação de chamadas. O calendário só é carregado quando clica em “Marcar chamada”; nesse momento, o seu browser liga-se aos servidores do Calendly, que recebem o seu endereço IP e podem definir cookies. Os dados que introduz no calendário são tratados pelo Calendly, de acordo com a respetiva política de privacidade.</li>
-  <li><strong>Fornecedor de email e alojamento do site</strong>: guardam as mensagens que recebo e servem as páginas do site.</li>
+  <li><strong>Envio de emails:</strong> Resend (resend.com) envia a mensagem que recebo e a confirmação que lhe chega quando usa um formulário. O Web3Forms (web3forms.com) só entra em funcionamento se o Resend falhar.</li>
+  <li><strong>Estatísticas de visitas:</strong> o Vercel Web Analytics (vercel.com) conta as visitas de forma anónima e agregada. Não usa cookies, não guarda o seu endereço IP e não o identifica.</li>
+  <li><strong>Assistente de chat:</strong> se usar o chat, as suas mensagens são processadas pelo Claude, da Anthropic (anthropic.com), apenas para gerar as respostas. As conversas não são usadas para treinar modelos de IA, e o chat não lhe pede dados pessoais.</li>
+  <li><strong>Marcação de chamadas:</strong> o calendário do Calendly (calendly.com) só é carregado quando clica em “Marcar chamada”. A partir daí, os dados que indica são tratados pelo Calendly, segundo a política de privacidade deles.</li>
+  <li><strong>Email e alojamento:</strong> o meu fornecedor de email guarda as mensagens que recebo, e o servidor de alojamento serve as páginas do site.</li>
 </ul>
-<p>Alguns destes prestadores podem tratar dados fora do Espaço Económico Europeu, nomeadamente nos Estados Unidos. Nesses casos, as transferências são feitas com as garantias previstas no RGPD, como as cláusulas contratuais-tipo aprovadas pela Comissão Europeia ou o Quadro de Privacidade de Dados UE-EUA.</p>
+<p>Alguns destes serviços estão sediados fora da União Europeia, nomeadamente nos Estados Unidos. Nesses casos, os dados são protegidos pelas garantias previstas no RGPD, como as cláusulas contratuais-tipo da Comissão Europeia ou o Quadro de Privacidade de Dados UE-EUA.</p>
 
 <h2>Durante quanto tempo guardo os dados</h2>
 <ul>
@@ -1068,17 +1067,8 @@ LEGAL = [
 
 <h2>Cookies usados neste site</h2>
 <p>Este site <strong>não usa cookies próprios</strong>, nem ferramentas de publicidade ou de acompanhamento. Para medir visitas usa o Vercel Web Analytics, que funciona sem cookies e de forma anónima.</p>
-<p>O assistente de chat não usa cookies: guarda a conversa apenas no armazenamento temporário do seu browser, que é apagado quando fecha o separador. A única exceção é o calendário de marcação do Calendly. Só é carregado quando clica em “Marcar chamada” e, a partir desse momento, o Calendly pode definir cookies para mostrar a disponibilidade e concluir a marcação, de acordo com a sua <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener">política de privacidade</a>. Se o seu país o exigir, o próprio Calendly pede-lhe consentimento dentro do calendário. Se preferir não usar o Calendly, escreva para <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a> e combinamos a chamada por email.</p>
-
-<h2>Serviços de terceiros</h2>
-<ul>
-  <li><strong>Calendly:</strong> ao clicar em “Marcar chamada”, o calendário do Calendly abre numa janela dentro deste site e pode definir cookies próprios, de acordo com a respetiva política.</li>
-  <li><strong>LinkedIn:</strong> os links para o LinkedIn abrem o site do LinkedIn, sujeito à política de cookies desse serviço.</li>
-  <li><strong>Web3Forms:</strong> quando envia um formulário, os dados são transmitidos à Web3Forms para serem reencaminhados por email. Este envio não define cookies neste site.</li>
-</ul>
-
-<h2>Como gerir cookies</h2>
-<p>Pode ver, bloquear e apagar cookies nas definições do seu browser. Consulte a ajuda do browser que utiliza (Chrome, Safari, Firefox ou Edge) para saber como.</p>
+<p>Para funcionar, o site usa apenas o armazenamento temporário do seu browser, por exemplo para a transição entre páginas e para guardar a conversa do chat. É apagado quando fecha o separador.</p>
+<p>A única exceção é o calendário de marcação do Calendly. Só é carregado quando clica em “Marcar chamada” e, a partir desse momento, o Calendly pode definir cookies para mostrar a disponibilidade e concluir a marcação, de acordo com a sua <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener">política de privacidade</a>. Se o seu país o exigir, o próprio Calendly pede-lhe consentimento dentro do calendário. Pode apagar estes cookies a qualquer momento nas definições do seu browser. Se preferir não usar o Calendly, escreva para <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a> e combinamos a chamada por email.</p>
 
 <h2>Alterações</h2>
 <p>Se no futuro este site passar a usar cookies, por exemplo para estatísticas, esta política será atualizada e será pedido o seu consentimento antes de os ativar, sempre que a lei o exija.</p>
