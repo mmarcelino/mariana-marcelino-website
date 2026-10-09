@@ -3,6 +3,7 @@
 // scoring from assets/quiz-logic.js. The report email goes through
 // /api/contact (type "quiz"), with Web3Forms as a fallback.
 (function () {
+  var track = function (name, data) { if (window.siteTrack) window.siteTrack(name, data); };
   var stage = document.querySelector(".js-quiz");
   var dataEl = document.getElementById("quiz-data");
   if (!stage || !dataEl || !window.quizEvaluate) return;
@@ -182,6 +183,7 @@
 
   var renderResult = function () {
     var R = window.quizEvaluate(D, answers);
+    track("diagnostico-terminado", { resultado: R.noSite ? "sem-site" : R.band.title, plano: String(R.plan) });
     var s = el("div", "quiz-screen quiz-result");
     // "reveal is-in": already shown (the page-entrance styles hide plain kickers)
     s.appendChild(el("p", "kicker quiz-kicker reveal is-in", U.resultKicker));
@@ -293,6 +295,7 @@
       w3.append("Origem", "Diagnóstico do site");
       w3.append("Idioma", EN ? "EN" : "PT");
       F.submit(mail, payload, w3).then(function () {
+        track("diagnostico-email");
         row.remove();
         msg.textContent = U.mailOk;
         msg.className = "quiz-mail-msg is-ok";
@@ -312,5 +315,5 @@
   };
 
   var start = stage.querySelector(".js-quiz-start");
-  if (start) start.addEventListener("click", function () { renderQuestion(0); });
+  if (start) start.addEventListener("click", function () { track("diagnostico-iniciado"); renderQuestion(0); });
 })();
