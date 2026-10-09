@@ -1318,7 +1318,7 @@ def build_seo_files():
 ## Planos
 
 - Nova Imagem (750€, para sites até 4 páginas; mais páginas sob consulta): novo design mantendo a estrutura e os conteúdos atuais, melhor hierarquia visual, otimização para mobile e publicação.
-- Motor de Contactos (1 800€ de valor base, o mais popular): novo design e estrutura à medida, integração dos conteúdos do cliente, otimização para Google, ChatGPT e outras ferramentas de IA, percurso e chamadas à ação que convertem visitas, formulários e questionários que captam contactos, follow-ups automáticos a cada novo pedido, integração com WhatsApp, painel de métricas, otimização para mobile e publicação. Extras à medida, pagos à parte: chatbot com IA treinado no negócio, sistemas de agendamento automático, blog editável para ser encontrado no Google e IA, páginas e idiomas adicionais, pagamentos online e manutenção regular.
+- Motor de Contactos (1 800€ de valor base, o mais popular): novo design e estrutura à medida, integração dos conteúdos do cliente, otimização para Google, ChatGPT e outras ferramentas de IA, percurso e chamadas à ação que convertem visitas, formulários e questionários que captam contactos, follow-ups automáticos a cada novo pedido, integração com WhatsApp, painel de métricas, otimização para mobile e publicação. Extras à medida, pagos à parte: chatbot com IA treinado no negócio, sistemas de marcação automática, blog editável para ser encontrado no Google e IA, páginas e idiomas adicionais, pagamentos online e manutenção regular.
 
 Além dos planos (não é um plano): para quem ainda não tem a certeza e quer ver o potencial antes de investir, o Redesign da Homepage gratuito — redesign da homepage e relatório personalizado com pontos a otimizar, enviado por email.
 

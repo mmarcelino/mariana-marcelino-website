@@ -137,7 +137,7 @@ body { font-family: "Inter Tight", "Inter", Helvetica, Arial, sans-serif; color:
 .page:last-child { page-break-after: auto; }
 .kicker { font-family: var(--mono); font-size: 8pt; font-weight: 400; letter-spacing: 0; }
 .muted { color: var(--soft); }
-.brand { display: flex; justify-content: space-between; align-items: center; font-size: 9.5pt; font-weight: 500; letter-spacing: -.01em; text-transform: uppercase; }
+.brand { display: flex; justify-content: space-between; align-items: center; font-size: 10.5pt; font-weight: 500; letter-spacing: -.02em; text-transform: lowercase; }
 .brand span:last-child { font-family: var(--mono); font-size: 8pt; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--soft); }
 .foot { margin-top: auto; display: flex; justify-content: space-between; padding-top: 5mm; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 7.5pt; color: var(--soft); }
 
