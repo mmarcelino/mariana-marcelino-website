@@ -2756,7 +2756,11 @@ html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw
 .logo-tagline { color: color-mix(in srgb, currentColor 55%, transparent); transition: opacity .25s ease, visibility 0s; }
 /* Once the page scrolls and the nav sits over the sections: the name alone
    (the nav's backdrop keeps its original height) */
-html.is-scrolled .header .logo-tagline { opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility 0s .25s; }
+/* Homepage: it stays while the hero is pinned under the nav (also after a
+   refresh mid-hero) and goes with the rest of the nav when the reel rises;
+   other pages: as soon as they scroll */
+html.is-scrolled:not(.has-curtain) .header .logo-tagline,
+html.has-curtain:not(.hero-pinned) .header .logo-tagline { opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility 0s .25s; }
 
 /* Without the kicker above it, the headline keeps its place below the nav */
 @media (min-width: 860px) { .hero-pin { padding-top: 160px; } }
@@ -2831,8 +2835,42 @@ html[lang="en"] .logo-tagline { font-size: calc(var(--logo-fs) * .712); }
   html.strip-inline.strip-stuck .promo-strip + * { margin-top: var(--strip-row); }
 }
 
-/* Mobile: the pill spans the full width, inside the same side padding as the nav */
+/* Mobile: the strip runs edge to edge as a full-width bar, so the whole
+   question fits on one line */
 @media (max-width: 859px) {
-  .promo-strip { padding: 0 var(--gap); }
-  .promo-strip a.promo-link { width: 100%; justify-content: center; }
+  .promo-strip { padding: 0; }
+  .promo-strip a.promo-link { width: 100%; height: 100%; justify-content: center; padding: 0 12px; border-radius: 0; }
+}
+
+/* Mobile: more room between the nav (name + descriptor) and the headline */
+@media (max-width: 859px) { .hero-pin { padding-top: 112px; } }
+
+/* ---------- Testemunhos in the Genesis type and controls ----------
+   The quote stands in for the section's title, so it takes the titles'
+   Light weight; the arrows drop the outline (no outlined circles anywhere
+   else) and become filled round buttons, like the chat button; the logos
+   are sized so each carries the same amount of ink (measured: Oporto's
+   thin serif at 30px; Softingal and Alviere matched to its area) */
+.testimonial-quote { font-weight: 300; font-size: clamp(22px, 2vw, 30px); line-height: 1.28; letter-spacing: -.03em; }
+.testimonial-nav-btn { border: 0; background: rgba(255, 255, 255, .1); color: #fff; }
+@media (hover: hover) { .testimonial-nav-btn:hover { background: #fff; color: var(--ink); } }
+.testimonial-logo-img--softingal { height: 19.5px; }
+.testimonial-logo-img--alviere { height: 18px; }
+
+/* Reel: the interior photo slightly toned down, so its warmth doesn't fight
+   the graphite panel and the blue highlights */
+.hero .hero-reel .n-img div, .hero .hero-reel .sp-thumb { filter: saturate(.78) contrast(.97); }
+
+/* Sobre: a reading measure of about 60 characters */
+.about-copy p { max-width: 60ch; }
+
+/* Testemunhos: the quote a step smaller (still Light) */
+.testimonial-quote { font-size: clamp(18px, 1.45vw, 22px); line-height: 1.38; letter-spacing: -.02em; }
+
+/* Reel: the beat label stays within the space left of the mockup and wraps
+   onto two lines when it doesn't fit (it ran under the mockup on tablets) */
+@media (min-width: 860px) {
+  .hero .hero-reel .hr-section { max-width: calc(var(--col) * 4 - 16px); align-items: flex-start; }
+  .hero .hero-reel .hr-section i { flex: none; margin-top: .65em; }
+  .hero .hero-reel .hr-section .mask { white-space: normal; line-height: 1.3; }
 }

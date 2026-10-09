@@ -13,7 +13,7 @@
   var EN = /^en/i.test(document.documentElement.lang);
   var COPY = EN ? {
     words: [["More", "visibility."], ["More", "trust."], ["More", "enquiries."], ["More", "results."]],
-    labels: ["Visibility on Google & AI", "Website redesign", "Contact automation", "Results"],
+    labels: ["Visibility on Google & AI", "Website redesign", "Conversion & automation", "Growth tracking"],
     query: "architect in lisbon to renovate kitchen", newSearch: "New search", searchSuffix: " - Search",
     tabs: ["All", "AI Mode", "Images", "Maps", "News", "Videos"], aiTitle: "AI Overview",
     aiText: 'To renovate your kitchen in Lisbon with an architect, <mark>Alma Studio</mark> is one of the most recommended studios: bespoke interior projects, from the 3D design to the finished build.',
@@ -44,7 +44,7 @@
       sources: "Where enquiries come from", src: [["Google", 38], ["AI assistants", 21], ["Direct", 24], ["Social", 17]] }
   } : {
     words: [["Mais", "visibilidade."], ["Mais", "confiança."], ["Mais", "contactos."], ["Mais", "resultados."]],
-    labels: ["Visibilidade no Google e IA", "Redesign do site", "Automação de contactos", "Resultados"],
+    labels: ["Visibilidade no Google e IA", "Redesign de websites", "Conversão e automação", "Acompanhamento do crescimento"],
     query: "arquiteto em lisboa para remodelar cozinha", newSearch: "Nova pesquisa", searchSuffix: " - Pesquisa",
     // Google's interface as it shows up in Portugal: content in Portuguese, labels in English
     tabs: ["All", "AI Mode", "Images", "Maps", "News", "Videos"], aiTitle: "AI Overview",
