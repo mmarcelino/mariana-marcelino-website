@@ -11,10 +11,10 @@
 
 const SITE = "https://www.mariana-marcelino.com";
 const CALENDLY = "https://calendly.com/marianacmarcelino/30min";
-// Genesis palette: graphite ink, cool greys, baby-blue accent
+// Light monochrome palette: black ink, neutral greys, baby-blue accent
 const ACCENT = "#dee8eb";
-const INK = "#1b1c1e";
-const PAPER = "#f5f5f3";
+const INK = "#0a0a0a";
+const PAPER = "#f4f4f4";
 
 const QUIZ = require("./quiz-data.js");
 const evaluateQuiz = require("../assets/quiz-logic.js");
@@ -171,7 +171,7 @@ function quizCopy(lang, q) {
 // Quiet, editorial layout: light grey page, a white card, Inter-like system type
 // with mono labels, a baby-blue pill naming the email, graphite pill buttons and
 // the favicon's monogram as signature.
-const MUTED = "#5d616c", BODY = "#2b2d31", LINE = "#e3e5e8", TINT = "#f5f5f3", DEEP = "#4f6f7d";
+const MUTED = "#555555", BODY = "#222222", LINE = "#e5e5e5", TINT = "#f4f4f4", DEEP = "#555555";
 const FONT = "'Inter Tight',Inter,-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif";
 const MONO = "'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace";
 
@@ -191,7 +191,7 @@ function visitorEmail(type, lang, data) {
     }
     if (b.plan) {
       const pl = b.plan;
-      return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:10px 0 26px;background:${ACCENT};border-radius:16px"><tr><td style="padding:26px 28px 6px"><p style="margin:0 0 6px;font-family:${MONO};font-size:11.5px;font-weight:400;letter-spacing:0;color:#3d4a51">${esc(pl.label)}</p><p style="margin:0 0 8px;font-size:22px;line-height:1.25;letter-spacing:-.015em;color:${INK}">${esc(pl.name)}</p><p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:${INK}">${esc(pl.text)}</p>${button(pl.cta, pl.href)}${pl.note ? `<p style="margin:-8px 0 20px;font-size:13px;line-height:1.55;color:#3d4a51">${esc(pl.note)}</p>` : ""}</td></tr></table>`;
+      return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:10px 0 26px;background:${ACCENT};border-radius:16px"><tr><td style="padding:26px 28px 6px"><p style="margin:0 0 6px;font-family:${MONO};font-size:11.5px;font-weight:400;letter-spacing:0;color:#444444">${esc(pl.label)}</p><p style="margin:0 0 8px;font-size:22px;line-height:1.25;letter-spacing:-.015em;color:${INK}">${esc(pl.name)}</p><p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:${INK}">${esc(pl.text)}</p>${button(pl.cta, pl.href)}${pl.note ? `<p style="margin:-8px 0 20px;font-size:13px;line-height:1.55;color:#444444">${esc(pl.note)}</p>` : ""}</td></tr></table>`;
     }
     if (b.label) return `<p style="margin:8px 0 12px;font-family:${MONO};font-size:11.5px;font-weight:400;letter-spacing:0;color:${MUTED}">${esc(b.label)}</p>`;
     if (b.item) {
@@ -211,7 +211,7 @@ function visitorEmail(type, lang, data) {
         .join("")
     : "";
   const recap = recapRows
-    ? `<tr><td class="px" style="padding:0 44px 40px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f3;border-radius:14px"><tr><td style="padding:20px 22px"><p style="margin:0 0 8px;font-family:${MONO};font-size:11.5px;font-weight:400;letter-spacing:0;color:${MUTED}">${esc(c.recap)}</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${recapRows}</table></td></tr></table></td></tr>`
+    ? `<tr><td class="px" style="padding:0 44px 40px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;border-radius:14px"><tr><td style="padding:20px 22px"><p style="margin:0 0 8px;font-family:${MONO};font-size:11.5px;font-weight:400;letter-spacing:0;color:${MUTED}">${esc(c.recap)}</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${recapRows}</table></td></tr></table></td></tr>`
     : "";
   const html = `<!doctype html><html lang="${lang === "en" ? "en" : "pt-PT"}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><style>@media (max-width:520px){.px{padding-left:24px!important;padding-right:24px!important}.nm,.eb{display:block!important;width:auto!important}.eb{text-align:left!important;padding-top:12px!important}}</style><title>${esc(c.subject)}</title></head>
 <body style="margin:0;padding:0;background:${PAPER};font-family:${FONT};color:${INK};-webkit-font-smoothing:antialiased">
@@ -234,7 +234,7 @@ ${c.blocks.map(blockHtml).join("\n")}
 </td></tr></table></td></tr>
 ${recap}
 </table>
-<p style="max-width:520px;margin:20px auto 0;font-size:12px;line-height:1.6;color:#8e9099;text-align:center">${esc(L.footer)}</p>
+<p style="max-width:520px;margin:20px auto 0;font-size:12px;line-height:1.6;color:#8a8a8a;text-align:center">${esc(L.footer)}</p>
 </td></tr></table></body></html>`;
   const textBlocks = c.blocks.map((b) =>
     b.scorecard ? [b.scorecard.score != null ? `${b.scorecard.label}: ${b.scorecard.score}/100 · ${b.scorecard.title}` : b.scorecard.title, b.scorecard.text].join("\n")
@@ -283,14 +283,14 @@ function notification(type, lang, data) {
       : `<table role="presentation" cellpadding="0" cellspacing="0"><tr><td valign="middle" style="padding-right:18px"><p style="margin:0;font-size:48px;line-height:1;font-weight:300;letter-spacing:-.04em;color:${INK}">${R.score}<span style="font-size:14px;letter-spacing:0;color:${MUTED}">/100</span></p></td><td valign="middle"><p style="margin:0;font-size:19px;line-height:1.25;color:${INK}">${esc(pt.bands.find((b) => R.score >= b.min).title)}</p></td></tr></table>`;
     const points = (id) => { const i = pt.questions.findIndex((q) => q.id === id); return pt.questions[i].options[answers[i]].p; };
     const goal = pt.questions[pt.questions.length - 1].options[answers[answers.length - 1]].t;
-    const plan = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:18px;border-top:1px solid rgba(27,28,30,.1)"><tr><td style="padding-top:14px">${fact("Plano", `<b style="font-weight:600">${esc(pt.plans[R.plan].name)}</b>${R.alsoEngine ? " <span style=\"color:" + MUTED + "\">(+ nota Motor de Contactos)</span>" : ""}`)}${fact("Objetivo", esc(goal))}</td></tr></table>`;
+    const plan = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:18px;border-top:1px solid rgba(10,10,10,.1)"><tr><td style="padding-top:14px">${fact("Plano", `<b style="font-weight:600">${esc(pt.plans[R.plan].name)}</b>${R.alsoEngine ? " <span style=\"color:" + MUTED + "\">(+ nota Motor de Contactos)</span>" : ""}`)}${fact("Objetivo", esc(goal))}</td></tr></table>`;
     const weak = R.weakAll.length
       ? `<div style="margin:26px 0 0">${cap("Pontos a melhorar")}<p style="margin:0;line-height:2">${R.weakAll.map((id) => `<span style="display:inline-block;margin:0 6px 6px 0;padding:4px 12px;border-radius:999px;background:${points(id) === 2 ? "#f6dcd5" : "#f5e8cf"};font-size:13px;line-height:20px;color:${INK}">${esc(pt.weak[id].title)}</span>`).join("")}</p></div>`
       : "";
     const rows = pt.questions.map((q, i) => {
       if (answers[i] == null) return "";
       const o = q.options[answers[i]];
-      const dot = q.cat ? DOT[o.p] : "#b4b7bf";
+      const dot = q.cat ? DOT[o.p] : "#b5b5b5";
       return `<tr><td valign="top" width="20" style="padding:12px 0;border-top:1px solid ${LINE}"><div style="width:9px;height:9px;margin-top:5px;border-radius:50%;background:${dot}"></div></td><td valign="top" style="padding:12px 0;border-top:1px solid ${LINE}"><p style="margin:0;font-size:13px;line-height:1.45;color:${MUTED}">${esc(q.q)}</p><p style="margin:3px 0 0;font-size:15px;line-height:1.45;color:${INK}">${esc(o.t)}</p></td></tr>`;
     }).join("");
     const legend = `<p style="margin:10px 0 0;font-size:12px;color:${MUTED}">${[["Bem", 0], ["Pode melhorar", 1], ["Problema", 2]].map(([t, k]) => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${DOT[k]};margin:0 5px 0 0"></span>${t}`).join("&nbsp;&nbsp;&nbsp;")}</p>`;
@@ -300,11 +300,11 @@ function notification(type, lang, data) {
       const m = t.match(/^(Eu|You|Assistente|Assistant):\s*([\s\S]*)$/);
       const mine = m && (m[1] === "Eu" || m[1] === "You");
       const body = m ? m[2] : t;
-      return `<tr><td align="${mine ? "right" : "left"}" style="padding:4px 0"><table role="presentation" cellpadding="0" cellspacing="0" style="max-width:85%"><tr><td style="padding:10px 14px;border-radius:14px;background:${mine ? ACCENT : "#f1f2f4"};font-size:14.5px;line-height:1.5;color:${INK};text-align:left">${m ? `<span style="display:block;margin-bottom:2px;font-family:${MONO};font-size:11.5px;font-weight:400;letter-spacing:0;color:${MUTED}">${mine ? "Visitante" : "Assistente"}</span>` : ""}${lines(body)}</td></tr></table></td></tr>`;
+      return `<tr><td align="${mine ? "right" : "left"}" style="padding:4px 0"><table role="presentation" cellpadding="0" cellspacing="0" style="max-width:85%"><tr><td style="padding:10px 14px;border-radius:14px;background:${mine ? ACCENT : "#f1f1f1"};font-size:14.5px;line-height:1.5;color:${INK};text-align:left">${m ? `<span style="display:block;margin-bottom:2px;font-family:${MONO};font-size:11.5px;font-weight:400;letter-spacing:0;color:${MUTED}">${mine ? "Visitante" : "Assistente"}</span>` : ""}${lines(body)}</td></tr></table></td></tr>`;
     }).join("");
     content = `<div style="margin-top:26px">${cap("Conversa")}<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${turns}</table></div>`;
   } else if (data.Mensagem) {
-    content = `<div style="margin-top:26px">${cap("Mensagem")}<div style="padding:18px 20px;border-radius:14px;background:#f5f5f3;font-size:15.5px;line-height:1.6;color:${INK}">${lines(data.Mensagem)}</div></div>`;
+    content = `<div style="margin-top:26px">${cap("Mensagem")}<div style="padding:18px 20px;border-radius:14px;background:#f4f4f4;font-size:15.5px;line-height:1.6;color:${INK}">${lines(data.Mensagem)}</div></div>`;
   }
 
   const html = `<!doctype html><html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><style>@media (max-width:520px){.px{padding-left:22px!important;padding-right:22px!important}}</style><title>${esc(subject)}</title></head>
@@ -318,7 +318,7 @@ function notification(type, lang, data) {
 ${actions}
 ${content}
 </td></tr></table>
-<p style="margin:16px 0 0;font-size:12px;color:#8e9099">Responder a este email responde diretamente a ${esc(data.Email)}.</p>
+<p style="margin:16px 0 0;font-size:12px;color:#8a8a8a">Responder a este email responde diretamente a ${esc(data.Email)}.</p>
 </td></tr></table></body></html>`;
   const text = [label, "", ...[["Nome", data.Nome], ["Email", data.Email], ["Site", data.URL], ["Idioma", lang.toUpperCase()], ["Mensagem", data.Mensagem]].filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`)].join("\n");
   return { subject, html, text };

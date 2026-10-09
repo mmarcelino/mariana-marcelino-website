@@ -2874,3 +2874,86 @@ html[lang="en"] .logo-tagline { font-size: calc(var(--logo-fs) * .712); }
   .hero .hero-reel .hr-section i { flex: none; margin-top: .65em; }
   .hero .hero-reel .hr-section .mask { white-space: normal; line-height: 1.3; }
 }
+
+/* =====================================================================
+   Light monochrome palette (experiment, branch mono-palette)
+   Same structure and Genesis character, more light and more contrast:
+   white page, neutral light-grey panels (no blue cast), true black for
+   type, buttons and ticks, a grey second line in the hero. Dark only for
+   the reel and the testimonials; the footer is a light card. Baby blue is
+   kept as the one discreet accent, on small details only
+   ===================================================================== */
+:root {
+  --ink: #0a0a0a;
+  --dark: #0a0a0a;
+  --night: #0a0a0a;
+  --panel: #f4f4f4;
+  --steel: #d9d9d9;
+  --chip: #ebebeb;
+  --line: rgba(10, 10, 10, .12);
+  --black: #0a0a0a;
+  --soft-black: #0a0a0a;
+  --grey: rgba(10, 10, 10, .14);
+  --text-2: #555555;
+  --text-3: #6b6b6b;
+}
+
+/* Hero: black first line, grey second line */
+html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw:nth-child(n+3) { color: #9a9a9a; }
+
+/* Surfaces: every section on the same neutral grey; no blue panels */
+.about::before { background: var(--panel); }
+.cta-panel { background: var(--panel); }
+.testimonial-section::before { background: var(--ink); }
+.tier-free { background: #fff; }
+
+/* Buttons: hover a step lighter, not graphite */
+@media (hover: hover) {
+  .hero-actions .hero-button:not(.-secondary):hover, .cta-section .cta-main .cta-button:hover,
+  .tier.-featured .tier-cta .button:hover, .tier-free .button:hover { background: #333; border-color: #333; }
+}
+
+/* Footer: a light card with black type */
+.footer::before { background: var(--panel); }
+.footer::after { --t: var(--ink); }
+.footer, .footer.-fg-off-white, .footer.-fg-off-white a, .footer .logo, .footer .nav-link-plain, .footer .nav-cta, .footer-guide-title { color: var(--ink); }
+.footer .footer-email, .footer-email { color: var(--text-2) !important; }
+.footer-guide-label { color: var(--text-3); }
+.footer-bottom { color: var(--text-3); border-top-color: var(--line); }
+@media (max-width: 859px) { .footer-guide { border-top-color: var(--line); } }
+
+/* Reel: neutral black, soft white light; marks inside the beats in black
+   (beat 1 keeps its lilac) */
+.hero .hero-visual.hero-reel { --bg: #0a0a0a; background: #0a0a0a; }
+.hero .hero-reel .db-bar i:nth-child(2), .hero .hero-reel .db-legend span:nth-child(2) i,
+.hero .hero-reel .ib-row.-new .ib-r1 b::before { background: #0a0a0a; }
+.hero .hero-reel .ib-auto-h i { background: linear-gradient(140deg, #6b6b6b, #0a0a0a); }
+.hero .hero-reel .db-chart-h small i { border-top-color: #0a0a0a; }
+.hero .hero-reel .db-chart .db-mark { stroke: #0a0a0a; }
+
+/* Variant: baby blue back on one surface, the contact panel, so the page
+   ends on a moment of colour */
+.cta-panel { background: var(--accent); }
+
+/* The diagnosis pill in baby blue with black type: colour stays present at
+   the top of every page, and black is left to the main action (book a
+   call). Baby blue reads on dark sections too, so it no longer switches */
+.promo-strip a.promo-link, a.promo-link, .promo-strip.is-on-dark a.promo-link { background: var(--accent); color: var(--ink); }
+@media (hover: hover) { .promo-link:hover { background: var(--steel); } }
+
+/* Sobre: the photo in colour on baby blue (as the blog's avatar), so it
+   brings some warmth instead of grey on grey */
+.about-photo img { filter: none; }
+
+/* Diagnosis pill: a slightly deeper baby blue, so it reads over the grey
+   panels too */
+/* Back to black for more presence; over a dark section (main.js adds
+   .is-on-dark) it switches to the original baby blue */
+.promo-strip a.promo-link, a.promo-link { background: var(--ink); color: #fff; box-shadow: none; }
+@media (hover: hover) { .promo-link:hover { background: #333; } }
+.promo-strip.is-on-dark a.promo-link { background: var(--accent); color: var(--ink); }
+@media (hover: hover) { .promo-strip.is-on-dark a.promo-link:hover { background: #d3e0e5; } }
+@media (max-width: 859px) { .promo-strip a.promo-link { box-shadow: none; } }
+
+/* Sobre: the photo stays in place while the text scrolls past */
+.about-photo { position: static; }
