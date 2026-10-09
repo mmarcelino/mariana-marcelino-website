@@ -2966,3 +2966,8 @@ html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw
 html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw:nth-child(n+3) { color: #929292; }
 
 
+
+/* The testimonials in a softer black than the type: easier on the eyes
+   next to white, still read as black (text, buttons and the reel stay #0a0a0a) */
+:root { --surface-dark: #161616; }
+.testimonial-section::before { background: var(--surface-dark); }
