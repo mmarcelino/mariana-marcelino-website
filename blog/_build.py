@@ -686,6 +686,7 @@ def head(title, description, canonical, image, prefix, og_type, jsonld, lang="pt
   <link rel="stylesheet" href="{prefix}blog/blog.css?v={VERSION}">
 {ld}
   <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="e16bf8ca-8f63-460a-98d2-acdfd1d34cc4"></script>
 </head>"""
 
 PERSON = {
@@ -1033,7 +1034,7 @@ LEGAL = [
 <p>Não partilho os seus dados para serem usados por terceiros. Para o site funcionar, uso alguns serviços técnicos que tratam dados apenas em meu nome e só para a finalidade indicada:</p>
 <ul>
   <li><strong>Envio de emails:</strong> Resend (resend.com) envia a mensagem que recebo e a confirmação que lhe chega quando usa um formulário. O Web3Forms (web3forms.com) só entra em funcionamento se o Resend falhar.</li>
-  <li><strong>Estatísticas de visitas:</strong> o Vercel Web Analytics (vercel.com) conta as visitas de forma anónima e agregada. Não usa cookies, não guarda o seu endereço IP e não o identifica.</li>
+  <li><strong>Estatísticas de visitas:</strong> o Vercel Web Analytics (vercel.com) e o Umami (umami.is) contam as visitas de forma anónima e agregada. Não usam cookies, não guardam o seu endereço IP e não o identificam.</li>
   <li><strong>Assistente de chat:</strong> se usar o chat, as suas mensagens são processadas pelo Claude, da Anthropic (anthropic.com), apenas para gerar as respostas. As conversas não são usadas para treinar modelos de IA, e o chat não lhe pede dados pessoais.</li>
   <li><strong>Marcação de chamadas:</strong> o calendário do Calendly (calendly.com) só é carregado quando clica em “Marcar chamada”. A partir daí, os dados que indica são tratados pelo Calendly, segundo a política de privacidade deles.</li>
   <li><strong>Email e alojamento:</strong> o meu fornecedor de email guarda as mensagens que recebo, e o servidor de alojamento serve as páginas do site.</li>
@@ -1066,7 +1067,7 @@ LEGAL = [
 <p>Cookies são pequenos ficheiros de texto que um site guarda no seu dispositivo quando o visita. Servem, por exemplo, para lembrar preferências ou medir a utilização de um site.</p>
 
 <h2>Cookies usados neste site</h2>
-<p>Este site <strong>não usa cookies próprios</strong>, nem ferramentas de publicidade ou de acompanhamento. Para medir visitas usa o Vercel Web Analytics, que funciona sem cookies e de forma anónima.</p>
+<p>Este site <strong>não usa cookies próprios</strong>, nem ferramentas de publicidade ou de acompanhamento. Para medir visitas usa o Vercel Web Analytics e o Umami, que funcionam sem cookies e de forma anónima.</p>
 <p>Para funcionar, o site usa apenas o armazenamento temporário do seu browser, por exemplo para a transição entre páginas e para guardar a conversa do chat. É apagado quando fecha o separador.</p>
 <p>A única exceção é o calendário de marcação do Calendly. Só é carregado quando clica em “Marcar chamada” e, a partir desse momento, o Calendly pode definir cookies para mostrar a disponibilidade e concluir a marcação, de acordo com a sua <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener">política de privacidade</a>. Se o seu país o exigir, o próprio Calendly pede-lhe consentimento dentro do calendário. Pode apagar estes cookies a qualquer momento nas definições do seu browser. Se preferir não usar o Calendly, escreva para <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a> e combinamos a chamada por email.</p>
 

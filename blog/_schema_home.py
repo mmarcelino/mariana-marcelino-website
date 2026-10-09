@@ -13,7 +13,7 @@ CALENDLY = "https://calendly.com/marianacmarcelino/30min"
 # Business details not shown as page copy. Fill in when available:
 # a street address or opening hours make LocalBusiness data more useful.
 BUSINESS = {
-    "addressLocality": "",
+    "addressLocality": "Lisboa",
     "addressCountry": "PT",
     "openingHours": [],      # e.g. ["Mo-Fr 09:00-18:00"]
     "telephone": "",

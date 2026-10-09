@@ -1569,13 +1569,14 @@ html.strip-inline.strip-closed .promo-strip { transform: translateY(-100%); tran
   transition: transform .3s var(--ease);
 }
 .faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item.is-closing summary::after { transform: none; }
 @media (hover: hover) { .faq-item summary:hover { opacity: .65; } }
 .faq-answer { max-width: 40em; padding: 0 0 20px; font-size: clamp(14px, 1vw, 16px); line-height: 1.6; color: rgba(0, 0, 0, .72); text-wrap: pretty; }
 .faq-answer p + ol { margin-top: 10px; }
 .faq-answer ol { list-style: none; counter-reset: faqstep; display: flex; flex-direction: column; gap: 8px; }
 .faq-answer ol li { position: relative; padding-left: 32px; counter-increment: faqstep; }
 .faq-answer ol li::before { content: counter(faqstep, decimal-leading-zero); position: absolute; left: 0; top: .2em; font-size: .8em; font-variant-numeric: tabular-nums; color: var(--grey); }
-.faq-answer strong { font-weight: 600; color: var(--black); }
+.faq-answer strong { font-weight: 500; color: inherit; }
 .faq-answer a { text-decoration: underline; text-underline-offset: 3px; color: var(--black); }
 @media (hover: hover) { .faq-answer a:hover { text-decoration: none; } }
 
@@ -2394,7 +2395,7 @@ body { font-feature-settings: "ss01", "cv11"; letter-spacing: -.005em; }
 /* ---------- FAQ ---------- */
 .faq-item summary { letter-spacing: -.015em; }
 .faq-item summary::after { font-family: var(--font-mono); font-weight: 400; color: var(--text-3); }
-.faq-answer strong, .faq-answer a { color: var(--ink); }
+.faq-answer a { color: var(--ink); }
 
 /* ---------- Testimonials ---------- */
 .testimonial-quote { letter-spacing: -.02em; }
@@ -2966,3 +2967,16 @@ html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw
 html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw:nth-child(n+3) { color: #929292; }
 
 
+
+/* The testimonials in a softer black than the type: easier on the eyes
+   next to white, still read as black (text, buttons and the reel stay #0a0a0a) */
+:root { --surface-dark: #161616; }
+.testimonial-section::before { background: var(--surface-dark); }
+
+/* Social proof next to the decisions: one line from a testimonial under the
+   plans and under the contact panel's call button */
+.proof { margin: 0; }
+.proof-quote { margin: 0; font-size: clamp(16px, 1.2vw, 18px); font-weight: 300; line-height: 1.4; letter-spacing: -.015em; color: var(--ink); }
+.proof-who { margin-top: 6px; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-3); }
+.proof.-plans { margin-top: 32px; padding-left: 16px; border-left: 2px solid var(--ink); }
+.proof.-cta { max-width: 34em; margin-top: 28px; padding-left: 16px; border-left: 2px solid var(--ink); }

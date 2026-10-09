@@ -35,7 +35,7 @@ LEGAL_EN = [
 <p>I don’t share your data for third parties to use. To run the website, I use a few technical services that process data only on my behalf and only for the purpose stated:</p>
 <ul>
   <li><strong>Sending emails:</strong> Resend (resend.com) sends the message I receive and the confirmation you get when you use a form. Web3Forms (web3forms.com) only steps in if Resend fails.</li>
-  <li><strong>Visit statistics:</strong> Vercel Web Analytics (vercel.com) counts visits anonymously and in aggregate. It doesn’t use cookies, doesn’t store your IP address and doesn’t identify you.</li>
+  <li><strong>Visit statistics:</strong> Vercel Web Analytics (vercel.com) and Umami (umami.is) count visits anonymously and in aggregate. They don’t use cookies, don’t store your IP address and don’t identify you.</li>
   <li><strong>Chat assistant:</strong> if you use the chat, your messages are processed by Claude, from Anthropic (anthropic.com), only to generate the replies. Conversations aren’t used to train AI models, and the chat doesn’t ask you for personal data.</li>
   <li><strong>Call bookings:</strong> the Calendly calendar (calendly.com) only loads when you click “Book a call”. From then on, the details you enter are processed by Calendly, under its own privacy policy.</li>
   <li><strong>Email and hosting:</strong> my email provider stores the messages I receive, and the hosting server serves the website’s pages.</li>
@@ -68,7 +68,7 @@ LEGAL_EN = [
 <p>Cookies are small text files that a website stores on your device when you visit it. They are used, for example, to remember preferences or measure how a website is used.</p>
 
 <h2>Cookies used on this website</h2>
-<p>This website <strong>doesn’t use its own cookies</strong>, nor any advertising or tracking tools. To measure visits it uses Vercel Web Analytics, which works without cookies and anonymously.</p>
+<p>This website <strong>doesn’t use its own cookies</strong>, nor any advertising or tracking tools. To measure visits it uses Vercel Web Analytics and Umami, which work without cookies and anonymously.</p>
 <p>To work, the website only uses your browser’s temporary storage, for example for the transition between pages and to keep the chat conversation. It’s cleared when you close the tab.</p>
 <p>The only exception is Calendly’s booking calendar. It only loads when you click “Book a call”, and from then on Calendly may set cookies to show availability and complete the booking, under its own <a href="https://calendly.com/legal/privacy-notice" target="_blank" rel="noopener">privacy notice</a>. Where required in your country, Calendly asks for your consent inside the calendar. You can delete these cookies at any time in your browser settings. If you’d rather not use Calendly, write to <a href="mailto:info@mariana-marcelino.com">info@mariana-marcelino.com</a> and I’ll arrange the call by email.</p>
 
