@@ -545,7 +545,8 @@
   if (header) {
     var navParts = [header.querySelector(".logo-container"), header.querySelector(".lang-switch"), header.querySelector(".nav-link-plain"), header.querySelector(".nav-cta-fixed"), header.querySelector(".nav-burger")].filter(Boolean);
     var darkAreas = document.querySelectorAll('[data-nav="dark"]');
-    var hideAreas = document.querySelectorAll("[data-nav-hide]");
+    // The nav also steps aside over the hero reel (data-nav-cover), coming back below it
+    var hideAreas = document.querySelectorAll("[data-nav-hide], [data-nav-cover]");
     // The strip steps aside over the footer (data-nav-hide) and the contact panel
     // (data-strip-hide), where the nav itself stays visible
     var stripHideAreas = document.querySelectorAll("[data-nav-hide], [data-strip-hide]");
