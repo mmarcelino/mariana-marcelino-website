@@ -231,13 +231,13 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
 .logo {
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15.5px;
   line-height: 1;
   letter-spacing: .01em;
   white-space: nowrap;
 }
 @media (min-width: 860px) {
-  .logo { font-size: 17px; }
+  .logo { font-size: 19px; }
 }
 
 .nav-right { display: flex; align-items: center; gap: 28px; }
@@ -2298,7 +2298,8 @@ body { font-feature-settings: "ss01", "cv11"; letter-spacing: -.005em; }
 .cta-write { border-top-color: rgba(27, 28, 30, .14); }
 
 /* ---------- Header ---------- */
-.logo { font-weight: 500; letter-spacing: -.01em; }
+/* The name in lowercase (the HTML keeps it in capitals for search and screen readers) */
+.logo { font-weight: 500; letter-spacing: -.02em; text-transform: lowercase; }
 .nav-link-plain { font-weight: 400; }
 .header .nav-right { gap: 32px; }
 .nav-cta { font-weight: 500; }
@@ -2767,12 +2768,12 @@ html.has-curtain:not(.hero-pinned) .header .logo-tagline { opacity: 0; visibilit
 @media (min-width: 860px) { .hero-pin { padding-top: 160px; } }
 
 /* Logo descriptor sized per language so its natural width matches the name's
-   (measured: at 11px the PT line is 0.870 and the EN line 0.908 of the name).
+   (measured with the lowercase name: PT line 0.576, EN line 0.551 of the name's size).
    Set as a share of the name's size, so it holds on phones too. */
-:root { --logo-fs: 14px; }
-@media (min-width: 860px) { :root { --logo-fs: 17px; } }
-html[lang^="pt"] .logo-tagline { font-size: calc(var(--logo-fs) * .744); }
-html[lang="en"] .logo-tagline { font-size: calc(var(--logo-fs) * .712); }
+:root { --logo-fs: 15.5px; }
+@media (min-width: 860px) { :root { --logo-fs: 19px; } }
+html[lang^="pt"] .logo-tagline { font-size: calc(var(--logo-fs) * .576); }
+html[lang="en"] .logo-tagline { font-size: calc(var(--logo-fs) * .551); }
 
 /* ---------- Diagnosis and chat in the Genesis palette ----------
    The lilac left over from the old brand becomes the baby-blue accent;
