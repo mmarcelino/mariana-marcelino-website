@@ -231,7 +231,7 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
 .logo {
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 15.5px;
+  font-size: 17.5px;
   line-height: 1;
   letter-spacing: .01em;
   white-space: nowrap;
@@ -1486,22 +1486,9 @@ html.strip-inline.strip-closed .promo-strip { transform: translateY(-100%); tran
   }
   .mobile-menu[hidden] { display: none; }
   .mobile-menu.is-open { opacity: 1; transform: none; }
-  .mobile-menu-top { display: flex; align-items: center; justify-content: space-between; height: 14px; margin-top: calc(var(--strip-h) + var(--nav-extra)); }
-  /* The diagnosis strip, kept at the top of the open menu: same look as the page strip,
-     pulled out to the edges; the logo then sits where it does under the page strip */
-  .menu-strip {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    height: var(--strip-size);
-    margin: calc(-1 * var(--gap)) calc(-1 * var(--gap)) 0;
-    padding: 0 16px;
-    background: #d6cbec;
-    color: var(--black);
-    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1);
-  }
-  .menu-strip + .mobile-menu-top { margin-top: var(--gap); }
+  /* The logo (with its tagline) and the close button sit where the header's logo and burger are */
+  .mobile-menu-top { display: flex; align-items: flex-start; justify-content: space-between; margin-top: calc(var(--strip-h) + var(--nav-extra)); }
+  .mobile-menu-top .logo-container { flex-direction: column; align-items: flex-start; }
   .mobile-menu-close { display: grid; place-items: center; width: 34px; height: 34px; margin: -10px -8px -10px 0; border: 0; background: none; color: inherit; cursor: pointer; }
   .mobile-menu-close svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.4; }
   .mobile-menu-links { display: flex; flex-direction: column; margin-top: 48px; border-top: 1px solid var(--grey); }
@@ -2586,7 +2573,7 @@ body { font-feature-settings: "ss01", "cv11"; letter-spacing: -.005em; }
 /* ---------- Diagnosis strip: no full-bleed band; the page's own white bar
    with the message as a small baby-blue pill, like the site's tags and CTAs.
    Same height and the same sticky/fixed behaviour as before. ---------- */
-.promo-strip, .menu-strip { background: #fff; box-shadow: none; }
+.promo-strip { background: #fff; box-shadow: none; }
 .promo-link {
   padding: 6px 14px;
   border-radius: 999px;
@@ -2770,7 +2757,7 @@ html.has-curtain:not(.hero-pinned) .header .logo-tagline { opacity: 0; visibilit
 /* Logo descriptor sized per language so its natural width matches the name's
    (measured with the lowercase name: PT line 0.576, EN line 0.551 of the name's size).
    Set as a share of the name's size, so it holds on phones too. */
-:root { --logo-fs: 15.5px; }
+:root { --logo-fs: 17.5px; }
 @media (min-width: 860px) { :root { --logo-fs: 19px; } }
 html[lang^="pt"] .logo-tagline { font-size: calc(var(--logo-fs) * .576); }
 html[lang="en"] .logo-tagline { font-size: calc(var(--logo-fs) * .551); }
@@ -2810,7 +2797,7 @@ html[lang="en"] .logo-tagline { font-size: calc(var(--logo-fs) * .551); }
    strip, so strip and nav read as one continuous surface while staying two
    separate elements. Over a dark section (main.js adds .is-on-dark) the pill
    turns baby blue so it stays visible */
-.promo-strip, .menu-strip { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.promo-strip { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
 .header::before { top: 0; height: calc(var(--strip-h) + var(--nav-extra) + 14px + var(--gap) * 2 + 28px); }
 @media (min-width: 860px) { .header::before { height: calc(var(--strip-h) + var(--nav-extra) + 17px + var(--gap) * 2 + 32px); } }
 .promo-strip.is-on-dark a.promo-link { background: var(--accent); color: var(--ink); }
