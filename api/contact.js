@@ -47,6 +47,21 @@ const COPY = {
       sign: "Até já,",
       recap: "A sua mensagem"
     },
+    chat: {
+      subject: "Recebi a sua conversa no chat",
+      eyebrow: "Conversa recebida",
+      hello: () => "Olá!",
+      blocks: [
+        { p: "Obrigada por ter deixado o seu email no chat do site. Recebi a conversa que teve com o assistente e vou dar-lhe seguimento pessoalmente." },
+        { p: "Se quiser acrescentar alguma coisa entretanto, basta responder a este email." },
+        { p: "Se preferir falar já, pode marcar uma chamada:" },
+        { cta: "Marcar chamada", href: CALENDLY },
+        { p: FREE_CALL.pt }
+      ],
+      sign: "Até já,",
+      recap: "A sua conversa",
+      chat: { you: "Eu", bot: "Assistente" }
+    },
     redesign: {
       subject: "Obrigada pelo pedido de redesign",
       eyebrow: "Redesign gratuito",
@@ -97,6 +112,21 @@ const COPY = {
       ],
       sign: "Talk soon,",
       recap: "Your message"
+    },
+    chat: {
+      subject: "I've received your chat conversation",
+      eyebrow: "Chat received",
+      hello: () => "Hi!",
+      blocks: [
+        { p: "Thank you for leaving your email in the website chat. I've received your conversation with the assistant and I'll follow up personally." },
+        { p: "If there's anything you'd like to add in the meantime, just reply to this email." },
+        { p: "If you'd rather talk now, you can book a call:" },
+        { cta: "Book a call", href: CALENDLY },
+        { p: FREE_CALL.en }
+      ],
+      sign: "Talk soon,",
+      recap: "Your conversation",
+      chat: { you: "You", bot: "Assistant" }
     },
     redesign: {
       subject: "Thank you for your redesign request",
@@ -167,6 +197,19 @@ function quizCopy(lang, q) {
   };
 }
 
+// ---------- Chat transcript as message bubbles ----------
+// The site sends the conversation as "Eu|You: …" / "Assistente|Assistant: …"
+// turns separated by blank lines. Visitor on the right, assistant on the left.
+// botBg: the assistant's bubble must contrast with what's behind it
+function chatTurns(transcript, labels, botBg) {
+  return String(transcript || "").split(/\n{2,}/).map((t) => {
+    const m = t.match(/^(Eu|You|Assistente|Assistant):\s*([\s\S]*)$/);
+    const mine = m && (m[1] === "Eu" || m[1] === "You");
+    const body = esc(m ? m[2] : t).replace(/\n/g, "<br>");
+    return `<tr><td align="${mine ? "right" : "left"}" style="padding:4px 0"><table role="presentation" cellpadding="0" cellspacing="0" style="max-width:85%"><tr><td style="padding:10px 14px;border-radius:14px;background:${mine ? ACCENT : botBg};font-size:14.5px;line-height:1.5;color:${INK};text-align:left">${m ? `<span style="display:block;margin-bottom:2px;font-family:${MONO};font-size:11.5px;font-weight:400;letter-spacing:0;color:${MUTED}">${esc(mine ? labels.you : labels.bot)}</span>` : ""}${body}</td></tr></table></td></tr>`;
+  }).join("");
+}
+
 // ---------- Visitor email (on brand) ----------
 // Quiet, editorial layout: light grey page, a white card, Inter-like system type
 // with mono labels, a baby-blue pill naming the email, graphite pill buttons and
@@ -210,8 +253,9 @@ function visitorEmail(type, lang, data) {
         .map((k) => `<tr><td valign="top" style="padding:7px 18px 7px 0;font-family:${MONO};font-size:11.5px;line-height:22px;font-weight:400;letter-spacing:0;color:${MUTED};width:90px;white-space:nowrap">${esc(L.fields[k])}</td><td valign="top" style="padding:7px 0;font-size:15px;line-height:22px;color:${INK};white-space:pre-wrap">${esc(data[k])}</td></tr>`)
         .join("")
     : "";
-  const recap = recapRows
-    ? `<tr><td class="px" style="padding:0 44px 40px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;border-radius:14px"><tr><td style="padding:20px 22px"><p style="margin:0 0 8px;font-family:${MONO};font-size:11.5px;font-weight:400;letter-spacing:0;color:${MUTED}">${esc(c.recap)}</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${recapRows}</table></td></tr></table></td></tr>`
+  const recapBody = c.chat && data.Mensagem ? chatTurns(data.Mensagem, c.chat, "#ffffff") : recapRows;
+  const recap = recapBody
+    ? `<tr><td class="px" style="padding:0 44px 40px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;border-radius:14px"><tr><td style="padding:20px 22px"><p style="margin:0 0 8px;font-family:${MONO};font-size:11.5px;font-weight:400;letter-spacing:0;color:${MUTED}">${esc(c.recap)}</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${recapBody}</table></td></tr></table></td></tr>`
     : "";
   const html = `<!doctype html><html lang="${lang === "en" ? "en" : "pt-PT"}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><style>@media (max-width:520px){.px{padding-left:24px!important;padding-right:24px!important}.nm,.eb{display:block!important;width:auto!important}.eb{text-align:left!important;padding-top:12px!important}}</style><title>${esc(c.subject)}</title></head>
 <body style="margin:0;padding:0;background:${PAPER};font-family:${FONT};color:${INK};-webkit-font-smoothing:antialiased">
@@ -243,7 +287,8 @@ ${recap}
     : b.item ? [(b.n ? String(b.n).padStart(2, "0") + " " : "") + b.item, b.text, b.todo ? `${b.todoLabel}: ${b.todo}` : ""].filter(Boolean).join("\n")
     : b.p && b.link ? `${b.p}${b.link} (${b.href})${b.after || ""}` : b.p ? b.p : b.ul ? b.ul.join("\n") : `${b.cta || b.link}: ${b.href}`);
   const text = [c.hello(first), "", ...textBlocks.flatMap((t) => [t, ""]), c.sign || L.sign, "", L.name, L.role, home,
-    ...(recapRows ? ["", "———", c.recap + ":", ...Object.keys(L.fields).filter((k) => data[k] && k !== "Email").map((k) => `${L.fields[k]}: ${data[k]}`)] : [])].join("\n");
+    ...(c.chat && data.Mensagem ? ["", "———", c.recap + ":", "", data.Mensagem]
+      : recapRows ? ["", "———", c.recap + ":", ...Object.keys(L.fields).filter((k) => data[k] && k !== "Email").map((k) => `${L.fields[k]}: ${data[k]}`)] : [])].join("\n");
   return { subject: c.subject, html, text };
 }
 
@@ -296,12 +341,7 @@ function notification(type, lang, data) {
     const legend = `<p style="margin:10px 0 0;font-size:12px;color:${MUTED}">${[["Bem", 0], ["Pode melhorar", 1], ["Problema", 2]].map(([t, k]) => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${DOT[k]};margin:0 5px 0 0"></span>${t}`).join("&nbsp;&nbsp;&nbsp;")}</p>`;
     content = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:26px;background:${TINT};border-radius:16px"><tr><td style="padding:22px 24px">${cap(site ? "Saúde do site · " + site : "Resultado")}${top}${plan}</td></tr></table>${weak}<div style="margin:26px 0 0">${cap("Respostas")}<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>${legend}</div>`;
   } else if (type === "chat") {
-    const turns = (data.Mensagem || "").split(/\n{2,}/).map((t) => {
-      const m = t.match(/^(Eu|You|Assistente|Assistant):\s*([\s\S]*)$/);
-      const mine = m && (m[1] === "Eu" || m[1] === "You");
-      const body = m ? m[2] : t;
-      return `<tr><td align="${mine ? "right" : "left"}" style="padding:4px 0"><table role="presentation" cellpadding="0" cellspacing="0" style="max-width:85%"><tr><td style="padding:10px 14px;border-radius:14px;background:${mine ? ACCENT : "#f1f1f1"};font-size:14.5px;line-height:1.5;color:${INK};text-align:left">${m ? `<span style="display:block;margin-bottom:2px;font-family:${MONO};font-size:11.5px;font-weight:400;letter-spacing:0;color:${MUTED}">${mine ? "Visitante" : "Assistente"}</span>` : ""}${lines(body)}</td></tr></table></td></tr>`;
-    }).join("");
+    const turns = chatTurns(data.Mensagem, { you: "Visitante", bot: "Assistente" }, "#f1f1f1");
     content = `<div style="margin-top:26px">${cap("Conversa")}<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${turns}</table></div>`;
   } else if (data.Mensagem) {
     content = `<div style="margin-top:26px">${cap("Mensagem")}<div style="padding:18px 20px;border-radius:14px;background:#f4f4f4;font-size:15.5px;line-height:1.6;color:${INK}">${lines(data.Mensagem)}</div></div>`;
@@ -388,8 +428,7 @@ module.exports = async function handler(req, res) {
     await send(key, { from, to: [to], reply_to: data.Email, subject: n.subject, html: n.html, text: n.text });
     // The visitor's confirmation shouldn't fail the whole request
     try {
-      // A chat left by email gets the same confirmation as the contact form
-      const v = visitorEmail(type === "chat" ? "contact" : type, lang, data);
+      const v = visitorEmail(type, lang, data);
       await send(key, { from, to: [data.Email], reply_to: to, subject: v.subject, html: v.html, text: v.text });
     } catch (e) {
       console.error("Confirmation email failed:", e.message);
