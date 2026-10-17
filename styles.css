@@ -2724,7 +2724,7 @@ html[lang^="pt"] .hero-title .tw:nth-child(n+4), html[lang="en"] .hero-title .tw
   .hero-curtain { margin-top: clamp(80px, 11vh, 128px); }
 }
 
-/* ---------- Logo descriptor: "Design — Automação — IA" under the name,
+/* ---------- Logo descriptor: "Web — Automação — IA" under the name,
    left-aligned with natural spacing, like the site's other labels. The
    name, links and button keep their places ---------- */
 .header .logo-container { flex-direction: column; align-items: flex-start; height: auto; }
@@ -2755,12 +2755,12 @@ html.has-curtain:not(.hero-pinned) .header .logo-tagline { opacity: 0; visibilit
 @media (min-width: 860px) { .hero-pin { padding-top: 160px; } }
 
 /* Logo descriptor sized per language so its natural width matches the name's
-   (measured with the lowercase name: PT line 0.576, EN line 0.551 of the name's size).
+   (measured with the lowercase name: PT line 0.665, EN line 0.632 of the name's size).
    Set as a share of the name's size, so it holds on phones too. */
 :root { --logo-fs: 17.5px; }
 @media (min-width: 860px) { :root { --logo-fs: 19px; } }
-html[lang^="pt"] .logo-tagline { font-size: calc(var(--logo-fs) * .576); }
-html[lang="en"] .logo-tagline { font-size: calc(var(--logo-fs) * .551); }
+html[lang^="pt"] .logo-tagline { font-size: calc(var(--logo-fs) * .665); }
+html[lang="en"] .logo-tagline { font-size: calc(var(--logo-fs) * .632); }
 
 /* ---------- Diagnosis and chat in the Genesis palette ----------
    The lilac left over from the old brand becomes the baby-blue accent;
