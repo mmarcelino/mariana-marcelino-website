@@ -390,7 +390,7 @@ X_ICON = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3
 # Interface copy for both languages
 UI = {
 "pt": dict(
-    html_lang="pt-PT", og_locale="pt_PT", skip="Saltar para o conteúdo", m_open="Abrir menu", m_close="Fechar menu", m_l1="Soluções", m_l2="Sobre", m_l3="Planos", m_l5="Contactos", home_label="Mariana Marcelino — página inicial", tagline="<span>Design</span><span>Automação</span><span>IA</span>",
+    html_lang="pt-PT", og_locale="pt_PT", skip="Saltar para o conteúdo", m_open="Abrir menu", m_close="Fechar menu", m_l1="Soluções", m_l2="Sobre", m_l3="Planos", m_l5="Contactos", home_label="Mariana Marcelino — página inicial", tagline="<span>Web</span><span>Automação</span><span>IA</span>",
     call="Marcar chamada", lang_label="Idioma",
     strip_region="Guia gratuito", strip_kicker="Gratuito", guide_title="8 sinais de que o seu site está a afastar clientes", foot_guide="Oito sinais de que o seu site está a afastar clientes",
     strip_go="Receber guia", close="Fechar",
@@ -414,7 +414,7 @@ UI = {
     f_title="Explorar por tema", f_all="Todos", f_search="Pesquisar artigos", f_topics="Temas", f_empty="Nenhum artigo encontrado. Experimente outro tema ou outra palavra.",
 ),
 "en": dict(
-    html_lang="en", og_locale="en_GB", skip="Skip to content", m_open="Open menu", m_close="Close menu", m_l1="Solutions", m_l2="About", m_l3="Plans", m_l5="Contact", home_label="Mariana Marcelino — homepage", tagline="<span>Design</span><span>Automation</span><span>AI</span>",
+    html_lang="en", og_locale="en_GB", skip="Skip to content", m_open="Open menu", m_close="Close menu", m_l1="Solutions", m_l2="About", m_l3="Plans", m_l5="Contact", home_label="Mariana Marcelino — homepage", tagline="<span>Web</span><span>Automation</span><span>AI</span>",
     call="Book a call", lang_label="Language",
     strip_region="Free guide", strip_kicker="Free", guide_title="8 signs your website is driving clients away", foot_guide="Eight signs your website is driving clients away",
     strip_go="Get the guide", close="Close",

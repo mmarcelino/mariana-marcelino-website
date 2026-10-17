@@ -94,7 +94,7 @@ const COPY = {
     },
     sign: "Até breve,",
     name: "Mariana Marcelino",
-    role: "Web Design · Automação · IA",
+    role: "Web · Automação · IA",
     fields: { Nome: "Nome", Email: "Email", Mensagem: "Mensagem", URL: "Site" },
     footer: "Recebeu este email porque enviou um formulário em mariana-marcelino.com."
   },
@@ -160,7 +160,7 @@ const COPY = {
     },
     sign: "Speak soon,",
     name: "Mariana Marcelino",
-    role: "Web Design · Automation · AI",
+    role: "Web · Automation · AI",
     fields: { Nome: "Name", Email: "Email", Mensagem: "Message", URL: "Website" },
     footer: "You received this email because you submitted a form on mariana-marcelino.com."
   }
@@ -262,7 +262,7 @@ function visitorEmail(type, lang, data) {
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAPER}"><tr><td align="center" style="padding:40px 14px 32px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:580px;background:#ffffff;border:1px solid ${LINE};border-radius:16px">
 <tr><td class="px" style="padding:26px 44px 22px;border-bottom:1px solid ${LINE}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-<td class="nm" valign="middle"><a href="${home}" style="display:block;font-size:19px;font-weight:500;letter-spacing:-.02em;line-height:1.1;white-space:nowrap;color:${INK};text-decoration:none">mariana marcelino</a><span style="display:block;margin-top:5px;font-family:${MONO};font-size:${lang === "en" ? "10.5px" : "10.9px"};line-height:1;white-space:nowrap;color:${MUTED}">${lang === "en" ? "Design — Automation — AI" : "Design — Automação — IA"}</span></td>
+<td class="nm" valign="middle"><a href="${home}" style="display:block;font-size:19px;font-weight:500;letter-spacing:-.02em;line-height:1.1;white-space:nowrap;color:${INK};text-decoration:none">mariana marcelino</a><span style="display:block;margin-top:5px;font-family:${MONO};font-size:${lang === "en" ? "10.5px" : "10.9px"};line-height:1;white-space:nowrap;color:${MUTED}">${lang === "en" ? "Web — Automation — AI" : "Web — Automação — IA"}</span></td>
 <td class="eb" valign="middle" align="right">${c.eyebrow ? `<span style="display:inline-block;padding:5px 10px;border-radius:999px;background:${ACCENT};font-family:${MONO};font-size:11.5px;font-weight:400;letter-spacing:0;white-space:nowrap;color:${INK}">${esc(c.eyebrow)}</span>` : ""}</td>
 </tr></table></td></tr>
 <tr><td class="px" style="padding:36px 44px 8px">
