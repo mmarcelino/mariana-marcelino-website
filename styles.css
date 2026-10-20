@@ -799,6 +799,9 @@ html.is-scrolled:not(.has-curtain) .header .lang-switch { opacity: 0; visibility
 
 /* ---------- Pricing tiers (Mono Space "Founding Membership" layout) ---------- */
 .tiers-section { position: relative; padding-bottom: 64px; }
+/* Land a little past the section's top so none of the dark section above shows */
+#services { scroll-margin-top: 4px; }
+@media (min-width: 860px) { #services { scroll-margin-top: calc(-1 * var(--strip-h) - 58px); } }
 @media (min-width: 860px) { .tiers-section { padding-bottom: 96px; } }
 .tiers-kicker {
   padding-top: 64px;
@@ -2291,6 +2294,19 @@ body { font-feature-settings: "ss01", "cv11"; letter-spacing: -.005em; }
 .header .nav-right { gap: 32px; }
 .nav-cta { font-weight: 500; }
 .lang-switch { font-size: 11.5px; }
+
+/* Language switch: "PT | EN" in mono, the other language dimmed, with extra
+   room before the text links so it reads as a setting, not a page */
+.lang-switch { gap: 6px; font-size: 11.5px; }
+.lang-sep { opacity: .3; }
+.lang-link { opacity: .35; }
+.header .lang-switch, .footer-links .lang-switch { margin-right: 18px; }
+/* Phone footer: Serviços, Blog and the call on one line, the languages on their own below */
+@media (max-width: 859px) {
+  .footer-links { flex-wrap: wrap; row-gap: 12px; } /* counted twice around the break */
+  .footer-links::before { content: ""; flex-basis: 100%; order: 1; }
+  .footer-links .lang-switch { order: 2; margin-right: 0; }
+}
 
 /* ---------- Hero ---------- */
 .hero-curtain { background: #fff; }

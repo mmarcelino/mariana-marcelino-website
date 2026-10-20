@@ -140,6 +140,16 @@
     }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
   }
 
+  // Logo links go back to the top without leaving "#top" in the address bar
+  // (Lenis still runs its own glide on the same click)
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest('a[href="#top"]:not(.skip-link)');
+    if (!a) return;
+    e.preventDefault();
+    if (!lenis) window.scrollTo({ top: 0, behavior: REDUCED ? "auto" : "smooth" });
+    if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+  });
+
   // The arrival fade (html.pt-enter, set in the page head) is cleared once it has run
   if (document.documentElement.classList.contains("pt-enter")) {
     var ptMain = document.querySelector("main");

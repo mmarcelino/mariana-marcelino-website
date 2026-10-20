@@ -303,7 +303,7 @@ module.exports = {
         },
         "cta2": {
           "t": "Ver os planos",
-          "href": "/#solutions"
+          "href": "/#services"
         }
       },
       "free": {
@@ -641,7 +641,7 @@ module.exports = {
         },
         "cta2": {
           "t": "See the plans",
-          "href": "/en/#solutions"
+          "href": "/en/#services"
         }
       },
       "free": {
