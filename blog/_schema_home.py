@@ -67,7 +67,7 @@ def graph(page, lang):
         "description": c["plan_desc"][i],
         "price": prices[i],
         "priceCurrency": "EUR",
-        "url": f"{c['url']}#solutions",
+        "url": f"{c['url']}#services",
         "seller": {"@id": biz_id},
         "itemOffered": {"@type": "Service", "name": n, "provider": {"@id": biz_id}},
         **({"priceSpecification": {"@type": "PriceSpecification", "minPrice": prices[i], "priceCurrency": "EUR"}} if i == 2 else {}),

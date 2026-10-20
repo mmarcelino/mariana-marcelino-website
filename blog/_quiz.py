@@ -105,7 +105,7 @@ QUIZ = {
                "also": "Se também quiser ser mais encontrado e receber mais contactos, o Motor de Contactos resolve essa parte.",
                "cta": {"t": "Pedir redesign gratuito", "href": "/#pedir-redesign"}, "cta2": {"t": "Ver o que inclui", "href": "/#nova-imagem"}},
     "call": {"name": "Uma conversa sem compromisso", "line": "O seu site está em boa forma. Numa chamada de 30 minutos, vemos juntos o que ainda pode ser melhorado.",
-             "cta": {"t": "Marcar chamada", "href": CALENDLY}, "cta2": {"t": "Ver os planos", "href": "/#solutions"}},
+             "cta": {"t": "Marcar chamada", "href": CALENDLY}, "cta2": {"t": "Ver os planos", "href": "/#services"}},
     "free": {"name": "Redesign da Homepage (gratuito)", "line": "Como ainda está a explorar, veja, sem compromisso, como o seu site pode ficar.",
              "cta": {"t": "Pedir redesign gratuito", "href": "/#pedir-redesign"}, "cta2": {"t": "Ver o que inclui", "href": "/#free"}}
   },
@@ -220,7 +220,7 @@ QUIZ = {
                "also": "If you'd also like to be found by more people and get more enquiries, the Enquiry Engine covers that too.",
                "cta": {"t": "Request a free redesign", "href": "/en/#pedir-redesign"}, "cta2": {"t": "See what's included", "href": "/en/#nova-imagem"}},
     "call": {"name": "A no-strings chat", "line": "Your website is in good shape. In a 30-minute call, we'll look together at what could still be improved.",
-             "cta": {"t": "Book a call", "href": CALENDLY}, "cta2": {"t": "See the plans", "href": "/en/#solutions"}},
+             "cta": {"t": "Book a call", "href": CALENDLY}, "cta2": {"t": "See the plans", "href": "/en/#services"}},
     "free": {"name": "Homepage Redesign (free)", "line": "Since you're still exploring, see what your website could look like, with no commitment.",
              "cta": {"t": "Request a free redesign", "href": "/en/#pedir-redesign"}, "cta2": {"t": "See what's included", "href": "/en/#free"}}
   },

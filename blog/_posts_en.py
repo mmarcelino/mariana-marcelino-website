@@ -337,7 +337,7 @@ POSTS_EN = [
   <li><strong>Fresh Look, 750€</strong>: a new design that keeps your current structure and content, optimised for mobile and launched. For websites of up to 4 pages; larger websites on request.</li>
   <li><strong>Enquiry Engine, from 1 800€</strong>: custom design and structure, optimisation for Google and AI tools, forms and quizzes, automatic follow-up, WhatsApp and a metrics dashboard. The final price depends on the extras you choose, such as an AI chatbot or online payments.</li>
 </ul>
-<p>Not sure yet? I can <a href="../../#free">redesign your homepage for free</a> and email you a personalised report on what to improve, so you can see the potential before you invest. You’ll find the details of each plan in the <a href="../../#solutions">plans section</a>.</p>
+<p>Not sure yet? I can <a href="../../#free">redesign your homepage for free</a> and email you a personalised report on what to improve, so you can see the potential before you invest. You’ll find the details of each plan in the <a href="../../#services">plans section</a>.</p>
 
 <h2>Cost or investment?</h2>
 <p>The best way to judge a website is to compare it with what it can bring in. If a new client is worth 500€ to your business on average, a 1 800€ website pays for itself after four clients. After that, every enquiry it brings in is pure return.</p>
